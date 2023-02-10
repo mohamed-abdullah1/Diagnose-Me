@@ -4,4 +4,5 @@ public interface IDonationRequestRepository : IBaseRepo<DonationRequest>
 {
     Task<List<DonationRequest>> GetByBloodType(string bloodType);
     Task<List<DonationRequest>> GetByRequesterId(string requesterId);
+    Task<List<DonationRequest>> GetByStatus(string status);
 }

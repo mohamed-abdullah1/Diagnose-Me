@@ -26,4 +26,13 @@ public class DonationRequestRepository : BaseRepo<DonationRequest>, IDonationReq
             .Include(c => c.Donner)
             .ToListAsync();
     }
+
+    public async Task<List<DonationRequest>> GetByStatus(string status)
+    {
+        return await table
+            .Where(c => c.Status == status)
+            .Include(c => c.Requester)
+            .Include(c => c.Donner)
+            .ToListAsync();
+    }
 }

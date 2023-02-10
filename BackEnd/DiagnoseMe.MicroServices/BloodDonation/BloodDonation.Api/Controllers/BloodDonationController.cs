@@ -1,5 +1,6 @@
-using BloodDonation.Application.BloodDonation.Queries.GetBloodDonationRequestsByBloodType;
-using BloodDonation.Application.BloodDonation.Queries.GetBloodDonationRequestsByRequesterId;
+using BloodDonation.Application.BloodDonation.Queries.GetByBloodType;
+using BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
+using BloodDonation.Application.BloodDonation.Queries.GetByStatus;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,10 +23,12 @@ public class BloodDonationController : ApiController
     }
 
     [Authorize]
-    [HttpGet("blood-donation-requests/blood-type/{bloodType}")]
-    public async Task<IActionResult> GetBloodDonationRequestsByBloodType(string bloodType)
+    [HttpGet("blood-donation-requests/blood-type/{bloodType}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetByBloodType(string bloodType, int pageNumber)
     {
-        var query = new GetBloodDonationRequestsByBloodTypeQuery(bloodType);
+        var query = new GetByBloodTypeQuery(
+            bloodType,
+            pageNumber);
         var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),
@@ -33,10 +36,37 @@ public class BloodDonationController : ApiController
     }
 
     [Authorize]
-    [HttpGet("blood-donation-requests/requester-id/{requesterId}")]
-    public async Task<IActionResult> GetBloodDonationRequestsByRequesterId(string requesterId)
+    [HttpGet("blood-donation-requests/mine/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetMine(int pageNumber)
     {
-        var query = new GetBloodDonationRequestsByRequesterIdQuery(requesterId);
+        var query = new GetByRequesterIdQuery(
+            GetUserIdFromToken(),
+            pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+    [Authorize]
+    [HttpGet("blood-donation-requests/requester-id/{requesterId}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetByRequesterId(string requesterId, int pageNumber)
+    {
+        var query = new GetByRequesterIdQuery(
+            requesterId,
+            pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("blood-donation-requests/status/{status}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetByStatus(string status, int pageNumber)
+    {
+        var query = new GetByStatusQuery(
+            status,
+            pageNumber);
         var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),

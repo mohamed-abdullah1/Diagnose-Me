@@ -4,22 +4,27 @@ using ErrorOr;
 using MapsterMapper;
 using MediatR;
 
-namespace BloodDonation.Application.BloodDonation.Queries.GetBloodDonationRequestsByRequesterId;
+namespace BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
 
-public class GetBloodDonationRequestsByRequesterIdHandler : IRequestHandler<GetBloodDonationRequestsByRequesterIdQuery, ErrorOr<List<DonationResponse>>>
+public class GetByRequesterIdHandler : IRequestHandler<GetByRequesterIdQuery, ErrorOr<List<DonationResponse>>>
 {
     private readonly IDonationRequestRepository _bloodDonationRepository;
     private readonly IMapper _mapper;
-    public GetBloodDonationRequestsByRequesterIdHandler(
+    public GetByRequesterIdHandler(
         IDonationRequestRepository bloodDonationRepository,
         IMapper mapper)
     {
         _bloodDonationRepository = bloodDonationRepository;
         _mapper = mapper;
     }
-    public async Task<ErrorOr<List<DonationResponse>>> Handle(GetBloodDonationRequestsByRequesterIdQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<DonationResponse>>> Handle(GetByRequesterIdQuery query, CancellationToken cancellationToken)
     {
-        var bloodDonations = await _bloodDonationRepository.GetByRequesterId(query.RequesterId);
+        var bloodDonations = (await _bloodDonationRepository
+            .GetByRequesterId(query.RequesterId))
+            .OrderByDescending(c => c.CreatedOn)
+            .Skip((query.PageNumber - 1) * 10)
+            .Take(10)
+            .ToList();
         var bloodDonationResponses = new List<DonationResponse>();
         foreach (var bloodDonation in bloodDonations)
         {
