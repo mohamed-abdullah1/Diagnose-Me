@@ -37,13 +37,13 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 8, 23, 44, 1, 960, DateTimeKind.Utc).AddTicks(1660));
+                        .HasDefaultValue(new DateTime(2023, 2, 10, 15, 5, 36, 587, DateTimeKind.Utc).AddTicks(5153));
 
-                    b.Property<string>("DonatorUserId")
+                    b.Property<string>("DonnerId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Hospital")
+                    b.Property<string>("Locatoin")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -51,19 +51,19 @@ namespace BloodDonation.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("RequesterId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DonatorUserId");
+                    b.HasIndex("DonnerId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RequesterId");
 
                     b.ToTable("DonationRequests", (string)null);
                 });
@@ -86,7 +86,7 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 8, 23, 44, 1, 969, DateTimeKind.Utc).AddTicks(7068));
+                        .HasDefaultValue(new DateTime(2023, 2, 10, 15, 5, 36, 660, DateTimeKind.Utc).AddTicks(788));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -110,21 +110,21 @@ namespace BloodDonation.Persistence.Migrations
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.DonationRequest", b =>
                 {
-                    b.HasOne("BloodDonation.Domain.Entities.User", "DonatorUser")
+                    b.HasOne("BloodDonation.Domain.Entities.User", "Donner")
                         .WithMany("Donations")
-                        .HasForeignKey("DonatorUserId")
+                        .HasForeignKey("DonnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BloodDonation.Domain.Entities.User", "User")
+                    b.HasOne("BloodDonation.Domain.Entities.User", "Requester")
                         .WithMany("DonationRequests")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RequesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DonatorUser");
+                    b.Navigation("Donner");
 
-                    b.Navigation("User");
+                    b.Navigation("Requester");
                 });
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.User", b =>
