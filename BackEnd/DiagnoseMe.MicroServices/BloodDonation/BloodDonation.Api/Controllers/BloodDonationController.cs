@@ -1,3 +1,5 @@
+using BloodDonation.Application.BloodDonation.Queries.GetBloodDonationRequestsByBloodType;
+using BloodDonation.Application.BloodDonation.Queries.GetBloodDonationRequestsByRequesterId;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +21,25 @@ public class BloodDonationController : ApiController
         _mapper = mapper;
     }
 
-    [AllowAnonymous]
-    [HttpGet("test")]
-    public async Task<IActionResult> Test()
+    [Authorize]
+    [HttpGet("blood-donation-requests/blood-type/{bloodType}")]
+    public async Task<IActionResult> GetBloodDonationRequestsByBloodType(string bloodType)
     {
-        await Task.CompletedTask;
-        return Ok("test");
+        var query = new GetBloodDonationRequestsByBloodTypeQuery(bloodType);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("blood-donation-requests/requester-id/{requesterId}")]
+    public async Task<IActionResult> GetBloodDonationRequestsByRequesterId(string requesterId)
+    {
+        var query = new GetBloodDonationRequestsByRequesterIdQuery(requesterId);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
     }
 }
