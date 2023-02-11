@@ -6,11 +6,11 @@ public class AddUserToRoleCommandValidation : AbstractValidator<AddUserToRoleCom
 {
     public AddUserToRoleCommandValidation()
     {
-        RuleFor(x => x.UserName).NotEmpty().
-            NotNull().
-            WithMessage("UserName must be provided");
-        RuleFor(x => x.Role).NotEmpty().
-            NotNull().
-            WithMessage("Role must be provided");
+        RuleFor(x => x.UserName).NotEmpty()
+            .NotNull()
+            .WithMessage("UserName must be provided");
+        RuleFor(x => x.Role).NotEmpty()
+            .NotNull()
+            .WithMessage("Role must be provided");
     }
 }

@@ -9,8 +9,8 @@ public class ResendEmailConfirmationCommandValidation : AbstractValidator<Resend
 {
     public ResendEmailConfirmationCommandValidation()
     {
-        RuleFor(x => x.Email).NotEmpty().
-            EmailAddress().
-            WithMessage("The provided email is not valid");
+        RuleFor(x => x.Email).NotEmpty()
+            .EmailAddress()
+            .WithMessage("The provided email is not valid");
     }
 }

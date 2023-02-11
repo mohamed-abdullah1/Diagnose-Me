@@ -9,11 +9,11 @@ public class ConfirmEmailChangeCommandValiidation : AbstractValidator<ConfirmEma
 {
     public ConfirmEmailChangeCommandValiidation()
     {
-        RuleFor(x => x.NewEmail).NotEmpty().
-            EmailAddress().
-            WithMessage("The provided email is not valid");
-        RuleFor(x => x.Id).NotEmpty().
-            NotNull().
-            WithMessage("Id must be provided");
+        RuleFor(x => x.NewEmail).NotEmpty()
+            .EmailAddress()
+            .WithMessage("The provided email is not valid");
+        RuleFor(x => x.Id).NotEmpty()
+            .NotNull()
+            .WithMessage("Id must be provided");
     }
 }

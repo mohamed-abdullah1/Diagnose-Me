@@ -7,11 +7,11 @@ public class ResetPasswordCommandValidation : AbstractValidator<ResetPasswordCom
 {
     public ResetPasswordCommandValidation()
     {
-        RuleFor(x => x.Id).NotEmpty().
-            NotNull().
-            WithMessage("Id must be provided");
-        RuleFor(x => x.NewPassword).NotEmpty().
-            NotNull().
-            WithMessage("New Password must be provided");
+        RuleFor(x => x.Id).NotEmpty()
+            .NotNull()
+            .WithMessage("Id must be provided");
+        RuleFor(x => x.NewPassword).NotEmpty()
+            .NotNull()
+            .WithMessage("New Password must be provided");
     }
 }

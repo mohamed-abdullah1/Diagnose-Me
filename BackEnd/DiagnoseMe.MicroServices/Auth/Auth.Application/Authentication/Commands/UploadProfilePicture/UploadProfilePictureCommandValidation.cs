@@ -8,11 +8,11 @@ public class UploadProfilePictureCommandValidation : AbstractValidator<UploadPro
 {
     public UploadProfilePictureCommandValidation()
     {
-        RuleFor(x => x.Base64EncodedFile).NotEmpty().
-            Must(x =>Regex.IsMatch(x, Regexes.Base64Regex)).
-            WithMessage("The provided file is not valid base64");
-        RuleFor(x => x.UserName).NotEmpty().
-            NotNull().
-            WithMessage("UserName must be provided");
+        RuleFor(x => x.Base64EncodedFile).NotEmpty()
+            .Must(x => Regex.IsMatch(x, Regexes.Base64Regex))
+            .WithMessage("The provided file is not valid base64");
+        RuleFor(x => x.UserName).NotEmpty()
+            .NotNull()
+            .WithMessage("UserName must be provided");
     }
 }

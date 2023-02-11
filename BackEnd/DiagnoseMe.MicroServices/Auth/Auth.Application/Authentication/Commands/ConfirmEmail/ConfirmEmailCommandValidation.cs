@@ -6,8 +6,8 @@ public class ConfirmEmailCommandValidation : AbstractValidator<ConfirmEmailComma
 {
     public ConfirmEmailCommandValidation()
     {
-        RuleFor(x => x.Id).NotEmpty().
-            NotNull().
-            WithMessage("Id must be provided");
+        RuleFor(x => x.Id).NotEmpty()
+            .NotNull()
+            .WithMessage("Id must be provided");
     }
 }
