@@ -8,7 +8,7 @@ public class DonationRequestConfiguration : BaseConfiguration<DonationRequest>
         builder.ToTable("DonationRequests");
         base.Configure(builder);
         builder.Property(c => c.BloodType).IsRequired();  
-        builder.Property(c => c.Locatoin).IsRequired();
+        builder.Property(c => c.Location).IsRequired();
         builder.Property(c => c.Reason).IsRequired(); 
         builder.Property(c => c.Status).IsRequired(); 
         builder.Property(c => c.RequesterId).IsRequired();

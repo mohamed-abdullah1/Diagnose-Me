@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-namespace Auth.Domain.Common.BloodTypes;
+namespace BloodDonation.Domain.Common.BloodTypes;
 
 public static class BloodTypes
 {
@@ -24,4 +23,4 @@ public static class BloodTypes
         IDoNotKnow 
         };
 
-}
+}  

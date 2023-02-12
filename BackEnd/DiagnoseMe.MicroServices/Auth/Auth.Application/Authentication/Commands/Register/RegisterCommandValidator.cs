@@ -45,8 +45,8 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 
         RuleFor(x => x.User.BloodType)
             .NotEmpty()
-            .Must(x => BloodTypes.bloodTypeList.Contains(x))
-            .WithMessage($"BloodType must be one of the following {'{'+String.Join(",",BloodTypes.bloodTypeList)+'}'}");
+            .Must(x => BloodTypes.All.Contains(x))
+            .WithMessage($"BloodType must be one of the following {'{'+String.Join(",",BloodTypes.All)+'}'}");
     }
 
 }

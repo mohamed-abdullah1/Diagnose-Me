@@ -37,13 +37,13 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 12, 21, 45, 39, 138, DateTimeKind.Utc).AddTicks(745));
+                        .HasDefaultValue(new DateTime(2023, 2, 12, 22, 22, 18, 484, DateTimeKind.Utc).AddTicks(2868));
 
                     b.Property<string>("DonnerId")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Locatoin")
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -113,7 +113,7 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 12, 21, 45, 39, 140, DateTimeKind.Utc).AddTicks(7232));
+                        .HasDefaultValue(new DateTime(2023, 2, 12, 22, 22, 18, 487, DateTimeKind.Utc).AddTicks(643));
 
                     b.Property<string>("FullName")
                         .IsRequired()

@@ -29,7 +29,7 @@ namespace BloodDonation.Persistence.Migrations
                     BloodType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastDonationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 21, 45, 39, 140, DateTimeKind.Utc).AddTicks(7232)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 22, 22, 18, 487, DateTimeKind.Utc).AddTicks(643)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -49,7 +49,7 @@ namespace BloodDonation.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BloodType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Locatoin = table.Column<string>(type: "longtext", nullable: false)
+                    Location = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Reason = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -57,7 +57,7 @@ namespace BloodDonation.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DonnerId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 21, 45, 39, 138, DateTimeKind.Utc).AddTicks(745)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 22, 22, 18, 484, DateTimeKind.Utc).AddTicks(2868)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
