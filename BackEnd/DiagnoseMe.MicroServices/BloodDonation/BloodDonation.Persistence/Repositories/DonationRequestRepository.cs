@@ -14,7 +14,8 @@ public class DonationRequestRepository : BaseRepo<DonationRequest>, IDonationReq
         return await table
             .Where(c => c.BloodType == bloodType)
             .Include(c => c.Requester)
-            .Include(c => c.Donner)
+            .Include(c => c.DonnerDonationRequests)
+            .ThenInclude(c => c.Donner)
             .ToListAsync();
     }
 
@@ -23,7 +24,8 @@ public class DonationRequestRepository : BaseRepo<DonationRequest>, IDonationReq
         return await table
             .Where(c => c.RequesterId == requesterId)
             .Include(c => c.Requester)
-            .Include(c => c.Donner)
+            .Include(c => c.DonnerDonationRequests)
+            .ThenInclude(c => c.Donner)
             .ToListAsync();
     }
 
@@ -32,7 +34,8 @@ public class DonationRequestRepository : BaseRepo<DonationRequest>, IDonationReq
         return await table
             .Where(c => c.Status == status)
             .Include(c => c.Requester)
-            .Include(c => c.Donner)
+            .Include(c => c.DonnerDonationRequests)
+            .ThenInclude(c => c.Donner)
             .ToListAsync();
     }
 }

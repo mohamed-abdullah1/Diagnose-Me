@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloodDonation.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230210150537_Init")]
+    [Migration("20230212214539_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -40,11 +40,11 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 10, 15, 5, 36, 587, DateTimeKind.Utc).AddTicks(5153));
+                        .HasDefaultValue(new DateTime(2023, 2, 12, 21, 45, 39, 138, DateTimeKind.Utc).AddTicks(745));
 
                     b.Property<string>("DonnerId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Locatoin")
                         .IsRequired()
@@ -64,11 +64,38 @@ namespace BloodDonation.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DonnerId");
-
                     b.HasIndex("RequesterId");
 
                     b.ToTable("DonationRequests", (string)null);
+                });
+
+            modelBuilder.Entity("BloodDonation.Domain.Entities.DonnerDonationRequest", b =>
+                {
+                    b.Property<string>("DonnerId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("DonationRequestId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("DonnerId", "DonationRequestId");
+
+                    b.HasIndex("DonationRequestId");
+
+                    b.ToTable("DonnerDonationRequests", (string)null);
                 });
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.User", b =>
@@ -89,7 +116,7 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 10, 15, 5, 36, 660, DateTimeKind.Utc).AddTicks(788));
+                        .HasDefaultValue(new DateTime(2023, 2, 12, 21, 45, 39, 140, DateTimeKind.Utc).AddTicks(7232));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -113,28 +140,44 @@ namespace BloodDonation.Persistence.Migrations
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.DonationRequest", b =>
                 {
-                    b.HasOne("BloodDonation.Domain.Entities.User", "Donner")
-                        .WithMany("Donations")
-                        .HasForeignKey("DonnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BloodDonation.Domain.Entities.User", "Requester")
                         .WithMany("DonationRequests")
                         .HasForeignKey("RequesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Donner");
-
                     b.Navigation("Requester");
+                });
+
+            modelBuilder.Entity("BloodDonation.Domain.Entities.DonnerDonationRequest", b =>
+                {
+                    b.HasOne("BloodDonation.Domain.Entities.DonationRequest", "DonationRequest")
+                        .WithMany("DonnerDonationRequests")
+                        .HasForeignKey("DonationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BloodDonation.Domain.Entities.User", "Donner")
+                        .WithMany("DonnerDonationRequests")
+                        .HasForeignKey("DonnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DonationRequest");
+
+                    b.Navigation("Donner");
+                });
+
+            modelBuilder.Entity("BloodDonation.Domain.Entities.DonationRequest", b =>
+                {
+                    b.Navigation("DonnerDonationRequests");
                 });
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.User", b =>
                 {
                     b.Navigation("DonationRequests");
 
-                    b.Navigation("Donations");
+                    b.Navigation("DonnerDonationRequests");
                 });
 #pragma warning restore 612, 618
         }

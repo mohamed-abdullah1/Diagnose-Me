@@ -29,7 +29,7 @@ namespace BloodDonation.Persistence.Migrations
                     BloodType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastDonationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 10, 15, 5, 36, 660, DateTimeKind.Utc).AddTicks(788)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 21, 45, 39, 140, DateTimeKind.Utc).AddTicks(7232)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -55,21 +55,15 @@ namespace BloodDonation.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DonnerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    DonnerId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 10, 15, 5, 36, 587, DateTimeKind.Utc).AddTicks(5153)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 21, 45, 39, 138, DateTimeKind.Utc).AddTicks(745)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DonationRequests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DonationRequests_Users_DonnerId",
-                        column: x => x.DonnerId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DonationRequests_Users_RequesterId",
                         column: x => x.RequesterId,
@@ -79,20 +73,57 @@ namespace BloodDonation.Persistence.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_DonationRequests_DonnerId",
-                table: "DonationRequests",
-                column: "DonnerId");
+            migrationBuilder.CreateTable(
+                name: "DonnerDonationRequests",
+                columns: table => new
+                {
+                    DonnerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DonationRequestId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DonnerDonationRequests", x => new { x.DonnerId, x.DonationRequestId });
+                    table.ForeignKey(
+                        name: "FK_DonnerDonationRequests_DonationRequests_DonationRequestId",
+                        column: x => x.DonationRequestId,
+                        principalTable: "DonationRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DonnerDonationRequests_Users_DonnerId",
+                        column: x => x.DonnerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DonationRequests_RequesterId",
                 table: "DonationRequests",
                 column: "RequesterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DonnerDonationRequests_DonationRequestId",
+                table: "DonnerDonationRequests",
+                column: "DonationRequestId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DonnerDonationRequests");
+
             migrationBuilder.DropTable(
                 name: "DonationRequests");
 
