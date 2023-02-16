@@ -11,6 +11,7 @@ using Auth.Application.Authentication.Commands.ResendEmailConfirmation;
 using Auth.Application.Authentication.Commands.ResetPassword;
 using Auth.Application.Authentication.Commands.SignOut;
 using Auth.Application.Authentication.Commands.UploadProfilePicture;
+using Auth.Application.Authentication.Commands.VerifyDoctorIdentity;
 using Auth.Application.Authentication.Commands.VerifyPin;
 using Auth.Application.Authentication.Queries.GetAllUsers;
 using Auth.Application.Authentication.Queries.GetToken;
@@ -223,5 +224,18 @@ public class AuthController : ApiController
         return result.Match(
         authResult => Ok(authResult),
         errors => Problem(errors));
-   }   
+   }
+
+   [HttpPost("doctor/identity/verify")]
+   [Authorize]
+   public async  Task<IActionResult> VerifyDoctorIdentity(VerifyDoctorIdentityRequest request)
+   {
+    var command = new VerifyDoctorIdentityCommand(
+        User.Identity!.Name!,
+        request.Base64License); 
+    var result = await _mediator.Send(command);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+   }  
 }

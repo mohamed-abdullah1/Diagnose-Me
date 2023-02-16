@@ -382,6 +382,28 @@
                 "PeriodTimespan": 60,
                 "Limit": 20
             }
+        },
+        {
+            
+            "UpstreamPathTemplate": "/auth/doctor/identity/verify",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/doctor/identity/verify",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
         }
     ],
     "GlobalConfiguration": {
