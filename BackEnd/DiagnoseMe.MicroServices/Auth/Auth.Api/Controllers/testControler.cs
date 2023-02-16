@@ -15,7 +15,7 @@ public class testControler : ControllerBase
 
     [HttpPost]
     [Route("get")]
-    public IActionResult get(LoginRequest request){
+    public IActionResult get(){
 
         return Ok(DateTime.Now.ToString());
     }

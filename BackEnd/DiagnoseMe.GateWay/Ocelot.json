@@ -13,7 +13,6 @@
             "DownstreamPathTemplate": "/test/get",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
-                "ClientWhitelist": [],
                 "EnableRateLimiting": true,
                 "EnableEndpointRateLimiting": true,
                 "EnableClientRateLimiting": true,
@@ -22,13 +21,377 @@
                 "Limit": 20
             }
 
+        },
+        {
+            "UpstreamPathTemplate": "/auth/register",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/register",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/email/confirmation/resend",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/email/confirmation/resend",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/login",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/login",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/password/forget",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/password/forget",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/password/reset",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/password/reset",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/password/change",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/password/change",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/email/confirm",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/email/confirm",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/email/change/confirm",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/email/change/confirm",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/signout",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/signout",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/email/change",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/email/change",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/name/change",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/name/change",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/user/role/{role}/add",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/user/role/{role}/add",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/user/role/{role}/remove",
+            "UpstreamHttpMethod": ["Delete"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/user/role/{role}/remove",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            
+            "UpstreamPathTemplate": "/auth/users/get/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/users/get/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            
+            "UpstreamPathTemplate": "/auth/users/role/{role}/get/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/users/role/{role}/get/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            
+            "UpstreamPathTemplate": "/auth/pin/verify",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/pin/verify",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            
+            "UpstreamPathTemplate": "/auth/profile/picture/upload",
+            "UpstreamHttpMethod": ["Post"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/api/profile/picture/upload",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
         }
     ],
     "GlobalConfiguration": {
         "BaseUrl": "https://localhost:7199",
         "RATE_LIMITING_ENABLED": "true",
         "RateLimitOptions": {
-            "DisableRateLimitHeaders": false
+            "DisableRateLimitHeaders": false,
+            "ClientWhitelist": [
+                "0.0.0.0"
+            ]
         }
     }
 }
