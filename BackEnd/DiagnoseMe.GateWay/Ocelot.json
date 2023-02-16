@@ -23,6 +23,33 @@
 
         },
         {
+            "UpstreamPathTemplate": "/auth/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true"
+        },
+        {
+            "UpstreamPathTemplate": "/auth/swagger/v1/swagger.json",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5128
+                }
+            ],
+            "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+            "RATE_LIMITING_ENABLED": "true"
+            
+        },
+        {
             "UpstreamPathTemplate": "/auth/register",
             "UpstreamHttpMethod": ["Post"],
             "DownStreamScheme": "http",
