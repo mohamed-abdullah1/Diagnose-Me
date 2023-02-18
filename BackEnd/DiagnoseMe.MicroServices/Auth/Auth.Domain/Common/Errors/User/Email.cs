@@ -30,7 +30,7 @@ public static partial class Errors
 
             public static Error WaitToSend(int seconds) => Error.Validation(
                 code: "User.Email.WaitToSend",
-                description: $"You have to wait {seconds} days for next confirmation email send"
+                description: $"You have to wait {seconds} seconds for next confirmation email send"
             );
         }
     }

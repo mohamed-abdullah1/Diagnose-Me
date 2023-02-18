@@ -17,7 +17,7 @@ public class testControler : ControllerBase
     [Route("get")]
     public IActionResult get(){
 
-        return Ok(DateTime.Now.ToString());
+        return Ok(DateTime.UtcNow.ToString());
     }
 
 }

@@ -26,7 +26,10 @@ public class ResendEmailConfirmationCommandHandler:
         if(user!.EmailConfirmed)
             return Errors.User.Email.AlreadyConfirmed;
         
-        var lastSentSince = (int) (user.LastConfirmationSentDate).Subtract(DateTime.Now).TotalSeconds;
+        var lastSentSince = (int) (DateTime.UtcNow).Subtract(user.LastConfirmationSentDate).TotalSeconds;
+        Console.WriteLine(user.LastConfirmationSentDate);
+        Console.WriteLine(DateTime.UtcNow);
+        Console.WriteLine(lastSentSince);
         if(lastSentSince < 60)
             return Errors.User.Email.WaitToSend(60 - lastSentSince);
             

@@ -14,10 +14,10 @@ public class ApplicationUserConfigration :  IEntityTypeConfiguration<Application
         builder.Property(au => au.Gender).IsRequired().HasMaxLength(50);
         builder.Property(au => au.BloodType).IsRequired().HasMaxLength(5);
         builder.Property(au => au.DateOfBirth).IsRequired();
-        builder.Property(au => au.LastConfirmationSentDate).HasDefaultValue(DateTime.Now);
+        builder.Property(au => au.LastConfirmationSentDate).HasDefaultValue(DateTime.UtcNow);
         builder.Property(au => au.NationalID).IsRequired().HasMaxLength(15);
-        builder.Property(au => au.LastEmailChangeDate).HasDefaultValue(DateTime.Now);
-        builder.Property(au => au.LastUserNameChangeDate).HasDefaultValue(DateTime.Now);
+        builder.Property(au => au.LastEmailChangeDate).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(au => au.LastUserNameChangeDate).HasDefaultValue(DateTime.UtcNow);
         builder.Property(au => au.IsDoctor).IsRequired();
         builder.Property(au => au.ProfilePictureUrl).IsRequired().HasMaxLength(150);
     }

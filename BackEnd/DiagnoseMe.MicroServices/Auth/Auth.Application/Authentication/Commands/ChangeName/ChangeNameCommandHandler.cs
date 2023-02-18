@@ -19,7 +19,7 @@ public class ChangeNameCommandHandler :
         if(!user!.EmailConfirmed)
             return Errors.User.Email.NotConfirmed;
 
-        var lastChanges = (int) user.LastUserNameChangeDate.Subtract(DateTime.Now).TotalDays;
+        var lastChanges = (int) (DateTime.UtcNow).Subtract(user.LastUserNameChangeDate).TotalDays;
         if(lastChanges < 30)
             return Errors.User.Name.WaitToChange(30 - lastChanges);
         

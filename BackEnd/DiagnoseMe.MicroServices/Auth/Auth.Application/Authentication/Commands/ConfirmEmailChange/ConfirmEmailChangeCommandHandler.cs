@@ -37,7 +37,8 @@ public class ConfirmEmailChangeCommandHandler :
         if (!result.Succeeded)
             return Errors.User.MapIdentityError(result.Errors.ToList());
         
-        user!.LastEmailChangeDate = DateTime.Now;
+        user!.LastEmailChangeDate = DateTime.UtcNow;
+        user.EmailConfirmed = true;
         var updateResult = await _userManager.UpdateAsync(user);
         if(!updateResult.Succeeded)
             return Errors.User.MapIdentityError(updateResult.Errors.ToList());

@@ -6,7 +6,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -28,7 +28,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -41,7 +41,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -55,7 +55,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -76,7 +76,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -97,7 +97,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -118,7 +118,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -139,7 +139,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -160,7 +160,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -181,7 +181,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -202,7 +202,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -223,7 +223,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -244,7 +244,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -265,7 +265,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -286,7 +286,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -307,7 +307,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -329,7 +329,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -351,7 +351,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -373,7 +373,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -395,7 +395,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -417,7 +417,7 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
+                    "Host": "auth.diagnose.me",
                     "Port": 5128
                 }
             ],
@@ -431,6 +431,33 @@
                 "PeriodTimespan": 60,
                 "Limit": 20
             }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 5050
+                }
+            ],
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true"
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/swagger/v1/swagger.json",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 5050
+                }
+            ],
+            "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+            "RATE_LIMITING_ENABLED": "true"
+            
         }
     ],
     "GlobalConfiguration": {

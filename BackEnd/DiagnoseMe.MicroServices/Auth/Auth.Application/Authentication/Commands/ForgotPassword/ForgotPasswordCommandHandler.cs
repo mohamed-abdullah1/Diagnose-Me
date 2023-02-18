@@ -30,7 +30,7 @@ public class ForgotPasswordCommandHandler:
         if (user == null)
             return Errors.User.Email.NotExist;
             
-        var lastSentSince = (int) (user.LastConfirmationSentDate).Subtract(DateTime.Now).TotalSeconds;
+        var lastSentSince = (int) (DateTime.UtcNow).Subtract(user.LastConfirmationSentDate).TotalSeconds;
         if(lastSentSince < 60)
             return Errors.User.Email.WaitToSend(60 - lastSentSince);
 
@@ -53,7 +53,7 @@ public class ForgotPasswordCommandHandler:
                 "Reset Password",
                 $"Here Is your confirmation token: {pinCode} \n The pin code is only valid for only 1 hour"
                 );
-            user.LastConfirmationSentDate = DateTime.Now;
+            user.LastConfirmationSentDate = DateTime.UtcNow;
             var updateResult = await _userManager.UpdateAsync(user);
             if(!updateResult.Succeeded)
                 return Errors.User.MapIdentityError(updateResult.Errors.ToList());

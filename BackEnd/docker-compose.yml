@@ -61,7 +61,7 @@ services:
     networks:
       - authapi-authdb
     ports:
-      - 3306:3306
+      - 3306:330
     restart: always
   medicalblogapi:
     container_name: medical-blog-api
