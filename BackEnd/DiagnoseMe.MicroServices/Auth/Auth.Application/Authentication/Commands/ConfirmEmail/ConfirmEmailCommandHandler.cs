@@ -32,6 +32,9 @@ public class ConfirmEmailCommandHandler :
         
         var username = pin.UserName;
         var user = await _userManager.FindByNameAsync(username!);
+        if(user == null)
+            return Errors.User.Name.NotExist;
+            
         var result = await _userManager.ConfirmEmailAsync(user!,pin.Token!);
         if (!result.Succeeded)
             return Errors.User.MapIdentityError(result.Errors.ToList());

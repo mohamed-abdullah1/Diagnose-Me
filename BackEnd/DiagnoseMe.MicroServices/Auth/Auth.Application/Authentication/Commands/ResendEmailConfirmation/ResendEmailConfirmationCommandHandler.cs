@@ -23,6 +23,9 @@ public class ResendEmailConfirmationCommandHandler:
     public async Task<ErrorOr<AuthenticationResult>> Handle(ResendEmailConfirmationCommand command, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(command.Email);
+        if(user == null)
+            return Errors.User.Email.NotExist;
+            
         if(user!.EmailConfirmed)
             return Errors.User.Email.AlreadyConfirmed;
         

@@ -18,6 +18,8 @@ public class ChangePasswordCommandHandler :
     public async Task<ErrorOr<AuthenticationResult>> Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
+        if(user == null)
+            return Errors.User.Name.NotExist;
 
         if(!user!.EmailConfirmed)
             return Errors.User.Email.NotConfirmed;

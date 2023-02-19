@@ -8,6 +8,9 @@ public static partial class Errors
     {
         public static class Name
         {
+            public static Error NotExist => Error.NotFound(
+                code: "User.Name.NotExist",
+                description: "Username does not exist");
             public static Error Exists => Error.Conflict(
                 code: "User.Name.Exists",
                 description: "Username already exists");

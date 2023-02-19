@@ -19,6 +19,8 @@ public class VerifyDoctorIdentityCommandHandler:
     public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyDoctorIdentityCommand command, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
+        if(user == null)
+            return Errors.User.Name.NotExist;
        
         var result = await _doctorIdentifyService.CheckIfDoctor(command.Base64License);
         if(result.IsError)

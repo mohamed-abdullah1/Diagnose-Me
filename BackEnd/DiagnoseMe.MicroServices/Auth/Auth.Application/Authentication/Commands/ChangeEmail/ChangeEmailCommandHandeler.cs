@@ -19,6 +19,9 @@ public class ChangeEmailCommandHandeler :
     public async Task<ErrorOr<AuthenticationResult>> Handle(ChangeEmailCommand command, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
+        if(user == null)
+            return Errors.User.Email.NotExist;
+            
         var changedSince = (int) (DateTime.UtcNow).Subtract(user!.LastEmailChangeDate).TotalDays;
         if(changedSince < 30)
             return Errors.User.Email.WaitToChange(30 - changedSince);

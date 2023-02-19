@@ -15,6 +15,8 @@ public class ChangeNameCommandHandler :
     public async Task<ErrorOr<AuthenticationResult>> Handle(ChangeNameCommand command, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
+        if(user == null)
+            return Errors.User.Name.NotExist;
 
         if(!user!.EmailConfirmed)
             return Errors.User.Email.NotConfirmed;
