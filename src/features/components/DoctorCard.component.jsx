@@ -1,0 +1,47 @@
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import {
+    After,
+    Before,
+    IconContainer,
+    Img,
+    Name,
+    Price,
+    Specialty,
+    Wrapper,
+    Icon,
+} from "../styles/DoctorCard.styles";
+import Rate from "./Rate.Component";
+
+const DoctorCard = ({ doctor, total, index }) => {
+    const [pinned, setPinned] = useState(false);
+    const navigation = useNavigation();
+    const { id, doctorImg, name, specialty, pricePerHour, rate } = doctor;
+
+    const handlePinPress = () => setPinned((prev) => !prev);
+    const doctorPressHandler = () => {
+        console.log("I am Here 👊");
+        navigation.navigate({
+            name: "DoctorDetails",
+            params: {
+                doctorId: id,
+            },
+        });
+    };
+    return (
+        <Wrapper onPress={doctorPressHandler} total={total} index={index}>
+            <IconContainer onPress={handlePinPress}>
+                <Icon pinned={pinned} />
+            </IconContainer>
+            <Img source={doctorImg} />
+            <Name>{"Dr. " + name}</Name>
+            <Specialty>{specialty}</Specialty>
+            <Price>
+                <Before>{pricePerHour - 10 + ".00 LE"}</Before>
+                <After>{pricePerHour + ".00 LE"}</After>
+            </Price>
+            <Rate rate={rate} />
+        </Wrapper>
+    );
+};
+export default DoctorCard;
