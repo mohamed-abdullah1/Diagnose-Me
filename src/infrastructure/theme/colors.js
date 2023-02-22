@@ -8,7 +8,12 @@ const colors = {
     light: "#fffefe",
     success: "#1AE080",
     yellow: "#EBA352",
+    yellowLight: "#fef8eb",
+    yellowMore: "#ffac1a",
+    black: "#434343",
     moreMuted: "#E9EAF3",
-    pantone: "#B2B6CC",
+    pantone: "#dcdaf4",
+    lightSecondary: "#e6eaf1",
+    darkSecondary: "#7F7E90",
 };
 export default colors;

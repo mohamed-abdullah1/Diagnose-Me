@@ -1,19 +1,21 @@
-import { Button, Pressable } from "react-native";
+import { Button, Dimensions, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { View } from "react-native";
-export const ButtonWrapper = styled(View).attrs({
-    style: {
-        width: "100%",
-    },
-})`
-    background-color: ${(props) => props.bgColor};
+import responsive from "../../helpers/responsive";
+
+const { getX, getY } = responsive(840, 395);
+
+export const ButtonWrapper = styled(View).attrs({})`
+    /* background-color: ${(props) => props.bgColor}; */
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 395px;
-    height: 66px;
+    flex: 1;
+    width: ${Dimensions.get("window").width}px;
+    height: ${getY(66)}px;
     justify-content: center;
     align-items: center;
+    /* border: solid red 1px; */
 `;
 export const Btn = styled(Pressable).attrs((props) => ({
     style: (pressData) => pressData.pressed,

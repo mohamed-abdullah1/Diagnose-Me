@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import TopHeader from "../../components/TopHeader.component";
 import TitleSeeAll from "../components/TitleSeeAll.component";
 import {
@@ -20,14 +20,30 @@ import {
 } from "../../../helpers/consts";
 import ServiceCard from "../../components/ServiceCard.component";
 import DoctorCard from "../../components/DoctorCard.component";
-import { ScrollView, View } from "react-native";
+import { Dimensions, ScrollView, View } from "react-native";
 import Spacer from "../../../infrastructure/components/Spacer";
 import Card from "../../components/Card.component";
 import QuestionCard from "../../components/QuestionCard.component";
 import BlogCard from "../../components/BlogCard.component";
+import colors from "../../../infrastructure/theme/colors";
+import { useFocusEffect } from "@react-navigation/native";
 
-const Home = () => {
+const Home = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
+    useFocusEffect(
+        useCallback(() => {
+            navigation.getParent().setOptions({
+                tabBarStyle: {
+                    backgroundColor: colors.light,
+                    height: 60,
+                    alignItems: "center",
+                    paddingBottom: 6,
+                    paddingTop: 6,
+                },
+            });
+        }, [])
+    );
+    console.log("➡️", Dimensions.get("window").width);
     return (
         <BgContainer>
             <TopHeader />

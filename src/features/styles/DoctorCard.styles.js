@@ -6,10 +6,12 @@ export const Wrapper = styled(TouchableOpacity)`
     height: 249px;
     width: 154px;
     margin-right: ${(props) => (props.total === props.index ? 24 + 16 : 16)}px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     /* border: solid red 1px; */
     flex: 1;
     align-items: center;
-    background-color: ${(props) => props.theme.colors.moreMuted};
+    background-color: ${(props) => props.theme.colors.light};
     border-radius: 16px;
 `;
 

@@ -36,51 +36,50 @@ function Setting() {
 }
 const icons = {
     Home: {
-        inactive: <Feather name="home" size={24} color={colors.muted} />,
-        focused: <Entypo name="home" size={24} color={colors.light} />,
+        inactive: <Feather name="home" size={24} color={"#c4c4cc"} />,
+        focused: <Feather name="home" size={24} color={colors.secondary} />,
+        // focused: (
+        //     <MaterialCommunityIcons
+        //         name="home-variant"
+        //         size={24}
+        //         color={colors.secondary}
+        //     />
+        // ),
     },
     Medicine: {
         inactive: (
-            <MaterialCommunityIcons
-                name="pill"
-                size={24}
-                color={colors.muted}
-            />
+            <MaterialCommunityIcons name="pill" size={24} color={"#c4c4cc"} />
         ),
         // (
         //     <MaterialIcons name="storefront" size={24} color={colors.light} />
         // ),
-        focused: <Fontisto name="pills" size={24} color={colors.light} />,
+        focused: <Fontisto name="pills" size={24} color={colors.secondary} />,
     },
     Messages: {
         inactive: (
-            <Ionicons
-                name="chatbubbles-outline"
-                size={24}
-                color={colors.muted}
-            />
+            <Ionicons name="chatbubbles-outline" size={24} color={"#c4c4cc"} />
         ),
-        focused: <Ionicons name="chatbubbles" size={24} color={colors.light} />,
+        focused: (
+            <Ionicons name="chatbubbles" size={24} color={colors.secondary} />
+        ),
     },
     Schedule: {
         inactive: (
-            <Ionicons name="calendar-outline" size={24} color={colors.muted} />
+            <Ionicons name="calendar-outline" size={24} color={"#c4c4cc"} />
         ),
-        focused: <Ionicons name="calendar" size={24} color={colors.light} />,
+        focused: (
+            <Ionicons name="calendar" size={24} color={colors.secondary} />
+        ),
     },
     Questions: {
         inactive: (
-            <FontAwesome
-                name="question-circle-o"
-                size={24}
-                color={colors.muted}
-            />
+            <FontAwesome name="question-circle-o" size={24} color={"#c4c4cc"} />
         ),
         focused: (
             <FontAwesome
                 name="question-circle"
                 size={24}
-                color={colors.light}
+                color={colors.secondary}
             />
         ),
     },
@@ -96,21 +95,21 @@ const AppNavigator = () => {
                         ? icons[route.name].focused
                         : icons[route.name].inactive;
                 },
-                tabBarActiveTintColor: colors.light,
-                tabBarInactiveTintColor: colors.focused,
+                tabBarActiveTintColor: colors.secondary,
+                tabBarInactiveTintColor: "#b0b3bf",
                 headerShown: false,
                 tabBarStyle: {
-                    backgroundColor: colors.secondary,
-                    height: 55,
+                    backgroundColor: colors.light,
+                    height: 60,
                     alignItems: "center",
-                    // paddingBottom: 9,
-                    // paddingTop: 9,
-                    // borderTopLeftRadius: 32,
-                    // borderTopRightRadius: 32,
+                    paddingBottom: 6,
+                    paddingTop: 6,
+                    shadowColor: "#000000",
+                    elevation: 1,
                 },
                 tabBarLabelStyle: {
-                    fontSize: 10,
-                    fontFamily: "Poppins",
+                    fontSize: 12,
+                    fontFamily: "PoppinsBold",
                 },
             })}
             initialRouteName="Home"

@@ -32,6 +32,7 @@ export const CardsSection = styled(ScrollView).attrs({
 })`
     padding: 0 ${(props) => (props.padding ? props.padding : 24)}px;
     margin-top: ${(props) => (props.marginTop ? props.marginTop : 8)}px;
+    /* border: solid red 1px; */
 `;
 export const DoctorsSection = styled.View`
     margin-top: 20px;

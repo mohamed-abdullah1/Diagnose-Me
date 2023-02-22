@@ -29,7 +29,18 @@ const DoctorCard = ({ doctor, total, index }) => {
         });
     };
     return (
-        <Wrapper onPress={doctorPressHandler} total={total} index={index}>
+        <Wrapper
+            style={{
+                elevation: 5,
+                shadowColor: "#000000bb",
+                shadowOffset: { width: -2, height: 4 },
+                shadowOpacity: 0.82,
+                shadowRadius: 3,
+            }}
+            onPress={doctorPressHandler}
+            total={total}
+            index={index}
+        >
             <IconContainer onPress={handlePinPress}>
                 <Icon pinned={pinned} />
             </IconContainer>
