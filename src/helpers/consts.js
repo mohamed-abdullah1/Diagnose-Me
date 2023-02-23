@@ -515,3 +515,86 @@ export const blogs = [
         imgBlog: require("../../assets/helpers/blogImg.png"),
     },
 ];
+
+export const messages = [
+    {
+        id: 1,
+        patientId: 1,
+        doctorId: 1,
+        message: { content: "I am Fine  🌍", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 2,
+        patientId: 1,
+        doctorId: 2,
+        message: { content: "Tell Me Are You Fine😊", owner: "doctor" },
+        time: {
+            timeValue: "6:00",
+            amOrPm: "pm",
+        },
+    },
+    {
+        id: 3,
+        patientId: 1,
+        doctorId: 3,
+        message: { content: "Can You Send Me More Info🍀", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 4,
+        patientId: 1,
+        doctorId: 1,
+        message: { content: "Can We Make Call🚨", owner: "patient" },
+        time: {
+            timeValue: "9:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 5,
+        patientId: 1,
+        doctorId: 3,
+        message: { content: "I am Fine 👊", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 6,
+        patientId: 1,
+        doctorId: 1,
+        message: { content: "I am Fine 👊", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 7,
+        patientId: 1,
+        doctorId: 1,
+        message: { content: "I am Fine 👊", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+    {
+        id: 8,
+        patientId: 1,
+        doctorId: 3,
+        message: { content: "I am Fine 👊", owner: "patient" },
+        time: {
+            timeValue: "4:00",
+            amOrPm: "am",
+        },
+    },
+];
