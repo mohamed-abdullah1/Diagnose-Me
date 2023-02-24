@@ -16,6 +16,7 @@ import Home from "../features/home/screens/Home.screen";
 import HomeNavigation from "./home.navigation";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import MainChat from "../features/chat/screens/MainChat.screen";
+import ChatNavigation from "./chat.navigation";
 
 function HomeScreen() {
     return (
@@ -116,7 +117,7 @@ const AppNavigator = () => {
             initialRouteName="Home"
         >
             <Screen name="Home" component={HomeNavigation} />
-            <Screen name="Messages" component={MainChat} />
+            <Screen name="Messages" component={ChatNavigation} />
             <Screen name="Schedule" component={Setting} />
             <Screen name="Questions" component={Setting} />
         </Navigator>

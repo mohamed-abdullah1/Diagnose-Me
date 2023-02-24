@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import colors from "../../../infrastructure/theme/colors";
 import { BgContainer } from "../../home/styles/Global.styles";
 import { Container, Title, Wrapper } from "../styles/MainChat.styles";
-import { doctors, messages as loadedMessages } from "../../../helpers/consts";
+import { doctors, msgs as loadedMessages } from "../../../helpers/consts";
 import ChatCard from "../components/ChatCard.component";
 import { View } from "react-native";
 import UpperBack from "../../doctor/components/UpperBack.component";
@@ -32,7 +32,20 @@ const MainChat = ({ navigation }) => {
             });
         }, [])
     );
-    const getChatCards = () => {};
+    console.log(loadedMessages);
+    useFocusEffect(
+        useCallback(() => {
+            navigation.getParent().setOptions({
+                tabBarStyle: {
+                    backgroundColor: colors.light,
+                    height: 60,
+                    alignItems: "center",
+                    paddingBottom: 6,
+                    paddingTop: 6,
+                },
+            });
+        }, [])
+    );
     return (
         <BgContainer>
             <Title>Chats</Title>
@@ -46,13 +59,22 @@ const MainChat = ({ navigation }) => {
                     }}
                 >
                     {messages?.map(
-                        ({ id, doctorImg, doctorName, message, time }) => (
+                        ({
+                            doctorId,
+                            patientId,
+                            id,
+                            doctorImg,
+                            doctorName,
+                            messages,
+                        }) => (
                             <ChatCard
+                                patientId={patientId}
+                                doctorId={doctorId}
+                                navigation={navigation}
                                 key={id}
                                 doctorImg={doctorImg}
                                 doctorName={doctorName}
-                                message={message}
-                                time={time}
+                                message={messages[messages.length - 1]}
                             />
                         )
                     )}

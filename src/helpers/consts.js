@@ -598,3 +598,115 @@ export const messages = [
         },
     },
 ];
+
+export const msgs = [
+    {
+        id: 1,
+        patientId: 1,
+        doctorId: 1,
+        messages: [
+            {
+                id: 1,
+                content: "How Are You ?!",
+                owner: "doctor",
+                time: {
+                    hour: 4,
+                    minute: 59,
+                    second: 50,
+                    amOrPm: "pm",
+                },
+            },
+            {
+                id: 2,
+                content: "I am Fine 😃",
+                owner: "patient",
+                time: {
+                    hour: 5,
+                    minute: 1,
+                    second: 0,
+                    amOrPm: "pm",
+                },
+            },
+            {
+                id: 3,
+                content: "When will be our next meeting ?",
+                owner: "patient",
+                time: {
+                    hour: 5,
+                    minute: 2,
+                    second: 0,
+                    amOrPm: "pm",
+                },
+            },
+            {
+                id: 4,
+                content:
+                    "I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 I will tell you soon 🌙 ",
+                owner: "doctor",
+                time: {
+                    hour: 5,
+                    minute: 3,
+                    second: 0,
+                    amOrPm: "pm",
+                },
+            },
+        ],
+        docActive: false,
+        patientActive: true,
+        //patientImg,
+        //DoctorImg,
+        //DoctorName,
+        //Doctor
+    },
+    {
+        id: 2,
+        patientId: 1,
+        doctorId: 2,
+        messages: [
+            {
+                id: 1,
+                content: "Are You Fine 💁 ?",
+                owner: "doctor",
+                time: {
+                    hour: 9,
+                    minute: 59,
+                    second: 50,
+                    amOrPm: "pm",
+                },
+            },
+            {
+                id: 2,
+                content: "Yep 👀",
+                owner: "patient",
+                time: {
+                    hour: 9,
+                    minute: 59,
+                    second: 50,
+                    amOrPm: "pm",
+                },
+            },
+        ],
+        docActive: true,
+        patientActive: true,
+    },
+    {
+        id: 3,
+        patientId: 1,
+        doctorId: 3,
+        messages: [
+            {
+                id: 1,
+                content: "Doctor Are You Here!! 🌎",
+                owner: "patient",
+                time: {
+                    hour: 8,
+                    minute: 59,
+                    second: 50,
+                    amOrPm: "pm",
+                },
+            },
+        ],
+        docActive: false,
+        patientActive: true,
+    },
+];

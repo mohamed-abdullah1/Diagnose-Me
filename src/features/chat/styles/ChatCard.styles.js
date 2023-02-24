@@ -5,7 +5,7 @@ import responsive from "../../../helpers/responsive";
 
 const { getX, getY } = responsive(832, 372);
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
     padding: 24px;
     /* border: solid red 1px; */
     width: ${getX(324)}px;
@@ -38,10 +38,9 @@ export const Message = styled.Text`
     color: ${(props) => props.theme.colors.primary};
 `;
 export const Time = styled.Text`
-    flex: 1;
+    flex: 1.2;
     font-size: 10px;
     font-family: "PoppinsSemiBold";
     color: ${(props) => props.theme.colors.blue};
-    /* border: solid red 1px; */
     margin-bottom: 9px;
 `;
