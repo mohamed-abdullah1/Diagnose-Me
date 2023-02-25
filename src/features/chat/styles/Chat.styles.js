@@ -61,9 +61,11 @@ export const MessagesSection = styled.View`
 `;
 export const MessageScroll = styled(ScrollView).attrs({})`
     /* border: solid red 1px; */
-    max-height: ${(props) => props.length * (51 - 26) + props.total * 38}px;
+    /* max-height: ${(props) =>
+        props.length * (51 - 26) + props.total * 38}px; */
     padding: 0 24px;
     margin: 10px 0;
+    height: 100%;
 `;
 export const MessageContainer = styled.View`
     /* border: solid red 1px; */

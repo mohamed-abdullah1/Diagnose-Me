@@ -5,9 +5,21 @@ import styled from "styled-components/native";
 export const Wrapper = styled(TouchableOpacity)`
     height: 249px;
     width: 154px;
-    margin-right: ${(props) => (props.total === props.index ? 24 + 16 : 16)}px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    max-width: 50%;
+    ${(props) => {
+        if (props.withOutMargins) {
+            // return;
+            return "margin-right:12px; margin-left:12px;";
+        } else {
+            return (
+                "margin-right: " +
+                (props.total === props.index ? 24 + 16 : 16) +
+                "px;"
+            );
+        }
+    }}
+    ${(props) => (props.withOutMargins ? "" : "margin-top:8px;")}
+    ${(props) => (props.withOutMargins ? "" : "margin-bottom:8px;")}
     /* border: solid red 1px; */
     flex: 1;
     align-items: center;

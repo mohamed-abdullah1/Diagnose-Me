@@ -43,7 +43,21 @@ const Home = ({ navigation }) => {
             });
         }, [])
     );
-    console.log("➡️", Dimensions.get("window").width);
+    const seeAllDoctorsHandler = () => {
+        navigation.navigate({
+            name: "Doctors",
+            params: {
+                category: "all",
+            },
+        });
+    };
+    const specialtyHandler = (value) =>
+        navigation.navigate({
+            name: "Doctors",
+            params: {
+                category: value,
+            },
+        });
     return (
         <BgContainer>
             <TopHeader />
@@ -59,6 +73,7 @@ const Home = ({ navigation }) => {
                     <CardsSection>
                         {specialties.map(({ key, value, src }) => (
                             <ServiceCard
+                                pressFunction={() => specialtyHandler(value)}
                                 total={specialties.length}
                                 key={key}
                                 title={value}
@@ -69,7 +84,10 @@ const Home = ({ navigation }) => {
                     </CardsSection>
                 </CategoriesSection>
                 <DoctorsSection>
-                    <TitleSeeAll title="Popular Doctors" />
+                    <TitleSeeAll
+                        pressFunction={seeAllDoctorsHandler}
+                        title="Popular Doctors"
+                    />
                     <CardsSection>
                         {doctors.map((doctor) => (
                             <DoctorCard

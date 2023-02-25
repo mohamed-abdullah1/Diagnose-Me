@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import Doctor from "../features/doctor/screens/Doctor.screen";
+import Doctors from "../features/doctor/screens/Doctors.screen";
 import MakeAppointment from "../features/doctor/screens/MakeAppointment.screen";
 import MakeAppointmentNote from "../features/doctor/screens/MakeAppointmentNote.screen";
 import Home from "../features/home/screens/Home.screen";
@@ -28,6 +29,7 @@ const HomeNavigation = () => {
                 name="MakeAppointmentNote"
                 component={MakeAppointmentNote}
             />
+            <HomeTab.Screen name="Doctors" component={Doctors} />
         </HomeTab.Navigator>
     );
 };

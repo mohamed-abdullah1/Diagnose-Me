@@ -13,7 +13,7 @@ import {
 } from "../styles/DoctorCard.styles";
 import Rate from "./Rate.Component";
 
-const DoctorCard = ({ doctor, total, index }) => {
+const DoctorCard = ({ doctor, total, index, withOutMargins }) => {
     const [pinned, setPinned] = useState(false);
     const navigation = useNavigation();
     const { id, doctorImg, name, specialty, pricePerHour, rate } = doctor;
@@ -30,8 +30,9 @@ const DoctorCard = ({ doctor, total, index }) => {
     };
     return (
         <Wrapper
+            withOutMargins={withOutMargins}
             style={{
-                elevation: 5,
+                elevation: 8,
                 shadowColor: "#000000bb",
                 shadowOffset: { width: -2, height: 4 },
                 shadowOpacity: 0.82,
@@ -44,7 +45,16 @@ const DoctorCard = ({ doctor, total, index }) => {
             <IconContainer onPress={handlePinPress}>
                 <Icon pinned={pinned} />
             </IconContainer>
-            <Img source={doctorImg} />
+            <Img
+                style={{
+                    elevation: 15,
+                    shadowColor: "#000000bb",
+                    shadowOffset: { width: -2, height: 4 },
+                    shadowOpacity: 0.82,
+                    shadowRadius: 3,
+                }}
+                source={doctorImg}
+            />
             <Name>{"Dr. " + name}</Name>
             <Specialty>{specialty}</Specialty>
             <Price>

@@ -207,6 +207,171 @@ export const doctors = [
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         },
     },
+    {
+        id: 4,
+        name: "Ahmed ElGmal",
+        specialty: "Hepatology",
+        yearsOfExperience: 1,
+        numberOfPatients: 360,
+        rate: 4.8,
+        aboutDoctor:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est enim, sit pulvinar donec lectus. Amet et mi quam ",
+        reviews: [
+            {
+                id: 1,
+                patientName: "Mohamed Khaled",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 2,
+                patientName: "Samy Mohamed",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "3-19-2023",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 3,
+                patientName: "Mostfa Hany",
+                rate: 3.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10-5-2022",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 4,
+                patientName: "Mahmoud Ehab",
+                rate: 2.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+        ],
+        doctorImg: require("../../assets/characters/doctor_4.png"),
+        pricePerHour: 102,
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            descAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+    },
+    {
+        id: 5,
+        name: "Mona Rizq",
+        specialty: "Hepatology",
+        yearsOfExperience: 3,
+        numberOfPatients: 300,
+        rate: 4.9,
+        aboutDoctor:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est enim, sit pulvinar donec lectus. Amet et mi quam ",
+        reviews: [
+            {
+                id: 1,
+                patientName: "Mohamed Khaled",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 2,
+                patientName: "Samy Mohamed",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "3-19-2023",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 3,
+                patientName: "Mostfa Hany",
+                rate: 3.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10-5-2022",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 4,
+                patientName: "Mahmoud Ehab",
+                rate: 2.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+        ],
+        doctorImg: require("../../assets/characters/doctor_5.png"),
+        pricePerHour: 79,
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            descAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+    },
+    {
+        id: 6,
+        name: "Amal Mohamed",
+        specialty: "Hepatology",
+        yearsOfExperience: 1,
+        numberOfPatients: 50,
+        rate: 5.0,
+        aboutDoctor:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est enim, sit pulvinar donec lectus. Amet et mi quam ",
+        reviews: [
+            {
+                id: 1,
+                patientName: "Mohamed Khaled",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 2,
+                patientName: "Samy Mohamed",
+                rate: 4.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "3-19-2023",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 3,
+                patientName: "Mostfa Hany",
+                rate: 3.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10-5-2022",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+            {
+                id: 4,
+                patientName: "Mahmoud Ehab",
+                rate: 2.5,
+                reviewContent:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Euismod vel vitae, nisl eget.",
+                date: "10 min",
+                patientImg: require("../../assets/characters/male.png"),
+            },
+        ],
+        doctorImg: require("../../assets/characters/doctor_6.png"),
+        pricePerHour: 99,
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            descAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+    },
 ];
 export const patients = [
     {

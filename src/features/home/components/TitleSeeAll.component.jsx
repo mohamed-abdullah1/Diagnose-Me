@@ -1,10 +1,10 @@
 import { Btn, Content, Title, Wrapper } from "../styles/TitleSeeAll.styles";
 
-const TitleSeeAll = ({ navigationObj, navigationTo, title }) => {
+const TitleSeeAll = ({ pressFunction, title }) => {
     return (
         <Wrapper>
             <Title>{title}</Title>
-            <Btn onPress={() => console.log("f")}>
+            <Btn onPress={pressFunction}>
                 <Content>See All</Content>
             </Btn>
         </Wrapper>

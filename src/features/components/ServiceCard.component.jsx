@@ -1,8 +1,9 @@
 import { Img, Title, Wrapper } from "../styles/ServiceCard.styles";
 
-const ServiceCard = ({ title, img, total = 10, index }) => {
+const ServiceCard = ({ title, img, total = 10, index, pressFunction }) => {
     return (
         <Wrapper
+            onPress={pressFunction}
             style={{
                 shadowColor: "#0000006e",
                 // shadowOffset: {
