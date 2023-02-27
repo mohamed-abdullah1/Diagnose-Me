@@ -20,7 +20,4 @@ public class ApplicationUser : IdentityUser
     public string BloodType {get; set;}  = string.Empty;
     public bool IsDoctor {get; set;}
     public string ProfilePictureUrl {get; set;} = string.Empty;
-
-    public string? DoctorId {get; set;}
-    public string? PatientId {get; set;}
 }

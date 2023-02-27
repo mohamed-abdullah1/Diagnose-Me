@@ -19,7 +19,7 @@ public class ChangePasswordCommandHandler :
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
         if(user == null)
-            return Errors.User.Name.NotExist;
+            return Errors.User.Name.NotExists;
 
         if(!user!.EmailConfirmed)
             return Errors.User.Email.NotConfirmed;

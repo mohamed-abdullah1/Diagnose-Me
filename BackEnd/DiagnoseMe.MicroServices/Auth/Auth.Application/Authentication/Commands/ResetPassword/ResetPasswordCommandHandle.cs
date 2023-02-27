@@ -32,7 +32,7 @@ public class ResetPasswordCommandHandle :
         var username = pin.UserName;
         var user = await _userManager.FindByNameAsync(username!);
         if(user == null)
-            return Errors.User.Name.NotExist;
+            return Errors.User.Name.NotExists;
             
         var result = await _userManager.ResetPasswordAsync(
             user!,

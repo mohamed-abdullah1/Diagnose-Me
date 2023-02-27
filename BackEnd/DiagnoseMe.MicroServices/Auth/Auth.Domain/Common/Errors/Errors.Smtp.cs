@@ -9,6 +9,7 @@ public partial class Errors
     {
         public static Error SendFail => Error.Failure(
             code: "Email.SendFail",
-            description: "Failed to send email, \n Please Contact the support at support@DiagnoseMe.com");
+            description: @"Failed to send email.
+            Please Contact the support at support@DiagnoseMe.com");
     }
 }

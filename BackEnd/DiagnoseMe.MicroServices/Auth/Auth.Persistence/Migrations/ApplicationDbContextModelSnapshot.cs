@@ -39,9 +39,6 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -65,12 +62,12 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastConfirmationSentDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 61, DateTimeKind.Local).AddTicks(6486));
+                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(6039));
 
                     b.Property<DateTime>("LastEmailChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 61, DateTimeKind.Local).AddTicks(6976));
+                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(7267));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -80,7 +77,7 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastUserNameChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 61, DateTimeKind.Local).AddTicks(7302));
+                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(8064));
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -102,9 +99,6 @@ namespace Auth.Persistence.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PatientId")
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
@@ -145,9 +139,9 @@ namespace Auth.Persistence.Migrations
                             Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
                             AccessFailedCount = 0,
                             BloodType = "",
-                            ConcurrencyStamp = "b513a508-06dc-4893-991f-46b947bca5bd",
+                            ConcurrencyStamp = "79e7c0b3-fdfa-4eb3-81e7-0737181243d2",
                             DateOfBirth = new DateOnly(2000, 4, 26),
-                            Email = "alykhaled@diagnoseme.local",
+                            Email = "alykhaled@diagnose.me",
                             EmailConfirmed = true,
                             FirstName = "Aly",
                             Gender = "",
@@ -158,151 +152,15 @@ namespace Auth.Persistence.Migrations
                             LastUserNameChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = false,
                             NationalID = "",
-                            NormalizedEmail = "alykhaled@diagnoseme.local",
+                            NormalizedEmail = "alykhaled@diagnose.me",
                             NormalizedUserName = "0x41ly",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC+bxaN2uqMMyO8PMQPE2HcYRBXITulH1lWtq8FVTPi0Pq0sXlpzq9XLudPJ4RvPkw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAosm0tNyFbCSlKCs4VT//B8F2Gc4Y8Lx+44RGBOLDnhhc9zwYPJvqH6bZzP/1EeuA==",
                             PhoneNumberConfirmed = true,
                             ProfilePictureUrl = "",
-                            SecurityStamp = "e2d16535-137d-4ddb-acca-bf9d3c9fd2ac",
+                            SecurityStamp = "7196bd1c-2c61-4561-aa08-1f88e694e9ba",
                             TwoFactorEnabled = false,
-                            UserName = "Admin"
+                            UserName = "0x41ly"
                         });
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.Doctor", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("ClinicId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 70, DateTimeKind.Local).AddTicks(5519));
-
-                    b.Property<bool>("IsLicenseVerified")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("License")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Doctors", (string)null);
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.DoctorRate", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 70, DateTimeKind.Local).AddTicks(9328));
-
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("DoctorRates", (string)null);
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.Patient", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 3, 16, 22, 0, 71, DateTimeKind.Local).AddTicks(4894));
-
-                    b.Property<float>("Height")
-                        .HasColumnType("float");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Patients", (string)null);
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.PatientDoctor", b =>
-                {
-                    b.Property<string>("PatientId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("PatientId", "DoctorId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("PatientDoctors", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -460,44 +318,6 @@ namespace Auth.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Auth.Domain.Entities.DoctorRate", b =>
-                {
-                    b.HasOne("Auth.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("DoctorRates")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Auth.Domain.Entities.Patient", "Patient")
-                        .WithMany("DoctorRates")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.PatientDoctor", b =>
-                {
-                    b.HasOne("Auth.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("PatientDoctors")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Auth.Domain.Entities.Patient", "Patient")
-                        .WithMany("PatientDoctors")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -547,20 +367,6 @@ namespace Auth.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.Doctor", b =>
-                {
-                    b.Navigation("DoctorRates");
-
-                    b.Navigation("PatientDoctors");
-                });
-
-            modelBuilder.Entity("Auth.Domain.Entities.Patient", b =>
-                {
-                    b.Navigation("DoctorRates");
-
-                    b.Navigation("PatientDoctors");
                 });
 #pragma warning restore 612, 618
         }
