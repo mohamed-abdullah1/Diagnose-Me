@@ -50,8 +50,7 @@ public class ChangeEmailCommandHandeler :
             await _smtp.SendEmailAsync(
                 new MailAddress(user.Email!,user.UserName),
                 "Change Email",
-                @$"Here Is your confirmation token: {pinCode} 
-                The pin code is only valid for only 1 hour");
+                $"Here Is your confirmation token: {pinCode} \n The pin code is only valid for only 1 hour");
             user.LastConfirmationSentDate = DateTime.UtcNow;
             var updateResult = await _userManager.UpdateAsync(user);
             if(!updateResult.Succeeded)
@@ -59,8 +58,7 @@ public class ChangeEmailCommandHandeler :
                 
             return new AuthenticationResult
             {
-                Message = @$"We sent you an email to {user.Email}.
-                Please confirm your new email by entering the pin code you received.",
+                Message = $"We sent you an email to {user.Email}.\nPlease confirm your new email by entering the pin code you received.",
                 Username = user.UserName
             };
         }

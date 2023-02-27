@@ -34,7 +34,7 @@ public class ConfirmEmailChangeCommandHandler :
         var username = pin.UserName;
         var user = await _userManager.FindByNameAsync(username!);
         if(user == null)
-            return Errors.User.Name.NotExists;
+            return Errors.User.Name.NotExist;
             
         var result = await _userManager.ChangeEmailAsync(user!, command.NewEmail, pin.Token!);
         if (!result.Succeeded)

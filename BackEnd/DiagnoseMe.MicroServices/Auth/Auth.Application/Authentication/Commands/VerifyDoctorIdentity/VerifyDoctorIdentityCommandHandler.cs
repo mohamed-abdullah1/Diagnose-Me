@@ -20,7 +20,7 @@ public class VerifyDoctorIdentityCommandHandler:
     {
         var user = await _userManager.FindByNameAsync(command.UserName);
         if(user == null)
-            return Errors.User.Name.NotExists;
+            return Errors.User.Name.NotExist;
        
         var result = await _doctorIdentifyService.CheckIfDoctor(command.Base64License);
         if(result.IsError)
