@@ -18,6 +18,10 @@ public class RegisterCommandHandler :
     }
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
+        var user = await _userManager.FindByNameAsync(command.User.UserName!);
+        if(user != null)
+            return Errors.User.Name.Exists;
+            
         command.User.DateOfBirth = DateOnly.ParseExact(command.DateOfBirth,"yyyy-MM-dd");
         var result = await _userManager.CreateAsync(command.User, command.Password);
         if(!result.Succeeded)
@@ -43,11 +47,13 @@ public class RegisterCommandHandler :
             await _smtp.SendEmailAsync(
                 new MailAddress(command.User.Email!,command.User.UserName),
                 "Email verification",
-                $"Here Is your confirmation token: {pinCode} \n The pin code is only valid for only 1 hour"
+                @$"Here Is your confirmation token: {pinCode}
+                The pin code is only valid for only 1 hour"
                 );
             return new AuthenticationResult
             {
-                Message = $"We sent you an email to {command.User.Email}.\nPlease confirm your new email by entering the pin code you received.",
+                Message = @$"We sent you an email to {command.User.Email}.
+                Please confirm your new email by entering the pin code you received.",
             };
         }
         catch

@@ -51,7 +51,8 @@ public class ForgotPasswordCommandHandler:
             await _smtp.SendEmailAsync(
                 new MailAddress(user.Email!,user.UserName),
                 "Reset Password",
-                $"Here Is your confirmation token: {pinCode} \n The pin code is only valid for only 1 hour"
+                @$"Here Is your confirmation token: {pinCode}
+                The pin code is only valid for only 1 hour"
                 );
             user.LastConfirmationSentDate = DateTime.UtcNow;
             var updateResult = await _userManager.UpdateAsync(user);
