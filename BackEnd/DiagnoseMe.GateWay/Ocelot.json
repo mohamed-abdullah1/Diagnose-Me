@@ -1,27 +1,6 @@
 {
     "Routes": [
-        {
-            "UpstreamPathTemplate": "/test",
-            "UpstreamHttpMethod": [ "Get", "Post" ],
-            "DownStreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "auth.diagnose.me",
-                    "Port": 5128
-                }
-            ],
-            "DownstreamPathTemplate": "/test/get",
-            "RATE_LIMITING_ENABLED": "true",
-            "RateLimitOptions": {
-                "EnableRateLimiting": true,
-                "EnableEndpointRateLimiting": true,
-                "EnableClientRateLimiting": true,
-                "Period": "60s",
-                "PeriodTimespan": 60,
-                "Limit": 20
-            }
-
-        },
+        
         {
             "UpstreamPathTemplate": "/auth/swagger/{everything}",
             "UpstreamHttpMethod": [ "Get" ],
@@ -324,7 +303,7 @@
         },
         {
             
-            "UpstreamPathTemplate": "/auth/users/get/page-number/{pageNumber}",
+            "UpstreamPathTemplate": "/auth/users/page-number/{pageNumber}",
             "UpstreamHttpMethod": ["Get"],
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -333,7 +312,7 @@
                     "Port": 5128
                 }
             ],
-            "DownstreamPathTemplate": "/api/users/get/page-number/{pageNumber}",
+            "DownstreamPathTemplate": "/api/users/page-number/{pageNumber}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
@@ -346,7 +325,7 @@
         },
         {
             
-            "UpstreamPathTemplate": "/auth/users/role/{role}/get/page-number/{pageNumber}",
+            "UpstreamPathTemplate": "/auth/users/role/{role}/page-number/{pageNumber}",
             "UpstreamHttpMethod": ["Get"],
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -355,7 +334,7 @@
                     "Port": 5128
                 }
             ],
-            "DownstreamPathTemplate": "/api/users/role/{role}/get/page-number/{pageNumber}",
+            "DownstreamPathTemplate": "/api/users/role/{role}/page-number/{pageNumber}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,

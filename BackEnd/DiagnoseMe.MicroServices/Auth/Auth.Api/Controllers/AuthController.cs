@@ -191,7 +191,7 @@ public class AuthController : ApiController
     }
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpGet("users/get/page-number/{pageNumber}")]
+    [HttpGet("users/page-number/{pageNumber}")]
     public async Task<IActionResult> GetUsers(int pageNumber)
     {
         var query = new GetAllUsersQuery(pageNumber);
@@ -200,7 +200,7 @@ public class AuthController : ApiController
     }
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpGet("users/role/{role}/get/page-number/{pageNumber}")]
+    [HttpGet("users/role/{role}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetUsersInRoles(string role, int pageNumber)
     {
         var query = new GetUsersInRoleQuery(role, pageNumber);
