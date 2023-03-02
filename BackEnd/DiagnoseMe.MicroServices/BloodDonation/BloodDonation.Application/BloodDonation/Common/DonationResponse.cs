@@ -7,5 +7,4 @@ public record DonationResponse(
     string BloodType,
     string Locatoin,
     string Reason,
-    string Status
-    );
+    string Status);
