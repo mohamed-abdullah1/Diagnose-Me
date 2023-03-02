@@ -1,9 +1,8 @@
-using System;
 using System.Reflection;
 using Mapster;
-using MapsterMapper;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Api.Common.Mapping;
+namespace Auth.Application.Common.Mapping;
 
 public static class DependencyInjection
 {
@@ -12,8 +11,7 @@ public static class DependencyInjection
     {
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
-        // services.AddSingleton(config);
-        services.AddScoped<IMapper, ServiceMapper>();
+        services.AddSingleton(config);
         return services;
     }
 }

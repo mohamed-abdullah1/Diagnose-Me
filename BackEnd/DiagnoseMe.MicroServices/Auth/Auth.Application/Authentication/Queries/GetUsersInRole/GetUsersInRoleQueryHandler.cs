@@ -1,14 +1,20 @@
+using MapsterMapper;
+
 namespace Auth.Application.Authentication.Queries.GetUsersInRole;
 
 public class GetUsersInRoleQueryHandler :
     BaseAuthenticationHandler,
-    IRequestHandler<GetUsersInRoleQuery, ErrorOr<List<ApplicationUser>>>
+    IRequestHandler<GetUsersInRoleQuery, ErrorOr<List<ApplicationUserResponse>>>
 {
+    private readonly IMapper _mapper;
     public GetUsersInRoleQueryHandler(
-        UserManager<ApplicationUser> userManager
-    ): base(userManager){}
-    public async Task<ErrorOr<List<ApplicationUser>>> Handle(GetUsersInRoleQuery query, CancellationToken cancellationToken)
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper): base(userManager){
+        _mapper = mapper;
+        }
+    public async Task<ErrorOr<List<ApplicationUserResponse>>> Handle(GetUsersInRoleQuery query, CancellationToken cancellationToken)
     {
+        
         var role = query.Role[0].ToString().ToUpper() + query.Role.Substring(1).ToLower();
         if (!Roles.AvailableRoles.Contains(role))
             return Errors.Role.RoleNotExist;
@@ -20,6 +26,6 @@ public class GetUsersInRoleQueryHandler :
                     Take(10).
                     AsParallel().
                     ToList();
-        return  users;
+        return  _mapper.Map<List<ApplicationUserResponse>>(users);
     }
 }

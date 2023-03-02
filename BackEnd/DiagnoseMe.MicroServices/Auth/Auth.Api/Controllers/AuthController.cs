@@ -195,7 +195,7 @@ public class AuthController : ApiController
     public async Task<IActionResult> GetUsers(int pageNumber)
     {
         var query = new GetAllUsersQuery(pageNumber);
-        var result = _mapper.Map<List<ApplicationUserResponse>>((await _mediator.Send(query)));
+        var result = (await _mediator.Send(query));
         return Ok(result);
     }
 
@@ -206,7 +206,7 @@ public class AuthController : ApiController
         var query = new GetUsersInRoleQuery(role, pageNumber);
         var result = await _mediator.Send(query);
         return result.Match(
-        authResult => Ok(_mapper.Map<List<ApplicationUserResponse>>(authResult)),
+        authResult => Ok(authResult),
         errors => Problem(errors));
     }
 

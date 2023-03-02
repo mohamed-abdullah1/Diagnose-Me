@@ -15,5 +15,4 @@ public record PostResponse(
     int ViewsCount,
     List<UserData> ViewingUsers,
     double AvgRating
-
 );

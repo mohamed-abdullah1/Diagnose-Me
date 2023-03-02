@@ -11,7 +11,6 @@ public class DoctorConfiguration : BaseConfiguration<Doctor>
         builder.ToTable("Doctors");
         base.Configure(builder);
         builder.Property(d => d.Title).IsRequired().HasMaxLength(50);
-        builder.Property(d => d.Specialization).IsRequired().HasMaxLength(50);
         builder.Property(d => d.Bio).IsRequired().HasMaxLength(500);
         builder.Property(d => d.License).IsRequired().HasMaxLength(50);
         builder.Property(d => d.IsLicenseVerified).IsRequired();

@@ -1,14 +1,20 @@
+using MapsterMapper;
+
 namespace Auth.Application.Authentication.Queries.GetAllUsers;
 
 public class GetAllUsersQueryHandler :
     BaseAuthenticationHandler,
-    IRequestHandler<GetAllUsersQuery, List<ApplicationUser>>
+    IRequestHandler<GetAllUsersQuery, List<ApplicationUserResponse>>
 {
+    private readonly IMapper _mapper;
     public GetAllUsersQueryHandler(
-        UserManager<ApplicationUser> userManager
-    ): base(userManager){}
-    public Task<List<ApplicationUser>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper) : base(userManager){
+        _mapper = mapper;
+        }
+    public async Task<List<ApplicationUserResponse>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
         var users = _userManager.
                     Users.
                     OrderBy(u => u.UserName).
@@ -16,7 +22,8 @@ public class GetAllUsersQueryHandler :
                     Skip((query.pageNumber -1)* 10).
                     Take(10).
                     ToList();
-        return Task.FromResult<List<ApplicationUser>>(users);
+        
+        return _mapper.Map<List<ApplicationUserResponse>>(users);
     }
     
 }

@@ -1,5 +1,5 @@
 
-namespace Auth.Contracts.Authentication;
+namespace Auth.Application.Authentication.Common;
 
 
 public record ApplicationUserResponse(

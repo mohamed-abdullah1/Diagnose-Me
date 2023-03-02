@@ -34,10 +34,6 @@ public class AuthenticationMappingConfig : IRegister
                     Map(dest => dest.Password, src => src.Password).
                     Map(dest => dest.DateOfBirth, src => src.DateOfbirth).
                     Map(dest => dest.User, src => src);
-        config.NewConfig<ApplicationUser,ApplicationUserResponse>().
-                    Map(dest => dest.FullName , src => $"{src.FirstName} {src.LastName}").
-                    Map(dest => dest.DateOfBirth, src => src.DateOfBirth.ToString()).
-                    Map(dest => dest, src => src);
         config.NewConfig<(ChangePasswordRequest request,string username), ChangePasswordCommand>()
                     .Map(dest => dest.NewPassword, src => src.request.NewPassword)
                     .Map(dest => dest.OldPassword, src => src.request.OldPassword)
