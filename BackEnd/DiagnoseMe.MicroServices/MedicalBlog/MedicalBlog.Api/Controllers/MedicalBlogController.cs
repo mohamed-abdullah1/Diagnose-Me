@@ -49,7 +49,15 @@ public class MedicalBlogController : ApiController
         _mediator = mediator;
         _mapper = mapper;
     }
-    
+
+    [AllowAnonymous]
+    [HttpGet("check-health")]
+    public ActionResult CheckHealth()
+    {
+        
+        return Ok(true);
+    }
+     
     [Authorize]
     [HttpGet("posts/page-number/{pageNumber}")]
     public async Task<IActionResult> GetPosts(int pageNumber)

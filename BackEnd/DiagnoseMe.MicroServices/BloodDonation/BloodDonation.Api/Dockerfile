@@ -21,5 +21,5 @@ RUN dotnet build "BloodDonation.Api.csproj" -c Release -o /app/build
 
 FROM build AS final
 WORKDIR /src/BloodDonation/BloodDonation.Api
-COPY --from=publish /src/BloodDonation/BloodDonation.Api .
+COPY --from=build /src/BloodDonation/BloodDonation.Api .
 ENTRYPOINT ["dotnet", "run"]

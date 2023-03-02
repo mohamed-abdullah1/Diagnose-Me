@@ -149,6 +149,49 @@ services:
     ports:
       - 3306:3308
     restart: always
+  medicalservicesapi:
+    container_name: medical-services-api
+    image: medical-services-api
+    hostname: medical-services.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/MedicalServices/MedicalServices.Api/Dockerfile
+    ports:
+      - 7018:7018
+    environment:
+      - ConnectionStrings__DefaultConnection="Server=medicalservicesdb;Database=MedicalServicesDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
+      - Debug:ShowHost=true
+    depends_on:
+      - medicalservicesdb
+    healthcheck:
+      test: ["CMD", "curl","-f","http://medicalservicesdb:3306"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
+      - medicalservicesapi-medicalservicesdb
+    volumes:
+      - ./DiagnoseMe.MicroServices/MedicalServices:/src/MedicalServices
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+    entrypoint: dotnet run
+  medicalservicesdb:
+    container_name: medical-services-db
+    image: mysql/mysql-server:lastest
+    environment:
+      - MYSQL_ROOT_PASSWORD=DiagnoseMe
+      - MYSQL_DATABASE=MedicalServicesDb
+      - MYSQL_USER=DiagnoseMe
+      - MYSQL_PASSWORD=DiagnoseMe
+    volumes:
+      - medicalservicesdbvolume:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - medicalservicesapi-medicalservicesdb
+    ports:
+      - 3306:3309
+    restart: always
 volumes:
   authdbvolume:
     external: true
@@ -156,12 +199,16 @@ volumes:
     external: true
   blooddonationdbvolume:
     external: true
+  medicalservicesdbvolume:
+    external: true
 networks:
-  authapi-authdb:
-    driver: bridge
   gateway:
+    driver: bridge
+  authapi-authdb:
     driver: bridge
   medicalblogapi-medicalblogdb:
     driver: bridge
   blooddonationapi-blooddonationdb:
+    driver: bridge
+  medicalservicesapi-medicalservicesdb:
     driver: bridge
