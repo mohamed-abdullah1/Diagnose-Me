@@ -63,7 +63,7 @@ export const MessageScroll = styled(ScrollView).attrs({})`
     /* border: solid red 1px; */
     /* max-height: ${(props) =>
         props.length * (51 - 26) + props.total * 38}px; */
-    padding: 0 24px;
+    padding: 8px 24px;
     margin: 10px 0;
     height: 100%;
 `;
@@ -96,18 +96,20 @@ export const BottomSection = styled.View`
     max-height: 60px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
 `;
 export const InputContainer = styled.View`
     /* border: solid green 1px; */
     /* margin: 14px 24px; */
-    height: 45px;
+    height: 60px;
     width: 92%;
-    background-color: ${(props) => props.theme.colors.muted};
+    background-color: ${(props) => props.theme.colors.moreMuted};
     border-radius: 32px;
     /* height: 100%; */
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    padding: 8px;
 `;
 export const InputField = styled.TextInput`
     flex: 1;

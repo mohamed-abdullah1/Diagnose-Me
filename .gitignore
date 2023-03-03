@@ -9,6 +9,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+backEnd/diagnose-me
 # macOS
 .DS_Store

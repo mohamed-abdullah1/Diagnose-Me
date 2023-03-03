@@ -40,7 +40,6 @@ export const specialties = [
         src: require("../../assets/specialities/Neurologists1.png"),
     },
 ];
-
 export const doctors = [
     {
         id: 1,
@@ -546,7 +545,6 @@ export const doctorAvailableMeetings = [
         patientId: 1,
     },
 ];
-
 export const services = [
     {
         id: 1,
@@ -569,7 +567,6 @@ export const services = [
         src: require("../../assets/services/exercises.png"),
     },
 ];
-
 export const trendQuestions = [
     {
         id: 1,
@@ -680,7 +677,6 @@ export const blogs = [
         imgBlog: require("../../assets/helpers/blogImg.png"),
     },
 ];
-
 export const messages = [
     {
         id: 1,
@@ -763,7 +759,6 @@ export const messages = [
         },
     },
 ];
-
 export const msgs = [
     {
         id: 1,
@@ -873,5 +868,83 @@ export const msgs = [
         ],
         docActive: false,
         patientActive: true,
+    },
+];
+export const Questions = [
+    {
+        id: 1,
+        content:
+            "For almost 8 months ive been having chest pressure/pain and im at my wits end. 2 different pulminologists have said my lungs are fine. Ive been to er at least 6 or 7 times ecg and bloodwark always fine. Ive been to a cardiologist and have done echocardiogram and stress test, i could only do 3 mins of stress test because of the shortness of breath but cardiologist said my heart was fine. Ive scheduled another cardiologist appointment but it wont be till january sometime. With my daily symptoms i should be calling 911 constantly but im embarrased. Im terrified i have narrowed or block arteries and im enraged they wont take the situation more serious. Its ruining my life . Sorry for the rant just wondering if anyone ever had a simillar situation, thanks",
+        ups: 10,
+        downs: 3,
+    },
+];
+export const schedules = [
+    {
+        patientId: 1,
+        doctorId: 1,
+        doctorImg: require("../../assets/characters/doctor_female_1.png"),
+        day: 21,
+        doctorName: "Hana Elmansy",
+        specialty: "Dentistry",
+        year: 2023,
+        month: "March",
+        time: {
+            hour: 2,
+            minutes: 30,
+            amOrPm: "pm",
+        },
+        status: "Confirmed",
+    },
+    {
+        patientId: 1,
+        doctorId: 3,
+        specialty: "Hepatology",
+
+        doctorImg: require("../../assets/characters/doctor_female_2.png"),
+        day: 2,
+        doctorName: "Soha ElSawy",
+        year: 2023,
+        month: "March",
+        time: {
+            hour: 10,
+            minutes: 30,
+            amOrPm: "pm",
+        },
+        status: "unConfirmed",
+    },
+    {
+        patientId: 1,
+        doctorId: 5,
+        specialty: "Hepatology",
+
+        doctorImg: require("../../assets/characters/doctor_5.png"),
+        day: 2,
+        doctorName: "Mona Rizq",
+        year: 2023,
+        month: "March",
+        time: {
+            hour: 10,
+            minutes: 30,
+            amOrPm: "pm",
+        },
+        status: "Confirmed",
+    },
+    {
+        patientId: 1,
+        doctorId: 6,
+        specialty: "Hepatology",
+
+        doctorImg: require("../../assets/characters/doctor_6.png"),
+        day: 2,
+        doctorName: "Amal Mohamed",
+        year: 2023,
+        month: "March",
+        time: {
+            hour: 10,
+            minutes: 30,
+            amOrPm: "pm",
+        },
+        status: "Confirmed",
     },
 ];

@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
                     />
                 </HeaderContainer>
                 <CategoriesSection>
-                    <TitleSeeAll title="Categories" />
+                    <TitleSeeAll title="Categories" showSeeAll={false} />
                     <CardsSection>
                         {specialties.map(({ key, value, src }) => (
                             <ServiceCard

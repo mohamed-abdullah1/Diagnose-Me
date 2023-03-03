@@ -11,7 +11,7 @@ export const Wrapper = styled(ScrollView)`
     /* border: solid red 1px; */
 `;
 export const Title = styled.Text`
-    font-size: 30px;
+    font-size: 24px;
     font-family: "PoppinsBold";
     color: ${(props) => props.theme.colors.primary};
     padding-top: 20px;

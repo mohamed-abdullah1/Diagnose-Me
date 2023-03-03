@@ -7,6 +7,8 @@ import { doctors, msgs as loadedMessages } from "../../../helpers/consts";
 import ChatCard from "../components/ChatCard.component";
 import { View } from "react-native";
 import UpperBack from "../../doctor/components/UpperBack.component";
+import { Appbar } from "react-native-paper";
+import { Content } from "../../schedule/styles/ScheduleMain.styles";
 const MainChat = ({ navigation }) => {
     const [messages, setMessages] = useState(null);
     useEffect(() => {
@@ -48,7 +50,9 @@ const MainChat = ({ navigation }) => {
     );
     return (
         <BgContainer>
-            <Title>Chats</Title>
+            <Appbar.Header>
+                <Content title="Chats 🎗️" />
+            </Appbar.Header>
             <Wrapper>
                 <View
                     style={{

@@ -1,12 +1,14 @@
 import { Btn, Content, Title, Wrapper } from "../styles/TitleSeeAll.styles";
 
-const TitleSeeAll = ({ pressFunction, title }) => {
+const TitleSeeAll = ({ pressFunction, title, showSeeAll = true }) => {
     return (
         <Wrapper>
             <Title>{title}</Title>
-            <Btn onPress={pressFunction}>
-                <Content>See All</Content>
-            </Btn>
+            {showSeeAll ? (
+                <Btn onPress={pressFunction}>
+                    <Content>See All</Content>
+                </Btn>
+            ) : null}
         </Wrapper>
     );
 };

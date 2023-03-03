@@ -24,6 +24,7 @@ export const ImgContainer = styled.View`
 export const Img = styled.Image`
     width: 157px;
     height: 154px;
+    border-radius: ${157 / 2}px;
 `;
 export const Icon = styled(Feather).attrs((props) => ({
     name: "message-circle",

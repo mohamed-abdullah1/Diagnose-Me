@@ -19,7 +19,7 @@ export const Btn = styled(TouchableOpacity)`
     justify-content: center;
     align-items: center;
     justify-content: center;
-    background-color: ${(props) => props.theme.colors.blue};
+    background-color: ${(props) => props.theme.colors.secondary};
     color: ${(props) => props.theme.colors.light};
     border-radius: 16px;
 `;

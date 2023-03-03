@@ -1,5 +1,6 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { Appbar } from "react-native-paper";
 import styled from "styled-components/native";
 
 import responsive from "../../../helpers/responsive";
@@ -12,21 +13,18 @@ export const BackContainer = styled(TouchableOpacity)`
     align-self: center;
     margin-top: 16px;
 `;
-export const BackIcon = styled(Ionicons).attrs((props) => ({
-    name: "arrow-back-outline",
-    size: 24,
+export const BackIcon = styled(Appbar.BackAction).attrs((props) => ({
     color: props.theme.colors.primary,
 }))``;
 
-export const Title = styled.Text`
-    font-size: 24px;
-    font-family: "PoppinsBold";
-    color: ${(props) => props.theme.colors.primary};
-    align-self: center;
-    width: 90%;
-    /* border: solid red 1px; */
-    /* margin-top: 16px; */
-`;
+export const Title = styled(Appbar.Content).attrs((props) => ({
+    title: "Doctors",
+    titleStyle: {
+        fontFamily: "PoppinsBold",
+        fontSize: 24,
+        color: props.theme.colors.primary,
+    },
+}))``;
 export const SearchContainer = styled.View`
     flex-direction: row;
     background-color: ${(props) => props.theme.colors.light};

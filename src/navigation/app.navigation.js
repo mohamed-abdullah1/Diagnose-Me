@@ -1,10 +1,5 @@
-import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-    MaterialIcons,
-    FontAwesome5,
-    Entypo,
-    AntDesign,
     Ionicons,
     FontAwesome,
     Feather,
@@ -12,30 +7,12 @@ import {
     Fontisto,
 } from "@expo/vector-icons";
 import colors from "../infrastructure/theme/colors";
-import Home from "../features/home/screens/Home.screen";
 import HomeNavigation from "./home.navigation";
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import MainChat from "../features/chat/screens/MainChat.screen";
 import ChatNavigation from "./chat.navigation";
+import * as React from "react";
+import ScheduleMain from "../features/schedule/screens/ScheduleMain.screen";
+import MainQuestions from "../features/questions/screens/MainQuestions.screen";
 
-function HomeScreen() {
-    return (
-        <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-            <Text> Home Screen </Text>
-        </View>
-    );
-}
-function Setting() {
-    return (
-        <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-            <Text> Setting Screen </Text>
-        </View>
-    );
-}
 const icons = {
     Home: {
         inactive: <Feather name="home" size={24} color={"#c4c4cc"} />,
@@ -118,8 +95,8 @@ const AppNavigator = () => {
         >
             <Screen name="Home" component={HomeNavigation} />
             <Screen name="Messages" component={ChatNavigation} />
-            <Screen name="Schedule" component={Setting} />
-            <Screen name="Questions" component={Setting} />
+            <Screen name="Schedule" component={ScheduleMain} />
+            <Screen name="Questions" component={MainQuestions} />
         </Navigator>
     );
 };

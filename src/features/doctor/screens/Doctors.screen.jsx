@@ -5,18 +5,18 @@ import { BgContainer } from "../../home/styles/Global.styles";
 import { doctors as loadedDoctors } from "../../../helpers/consts";
 import AllDoctors from "../components/AllDoctors.component";
 import {
-    BackContainer,
-    BackIcon,
     FilterIcon,
     SearchContainer,
     SearchIcon,
     SearchText,
-    Title,
     Img,
     NotFoundContainer,
     ButtonContainer,
     ButtonContent,
+    BackIcon,
+    Title,
 } from "../styles/Doctors.styles";
+import { Appbar } from "react-native-paper";
 
 const Doctors = ({ navigation, route }) => {
     const [doctors, setDoctors] = useState([]);
@@ -57,10 +57,14 @@ const Doctors = ({ navigation, route }) => {
     };
     return (
         <BgContainer>
-            <BackContainer onPress={backHandler}>
+            <Appbar.Header>
+                <BackIcon onPress={backHandler} />
+                <Title />
+            </Appbar.Header>
+            {/* <BackContainer onPress={backHandler}>
                 <BackIcon />
             </BackContainer>
-            <Title>{title}</Title>
+            <Title>{title}</Title> */}
             <SearchContainer
                 style={{
                     elevation: 10,
