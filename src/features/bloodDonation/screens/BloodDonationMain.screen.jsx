@@ -10,6 +10,7 @@ const BloodDonationMain = ({ navigation }) => {
     useEffect(() => {
         setDonations(loadedDonations);
     }, []);
+    console.log("👉");
     return (
         <BgContainer>
             <Appbar.Header>
