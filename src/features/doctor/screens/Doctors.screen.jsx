@@ -16,7 +16,8 @@ import {
     BackIcon,
     Title,
 } from "../styles/Doctors.styles";
-import { Appbar } from "react-native-paper";
+import { Appbar, Searchbar } from "react-native-paper";
+import colors from "../../../infrastructure/theme/colors";
 
 const Doctors = ({ navigation, route }) => {
     const [doctors, setDoctors] = useState([]);
@@ -65,23 +66,18 @@ const Doctors = ({ navigation, route }) => {
                 <BackIcon />
             </BackContainer>
             <Title>{title}</Title> */}
-            <SearchContainer
+            <Searchbar
+                placeholder="Search for Doctors you need"
+                value={search}
+                onChangeText={searchHandler}
                 style={{
-                    elevation: 10,
-                    shadowColor: "#000000bb",
-                    shadowOffset: { width: -2, height: 4 },
-                    shadowOpacity: 0.82,
-                    shadowRadius: 3,
+                    width: "90%",
+                    alignSelf: "center",
+                    borderRadius: 32,
+                    backgroundColor: colors.light,
+                    fontFamily: "Poppins",
                 }}
-            >
-                <SearchIcon />
-                <SearchText
-                    value={search}
-                    onChangeText={searchHandler}
-                    placeholder="Search For Doctors You Need"
-                />
-                <FilterIcon />
-            </SearchContainer>
+            />
             {tempDoctors.length === 0 ? (
                 <NotFoundContainer>
                     <Img

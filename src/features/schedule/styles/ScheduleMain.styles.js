@@ -1,5 +1,6 @@
 import { AntDesign, Fontisto, MaterialIcons } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import styled from "styled-components/native";
 
@@ -18,8 +19,8 @@ export const Container = styled(ScrollView).attrs({
 export const MeetCard = styled.View`
     /* border: solid red 1px; */
     padding-top: 18px;
-    margin-bottom: 24px;
-    width: 85%;
+    margin-bottom: 16px;
+    width: 90%;
     height: 180px;
     align-self: center;
     border-radius: 16px;
@@ -103,10 +104,40 @@ export const LowerContainer = styled.View`
     flex-direction: row;
     justify-content: space-around;
 `;
-export const Btn = styled(Button).attrs((props) => ({
-    mode: props.type === "active" ? "contained" : "outlined",
-}))`
-    ${(props) =>
-        props.type === "passive" &&
-        `border:solid ${props.theme.colors.secondary} 1.2px;`}
+// export const Btn = styled(Button).attrs((props) => ({
+//     mode: props.type === "active" ? "contained" : "outlined",
+//     // style: {
+//     //     width: 136,
+//     //     height: 33,
+//     // },
+// }))`
+//     font-size: 10px;
+//     font-family: "Poppins";
+//     /* color:${(props) => props.theme.colors.l}; */
+//     width: 136px;
+//     height: 40px;
+//     ${(props) =>
+//         props.type === "passive" &&
+//         `border:solid ${props.theme.colors.secondary} 1.2px;`}
+// `;
+
+export const Btn = styled(TouchableOpacity)`
+    background-color: ${(props) =>
+        props.type === "active"
+            ? props.theme.colors.secondary
+            : props.theme.colors.light};
+    width: 136px;
+    height: 33px;
+    border-radius: 32px;
+    border: solid ${(props) => props.theme.colors.secondary} 1px;
+    justify-content: center;
+    align-items: center;
+`;
+export const BtnContent = styled.Text`
+    font-size: 12px;
+    font-family: "Poppins";
+    color: ${(props) =>
+        props.type === "active"
+            ? props.theme.colors.light
+            : props.theme.colors.secondary};
 `;

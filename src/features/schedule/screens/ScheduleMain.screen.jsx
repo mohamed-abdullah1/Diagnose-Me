@@ -4,6 +4,7 @@ import { schedules } from "../../../helpers/consts";
 import { BgContainer } from "../../home/styles/Global.styles";
 import {
     Btn,
+    BtnContent,
     Container,
     Content,
     DateContent,
@@ -83,7 +84,12 @@ const ScheduleMain = ({ navigation }) => {
                             </StatusItem>
                         </MiddleContainer>
                         <LowerContainer>
-                            <Btn type="passive">Cancel</Btn>
+                            <Btn
+                                onPress={() => console.log("cancel")}
+                                type="passive"
+                            >
+                                <BtnContent type="passive">Cancel</BtnContent>
+                            </Btn>
                             <Btn
                                 onPress={() =>
                                     talkNowHandler(
@@ -93,7 +99,7 @@ const ScheduleMain = ({ navigation }) => {
                                 }
                                 type="active"
                             >
-                                Talk Now
+                                <BtnContent type="active">Talk Now</BtnContent>
                             </Btn>
                         </LowerContainer>
                     </MeetCard>

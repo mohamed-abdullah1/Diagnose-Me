@@ -12,26 +12,42 @@ import ChatNavigation from "./chat.navigation";
 import * as React from "react";
 import ScheduleMain from "../features/schedule/screens/ScheduleMain.screen";
 import MainQuestions from "../features/questions/screens/MainQuestions.screen";
+import { Badge } from "react-native-paper";
+import { View } from "react-native";
+import QuestionNavigator from "./question.navigation";
+
+const Wrapper = ({ badgeNumber, children }) => {
+    return (
+        <View>
+            <Badge
+                style={{
+                    backgroundColor: colors.secondary,
+                    position: "absolute",
+                    top: -8,
+                    right: -10,
+                    zIndex: 1000,
+                    borderColor: colors.light,
+                    borderWidth: 2,
+                }}
+                visible={badgeNumber > 0}
+                // size=}
+            >
+                {badgeNumber}
+            </Badge>
+            {children}
+        </View>
+    );
+};
 
 const icons = {
     Home: {
         inactive: <Feather name="home" size={24} color={"#c4c4cc"} />,
         focused: <Feather name="home" size={24} color={colors.secondary} />,
-        // focused: (
-        //     <MaterialCommunityIcons
-        //         name="home-variant"
-        //         size={24}
-        //         color={colors.secondary}
-        //     />
-        // ),
     },
     Medicine: {
         inactive: (
             <MaterialCommunityIcons name="pill" size={24} color={"#c4c4cc"} />
         ),
-        // (
-        //     <MaterialIcons name="storefront" size={24} color={colors.light} />
-        // ),
         focused: <Fontisto name="pills" size={24} color={colors.secondary} />,
     },
     Messages: {
@@ -52,51 +68,63 @@ const icons = {
     },
     Questions: {
         inactive: (
-            <FontAwesome name="question-circle-o" size={24} color={"#c4c4cc"} />
+            <Ionicons name="earth" size={24} color={"#c4c4cc"} />
+            // <FontAwesome name="question-circle-o" size={24} color={"#c4c4cc"} />
         ),
         focused: (
-            <FontAwesome
-                name="question-circle"
-                size={24}
-                color={colors.secondary}
-            />
+            // <FontAwesome
+            //     name="question-circle"
+            //     size={24}
+            //     color={colors.secondary}
+            // />
+            <Ionicons name="earth" size={24} color={colors.secondary} />
         ),
     },
 };
-
+const badgeNumbers = {
+    Home: 0,
+    Messages: 3,
+    Schedule: 5,
+    Questions: 1,
+};
 const { Navigator, Screen } = createBottomTabNavigator();
 const AppNavigator = () => {
     return (
         <Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
-                    return focused
+                    const e = focused
                         ? icons[route.name].focused
                         : icons[route.name].inactive;
+                    return (
+                        <Wrapper badgeNumber={badgeNumbers[route.name]}>
+                            {e}
+                        </Wrapper>
+                    );
                 },
                 tabBarActiveTintColor: colors.secondary,
                 tabBarInactiveTintColor: "#b0b3bf",
                 headerShown: false,
                 tabBarStyle: {
                     backgroundColor: colors.light,
-                    height: 60,
+                    height: 58,
                     alignItems: "center",
-                    paddingBottom: 6,
-                    paddingTop: 6,
-                    shadowColor: "#000000",
-                    elevation: 1,
+                    paddingBottom: 0,
+                    paddingTop: 4,
                 },
+
                 tabBarLabelStyle: {
                     fontSize: 12,
                     fontFamily: "PoppinsBold",
                 },
+                tabBarHideOnKeyboard: true,
             })}
             initialRouteName="Home"
         >
             <Screen name="Home" component={HomeNavigation} />
             <Screen name="Messages" component={ChatNavigation} />
             <Screen name="Schedule" component={ScheduleMain} />
-            <Screen name="Questions" component={MainQuestions} />
+            <Screen name="Questions" component={QuestionNavigator} />
         </Navigator>
     );
 };

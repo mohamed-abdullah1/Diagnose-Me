@@ -26,10 +26,10 @@ const MainChat = ({ navigation }) => {
             navigation.setOptions({
                 tabBarStyle: {
                     backgroundColor: colors.light,
-                    height: 60,
+                    height: 58,
                     alignItems: "center",
-                    paddingBottom: 6,
-                    paddingTop: 6,
+                    paddingBottom: 0,
+                    paddingTop: 4,
                 },
             });
         }, [])
@@ -40,10 +40,10 @@ const MainChat = ({ navigation }) => {
             navigation.getParent().setOptions({
                 tabBarStyle: {
                     backgroundColor: colors.light,
-                    height: 60,
+                    height: 58,
                     alignItems: "center",
-                    paddingBottom: 6,
-                    paddingTop: 6,
+                    paddingBottom: 0,
+                    paddingTop: 4,
                 },
             });
         }, [])
@@ -51,7 +51,7 @@ const MainChat = ({ navigation }) => {
     return (
         <BgContainer>
             <Appbar.Header>
-                <Content title="Chats 🎗️" />
+                <Content title="Chats 📭" />
             </Appbar.Header>
             <Wrapper>
                 <View

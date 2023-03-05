@@ -1,3 +1,13 @@
+export const user = {
+    id: 1,
+    name: "Mohamed Khaled",
+    age: 22,
+    gender: "male",
+    weight: 86,
+    height: 180,
+    bloodType: "O+",
+    img: require("../../assets/characters/male.png"),
+};
 export const specialties = [
     {
         key: 1,
@@ -575,15 +585,45 @@ export const trendQuestions = [
         date: "10 min",
         ups: 15,
         downs: 2,
+        specialty: "Hepatology",
         content: "Lorem ipsum dolor sit amet,consectetur adipiscing elit?",
         comments: [
             {
                 id: 1,
-                content: "it is true",
+                content:
+                    "it is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is trueit is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 1,
+                name: "Mona Rizq",
+                specialty: "Hepatology",
+                rate: 4.9,
+                doctorImg: require("../../assets/characters/doctor_5.png"),
             },
             {
                 id: 2,
                 content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 4,
+                name: "Ahmed ElGmal",
+                specialty: "Hepatology",
+                rate: 4.8,
+                doctorImg: require("../../assets/characters/doctor_4.png"),
+            },
+            {
+                id: 3,
+                content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 1,
+                name: "Soha ElSawy",
+                specialty: "Hepatology",
+                rate: 4.5,
+                doctorImg: require("../../assets/characters/doctor_female_1.png"),
             },
         ],
     },
@@ -595,16 +635,7 @@ export const trendQuestions = [
         ups: 10,
         downs: 2,
         content: "Lorem ipsum dolor sit amet,consectetur adipiscing elit?",
-        comments: [
-            {
-                id: 1,
-                content: "it is true",
-            },
-            {
-                id: 2,
-                content: "it is true",
-            },
-        ],
+        comments: [],
     },
     {
         id: 3,
@@ -618,10 +649,38 @@ export const trendQuestions = [
             {
                 id: 1,
                 content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 1,
+                name: "Mona Rizq",
+                specialty: "Hepatology",
+                rate: 4.9,
+                doctorImg: require("../../assets/characters/doctor_5.png"),
             },
             {
                 id: 2,
                 content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 4,
+                name: "Ahmed ElGmal",
+                specialty: "Hepatology",
+                rate: 4.8,
+                doctorImg: require("../../assets/characters/doctor_4.png"),
+            },
+            {
+                id: 3,
+                content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 1,
+                name: "Soha ElSawy",
+                specialty: "Hepatology",
+                rate: 4.5,
+                doctorImg: require("../../assets/characters/doctor_female_1.png"),
             },
         ],
     },
@@ -637,10 +696,26 @@ export const trendQuestions = [
             {
                 id: 1,
                 content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 1,
+                name: "Mona Rizq",
+                specialty: "Hepatology",
+                rate: 4.9,
+                doctorImg: require("../../assets/characters/doctor_5.png"),
             },
             {
                 id: 2,
                 content: "it is true",
+                date: "10min",
+                ups: 10,
+                downs: 1,
+                doctorId: 4,
+                name: "Ahmed ElGmal",
+                specialty: "Hepatology",
+                rate: 4.8,
+                doctorImg: require("../../assets/characters/doctor_4.png"),
             },
         ],
     },
@@ -648,33 +723,43 @@ export const trendQuestions = [
 export const blogs = [
     {
         id: 1,
+        title: "What Is Cannabinoid Hyperemesis Syndrome? 🤔",
         doctorName: "Samy Mohamed",
+        specialty: "Density",
         doctorImg: require("../../assets/characters/doctor_male_1.png"),
         date: "10 min",
         content:
             "Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS",
         likes: 25,
-        imgBlog: require("../../assets/helpers/blogImg.png"),
+        imgBlog: require("../../assets/helpers/blog_1.png"),
+        categoryList: ["HealthCare", "Cardiology", "Dentistry"],
     },
     {
         id: 2,
+        title: "What Is Cannabinoid Hyperemesis Syndrome? 🤔",
         doctorName: "Soha Hossam",
+        specialty: "Density",
         doctorImg: require("../../assets/characters/doctor_female_1.png"),
         date: "10 min",
         content:
             "Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS",
         likes: 10,
-        imgBlog: require("../../assets/helpers/blogImg.png"),
+        imgBlog: require("../../assets/helpers/blog.jpg"),
+        categoryList: ["Dentistry"],
     },
     {
         id: 3,
+        title: "What Is Cannabinoid Hyperemesis Syndrome? 🤔",
         doctorName: "Sandy Elhelo",
-        dcotorImg: require("../../assets/characters/doctor_female_2.png"),
+        specialty: "Density",
+        doctorImg: require("../../assets/characters/doctor_female_2.png"),
         date: "10 min",
+
         content:
             "Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS. Cannabinoid hyperemesis syndrome (CHS) is a rare condition that can impact people who use cannabis daily or are heavy marijuana users. Cedars-Sinai's  Dr. Sam Torbati explains how to treat CHS",
         likes: 25,
-        imgBlog: require("../../assets/helpers/blogImg.png"),
+        imgBlog: require("../../assets/helpers/blog_3.jpg"),
+        categoryList: ["HealthCare"],
     },
 ];
 export const messages = [
@@ -946,5 +1031,38 @@ export const schedules = [
             amOrPm: "pm",
         },
         status: "Confirmed",
+    },
+];
+
+export const bloodDonations = [
+    {
+        id: 1,
+        pateintImg: require("../../assets/characters/male.png"),
+        bloodGroup: "+ AB",
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            secondaryAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+    },
+    {
+        id: 2,
+        pateintImg: require("../../assets/characters/male.png"),
+        bloodGroup: "+ AB",
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            secondaryAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
+    },
+    {
+        id: 3,
+        pateintImg: require("../../assets/characters/male.png"),
+        bloodGroup: "+ AB",
+        location: {
+            mainAddress: "Tanta - El hahar street",
+            secondaryAddress:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        },
     },
 ];

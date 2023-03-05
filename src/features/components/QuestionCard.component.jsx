@@ -50,13 +50,17 @@ const BottomRight = ({ value }) => {
     );
 };
 
-const QuestionCard = ({ question }) => {
+const QuestionCard = ({ question, styles, onPress }) => {
     return (
         <Card
+            onPress={onPress}
+            styles={styles}
             BottomLeft={() => (
-                <BottomLeft value={question.ups - question.downs} />
+                <BottomLeft value={question.ups - question?.downs} />
             )}
-            BottomRight={() => <BottomRight value={question.comments.length} />}
+            BottomRight={() => (
+                <BottomRight value={question?.comments?.length} />
+            )}
             img={question.patientImg}
             name={question.patientName}
             date={question.date}

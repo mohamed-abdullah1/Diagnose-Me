@@ -33,11 +33,11 @@ const BottomLeft = ({ value, liked, setLiked }) => (
         <Value>{value}</Value>
     </LeftWrapper>
 );
-const BottomRight = () => <Content>Read More</Content>;
-const BlogCard = ({ blog, index, total }) => {
+const BlogCard = ({ blog, index, total, onPress }) => {
     const [liked, setLiked] = useState(false);
     return (
         <Card
+            onPress={onPress}
             total={total}
             index={index}
             img={blog.doctorImg}
@@ -52,7 +52,7 @@ const BlogCard = ({ blog, index, total }) => {
                     value={blog.likes}
                 />
             )}
-            BottomRight={() => <BottomRight />}
+            BottomRight={() => null}
         />
     );
 };

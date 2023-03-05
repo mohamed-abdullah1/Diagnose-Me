@@ -15,5 +15,6 @@ const colors = {
     pantone: "#dcdaf4",
     lightSecondary: "#e6eaf1",
     darkSecondary: "#7F7E90",
+    red: "#E41B17",
 };
 export default colors;

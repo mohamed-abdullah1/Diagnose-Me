@@ -10,6 +10,7 @@ import {
 } from "../styles/Card.styles";
 
 const Card = ({
+    styles,
     total,
     index,
     width = 325,
@@ -23,9 +24,17 @@ const Card = ({
     contentTextSize,
     nameTextSize,
     imgSize,
+    onPress,
 }) => {
     return (
-        <Wrapper total={total} index={index} width={width} height={height}>
+        <Wrapper
+            onPress={onPress}
+            style={styles}
+            total={total}
+            index={index}
+            width={width}
+            height={height}
+        >
             <Upper>
                 <Img source={img} imgSize={imgSize} />
                 <Name nameTextSize={nameTextSize}>{name}</Name>
@@ -33,7 +42,7 @@ const Card = ({
             </Upper>
             <Content>
                 <ContentText contentTextSize={contentTextSize}>
-                    {content.substring(0, 100)}
+                    {content?.substring(0, 100)}
                 </ContentText>
             </Content>
             <Bottom>

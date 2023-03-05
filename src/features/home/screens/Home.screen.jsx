@@ -20,25 +20,34 @@ import {
 } from "../../../helpers/consts";
 import ServiceCard from "../../components/ServiceCard.component";
 import DoctorCard from "../../components/DoctorCard.component";
-import { Dimensions, ScrollView, View } from "react-native";
+import {
+    Dimensions,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import Spacer from "../../../infrastructure/components/Spacer";
 import Card from "../../components/Card.component";
 import QuestionCard from "../../components/QuestionCard.component";
 import BlogCard from "../../components/BlogCard.component";
 import colors from "../../../infrastructure/theme/colors";
 import { useFocusEffect } from "@react-navigation/native";
+import Modal from "react-native-modal";
 
 const Home = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
+    const [drawerVisible, setDrawerVisible] = useState(false);
+
     useFocusEffect(
         useCallback(() => {
             navigation.getParent().setOptions({
                 tabBarStyle: {
                     backgroundColor: colors.light,
-                    height: 60,
+                    height: 58,
                     alignItems: "center",
-                    paddingBottom: 6,
-                    paddingTop: 6,
+                    paddingBottom: 0,
+                    paddingTop: 4,
                 },
             });
         }, [])
@@ -60,7 +69,38 @@ const Home = ({ navigation }) => {
         });
     return (
         <BgContainer>
-            <TopHeader />
+            <TopHeader
+                onPress={() => {
+                    setDrawerVisible(true);
+                }}
+                onPressImg={() => {
+                    navigation.navigate("Profile");
+                }}
+            />
+            <Modal
+                coverScreen={false}
+                backdropColor={"#000"}
+                style={{
+                    maxWidth: "70%",
+                    backgroundColor: colors.light,
+                    margin: 0,
+                    padding: 0,
+                }}
+                animationIn="slideInLeft"
+                animationOut="slideOutLeft"
+                // hasBackdrop={false}
+                onBackdropPress={() => setDrawerVisible(false)}
+                isVisible={drawerVisible}
+            >
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate("Blogs");
+                        setDrawerVisible(false);
+                    }}
+                >
+                    <Text>⭐ Blog</Text>
+                </TouchableOpacity>
+            </Modal>
             <ScrollView>
                 <HeaderContainer>
                     <Hello>Hi, {userFirstName}</Hello>
@@ -69,7 +109,7 @@ const Home = ({ navigation }) => {
                     />
                 </HeaderContainer>
                 <CategoriesSection>
-                    <TitleSeeAll title="Categories" showSeeAll={false} />
+                    <TitleSeeAll title="Categories 📖" showSeeAll={false} />
                     <CardsSection>
                         {specialties.map(({ key, value, src }) => (
                             <ServiceCard
@@ -86,7 +126,7 @@ const Home = ({ navigation }) => {
                 <DoctorsSection>
                     <TitleSeeAll
                         pressFunction={seeAllDoctorsHandler}
-                        title="Popular Doctors"
+                        title="Popular Doctors 🌟"
                     />
                     <CardsSection>
                         {doctors.map((doctor) => (
@@ -100,7 +140,7 @@ const Home = ({ navigation }) => {
                     </CardsSection>
                 </DoctorsSection>
                 <CategoriesSection>
-                    <TitleSeeAll title="Services" />
+                    <TitleSeeAll title="Services 👨‍🔧" showSeeAll={false} />
                     <CardsSection>
                         {services.map(({ id, title, src }) => (
                             <ServiceCard
@@ -109,13 +149,19 @@ const Home = ({ navigation }) => {
                                 title={title}
                                 img={src}
                                 index={id}
+                                pressFunction={() => navigation.navigate(title)}
                             />
                         ))}
                     </CardsSection>
                 </CategoriesSection>
                 <TrendQuestionsSection>
                     <CategoriesSection>
-                        <TitleSeeAll title="Trend Questions" />
+                        <TitleSeeAll
+                            title="Trend Questions❓"
+                            pressFunction={() =>
+                                navigation.navigate("Questions")
+                            }
+                        />
                         <CardsSection>
                             {trendQuestions.map((q) => (
                                 <QuestionCard question={q} />
@@ -126,10 +172,21 @@ const Home = ({ navigation }) => {
                 <Spacer position="bottom" size={16}>
                     <TrendQuestionsSection>
                         <CategoriesSection>
-                            <TitleSeeAll title="Blogs" />
+                            <TitleSeeAll
+                                title="Blogs 📓"
+                                pressFunction={() =>
+                                    navigation.navigate("Blogs")
+                                }
+                            />
                             <CardsSection>
                                 {blogs.map((blog) => (
                                     <BlogCard
+                                        onPress={() =>
+                                            navigation.navigate("Home", {
+                                                screen: "BlogPage",
+                                                params: { blog },
+                                            })
+                                        }
                                         key={blog.id}
                                         blog={blog}
                                         total={blogs.length}
