@@ -8,6 +8,28 @@ export const user = {
     bloodType: "O+",
     img: require("../../assets/characters/male.png"),
 };
+export const patients = [
+    {
+        id: 1,
+        name: "Mohamed Khaled",
+        age: 22,
+        gender: "male",
+        weight: 86,
+        height: 180,
+        bloodType: "O+",
+        img: require("../../assets/characters/male.png"),
+    },
+    {
+        id: 2,
+        name: "Amara Said",
+        age: 20,
+        gender: "male",
+        weight: 76,
+        height: 170,
+        bloodType: "+A",
+        img: require("../../assets/characters/male.png"),
+    },
+];
 export const specialties = [
     {
         key: 1,
@@ -382,12 +404,12 @@ export const doctors = [
         },
     },
 ];
-export const patients = [
-    {
-        id: 1,
-        patientName: "Mohamed Elsayed",
-    },
-];
+// export const patients = [
+//     {
+//         id: 1,
+//         patientName: "Mohamed Elsayed",
+//     },
+// ];
 export const doctorAvailableMeetings = [
     {
         meetingId: 1,
@@ -1037,7 +1059,8 @@ export const schedules = [
 export const bloodDonations = [
     {
         id: 1,
-        pateintImg: require("../../assets/characters/male.png"),
+        patientName: "Mohamed Khaled",
+        patientImg: require("../../assets/characters/male.png"),
         bloodGroup: "+ AB",
         location: {
             mainAddress: "Tanta - El hahar street",
@@ -1047,7 +1070,8 @@ export const bloodDonations = [
     },
     {
         id: 2,
-        pateintImg: require("../../assets/characters/male.png"),
+        patientName: "Mohamed Khaled",
+        patientImg: require("../../assets/characters/male.png"),
         bloodGroup: "+ AB",
         location: {
             mainAddress: "Tanta - El hahar street",
@@ -1057,12 +1081,243 @@ export const bloodDonations = [
     },
     {
         id: 3,
-        pateintImg: require("../../assets/characters/male.png"),
+        patientName: "Mohamed Khaled",
+        patientImg: require("../../assets/characters/male.png"),
         bloodGroup: "+ AB",
         location: {
             mainAddress: "Tanta - El hahar street",
             secondaryAddress:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         },
+    },
+];
+export const medicines = [
+    {
+        id: 1,
+        medicineImg: require("../../assets/helpers/medicine_1.webp"),
+        title: "Ashvagandha",
+        price: 23,
+        deliveryTime: 2,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+    {
+        id: 2,
+        medicineImg: require("../../assets/helpers/medicine_2.jpg"),
+        title: "Pantene Shambo Lait Norisa 200ml",
+        price: 33,
+        deliveryTime: 1,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+    {
+        id: 3,
+        medicineImg: require("../../assets/helpers/medicne_3.jpg"),
+        title: "3 ply Protective Face mask 1 X 50Pcs",
+        price: 3,
+        deliveryTime: 1,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+    {
+        id: 4,
+        medicineImg: require("../../assets/helpers/medicne_4.jpg"),
+        title: "Creamsilk Conditioner Shampoo Hair Fall Defense 350Ml",
+        price: 13,
+        deliveryTime: 2,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+    {
+        id: 5,
+        medicineImg: require("../../assets/helpers/medicine_5.png"),
+        title: "Man Look | Foot Powder With Mint | 50gm",
+        price: 63,
+        deliveryTime: 2,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+];
+export const medicineCategories = [
+    { id: 1, title: "All" },
+    { id: 2, title: "Baby Care" },
+    { id: 3, title: "Women Care" },
+    { id: 4, title: "Skin Care" },
+    { id: 5, title: "Organic Products" },
+];
+export const cart = [
+    {
+        id: 1,
+        count: 3,
+        medicineImg: require("../../assets/helpers/medicne_4.jpg"),
+        title: "Creamsilk Conditioner Shampoo Hair Fall Defense 350Ml",
+        price: 13,
+        deliveryTime: 2,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
+    },
+    {
+        id: 2,
+        count: 2,
+        medicineImg: require("../../assets/helpers/medicine_5.png"),
+        title: "Man Look | Foot Powder With Mint | 50gm",
+        price: 63,
+        deliveryTime: 2,
+        soldBy: "Diagnose Me",
+        details: `
+    Composition:
+
+Each tablet contains: Ashvagandha (Withania somnifera) root extract - 250 mg
+
+Good to Know:
+
+-100% vegetarian.
+-Free from sugar, artificial colors, artificial flavors, and preservatives.
+Special Instructions:
+
+It is advisable to consult your physician before you start using the product in these situations:
+
+-Pregnancy
+-Breastfeeding
+-In Conditions which require special medical care
+
+Specific contraindications that have not been identified
+
+Directions for Use:
+
+1 tablet twice daily or as directed by your physician.`,
+        category: ["Baby Care", "Women Care"],
     },
 ];

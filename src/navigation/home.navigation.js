@@ -12,6 +12,8 @@ import MakeAppointmentNote from "../features/doctor/screens/MakeAppointmentNote.
 import ExercisesMain from "../features/exercises/screens/ExercisesMain.screen";
 import Home from "../features/home/screens/Home.screen";
 import Profile from "../features/home/screens/Profile.screen";
+import CartMedicine from "../features/medicine/screens/CartMedicine.screen";
+import MedicineItem from "../features/medicine/screens/MedicineItem.screen";
 import MedicineMain from "../features/medicine/screens/MedicineMain.screen";
 
 const HomeTab = createStackNavigator();
@@ -41,6 +43,8 @@ const HomeNavigation = () => {
             <HomeTab.Screen name="BlogPage" component={Blog} />
             <HomeTab.Screen name="Profile" component={Profile} />
             <HomeTab.Screen name="Medicine" component={MedicineMain} />
+            <HomeTab.Screen name="MedicinePage" component={MedicineItem} />
+            <HomeTab.Screen name="Cart" component={CartMedicine} />
             <HomeTab.Screen
                 name="Blood Donation"
                 component={BloodDonationMain}
