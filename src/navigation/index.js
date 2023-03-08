@@ -3,6 +3,7 @@ import { useContext } from "react";
 import AuthContext from "../services/auth/auth.context";
 import AccountNavigator from "./account.navigation";
 import AppNavigator from "./app.navigation";
+import AppDocNavigator from "./doctor/appDoc.navigation";
 
 const Com = ({ name = "screen" }) => (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -15,7 +16,15 @@ const MainNavigator = () => {
     console.log(user);
     return (
         <NavigationContainer>
-            {user ? <AppNavigator /> : <AccountNavigator />}
+            {user ? (
+                user === "patient" ? (
+                    <AppNavigator />
+                ) : (
+                    <AppDocNavigator />
+                )
+            ) : (
+                <AccountNavigator />
+            )}
         </NavigationContainer>
     );
 };

@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
 export const BgContainer = styled.View`
@@ -40,4 +40,34 @@ export const DoctorsSection = styled.View`
 `;
 export const TrendQuestionsSection = styled.View`
     margin-top: 20px;
+`;
+export const TodayMeetings = styled.View``;
+export const MeetingCard = styled(TouchableOpacity)`
+    flex: 1;
+    padding: 16px;
+`;
+export const UpperSectionMeeting = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+`;
+export const PatientImg = styled.Image`
+    width: 45px;
+    height: 45px;
+    border-radius: ${45 / 2}px;
+`;
+export const Time = styled.Text`
+    align-self: baseline;
+    background-color: ${(p) => p.theme.colors.moreMuted};
+    font-size: 14px;
+    font-family: "Poppins";
+    color: ${(props) => props.theme.colors.primary};
+    padding: 4px 6px;
+    border-radius: 16px;
+`;
+export const Name = styled.Text`
+    font-size: 20px;
+    font-family: "PoppinsSemiBold";
+    color: ${(props) => props.theme.colors.primary};
 `;

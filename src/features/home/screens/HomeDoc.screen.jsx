@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TopHeader from "../../components/TopHeader.component";
 import TitleSeeAll from "../components/TitleSeeAll.component";
 import {
@@ -9,7 +9,13 @@ import {
     Emoji,
     HeaderContainer,
     Hello,
+    MeetingCard,
+    Name,
+    PatientImg,
+    Time,
+    TodayMeetings,
     TrendQuestionsSection,
+    UpperSectionMeeting,
 } from "../styles/Global.styles";
 import {
     blogs,
@@ -34,13 +40,16 @@ import BlogCard from "../../components/BlogCard.component";
 import colors from "../../../infrastructure/theme/colors";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import { todayMeetings as loadedTodayMeetings } from "../../../helpers/consts";
 
-const Home = ({ navigation }) => {
+const HomeDoc = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const [todayMeetings, setTodayMeetings] = useState([]);
+
     useFocusEffect(
         useCallback(() => {
-            navigation.getParent().setOptions({
+            navigation.setOptions({
                 tabBarStyle: {
                     backgroundColor: colors.light,
                     height: 58,
@@ -51,21 +60,9 @@ const Home = ({ navigation }) => {
             });
         }, [])
     );
-    const seeAllDoctorsHandler = () => {
-        navigation.navigate({
-            name: "Doctors",
-            params: {
-                category: "all",
-            },
-        });
-    };
-    const specialtyHandler = (value) =>
-        navigation.navigate({
-            name: "Doctors",
-            params: {
-                category: value,
-            },
-        });
+    useEffect(() => {
+        setTodayMeetings(loadedTodayMeetings);
+    }, []);
     return (
         <BgContainer>
             <TopHeader
@@ -75,7 +72,7 @@ const Home = ({ navigation }) => {
                 onPressImg={() => {
                     navigation.navigate("Profile");
                 }}
-                userImg={require("../../../../assets/characters/male.png")}
+                userImg={require("../../../../assets/characters/doctor_male_1.png")}
             />
             <Modal
                 coverScreen={false}
@@ -103,12 +100,12 @@ const Home = ({ navigation }) => {
             </Modal>
             <ScrollView>
                 <HeaderContainer>
-                    <Hello>Hi, {userFirstName}</Hello>
+                    <Hello>Hi, Dr. {userFirstName}</Hello>
                     <Emoji
                         source={require("../../../../assets/helpers/emoji.png")}
                     />
                 </HeaderContainer>
-                <CategoriesSection>
+                {/* <CategoriesSection>
                     <TitleSeeAll title="Categories 📖" showSeeAll={false} />
                     <CardsSection>
                         {specialties.map(({ key, value, src }) => (
@@ -138,8 +135,8 @@ const Home = ({ navigation }) => {
                             />
                         ))}
                     </CardsSection>
-                </DoctorsSection>
-                <CategoriesSection>
+                </DoctorsSection> */}
+                {/* <CategoriesSection>
                     <TitleSeeAll title="Services 👨‍🔧" showSeeAll={false} />
                     <CardsSection>
                         {services.map(({ id, title, src }) => (
@@ -153,7 +150,45 @@ const Home = ({ navigation }) => {
                             />
                         ))}
                     </CardsSection>
-                </CategoriesSection>
+                </CategoriesSection> */}
+                <TodayMeetings>
+                    <TitleSeeAll title="Today Meetings 🌻" showSeeAll={false} />
+                    <CardsSection
+                        contentContainerStyle={{
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                            paddingLeft: 4,
+                            paddingRight: 4,
+                        }}
+                    >
+                        {todayMeetings?.map((t) => (
+                            <View
+                                key={t.id}
+                                elevation={2}
+                                style={{
+                                    marginRight: 16,
+                                    borderRadius: 32,
+                                    width: 171,
+                                    backgroundColor: colors.light,
+                                }}
+                            >
+                                <MeetingCard>
+                                    <UpperSectionMeeting>
+                                        <PatientImg source={t.img} />
+                                        <Time>
+                                            {t.clock.hour +
+                                                ":" +
+                                                t.clock.minutes +
+                                                " " +
+                                                t.clock.amOrPm}
+                                        </Time>
+                                    </UpperSectionMeeting>
+                                    <Name>{t.patientName}</Name>
+                                </MeetingCard>
+                            </View>
+                        ))}
+                    </CardsSection>
+                </TodayMeetings>
                 <TrendQuestionsSection>
                     <CategoriesSection>
                         <TitleSeeAll
@@ -201,4 +236,4 @@ const Home = ({ navigation }) => {
         </BgContainer>
     );
 };
-export default Home;
+export default HomeDoc;

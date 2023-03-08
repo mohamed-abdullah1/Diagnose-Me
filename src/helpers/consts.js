@@ -1,3 +1,4 @@
+import uuid from "react-native-uuid";
 export const user = {
     id: 1,
     name: "Mohamed Khaled",
@@ -8,28 +9,7 @@ export const user = {
     bloodType: "O+",
     img: require("../../assets/characters/male.png"),
 };
-export const patients = [
-    {
-        id: 1,
-        name: "Mohamed Khaled",
-        age: 22,
-        gender: "male",
-        weight: 86,
-        height: 180,
-        bloodType: "O+",
-        img: require("../../assets/characters/male.png"),
-    },
-    {
-        id: 2,
-        name: "Amara Said",
-        age: 20,
-        gender: "male",
-        weight: 76,
-        height: 170,
-        bloodType: "+A",
-        img: require("../../assets/characters/male.png"),
-    },
-];
+
 export const specialties = [
     {
         key: 1,
@@ -1319,5 +1299,108 @@ Directions for Use:
 
 1 tablet twice daily or as directed by your physician.`,
         category: ["Baby Care", "Women Care"],
+    },
+];
+
+export const patients = [
+    {
+        id: 1,
+        name: "Mohamed Khaled",
+        age: 22,
+        gender: "male",
+        weight: 86,
+        height: 180,
+        bloodType: "O+",
+        img: require("../../assets/characters/male.png"),
+    },
+    {
+        id: 2,
+        name: "Amara Said",
+        age: 20,
+        gender: "male",
+        weight: 76,
+        height: 170,
+        bloodType: "+A",
+        img: require("../../assets/characters/male.png"),
+    },
+    {
+        id: 3,
+        name: "Soha Samy",
+        img: require("../../assets/helpers/female_1.png"),
+        age: 20,
+        gender: "female",
+        weight: 76,
+        height: 170,
+        bloodType: "+A",
+    },
+];
+
+export const meetingsForDoctor = [
+    {
+        id: 1,
+        date: "2023-03-07",
+        appointements: [
+            {
+                id: 1,
+                patientId: 1,
+                patientName: "Mohamed Khaled",
+                img: require("../../assets/helpers/male_1.png"),
+                time: "1:00 pm",
+            },
+            {
+                id: 2,
+                patientId: 2,
+                patientName: "Amara Said",
+                img: require("../../assets/helpers/male_1.png"),
+                time: "2:00 pm",
+            },
+            {
+                id: 3,
+                patientId: 3,
+                patientName: "Soha Samy",
+                img: require("../../assets/helpers/female_1.png"),
+                time: "3:00 pm",
+            },
+        ],
+        available: [
+            { id: uuid.v4(), time: "7:00 pm" },
+            { id: uuid.v4(), time: "8:00 pm" },
+            { id: uuid.v4(), time: "9:00 pm" },
+        ],
+    },
+    {
+        id: 2,
+        date: "2023-03-08",
+        appointements: [
+            {
+                id: 1,
+                patientId: 1,
+                patientName: "Mohamed Khaled",
+                img: require("../../assets/helpers/male_1.png"),
+                time: "1:00 am",
+            },
+            {
+                id: 2,
+                patientId: 2,
+                patientName: "Amara Said",
+                img: require("../../assets/helpers/male_1.png"),
+                time: "2:00 pm",
+            },
+        ],
+        available: [],
+    },
+    {
+        id: 3,
+        date: "2023-03-08",
+        appointements: [
+            {
+                id: 1,
+                patientId: 1,
+                patientName: "Mohamed Khaled",
+                img: require("../../assets/helpers/male_1.png"),
+                time: "12:00 pm",
+            },
+        ],
+        available: [],
     },
 ];

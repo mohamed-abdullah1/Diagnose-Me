@@ -1,18 +1,15 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-    Ionicons,
     Feather,
-    MaterialCommunityIcons,
     Fontisto,
+    Ionicons,
+    MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import colors from "../infrastructure/theme/colors";
-import HomeNavigation from "./home.navigation";
-import ChatNavigation from "./chat.navigation";
-import * as React from "react";
-import ScheduleMain from "../features/schedule/screens/ScheduleMain.screen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Text, View } from "react-native";
 import { Badge } from "react-native-paper";
-import { View } from "react-native";
-import QuestionNavigator from "./question.navigation";
+import HomeDoc from "../../features/home/screens/HomeDoc.screen";
+import ScheduleMainDoc from "../../features/schedule/screens/ScheduleMainDoc.screen";
+import colors from "../../infrastructure/theme/colors";
 
 const Wrapper = ({ badgeNumber, children }) => {
     return (
@@ -76,7 +73,14 @@ const badgeNumbers = {
     Questions: 1,
 };
 const { Navigator, Screen } = createBottomTabNavigator();
-const AppNavigator = () => {
+const Com = () => {
+    return (
+        <View>
+            <Text>Hello</Text>
+        </View>
+    );
+};
+const AppDocNavigator = () => {
     return (
         <Navigator
             screenOptions={({ route }) => ({
@@ -109,12 +113,12 @@ const AppNavigator = () => {
             })}
             initialRouteName="Home"
         >
-            <Screen name="Home" component={HomeNavigation} />
-            <Screen name="Messages" component={ChatNavigation} />
-            <Screen name="Schedule" component={ScheduleMain} />
-            <Screen name="Questions" component={QuestionNavigator} />
+            <Screen name="Home" component={HomeDoc} />
+            <Screen name="Messages" component={Com} />
+            <Screen name="Schedule" component={ScheduleMainDoc} />
+            <Screen name="Questions" component={Com} />
         </Navigator>
     );
 };
 
-export default AppNavigator;
+export default AppDocNavigator;
