@@ -39,7 +39,7 @@ public class ResetPasswordCommandHandle :
             pin.Token!,
             command.NewPassword);
         if (!result.Succeeded)
-            return Errors.User.Pin.Invalid;
+            return Errors.User.MapIdentityError(result.Errors.ToList());
 
         _memoryCache.Remove(command.Id);
         results.Message = "Password is successfully reset";

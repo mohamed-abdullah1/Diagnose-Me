@@ -26,6 +26,8 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 var app = builder.Build();
 {
     await app.UseOcelot();
+    app.UseAuthentication();
+    app.UseAuthorization();
 }
 
 app.Run();
