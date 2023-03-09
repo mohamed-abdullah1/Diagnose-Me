@@ -11,7 +11,7 @@ public static class BloodTypes
     public const string ABNegative = "AB-";
     public const string OPositive = "O+";
     public const string ONegative = "O-";
-    public const string IDoNotKnow = "I do not know";
+    public const string IDoNotKnow = "IDK";
     public static List<string> All => new List<string>{ 
         APositive,
         ANegative,
