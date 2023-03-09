@@ -10,9 +10,9 @@ public static class AuthenticationConfiguration
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = configuration.GetValue<string>("IdentityServer:Authority");
+                    options.Authority = "https://auth.diagnose.me:9075";
                     options.RequireHttpsMetadata = false;
-                    options.Audience = "DiagnoseMe";
+                    options.Audience = "DiagnoseMeApiUsers";
                 });
             return services;
         }

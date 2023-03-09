@@ -4,26 +4,28 @@
         {
             "UpstreamPathTemplate": "/auth/swagger/{everything}",
             "UpstreamHttpMethod": [ "Get" ],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/swagger/{everything}",
             "RATE_LIMITING_ENABLED": "true"
         },
         {
             "UpstreamPathTemplate": "/auth/swagger/v1/swagger.json",
             "UpstreamHttpMethod": [ "Get" ],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/swagger/v1/swagger.json",
             "RATE_LIMITING_ENABLED": "true"
             
@@ -31,13 +33,14 @@
         {
             "UpstreamPathTemplate": "/auth/register",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/register",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -52,13 +55,14 @@
         {
             "UpstreamPathTemplate": "/auth/email/confirmation/resend",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/email/confirmation/resend",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -73,13 +77,14 @@
         {
             "UpstreamPathTemplate": "/auth/login",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/login",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -94,13 +99,14 @@
         {
             "UpstreamPathTemplate": "/auth/password/forget",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/password/forget",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -115,13 +121,14 @@
         {
             "UpstreamPathTemplate": "/auth/password/reset",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/password/reset",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -136,13 +143,14 @@
         {
             "UpstreamPathTemplate": "/auth/password/change",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/password/change",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -157,13 +165,14 @@
         {
             "UpstreamPathTemplate": "/auth/email/confirm",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/email/confirm",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -178,13 +187,14 @@
         {
             "UpstreamPathTemplate": "/auth/email/change/confirm",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/email/change/confirm",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -199,13 +209,14 @@
         {
             "UpstreamPathTemplate": "/auth/signout",
             "UpstreamHttpMethod": ["Get"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/signout",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -220,13 +231,14 @@
         {
             "UpstreamPathTemplate": "/auth/email/change",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/email/change",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -241,13 +253,14 @@
         {
             "UpstreamPathTemplate": "/auth/name/change",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/name/change",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -262,13 +275,14 @@
         {
             "UpstreamPathTemplate": "/auth/user/role/{role}/add",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/user/role/{role}/add",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -283,13 +297,14 @@
         {
             "UpstreamPathTemplate": "/auth/user/role/{role}/remove",
             "UpstreamHttpMethod": ["Delete"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/user/role/{role}/remove",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -305,13 +320,14 @@
             
             "UpstreamPathTemplate": "/auth/users/page-number/{pageNumber}",
             "UpstreamHttpMethod": ["Get"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/users/page-number/{pageNumber}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -327,13 +343,14 @@
             
             "UpstreamPathTemplate": "/auth/users/role/{role}/page-number/{pageNumber}",
             "UpstreamHttpMethod": ["Get"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/users/role/{role}/page-number/{pageNumber}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -349,13 +366,14 @@
             
             "UpstreamPathTemplate": "/auth/pin/verify",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/pin/verify",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -371,13 +389,14 @@
             
             "UpstreamPathTemplate": "/auth/profile/picture/upload",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/profile/picture/upload",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -393,13 +412,14 @@
             
             "UpstreamPathTemplate": "/auth/doctor/identity/verify",
             "UpstreamHttpMethod": ["Post"],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "auth.diagnose.me",
-                    "Port": 5128
+                    "Port": 7095
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/doctor/identity/verify",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
@@ -414,26 +434,28 @@
         {
             "UpstreamPathTemplate": "/medical-blog/swagger/{everything}",
             "UpstreamHttpMethod": [ "Get" ],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "medical-blog.diagnose.me",
-                    "Port": 5050
+                    "Port": 7131
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/swagger/{everything}",
             "RATE_LIMITING_ENABLED": "true"
         },
         {
             "UpstreamPathTemplate": "/medical-blog/swagger/v1/swagger.json",
             "UpstreamHttpMethod": [ "Get" ],
-            "DownStreamScheme": "http",
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "medical-blog.diagnose.me",
-                    "Port": 5050
+                    "Port": 7131
                 }
             ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/swagger/v1/swagger.json",
             "RATE_LIMITING_ENABLED": "true"
             
