@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 project=$1
 dotnet new sln -o $project
 

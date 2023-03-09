@@ -21,13 +21,15 @@ public class BloodDonationController : ApiController
         _mediator = mediator;
         _mapper = mapper;
     }
+    
     [AllowAnonymous]
-    [HttpGet("check-health")]
-    public ActionResult CheckHealth()
+    [HttpGet("health-check")]
+    public ActionResult HealthCheck()
     {
         
         return Ok(true);
     }
+    
     [Authorize]
     [HttpGet("blood-donation-requests/blood-type/{bloodType}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByBloodType(string bloodType, int pageNumber)

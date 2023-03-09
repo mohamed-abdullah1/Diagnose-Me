@@ -41,8 +41,8 @@ public class AuthController : ApiController
     }
 
     [AllowAnonymous]
-    [HttpGet("check-health")]
-    public ActionResult CheckHealth()
+    [HttpGet("health-check")]
+    public ActionResult HealthCheck()
     {
         
         return Ok(true);

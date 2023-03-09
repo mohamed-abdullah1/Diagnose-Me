@@ -7,10 +7,5 @@ public class Medicine : BaseEntity{
     public string Concentration {get; set;} = string.Empty;
     public string Type {get; set;} = string.Empty;
     public string? MedicalRecordId  {get; set;}
-    public MedicalRecord MedicalRecord {get; set;}
-
-    public Medicine()
-    {
-        MedicalRecord = new();
-    }
+    public MedicalRecord MedicalRecord {get; set;} = new MedicalRecord();
 }
