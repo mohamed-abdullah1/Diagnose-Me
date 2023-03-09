@@ -83,6 +83,14 @@ public class ApiController : ControllerBase
         var userId = nameIdentifierClaims[1].Value;
         return userId! ?? "Anonymous";
     }
+    protected string GetUserNameFromToken()
+    {
+        var nameIdentifierClaims = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).ToList();
+        if(nameIdentifierClaims.Count is 0)
+            return "Anonymous";
+        var userName = nameIdentifierClaims[2].Value;
+        return userName! ?? "Anonymous";
+    }
     protected List<string> GetUserRolesFromToken()
     {
         var userRoles = User.Claims.Where(claim => claim.Type.Contains("role")).Select(claim => claim.Value).ToList();

@@ -107,7 +107,7 @@ public class AuthController : ApiController
     [HttpPost("password/change")]
     public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
     {
-        var command = _mapper.Map<ChangePasswordCommand>((request, User.Identity!.Name!));
+        var command = _mapper.Map<ChangePasswordCommand>((request, GetUserNameFromToken()));
         var authResult = await _mediator.Send(command);
         return authResult.Match(
             authResult => Ok(authResult),
@@ -151,7 +151,7 @@ public class AuthController : ApiController
     [HttpPost("email/change")]
     public async Task<IActionResult> ChangeEmail(ChangeEmailRequest request)
     {
-        var command = _mapper.Map<ChangeEmailCommand>((request,User.Identity!.Name!));
+        var command = _mapper.Map<ChangeEmailCommand>((request,GetUserNameFromToken()));
         var authResult = await _mediator.Send(command);
         return authResult.Match(
         authResult => Ok(authResult),
@@ -162,7 +162,7 @@ public class AuthController : ApiController
     [HttpPost("name/change")]
     public async Task<IActionResult> ChangeName(ChangeNameRequest request)
     {
-        var command = _mapper.Map<ChangeNameCommand>((request, User.Identity!.Name!));
+        var command = _mapper.Map<ChangeNameCommand>((request, GetUserNameFromToken()));
         var authResult = await _mediator.Send(command);
         return authResult.Match(
         authResult => Ok(authResult),
@@ -226,7 +226,7 @@ public class AuthController : ApiController
    [Authorize]
    public async  Task<IActionResult> UploadProfilePicture(UploadProfilePictureRequest request)
    {
-    var command = _mapper.Map<UploadProfilePictureCommand>((request, User.Identity!.Name!)); 
+    var command = _mapper.Map<UploadProfilePictureCommand>((request, GetUserNameFromToken())); 
     var result = await _mediator.Send(command);
         return result.Match(
         authResult => Ok(authResult),
@@ -237,8 +237,10 @@ public class AuthController : ApiController
    [Authorize]
    public async  Task<IActionResult> VerifyDoctorIdentity(VerifyDoctorIdentityRequest request)
    {
+
+    Console.WriteLine(GetUserNameFromToken());
     var command = new VerifyDoctorIdentityCommand(
-        User.Identity!.Name!,
+        GetUserNameFromToken(),
         request.Base64License); 
     var result = await _mediator.Send(command);
         return result.Match(
