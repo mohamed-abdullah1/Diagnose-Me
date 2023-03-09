@@ -1,5 +1,6 @@
 using System.Reflection;
 using Auth.Application.Common.Behaviors;
+using Auth.Application.Common.Mapping;
 using Auth.Application.MiddlewaresConfigrations;
 using Auth.Application.ServicesConfigrations;
 using FluentValidation;
@@ -24,6 +25,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMiddlewares(configuration);
         services.AddAIServices();
+        services.AddMapping();
         return services;
     }
 }
