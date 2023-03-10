@@ -1,0 +1,92 @@
+{
+    "Routes":[
+        {
+            "UpstreamPathTemplate": "/blood-donation/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/blood-donation/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/blood-donation/requests/requester-id/{requesterId}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/requests/requester-id/{requesterId}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/blood-donation/requests/status/{status}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": ["Get"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/requests/status/{status}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        }
+    ]
+}

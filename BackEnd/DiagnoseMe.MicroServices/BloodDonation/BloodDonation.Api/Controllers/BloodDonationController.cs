@@ -31,7 +31,7 @@ public class BloodDonationController : ApiController
     }
     
     [Authorize]
-    [HttpGet("blood-donation-requests/blood-type/{bloodType}/page-number/{pageNumber}")]
+    [HttpGet("requests/blood-type/{bloodType}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByBloodType(string bloodType, int pageNumber)
     {
         var query = new GetByBloodTypeQuery(
@@ -44,7 +44,7 @@ public class BloodDonationController : ApiController
     }
 
     [Authorize]
-    [HttpGet("blood-donation-requests/mine/page-number/{pageNumber}")]
+    [HttpGet("requests/mine/page-number/{pageNumber}")]
     public async Task<IActionResult> GetMine(int pageNumber)
     {
         var query = new GetByRequesterIdQuery(
@@ -56,7 +56,7 @@ public class BloodDonationController : ApiController
         errors => Problem(errors));
     }
     [Authorize]
-    [HttpGet("blood-donation-requests/requester-id/{requesterId}/page-number/{pageNumber}")]
+    [HttpGet("requests/requester-id/{requesterId}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByRequesterId(string requesterId, int pageNumber)
     {
         var query = new GetByRequesterIdQuery(
@@ -69,7 +69,7 @@ public class BloodDonationController : ApiController
     }
 
     [Authorize]
-    [HttpGet("blood-donation-requests/status/{status}/page-number/{pageNumber}")]
+    [HttpGet("requests/status/{status}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByStatus(string status, int pageNumber)
     {
         var query = new GetByStatusQuery(

@@ -49,7 +49,7 @@ services:
     entrypoint: dotnet run
   authdb:
     container_name: auth-db
-    image: mysql/mysql-server:lastest
+    image: mysql/mysql-server:latest
     environment:
       - MYSQL_ROOT_PASSWORD=DiagnoseMe
       - MYSQL_DATABASE=AuthDb
@@ -92,7 +92,7 @@ services:
     entrypoint: dotnet run
   medicalblogdb:
     container_name: medical-blog-db
-    image: mysql/mysql-server:lastest
+    image: mysql/mysql-server:latest
     environment:
       - MYSQL_ROOT_PASSWORD=DiagnoseMe
       - MYSQL_DATABASE=MedicalBlogDb
@@ -135,7 +135,7 @@ services:
     entrypoint: dotnet run
   blooddonationdb:
     container_name: blood-donation-db
-    image: mysql/mysql-server:lastest
+    image: mysql/mysql-server:latest
     environment:
       - MYSQL_ROOT_PASSWORD=DiagnoseMe
       - MYSQL_DATABASE=BloodDonationDb
@@ -178,7 +178,7 @@ services:
     entrypoint: dotnet run
   medicalservicesdb:
     container_name: medical-services-db
-    image: mysql/mysql-server:lastest
+    image: mysql/mysql-server:latest
     environment:
       - MYSQL_ROOT_PASSWORD=DiagnoseMe
       - MYSQL_DATABASE=MedicalServicesDb
@@ -194,13 +194,9 @@ services:
     restart: always
 volumes:
   authdbvolume:
-    external: true
   medicalblogdbvolume:
-    external: true
   blooddonationdbvolume:
-    external: true
   medicalservicesdbvolume:
-    external: true
 networks:
   gateway:
     driver: bridge

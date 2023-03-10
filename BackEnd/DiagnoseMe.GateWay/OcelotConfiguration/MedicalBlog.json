@@ -1,0 +1,653 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/medical-blog/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true"
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/swagger/v1/swagger.json",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+            "RATE_LIMITING_ENABLED": "true"
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/comments/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/comments/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/doctor-id/{DoctorId}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/doctor-id/{DoctorId}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/tags",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/tags",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/comments/parent-id/{parentId}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/comments/parent-id/{parentId}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/question-id/{questionId}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/question-id/{questionId}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/asking-user-id/{askingUserId}/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/asking-user-id/{askingUserId}/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/question-id/{questionId}/answers/page-number/{pageNumber}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/question-id/{questionId}/answers/page-number/{pageNumber}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/create",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/create",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/edit",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/edit",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/delete",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/delete",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/comments/add",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/comments/add",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/comments/comment-id/{commentId}/edit",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/comments/comment-id/{commentId}/edit",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/comments/comment-id/{commentId}/delete",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/comments/comment-id/{commentId}/delete",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/comments/comment-id/{commentId}/reply",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/comments/comment-id/{commentId}/reply",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/ask",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/ask",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/question-id/{questionId}/edit",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/question-id/{questionId}/edit",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/question-id/{questionId}/delete",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/question-id/{questionId}/delete",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/question-id/{questionId}/answer",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/question-id/{questionId}/answer",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/answers/answer-id/{answerId}/edit",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/answers/answer-id/{answerId}/edit",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/questions/answers/answer-id/{answerId}/delete",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/questions/answers/answer-id/{answerId}/delete",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/comments/comment-id/{commentId}/agreement",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/comments/comment-id/{commentId}/agreement",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/comments/comment-id/{commentId}/agreement/delete",
+            "UpstreamHttpMethod": [ "Delete" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/comments/comment-id/{commentId}/agreement/delete",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/posts/post-id/{postId}/rating",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/posts/post-id/{postId}/rating",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/subscribe/Doctor-id/{doctorId}",
+            "UpstreamHttpMethod": [ "Post" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/subscribe/Doctor-id/{doctorId}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        }
+    ]
+}

@@ -12,7 +12,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["MedicalServices/MedicalServices.Api/MedicalServices.Api.csproj", "MedicalServices/MedicalServices.Api/"]
+COPY ["DiagnoseMe.MicroServices/MedicalServices/", "MedicalServices/"]
 RUN dotnet restore "MedicalServices/MedicalServices.Api/MedicalServices.Api.csproj"
 COPY . .
 WORKDIR "/src/MedicalServices/MedicalServices.Api"

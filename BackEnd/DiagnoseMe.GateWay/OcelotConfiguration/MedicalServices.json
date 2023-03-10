@@ -1,0 +1,102 @@
+{
+    "Routes":[
+        {
+            "UpstreamPathTemplate": "/medical-servcies/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-servcies.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true"
+        },
+        {
+            "UpstreamPathTemplate": "/medical-servcies/swagger/v1/swagger.json",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-servcies.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+            "RATE_LIMITING_ENABLED": "true"
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-servcies/clinics/page-number/{page-number}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-servcies.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/clinics/page-number/{page-number}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-servcies/clinics/{clinic-id}/addresses/page-number/{page-number}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-servcies.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/clinics/{clinic-id}/addresses/page-number/{page-number}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        },
+        {
+            "UpstreamPathTemplate": "/medical-servcies/clinics/{clinic-id}/doctors/page-number/{page-number}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-servcies.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/clinics/{clinic-id}/doctors/page-number/{page-number}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+            
+        }
+    ]
+}

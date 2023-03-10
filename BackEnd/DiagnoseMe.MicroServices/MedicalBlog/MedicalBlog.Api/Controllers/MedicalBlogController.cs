@@ -85,7 +85,7 @@ public class MedicalBlogController : ApiController
     }
 
     [Authorize]
-    [HttpPost("posts/post-id/{postId}/comments/page-number/{pageNumber}")]
+    [HttpGet("posts/post-id/{postId}/comments/page-number/{pageNumber}")]
     public async Task<IActionResult> GetCommentsByPostId(string postId, int pageNumber)
     {
         var query = new GetCommentsByPostIdQuery(postId, pageNumber);
@@ -219,7 +219,7 @@ public class MedicalBlogController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("posts/post-id/{postId}/comments/Add")]
+    [HttpPost("posts/post-id/{postId}/comments/add")]
     public async Task<IActionResult> AddComment(AddCommentRequest request, string postId)
     {
         var command = new AddCommentCommand(
@@ -258,7 +258,7 @@ public class MedicalBlogController : ApiController
         errors => Problem(errors));
     }
     [Authorize(Roles = Roles.Doctor)]
-    [HttpDelete("posts/post-id/{postId}/comments/comment-id/{commentId}/reply")]
+    [HttpPost("posts/post-id/{postId}/comments/comment-id/{commentId}/reply")]
     public async Task<IActionResult> ReplyToComment(ReplyToCommentRequest request, string commentId, string postId)
     {
         var command = new ReplyToCommentCommand(

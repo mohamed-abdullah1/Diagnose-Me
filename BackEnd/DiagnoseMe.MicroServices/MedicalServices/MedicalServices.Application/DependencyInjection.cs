@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using MedicalServices.Application.Common.Behaviors;
+using MedicalServices.Application.Common.Mapping;
 using MedicalServices.Application.MiddlewaresConfigrations;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ public static class DependencyInjection
             typeof(ValidationBehavior<,>));
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMiddlewares(configuration);
+        services.AddMapping();
         return services;
     }
 }

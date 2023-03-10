@@ -1,13 +1,13 @@
-using System.Collections.Generic;
 using MedicalServices.Application.Common.Interfaces.Persistence;
 using MedicalServices.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.Persistence.Repositories;
 
-public class ClinicRepository : BaseRepo<Clinic>, IClinicRepository
+
+public class ClinicAddressRepository : BaseRepo<ClinicAddress>, IClinicAddressRepository
 {
-    public ClinicRepository(DbContext context) : base(context)
+    public ClinicAddressRepository(DbContext context) : base(context)
     {
     }
 }

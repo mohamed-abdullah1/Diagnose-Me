@@ -44,15 +44,15 @@ public abstract class BaseRepo<TEntity> : IDisposable, IBaseRepo<TEntity> where 
         if (predicate != null)
             query = table.Where<TEntity>(predicate);
 
-        if (orderBy != null)
-            query = orderBy(query);
-
         string[] includes = include.Split(',', StringSplitOptions.RemoveEmptyEntries);
         foreach (string property in includes)
         {
             query = query.Include(property);
         }
 
+        if (orderBy != null)
+            query = orderBy(query);
+            
         return await query.ToListAsync();
     }
     public virtual async Task<TEntity> GetByIdAsync(object id)

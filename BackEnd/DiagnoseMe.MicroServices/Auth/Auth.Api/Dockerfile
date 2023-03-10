@@ -13,7 +13,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Auth/Auth.Api/Auth.Api.csproj", "Auth/Auth.Api/"]
+COPY ["DiagnoseMe.MicroServices/Auth/", "Auth/"]
 RUN dotnet restore "Auth/Auth.Api/Auth.Api.csproj"
 COPY . .
 WORKDIR "/src/Auth/Auth.Api"

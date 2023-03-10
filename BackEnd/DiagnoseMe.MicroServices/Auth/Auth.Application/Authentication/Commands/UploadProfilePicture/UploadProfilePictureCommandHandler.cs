@@ -19,7 +19,7 @@ public class ResetPasswordCommandHandle :
 
             var file = Convert.FromBase64String(command.Base64EncodedFile);
             Stream fileStream = new MemoryStream(file);
-            if (fileStream.IsImage())
+            if (!fileStream.IsImage())
                 return (Errors.User.File.NotImage);
 
             var result = _fileHandler.SaveFile(file);
