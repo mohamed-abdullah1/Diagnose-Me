@@ -37,7 +37,7 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 12, 22, 22, 18, 484, DateTimeKind.Utc).AddTicks(2868));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 47, 30, 856, DateTimeKind.Utc).AddTicks(3285));
 
                     b.Property<string>("DonnerId")
                         .IsRequired()
@@ -113,7 +113,7 @@ namespace BloodDonation.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 12, 22, 22, 18, 487, DateTimeKind.Utc).AddTicks(643));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(366));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -133,6 +133,35 @@ namespace BloodDonation.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "972a1201-a9dc-2127-0827-560cb7d76af8",
+                            BloodType = "A+",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2111),
+                            FullName = "Patient",
+                            Name = "Patient",
+                            ProfilePictureUrl = ""
+                        },
+                        new
+                        {
+                            Id = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
+                            BloodType = "A+",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2154),
+                            FullName = "Doctor",
+                            Name = "Doctor",
+                            ProfilePictureUrl = ""
+                        },
+                        new
+                        {
+                            Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
+                            BloodType = "A+",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2173),
+                            FullName = "Admin",
+                            Name = "Admin",
+                            ProfilePictureUrl = ""
+                        });
                 });
 
             modelBuilder.Entity("BloodDonation.Domain.Entities.DonationRequest", b =>

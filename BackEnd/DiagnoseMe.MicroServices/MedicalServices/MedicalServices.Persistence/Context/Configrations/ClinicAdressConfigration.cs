@@ -18,6 +18,8 @@ public class ClinicAddressConfigration : BaseConfiguration<ClinicAddress>
         builder.Property(c => c.State).IsRequired();
         builder.Property(c => c.Country).IsRequired();
         builder.Property(c => c.ZipCode).IsRequired();
+        builder.Property(c => c.OpenTime).IsRequired();
+        builder.Property(c => c.CloseTime).IsRequired();
         builder.Property(c => c.ClinicId).IsRequired();
         builder.Property(c => c.ProfilPictureUrl).IsRequired();
         builder.HasOne(c => c.Clinic).WithMany(c => c.ClinicAddresses).HasForeignKey(c => c.ClinicId);

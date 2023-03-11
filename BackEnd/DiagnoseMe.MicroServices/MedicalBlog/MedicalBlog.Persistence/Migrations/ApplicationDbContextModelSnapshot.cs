@@ -41,7 +41,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 5, 19, 40, 40, 983, DateTimeKind.Utc).AddTicks(950));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 211, DateTimeKind.Utc).AddTicks(7793));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -109,7 +109,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 5, 19, 40, 40, 985, DateTimeKind.Utc).AddTicks(2948));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 214, DateTimeKind.Utc).AddTicks(7598));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -181,7 +181,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 5, 19, 40, 40, 987, DateTimeKind.Utc).AddTicks(762));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 217, DateTimeKind.Utc).AddTicks(4569));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -275,7 +275,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 5, 19, 40, 40, 989, DateTimeKind.Utc).AddTicks(7135));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 220, DateTimeKind.Utc).AddTicks(414));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -305,7 +305,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 5, 19, 40, 40, 990, DateTimeKind.Utc).AddTicks(3122));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 220, DateTimeKind.Utc).AddTicks(6191));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -322,6 +322,32 @@ namespace MedicalBlog.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "972a1201-a9dc-2127-0827-560cb7d76af8",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(1977),
+                            FullName = "Patient",
+                            Name = "Patient",
+                            ProfilePictureUrl = ""
+                        },
+                        new
+                        {
+                            Id = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(2074),
+                            FullName = "Doctor",
+                            Name = "Doctor",
+                            ProfilePictureUrl = ""
+                        },
+                        new
+                        {
+                            Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
+                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(2099),
+                            FullName = "Admin",
+                            Name = "Admin",
+                            ProfilePictureUrl = ""
+                        });
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.UserSubscribedUser", b =>

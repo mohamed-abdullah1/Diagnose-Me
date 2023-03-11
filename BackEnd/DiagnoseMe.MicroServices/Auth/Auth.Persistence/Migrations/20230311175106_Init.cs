@@ -48,9 +48,9 @@ namespace Auth.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NationalID = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastEmailChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(7267)),
-                    LastUserNameChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(8064)),
-                    LastConfirmationSentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(6039)),
+                    LastEmailChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(1565)),
+                    LastUserNameChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(2068)),
+                    LastConfirmationSentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(234)),
                     Gender = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
@@ -228,12 +228,21 @@ namespace Auth.Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BloodType", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDoctor", "LastName", "LockoutEnabled", "LockoutEnd", "NationalID", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00edafe3-b047-5980-d0fa-da10f400c1e5", 0, "", "79e7c0b3-fdfa-4eb3-81e7-0737181243d2", new DateOnly(2000, 4, 26), "alykhaled@diagnose.me", true, "Aly", "", false, "Khaled", false, null, "", "alykhaled@diagnose.me", "0x41ly", "AQAAAAIAAYagAAAAEAosm0tNyFbCSlKCs4VT//B8F2Gc4Y8Lx+44RGBOLDnhhc9zwYPJvqH6bZzP/1EeuA==", null, true, "", "7196bd1c-2c61-4561-aa08-1f88e694e9ba", false, "0x41ly" });
+                values: new object[,]
+                {
+                    { "00edafe3-b047-5980-d0fa-da10f400c1e5", 0, "", "c5e14f33-ca0f-44d2-8366-a452b8c0f94c", new DateOnly(2000, 4, 26), "admin@diagnose.me", true, "Admin", "", false, "", false, null, "", "admin@diagnose.me", "Admin", "AQAAAAIAAYagAAAAEEyPaijjM4XN40b7wwyZIEW2MH8U8exTjjMKS9ohL9z2f+vjfAgya3/w1zqAdhW6tw==", null, true, "", "7f85b1b3-6051-4a77-bdbc-3234d91d3b15", false, "Admin" },
+                    { "657cb6cb-abf2-00d1-5d46-939a7b3aff5f", 0, "", "7926a29f-64fe-44c5-9710-142a9be07cee", new DateOnly(2000, 4, 26), "doctor@diagnose.me", true, "Doctor", "", false, "", false, null, "", "doctor@diagnose.me", "Doctor", "AQAAAAIAAYagAAAAECED8PGqEKsQ/o+rqAQLohng9ZmAAm2K9Q+8EsOcdYfU7NYgoSxlpJKM45WgaRG/TQ==", null, true, "", "5290d371-8035-4323-ae07-7fddc2c7ecee", false, "Doctor" },
+                    { "972a1201-a9dc-2127-0827-560cb7d76af8", 0, "", "4cbd5483-0411-4914-8fcc-8ccb1fa3803f", new DateOnly(2000, 4, 26), "patient@diagnose.me", true, "Patient", "", false, "", false, null, "", "patient@diagnose.me", "Patient", "AQAAAAIAAYagAAAAEKq5hqydRmKkCDfg5Q+gaZepgMxax4Aoql9p7mqj1FxcAC76fqL3IxktyxUTDmLvAw==", null, true, "", "1a0a75d2-2f8a-4449-bd41-20dbe68a5f03", false, "Patient" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "00edafe3-b047-5980-d0fa-da10f400c1e5", "00edafe3-b047-5980-d0fa-da10f400c1e5" });
+                values: new object[,]
+                {
+                    { "00edafe3-b047-5980-d0fa-da10f400c1e5", "00edafe3-b047-5980-d0fa-da10f400c1e5" },
+                    { "657cb6cb-abf2-00d1-5d46-939a7b3aff5f", "657cb6cb-abf2-00d1-5d46-939a7b3aff5f" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -1,6 +1,8 @@
 ﻿using Auth.Domain.Entities;
+using Auth.Persistence.Context.Seeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Auth.Persistence.Context;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

@@ -1,3 +1,5 @@
+using System;
+
 namespace MedicalServices.Domain.Entities;
 
 public class ClinicAddress : BaseEntity
@@ -8,6 +10,8 @@ public class ClinicAddress : BaseEntity
     public string State { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public string ZipCode { get; set; } = string.Empty;
+    public TimeOnly OpenTime { get; set; }
+    public TimeOnly CloseTime { get; set;}
     public string? ClinicId { get; set; }
     public string ProfilPictureUrl { get; set; } = string.Empty;
     public virtual Clinic? Clinic { get; set; }

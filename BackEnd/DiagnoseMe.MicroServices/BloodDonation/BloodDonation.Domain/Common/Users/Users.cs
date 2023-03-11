@@ -1,4 +1,4 @@
-namespace Auth.Domain.Common.Users;
+namespace BloodDonation.Domain.Common.Users;
 
 public static class Users
 {

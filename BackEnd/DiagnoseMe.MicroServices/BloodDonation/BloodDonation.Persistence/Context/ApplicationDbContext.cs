@@ -1,4 +1,6 @@
-﻿namespace BloodDonation.Persistence.Context;
+﻿using BloodDonation.Persistence.Context.Seeds;
+
+namespace BloodDonation.Persistence.Context;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

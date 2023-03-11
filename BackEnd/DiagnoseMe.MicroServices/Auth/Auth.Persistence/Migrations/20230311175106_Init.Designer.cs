@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auth.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230226162024_Init")]
+    [Migration("20230311175106_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -65,12 +65,12 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastConfirmationSentDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(6039));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(234));
 
                     b.Property<DateTime>("LastEmailChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(7267));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(1565));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -80,7 +80,7 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastUserNameChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 2, 26, 16, 20, 24, 151, DateTimeKind.Utc).AddTicks(8064));
+                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(2068));
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -142,27 +142,81 @@ namespace Auth.Persistence.Migrations
                             Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
                             AccessFailedCount = 0,
                             BloodType = "",
-                            ConcurrencyStamp = "79e7c0b3-fdfa-4eb3-81e7-0737181243d2",
+                            ConcurrencyStamp = "c5e14f33-ca0f-44d2-8366-a452b8c0f94c",
                             DateOfBirth = new DateOnly(2000, 4, 26),
-                            Email = "alykhaled@diagnose.me",
+                            Email = "admin@diagnose.me",
                             EmailConfirmed = true,
-                            FirstName = "Aly",
+                            FirstName = "Admin",
                             Gender = "",
                             IsDoctor = false,
                             LastConfirmationSentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastEmailChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastName = "Khaled",
+                            LastName = "",
                             LastUserNameChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = false,
                             NationalID = "",
-                            NormalizedEmail = "alykhaled@diagnose.me",
-                            NormalizedUserName = "0x41ly",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAosm0tNyFbCSlKCs4VT//B8F2Gc4Y8Lx+44RGBOLDnhhc9zwYPJvqH6bZzP/1EeuA==",
+                            NormalizedEmail = "admin@diagnose.me",
+                            NormalizedUserName = "Admin",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEyPaijjM4XN40b7wwyZIEW2MH8U8exTjjMKS9ohL9z2f+vjfAgya3/w1zqAdhW6tw==",
                             PhoneNumberConfirmed = true,
                             ProfilePictureUrl = "",
-                            SecurityStamp = "7196bd1c-2c61-4561-aa08-1f88e694e9ba",
+                            SecurityStamp = "7f85b1b3-6051-4a77-bdbc-3234d91d3b15",
                             TwoFactorEnabled = false,
-                            UserName = "0x41ly"
+                            UserName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
+                            AccessFailedCount = 0,
+                            BloodType = "",
+                            ConcurrencyStamp = "7926a29f-64fe-44c5-9710-142a9be07cee",
+                            DateOfBirth = new DateOnly(2000, 4, 26),
+                            Email = "doctor@diagnose.me",
+                            EmailConfirmed = true,
+                            FirstName = "Doctor",
+                            Gender = "",
+                            IsDoctor = false,
+                            LastConfirmationSentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastEmailChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "",
+                            LastUserNameChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LockoutEnabled = false,
+                            NationalID = "",
+                            NormalizedEmail = "doctor@diagnose.me",
+                            NormalizedUserName = "Doctor",
+                            PasswordHash = "AQAAAAIAAYagAAAAECED8PGqEKsQ/o+rqAQLohng9ZmAAm2K9Q+8EsOcdYfU7NYgoSxlpJKM45WgaRG/TQ==",
+                            PhoneNumberConfirmed = true,
+                            ProfilePictureUrl = "",
+                            SecurityStamp = "5290d371-8035-4323-ae07-7fddc2c7ecee",
+                            TwoFactorEnabled = false,
+                            UserName = "Doctor"
+                        },
+                        new
+                        {
+                            Id = "972a1201-a9dc-2127-0827-560cb7d76af8",
+                            AccessFailedCount = 0,
+                            BloodType = "",
+                            ConcurrencyStamp = "4cbd5483-0411-4914-8fcc-8ccb1fa3803f",
+                            DateOfBirth = new DateOnly(2000, 4, 26),
+                            Email = "patient@diagnose.me",
+                            EmailConfirmed = true,
+                            FirstName = "Patient",
+                            Gender = "",
+                            IsDoctor = false,
+                            LastConfirmationSentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastEmailChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "",
+                            LastUserNameChangeDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LockoutEnabled = false,
+                            NationalID = "",
+                            NormalizedEmail = "patient@diagnose.me",
+                            NormalizedUserName = "Patient",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKq5hqydRmKkCDfg5Q+gaZepgMxax4Aoql9p7mqj1FxcAC76fqL3IxktyxUTDmLvAw==",
+                            PhoneNumberConfirmed = true,
+                            ProfilePictureUrl = "",
+                            SecurityStamp = "1a0a75d2-2f8a-4449-bd41-20dbe68a5f03",
+                            TwoFactorEnabled = false,
+                            UserName = "Patient"
                         });
                 });
 
@@ -299,6 +353,11 @@ namespace Auth.Persistence.Migrations
                         {
                             UserId = "00edafe3-b047-5980-d0fa-da10f400c1e5",
                             RoleId = "00edafe3-b047-5980-d0fa-da10f400c1e5"
+                        },
+                        new
+                        {
+                            UserId = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
+                            RoleId = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f"
                         });
                 });
 

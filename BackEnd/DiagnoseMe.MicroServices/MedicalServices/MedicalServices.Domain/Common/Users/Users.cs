@@ -1,4 +1,4 @@
-namespace Auth.Domain.Common.Users;
+namespace MedicalServices.Domain.Common.Users;
 
 public static class Users
 {

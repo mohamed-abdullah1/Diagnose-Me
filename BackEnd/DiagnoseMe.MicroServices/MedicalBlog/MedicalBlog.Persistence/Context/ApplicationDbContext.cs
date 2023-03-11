@@ -1,4 +1,6 @@
-﻿namespace MedicalBlog.Persistence.Context;
+﻿using MedicalBlog.Persistence.Context.Seeds;
+
+namespace MedicalBlog.Persistence.Context;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

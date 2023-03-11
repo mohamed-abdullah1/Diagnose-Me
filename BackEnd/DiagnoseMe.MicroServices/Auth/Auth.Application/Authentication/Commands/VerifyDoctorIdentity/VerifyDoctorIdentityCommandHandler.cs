@@ -8,12 +8,15 @@ public class VerifyDoctorIdentityCommandHandler:
     IRequestHandler<VerifyDoctorIdentityCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IDoctorIdentifyService _doctorIdentifyService;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+
     public VerifyDoctorIdentityCommandHandler(
         UserManager<ApplicationUser> userManager,
-        IDoctorIdentifyService doctorIdentifyService
-    ): base(userManager)
+        IDoctorIdentifyService doctorIdentifyService,
+        IJwtTokenGenerator jwtTokenGenerator): base(userManager)
     {
         _doctorIdentifyService = doctorIdentifyService;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyDoctorIdentityCommand command, CancellationToken cancellationToken)
@@ -40,6 +43,11 @@ public class VerifyDoctorIdentityCommandHandler:
         
         return new AuthenticationResult{
             Message = $"User {user.UserName} is {(user.IsDoctor ? "doctor" : "not doctor")}",
+            Token = "Bearer " + (new JwtSecurityTokenHandler().WriteToken(_jwtTokenGenerator
+            .GenerateJwtTokenAsync(
+            user.Id,
+            user.UserName!,
+            await GetUserClaims(user)))),
             Username = user.UserName
         };
     }

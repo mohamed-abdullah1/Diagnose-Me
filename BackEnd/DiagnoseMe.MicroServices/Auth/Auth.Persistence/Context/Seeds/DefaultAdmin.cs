@@ -13,15 +13,15 @@ public class DefaultAdmin
         var user = new ApplicationUser
         {
             Id = Users.AdminId,
-            UserName = "0x41ly",
-            FirstName = "Aly",
-            LastName = "Khaled",
+            UserName = Users.Admin,
+            FirstName = Users.Admin,
+            LastName = "",
             DateOfBirth = new DateOnly(2000,4,26),
             EmailConfirmed = true,
             PhoneNumberConfirmed = true,
-            Email = "alykhaled@diagnose.me",
-            NormalizedEmail = "alykhaled@diagnose.me",
-            NormalizedUserName = "0x41ly"
+            Email = "admin@diagnose.me",
+            NormalizedEmail = "admin@diagnose.me",
+            NormalizedUserName = Users.Admin
         };
         user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user,_config.GetValue<string>("AdminPassword")!);
         return user;

@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Identity;
 namespace Auth.Persistence.Context.Seeds;
 
 
-public  class DefaultAdminRole
+public  class DefaultDoctorRole
 {
 
     
     internal static IdentityUserRole<string> Role=> new IdentityUserRole<string>{
-        RoleId = Roles.AdminId,
-        UserId = Users.AdminId
+        RoleId = Roles.DoctorId,
+        UserId = Users.DoctorId
     };
 }

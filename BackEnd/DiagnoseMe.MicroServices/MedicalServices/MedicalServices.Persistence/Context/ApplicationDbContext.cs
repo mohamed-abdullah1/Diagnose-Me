@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MedicalServices.Persistence.Context.Seeds;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.Persistence.Context;
 public class ApplicationDbContext : DbContext

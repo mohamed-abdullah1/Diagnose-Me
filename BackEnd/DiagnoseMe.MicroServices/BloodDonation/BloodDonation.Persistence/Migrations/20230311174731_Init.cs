@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BloodDonation.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -29,7 +31,7 @@ namespace BloodDonation.Persistence.Migrations
                     BloodType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastDonationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 22, 22, 18, 487, DateTimeKind.Utc).AddTicks(643)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(366)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -57,7 +59,7 @@ namespace BloodDonation.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DonnerId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 2, 12, 22, 22, 18, 484, DateTimeKind.Utc).AddTicks(2868)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 47, 30, 856, DateTimeKind.Utc).AddTicks(3285)),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -106,6 +108,16 @@ namespace BloodDonation.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "BloodType", "ConcurrencyStamp", "CreatedOn", "FullName", "LastDonationDate", "Name", "ProfilePictureUrl" },
+                values: new object[,]
+                {
+                    { "00edafe3-b047-5980-d0fa-da10f400c1e5", "A+", null, new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2173), "Admin", null, "Admin", "" },
+                    { "657cb6cb-abf2-00d1-5d46-939a7b3aff5f", "A+", null, new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2154), "Doctor", null, "Doctor", "" },
+                    { "972a1201-a9dc-2127-0827-560cb7d76af8", "A+", null, new DateTime(2023, 3, 11, 17, 47, 30, 858, DateTimeKind.Utc).AddTicks(2111), "Patient", null, "Patient", "" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DonationRequests_RequesterId",
