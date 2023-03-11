@@ -23,7 +23,7 @@
             }
         },
         {
-            "UpstreamPathTemplate": "/blood-donation/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "UpstreamPathTemplate": "/blood-donation/requests/mine/page-number/{pageNumber}",
             "UpstreamHttpMethod": ["Get"],
             "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
@@ -33,7 +33,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/requests/blood-type/{bloodType}/page-number/{pageNumber}",
+            "DownstreamPathTemplate": "/api/requests/mine/page-number/{pageNumber}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
