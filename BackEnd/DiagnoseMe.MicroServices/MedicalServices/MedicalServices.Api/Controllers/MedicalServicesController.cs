@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalServices.Api.Controllers;
 
 
-[Route("api")]
+[Route("api/v1")]
 
 public class MedicalServicesController : ApiController
 {

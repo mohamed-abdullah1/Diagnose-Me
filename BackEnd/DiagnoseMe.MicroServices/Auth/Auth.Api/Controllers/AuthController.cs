@@ -25,7 +25,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
 
-[Route("api")]
+[Route("api/v1")]
 public class AuthController : ApiController
 {
     private readonly ISender _mediator;
