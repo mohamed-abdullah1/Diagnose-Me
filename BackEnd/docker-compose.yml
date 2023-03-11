@@ -16,9 +16,6 @@ services:
       - Debug:ShowHost=true
     networks:
       - gateway
-    volumes:
-      - ./DiagnoseMe.GateWay:/src/DiagnoseMe.GateWay
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     entrypoint: dotnet run 
   authapi:
     container_name: auth-api
@@ -30,7 +27,7 @@ services:
     ports:
       - 7095:7095
     environment:
-      - ConnectionStrings__DefaultConnection="Server=authdb;Database=AuthDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
+      - ConnectionStrings__DefaultConnection=Server=authdb;Database=AuthDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
       - Debug:ShowHost=true
     depends_on:
       - authdb
@@ -43,9 +40,7 @@ services:
     networks:
       - authapi-authdb
       - gateway
-    volumes:
-      - ./DiagnoseMe.MicroServices/Auth:/src/Auth
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
     entrypoint: dotnet run
   authdb:
     container_name: auth-db
@@ -61,7 +56,7 @@ services:
     networks:
       - authapi-authdb
     ports:
-      - 3306:330
+      - 3307:3306
     restart: always
   medicalblogapi:
     container_name: medical-blog-api
@@ -73,7 +68,7 @@ services:
     ports:
       - 7131:7131
     environment:
-      - ConnectionStrings__DefaultConnection="Server=medicalblogdb;Database=MedicalBlogDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
+      - ConnectionStrings__DefaultConnection=Server=medicalblogdb;Database=MedicalBlogDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
       - Debug:ShowHost=true
     depends_on:
       - medicalblogdb
@@ -86,9 +81,6 @@ services:
     networks:
       - gateway
       - medicalblogapi-medicalblogdb
-    volumes:
-      - ./DiagnoseMe.MicroServices/MedicalBlog:/src/MedicalBlog
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     entrypoint: dotnet run
   medicalblogdb:
     container_name: medical-blog-db
@@ -104,7 +96,7 @@ services:
     networks:
       - medicalblogapi-medicalblogdb
     ports:
-      - 3306:3307
+      - 3308:3306
     restart: always
   blooddonationapi:
     container_name: blood-donation-api
@@ -116,7 +108,7 @@ services:
     ports:
       - 7234:7234
     environment:
-      - ConnectionStrings__DefaultConnection="Server=blooddonationdb;Database=BloodDonationDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
+      - ConnectionStrings__DefaultConnection=Server=blooddonationdb;Database=BloodDonationDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
       - Debug:ShowHost=true
     depends_on:
       - blooddonationdb
@@ -129,9 +121,6 @@ services:
     networks:
       - gateway
       - blooddonationapi-blooddonationdb
-    volumes:
-      - ./DiagnoseMe.MicroServices/BloodDonation:/src/BloodDonation/
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     entrypoint: dotnet run
   blooddonationdb:
     container_name: blood-donation-db
@@ -147,7 +136,7 @@ services:
     networks:
       - blooddonationapi-blooddonationdb
     ports:
-      - 3306:3308
+      - 3309:3306
     restart: always
   medicalservicesapi:
     container_name: medical-services-api
@@ -159,7 +148,7 @@ services:
     ports:
       - 7018:7018
     environment:
-      - ConnectionStrings__DefaultConnection="Server=medicalservicesdb;Database=MedicalServicesDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
+      - ConnectionStrings__DefaultConnection=Server=medicalservicesdb;Database=MedicalServicesDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
       - Debug:ShowHost=true
     depends_on:
       - medicalservicesdb
@@ -172,9 +161,6 @@ services:
     networks:
       - gateway
       - medicalservicesapi-medicalservicesdb
-    volumes:
-      - ./DiagnoseMe.MicroServices/MedicalServices:/src/MedicalServices
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     entrypoint: dotnet run
   medicalservicesdb:
     container_name: medical-services-db
@@ -190,7 +176,7 @@ services:
     networks:
       - medicalservicesapi-medicalservicesdb
     ports:
-      - 3306:3309
+      - 3310:3306
     restart: always
 volumes:
   authdbvolume:

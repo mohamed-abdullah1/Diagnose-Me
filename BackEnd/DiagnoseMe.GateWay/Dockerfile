@@ -19,5 +19,6 @@ RUN dotnet build "DiagnoseMe.GateWay.csproj" -c Release -o /app/build
 
 FROM build AS final
 WORKDIR /src/DiagnoseMe.GateWay
+RUN dotnet dev-certs https --trust
 COPY --from=build /src/DiagnoseMe.GateWay .
 ENTRYPOINT ["dotnet", "run"]

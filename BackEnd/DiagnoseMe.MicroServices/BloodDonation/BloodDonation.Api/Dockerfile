@@ -21,5 +21,6 @@ RUN dotnet build "BloodDonation.Api.csproj" -c Release -o /app/build
 
 FROM build AS final
 WORKDIR /src/BloodDonation/BloodDonation.Api
+RUN dotnet dev-certs https --trust
 COPY --from=build /src/BloodDonation/BloodDonation.Api .
 ENTRYPOINT ["dotnet", "run"]

@@ -20,5 +20,6 @@ RUN dotnet build "MedicalServices.Api.csproj" -c Release -o /app/build
 
 FROM build AS final
 WORKDIR /src/MedicalServices/MedicalServices.Api
+RUN dotnet dev-certs https --trust
 COPY --from=build /src/MedicalServices/MedicalServices.Api .
 ENTRYPOINT ["dotnet", "run"]

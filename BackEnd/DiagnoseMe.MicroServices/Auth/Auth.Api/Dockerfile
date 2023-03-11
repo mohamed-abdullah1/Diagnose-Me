@@ -21,5 +21,6 @@ RUN dotnet build "Auth.Api.csproj" -c Release -o /app/build
 
 FROM build AS final
 WORKDIR /src/Auth/Auth.Api
+RUN dotnet dev-certs https --trust
 COPY --from=build /src/Auth/Auth.Api .
 ENTRYPOINT ["dotnet", "run"]

@@ -1,0 +1,197 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/auth/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "auth.diagnose.me",
+                    "Port": 7095
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/auth/v1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "auth.diagnose.me",
+                    "Port": 7095
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/blood-donation/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/blood-donation/v1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "blood-donation.diagnose.me",
+                    "Port": 7234
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-blog/v1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-blog.diagnose.me",
+                    "Port": 7131
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-services/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-services.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/medical-services/v1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "medical-services.diagnose.me",
+                    "Port": 7018
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/api/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        }
+
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "https://localhost:7199",
+        "RATE_LIMITING_ENABLED": "true",
+        "RateLimitOptions": {
+            "EnableRateLimiting": true,
+            "EnableEndpointRateLimiting": true,
+            "EnableClientRateLimiting": true,
+            "Period": "60s",
+            "PeriodTimespan": 60,
+            "Limit": 20,
+            "DisableRateLimitHeaders": false,
+            "ClientWhitelist": [
+                "0.0.0.0"
+            ]
+        }
+    }
+}

@@ -1,5 +1,6 @@
 using System.Net;
 using DiagnoseMe.GateWay;
+using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Serilog;
 
@@ -8,10 +9,7 @@ ServicePointManager.ServerCertificateValidationCallback += (sender, certificate,
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-        .AddJsonFile("OcelotConfiguration/Global.json", optional: false, reloadOnChange: true)
-        .AddJsonFile("OcelotConfiguration/Auth.json", optional: false, reloadOnChange: true)
-        .AddJsonFile("OcelotConfiguration/MedicalBlog.json", optional: false, reloadOnChange: true)
-        .AddJsonFile("OcelotConfiguration/BloodDonation.json", optional: false, reloadOnChange: true)
+        .AddJsonFile("OcelotConfiguration/Ocelot.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables();
 {
     builder.Services.AddPresentation(builder.Configuration);
