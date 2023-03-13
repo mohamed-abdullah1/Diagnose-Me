@@ -8,7 +8,7 @@ public class UploadProfilePictureCommandValidation : AbstractValidator<UploadPro
 {
     public UploadProfilePictureCommandValidation()
     {
-        RuleFor(x => x.Base64EncodedFile).NotEmpty()
+        RuleFor(x => x.Base64Picture).NotEmpty()
             .Must(x => Regex.IsMatch(x, Regexes.Base64Regex))
             .WithMessage("The provided file is not valid base64");
         RuleFor(x => x.UserName).NotEmpty()

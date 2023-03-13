@@ -1,6 +1,6 @@
 
 using Mapster;
-using MedicalServices.Application.Clinics.Common;
+using MedicalServices.Application.MedicalServcies.Clinics.Common;
 
 namespace MedicalServices.Api.Common.Mapping;
 

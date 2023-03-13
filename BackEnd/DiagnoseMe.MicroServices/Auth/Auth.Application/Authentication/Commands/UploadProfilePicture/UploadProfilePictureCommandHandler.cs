@@ -1,3 +1,4 @@
+using Auth.Application.Authentication.Helpers;
 using Auth.Application.Common.Interfaces.Services;
 using FileTypeChecker.Extensions;
 
@@ -17,18 +18,14 @@ public class ResetPasswordCommandHandle :
     {
 
 
-            var file = Convert.FromBase64String(command.Base64EncodedFile);
-            Stream fileStream = new MemoryStream(file);
-            if (!fileStream.IsImage())
-                return (Errors.User.File.NotImage);
-
-            var result = _fileHandler.SaveFile(file);
-            if (result.IsError)
-                return (Errors.UnExpected);
+            
             var user = await _userManager.FindByNameAsync(command.UserName);
             if (user == null)
                 return (Errors.User.Name.NotExists);
-                
+            var result = SaveFile.SavePicture(command.Base64Picture, _fileHandler);  
+            if (result.IsError)
+                return (result.Errors);
+                  
             user!.ProfilePictureUrl = result.Value;
             var updateResult = await _userManager.UpdateAsync(user);
             

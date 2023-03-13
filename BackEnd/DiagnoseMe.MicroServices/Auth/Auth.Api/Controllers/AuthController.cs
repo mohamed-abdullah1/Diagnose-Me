@@ -40,13 +40,7 @@ public class AuthController : ApiController
         _mapper = mapper;
     }
 
-    [AllowAnonymous]
-    [HttpGet("health-check")]
-    public ActionResult HealthCheck()
-    {
-        
-        return Ok(true);
-    }
+    
     
     [AllowAnonymous]
     [HttpPost("register")]

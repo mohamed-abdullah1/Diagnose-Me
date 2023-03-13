@@ -13,7 +13,9 @@ public class ClinicAddress : BaseEntity
     public TimeOnly OpenTime { get; set; }
     public TimeOnly CloseTime { get; set;}
     public string? ClinicId { get; set; }
+    public string? OwnerId { get; set; }
     public string ProfilPictureUrl { get; set; } = string.Empty;
     public virtual Clinic? Clinic { get; set; }
+    public virtual Doctor Owner { get; set; } = new Doctor();
     public virtual ICollection<DoctorClinicAddress> DoctorClinicAddresses {get; set;} = new HashSet<DoctorClinicAddress>();    
 }

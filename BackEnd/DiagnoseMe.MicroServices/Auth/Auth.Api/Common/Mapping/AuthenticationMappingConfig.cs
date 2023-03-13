@@ -6,7 +6,6 @@ using Auth.Application.Authentication.Commands.Register;
 using Auth.Application.Authentication.Commands.RemoveUserFromRole;
 using Auth.Application.Authentication.Commands.UploadProfilePicture;
 using Auth.Contracts.Authentication;
-using Auth.Domain.Entities;
 using Mapster;
 
 namespace Auth.Api.Common.Mapping;

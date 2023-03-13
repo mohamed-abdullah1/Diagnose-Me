@@ -21,15 +21,7 @@ public class BloodDonationController : ApiController
         _mediator = mediator;
         _mapper = mapper;
     }
-    
-    [AllowAnonymous]
-    [HttpGet("health-check")]
-    public ActionResult HealthCheck()
-    {
         
-        return Ok(true);
-    }
-    
     [Authorize]
     [HttpGet("requests/blood-type/{bloodType}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByBloodType(string bloodType, int pageNumber)

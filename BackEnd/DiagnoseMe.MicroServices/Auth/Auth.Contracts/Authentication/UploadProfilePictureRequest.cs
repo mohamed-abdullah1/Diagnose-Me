@@ -1,4 +1,4 @@
 namespace Auth.Contracts.Authentication;
 
 public record UploadProfilePictureRequest(
-    string Base64EncodedFile);
+    string Base64Picture);

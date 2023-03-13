@@ -33,7 +33,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 917, DateTimeKind.Utc).AddTicks(7152));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 960, DateTimeKind.Utc).AddTicks(7887));
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -80,7 +80,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 919, DateTimeKind.Utc).AddTicks(1125));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 968, DateTimeKind.Utc).AddTicks(4435));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -140,7 +140,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 918, DateTimeKind.Utc).AddTicks(4311));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 963, DateTimeKind.Utc).AddTicks(9680));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -148,6 +148,10 @@ namespace MedicalServices.Persistence.Migrations
 
                     b.Property<TimeOnly>("OpenTime")
                         .HasColumnType("time(6)");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProfilPictureUrl")
                         .IsRequired()
@@ -168,6 +172,8 @@ namespace MedicalServices.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClinicId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("ClinicAddresses", (string)null);
                 });
@@ -195,7 +201,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 923, DateTimeKind.Utc).AddTicks(44));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 984, DateTimeKind.Utc).AddTicks(7804));
 
                     b.Property<bool>("IsLicenseVerified")
                         .HasColumnType("tinyint(1)");
@@ -272,7 +278,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 923, DateTimeKind.Utc).AddTicks(9815));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 987, DateTimeKind.Utc).AddTicks(8955));
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -308,7 +314,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 919, DateTimeKind.Utc).AddTicks(5135));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 970, DateTimeKind.Utc).AddTicks(5655));
 
                     b.Property<string>("Diagnoses")
                         .IsRequired()
@@ -356,7 +362,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 920, DateTimeKind.Utc).AddTicks(5629));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 974, DateTimeKind.Utc).AddTicks(4118));
 
                     b.Property<string>("Dose")
                         .IsRequired()
@@ -397,7 +403,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 925, DateTimeKind.Utc).AddTicks(990));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 991, DateTimeKind.Utc).AddTicks(1434));
 
                     b.Property<float>("Height")
                         .HasColumnType("float");
@@ -458,7 +464,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 19, 13, 24, 921, DateTimeKind.Utc).AddTicks(2088));
+                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 977, DateTimeKind.Utc).AddTicks(1076));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -528,7 +534,15 @@ namespace MedicalServices.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MedicalServices.Domain.Entities.Doctor", "Owner")
+                        .WithMany("OwnedClinicAddresses")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Clinic");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Doctor", b =>
@@ -667,6 +681,8 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("DoctorRates");
 
                     b.Navigation("MedicalRecords");
+
+                    b.Navigation("OwnedClinicAddresses");
 
                     b.Navigation("PatientDoctors");
                 });
