@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PeerChat</title>
+    <link rel="stylesheet" href="lobby.css" />
+  </head>
+  <body>
+    <main id="lobby-container">
+      <div id="form-container">
+        <div id="form__container__header">
+          <p>👋 Create OR Join a Room</p>
+        </div>
+
+        <div id="form__content__wrapper">
+          <form id="join-form">
+            <input type="text" name="invite_link" required />
+            <!-- in forms symanticaly we can replace buttons with input from type submit and the value will be the content of button-->
+            <input type="submit" value="join room" />
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+
+  <!-- the script can be under the body or even the html element itself-->
+  <script>
+    // select the form
+    let form = document.getElementById("join-form");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // this is where we use the name of the input elements, help in select the element.
+      let room_id = e.target.invite_link.value;
+      room_id = Number(room_id.trim().split(" ")[0]);
+
+      // here we will use isNaN instead of typeof as type of returns number even if it was NaN type
+      if (!isNaN(room_id)) {
+        // redirect me to the next page using window.location and add the room_id in the URL as parameter (query string)
+        window.location = `/${room_id}`;
+      } else {
+        console.log(`Please Enter a Number`);
+      }
+    });
+  </script>
+</html>

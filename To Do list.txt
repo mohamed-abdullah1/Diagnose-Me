@@ -1,0 +1,3 @@
+handle toggle color of mic and camera btn to keep code DRY 
+
+- search if we can make branch for dev and branch for learn and easily diffrintiate between them and copy comments from one to the other.

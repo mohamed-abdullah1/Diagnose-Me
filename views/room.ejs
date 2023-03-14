@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PeerCaht</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      const ROOMID = "<%= roomId %>";
+    </script>
+  </head>
+  <body>
+    <div class="videos">
+      <video id="user-1" autoplay playinline></video>
+      <video id="user-2" autoplay playinline></video>
+    </div>
+
+    <div id="controls">
+      <div class="control-container" id="camera-btn">
+        <ion-icon name="videocam"></ion-icon>
+      </div>
+      <div class="control-container" id="mic-btn">
+        <ion-icon name="mic"></ion-icon>
+      </div>
+      <!-- notice that he just add an anchor around the element that is already created to meke it link (too simple)-->
+      <a href="/">
+        <div class="control-container" id="leave-btn">
+          <ion-icon name="call"></ion-icon>
+        </div>
+      </a>
+    </div>
+  </body>
+
+  <!-- installing ion-icons -->
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- connect socket -->
+  <script src="socket.io/socket.io.js"></script>
+
+  <!-- remember that agora sdk script must be put before the main.js file -->
+  <script src="agora-rtm-sdk-1.5.1.js"></script>
+  <script src="main.js"></script>
+</html>

@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.videos {
+  display: grid;
+  /* grid-template-columns: 1fr 1fr; the cool thing here about grid is that the column does't grow to fill the page if another column disappear using display:none.*/
+  grid-template-columns: 1fr;
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+video {
+  height: 350px;
+  width: 100%; /*notice in grid when you create two columns and gives childs width of 100%, each of them take half(horizontal aligning ). but when you do so with rows (virtical alignining) they take exactly 100% of the container not share the height 50% 50% for each. so you have to give each a height of 50% of the parent height manually */
+  background-color: black;
+  height: 100vh;
+  object-fit: cover; /*to cover the whole container*/
+}
+
+#user-2 {
+  display: none;
+}
+
+.small-frame {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  height: 170px;
+  width: 300px;
+  border-radius: 5px;
+  border: 2px solid #b366f9;
+  /* -webkit-box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77); */
+  box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77);
+  z-index: 999;
+}
+
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.control-container {
+  padding: 20px;
+  border-radius: 50%;
+  background-color: rgba(178, 103, 249, 0.902);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#leave-btn {
+  background-color: rgba(223, 42, 42, 0.91);
+}
+
+.control-container ion-icon {
+  width: 32px;
+  height: 32px;
+}
+
+@media screen and (max-width: 800px) {
+  .small-frame {
+    height: 80px;
+    width: 150px;
+  }
+
+  .control-container {
+    padding: 10px;
+  }
+  .control-container ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
