@@ -17,6 +17,7 @@ const MainNavigator = () => {
     return (
         <NavigationContainer>
             {user ? (
+                // user === "doctor" ? (
                 user === "patient" ? (
                     <AppNavigator />
                 ) : (

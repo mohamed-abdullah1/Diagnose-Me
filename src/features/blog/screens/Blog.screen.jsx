@@ -5,6 +5,7 @@ import { BgContainer } from "../../home/styles/Global.styles";
 
 const Blog = ({ navigation, route }) => {
     // console.log(route.params.blog);
+    // console.log("👉", navigation);
     const { blog } = route.params;
     return (
         <BgContainer>

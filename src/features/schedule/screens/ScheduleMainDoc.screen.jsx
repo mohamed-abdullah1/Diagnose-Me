@@ -40,7 +40,13 @@ import { meetingsForDoctor } from "../../../helpers/consts";
 import uuid from "react-native-uuid";
 
 const ScheduleMainDoc = ({}) => {
-    const [marked, setMarked] = useState({});
+    const [marked, setMarked] = useState({
+        dateString: "2023-03-08",
+        day: 8,
+        month: 3,
+        timestamp: 1678233600000,
+        year: 2023,
+    });
     const [bookedMeetings, setBookedMeetings] = useState([]);
     const [bookedAppointment, setbookedAppointment] = useState([]); //appointements
     const [available, setAvailable] = useState([]); //available
