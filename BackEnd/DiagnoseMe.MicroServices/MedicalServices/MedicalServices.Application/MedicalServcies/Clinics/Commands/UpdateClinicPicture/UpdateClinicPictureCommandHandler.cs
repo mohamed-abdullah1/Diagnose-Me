@@ -1,5 +1,4 @@
 using ErrorOr;
-using FileTypeChecker.Extensions;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence;
 using MedicalServices.Application.Common.Interfaces.Services;
@@ -32,17 +31,16 @@ public class UpdateClinicPictureCommandHandler : IRequestHandler<UpdateClinicPic
         if (result.IsError)
             return result.Errors;
         clinic.PictureUrl = result.Value;
-        try{
-            await _clinicRepository.Edit(clinic);
-            await _clinicRepository.Save();
-            return new CommandResponse(
-                true,
-                "Clinic picture updated successfully.",
-                $"clinics/{clinic.Id}");
-        }
-        catch (Exception)
-        {
+
+        await _clinicRepository.Edit(clinic);
+
+        if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.UpdateFailed;
-        }
+
+        return new CommandResponse(
+            true,
+            "Clinic picture updated successfully.",
+            $"clinics/{clinic.Id}");
+    
     }
 }

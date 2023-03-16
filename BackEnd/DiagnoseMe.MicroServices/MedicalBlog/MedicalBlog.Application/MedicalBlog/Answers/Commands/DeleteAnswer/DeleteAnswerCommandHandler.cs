@@ -32,15 +32,12 @@ public class DeleteAnswerCommandHandler : IRequestHandler<DeleteAnswerCommand, E
         }
         if (answer.AnsweringDoctorId != command.UserId || !command.Roles.Contains(Roles.Admin))
             return Errors.User.YouCanNotDoThis;
-        try
-        {
-            _answerRepository.Remove(answer);
-            await _answerRepository.Save();
-        }
-        catch (Exception)
-        {
-            return Errors.Answer.DeletionFailed;
-        }
+
+        _answerRepository.Remove(answer);
+
+        if (await _answerRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Answer.DeletionFailed;        
+
         return new CommandResponse(
             true,
             $"Answer with id: {answer.Id} was deleted.",

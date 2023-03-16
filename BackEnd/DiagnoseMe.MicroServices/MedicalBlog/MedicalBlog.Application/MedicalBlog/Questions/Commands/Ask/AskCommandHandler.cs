@@ -34,15 +34,12 @@ public class AskCommandHandler : IRequestHandler<AskCommand, ErrorOr<CommandResp
             AskingUserId = command.AskingUserId,
             CreatedOn = DateTime.UtcNow
         };
-        try
-        {
-            await _questionRepository.AddAsync(question);
-            await _questionRepository.Save();
-        }
-        catch
-        {
+
+        await _questionRepository.AddAsync(question);
+
+        if (await _questionRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Question.CreationFailed;
-        }
+                    
         return new CommandResponse(
             true,
             "Question created successfully",

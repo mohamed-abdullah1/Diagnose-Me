@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+ 
+entity=$1
+
+# touch $entity
+touch ../../MedicalServices.Application/Common/Interfaces/Persistence/I${entity}Repository.cs
+touch ../../MedicalServices.Persistence/Repositories/${entity}Repository.cs

@@ -45,17 +45,13 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
         if (result.IsError)
             return result.Errors;
         address.ProfilPictureUrl = result.Value;
-        try{
-            await _clinicAddressRepository.AddAsync(address);
-            await _clinicAddressRepository.Save();
-            return new CommandResponse(
-                true,
-                "Clinic address added successfully.",
-                $"clinics/{clinic.Id}/addresses/address-id/{address.Id}");
-        }
-        catch (Exception)
-        {
-            return Errors.ClinicAddress.AddFailed;
-        }
+        await _clinicAddressRepository.AddAsync(address);
+        if (await _clinicAddressRepository.SaveAsync() == 0)
+            return Errors.Clinic.AddFailed;
+        return new CommandResponse(
+            true,
+            "Clinic address added successfully.",
+            $"clinics/{clinic.Id}/addresses/address-id/{address.Id}");
+        
     }
 }

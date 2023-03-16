@@ -1,10 +1,10 @@
-using MedicalServices.Application.MiddlewaresConfigrations.Middlewares;
+using MedicalServices.Application.MiddlewaresConfigurations.Middlewares;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MedicalServices.Application.MiddlewaresConfigrations;
+namespace MedicalServices.Application.MiddlewaresConfigurations;
 
-public static class MiddlewaresConfigrations
+public static class MiddlewaresConfigurations
 {
     public static IServiceCollection AddMiddlewares(
         this IServiceCollection services,

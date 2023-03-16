@@ -50,7 +50,9 @@ public class DeleteCommentAgreementCommandHandler : IRequestHandler<DeleteCommen
         else
         {
              _commentAgreementRepository.Remove(commentAgreement);
-            await _commentAgreementRepository.Save();
+
+            if (await _commentAgreementRepository.SaveAsync(cancellationToken) == 0)
+                return Errors.Comment.AgreementFailed;
             return new CommandResponse(
                 true,
                 "Comment agreement removed successfully",

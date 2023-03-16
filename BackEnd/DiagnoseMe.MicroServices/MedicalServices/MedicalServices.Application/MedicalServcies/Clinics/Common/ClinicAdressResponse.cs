@@ -1,3 +1,5 @@
+using MedicalServices.Application.MedicalServcies.Doctors.Common;
+
 namespace MedicalServices.Application.MedicalServcies.Clinics.Common;
 
 public record ClinicAddressResponse(
@@ -8,4 +10,8 @@ public record ClinicAddressResponse(
     string State,
     string Country,
     string ZipCode,
+    string OwnerId,
+    string OpenTime,
+    string CloseTime,
+    DoctorResponse Owner,
     string ProfilPictureUrl);

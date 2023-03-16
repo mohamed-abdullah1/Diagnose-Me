@@ -38,15 +38,12 @@ public class EditAnswerCommandHandler : IRequestHandler<EditAnswerCommand, Error
             return Errors.Question.NotFound;
         answer.AnswerString = command.Answerstring;
         answer.ModifiedOn = DateTime.UtcNow;
-        try
-        {
-            await _answerRepository.Edit(answer);
-            await _answerRepository.Save();
-        }
-        catch (Exception)
-        {
+        
+        await _answerRepository.Edit(answer);
+
+        if (await _answerRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Answer.EditFailed;
-        }
+                
         return new CommandResponse(
             true,
             $"Answer with id: {answer.Id} was edited.",

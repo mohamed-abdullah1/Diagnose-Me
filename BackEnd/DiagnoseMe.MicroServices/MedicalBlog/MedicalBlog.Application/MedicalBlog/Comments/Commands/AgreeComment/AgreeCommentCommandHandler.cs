@@ -41,28 +41,26 @@ public class AgreeCommentCommandHandler : IRequestHandler<AgreeCommentCommand, E
             .FirstOrDefault();
 
         
-        try{
-            if (commentAgreement == null)
-            {
-                commentAgreement = new CommentAgreement
-                {
-                    CommentId = command.CommentId,
-                    UserId = command.UserId,
-                    IsAgreed = true
-                };
-                await _commentAgreementRepository.AddAsync(commentAgreement);
-            }
-            else
-            {
-                commentAgreement.IsAgreed = !commentAgreement.IsAgreed;
-                await _commentAgreementRepository.Edit(commentAgreement);
-            }
-            await _commentAgreementRepository.Save();
-        }
-        catch 
+
+        if (commentAgreement == null)
         {
-            return Errors.Comment.AgreementFailed;
+            commentAgreement = new CommentAgreement
+            {
+                CommentId = command.CommentId,
+                UserId = command.UserId,
+                IsAgreed = true
+            };
+            await _commentAgreementRepository.AddAsync(commentAgreement);
         }
+        else
+        {
+            commentAgreement.IsAgreed = !commentAgreement.IsAgreed;
+            await _commentAgreementRepository.Edit(commentAgreement);
+        }
+
+        if (await _commentAgreementRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Comment.AgreementFailed;
+                
         return new CommandResponse(
             true,
             "Comment agreement changed successfully",

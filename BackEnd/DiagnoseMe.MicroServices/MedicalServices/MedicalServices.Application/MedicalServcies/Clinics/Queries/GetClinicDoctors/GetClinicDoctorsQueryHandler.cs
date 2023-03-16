@@ -3,6 +3,7 @@ using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.MedicalServcies.Clinics.Common;
 using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.MedicalServcies.Doctors.Common;
 
 namespace MedicalServices.Application.MedicalServcies.Clinics.Queries.GetClinicDoctors;
 

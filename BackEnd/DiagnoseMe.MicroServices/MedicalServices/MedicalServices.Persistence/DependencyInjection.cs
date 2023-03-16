@@ -1,4 +1,5 @@
 using MedicalServices.Persistence.ServicesConfigrations;
+using MedicalServices.Persistence.ServicesConfigurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ public static class DependencyInjection
         )
     {
         services.AddRepositories();
+        services.AddUnitOfWork();
         services.AddDbContextConfiguration(configuration);
         return services;
     }

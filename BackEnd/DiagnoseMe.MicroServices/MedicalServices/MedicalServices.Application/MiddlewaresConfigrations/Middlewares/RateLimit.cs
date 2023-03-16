@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net;
 using Microsoft.Extensions.Options;
 
-namespace MedicalServices.Application.MiddlewaresConfigrations.Middlewares;
+namespace MedicalServices.Application.MiddlewaresConfigurations.Middlewares;
 
 
 public static class RateLimit

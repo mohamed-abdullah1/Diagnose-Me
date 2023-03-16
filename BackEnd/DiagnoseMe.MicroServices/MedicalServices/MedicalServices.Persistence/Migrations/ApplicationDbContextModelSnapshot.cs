@@ -19,6 +19,57 @@ namespace MedicalServices.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Allergy", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 539, DateTimeKind.Utc).AddTicks(4860));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Severity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Symptoms")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Treatment")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Allergies", (string)null);
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.Check", b =>
                 {
                     b.Property<string>("Id")
@@ -33,7 +84,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 960, DateTimeKind.Utc).AddTicks(7887));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 542, DateTimeKind.Utc).AddTicks(2459));
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -42,7 +93,7 @@ namespace MedicalServices.Persistence.Migrations
 
                     b.Property<string>("MedicalRecordId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -61,8 +112,6 @@ namespace MedicalServices.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalRecordId");
-
                     b.ToTable("Checks", (string)null);
                 });
 
@@ -80,7 +129,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 968, DateTimeKind.Utc).AddTicks(4435));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 569, DateTimeKind.Utc).AddTicks(631));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -140,7 +189,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 963, DateTimeKind.Utc).AddTicks(9680));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 542, DateTimeKind.Utc).AddTicks(7890));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -178,6 +227,118 @@ namespace MedicalServices.Persistence.Migrations
                     b.ToTable("ClinicAddresses", (string)null);
                 });
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Disease", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 582, DateTimeKind.Utc).AddTicks(100));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diseases", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseAllergy", b =>
+                {
+                    b.Property<string>("DiseaseId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("AllergyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("DiseaseId", "AllergyId");
+
+                    b.HasIndex("AllergyId");
+
+                    b.ToTable("DiseaseAllergies", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseMedication", b =>
+                {
+                    b.Property<string>("DiseaseId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("MedicationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("DiseaseId", "MedicationId");
+
+                    b.HasIndex("MedicationId");
+
+                    b.ToTable("DiseaseMedications", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseSurgery", b =>
+                {
+                    b.Property<string>("DiseaseId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SurgeryId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("DiseaseId", "SurgeryId");
+
+                    b.HasIndex("SurgeryId");
+
+                    b.ToTable("DiseaseSurgeries", (string)null);
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.Doctor", b =>
                 {
                     b.Property<string>("Id")
@@ -201,7 +362,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 984, DateTimeKind.Utc).AddTicks(7804));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 617, DateTimeKind.Utc).AddTicks(8320));
 
                     b.Property<bool>("IsLicenseVerified")
                         .HasColumnType("tinyint(1)");
@@ -237,12 +398,13 @@ namespace MedicalServices.Persistence.Migrations
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorClinicAddress", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("DoctorId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ClinicAddressId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -251,17 +413,41 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("DoctorId", "ClinicAddressId");
 
                     b.HasIndex("ClinicAddressId");
 
-                    b.HasIndex("DoctorId");
+                    b.ToTable("DoctorClinicAdresses", (string)null);
+                });
 
-                    b.ToTable("DoctorClinicAddress");
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorMedication", b =>
+                {
+                    b.Property<string>("DoctorId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("MedicationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("DoctorId", "MedicationId");
+
+                    b.HasIndex("MedicationId");
+
+                    b.ToTable("DoctorMedications", (string)null);
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorRate", b =>
@@ -278,7 +464,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 987, DateTimeKind.Utc).AddTicks(8955));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 636, DateTimeKind.Utc).AddTicks(5523));
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -300,93 +486,95 @@ namespace MedicalServices.Persistence.Migrations
                     b.ToTable("DoctorRates", (string)null);
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.MedicalRecord", b =>
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorSurgery", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("DoctorId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SurgeryId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 970, DateTimeKind.Utc).AddTicks(5655));
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Diagnoses")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.HasKey("DoctorId", "SurgeryId");
 
-                    b.Property<string>("Illness")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                    b.HasIndex("SurgeryId");
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("MedicalRecords", (string)null);
+                    b.ToTable("DoctorSurgeries", (string)null);
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.Medicine", b =>
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Medication", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Concentration")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 974, DateTimeKind.Utc).AddTicks(4118));
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Dose")
+                    b.Property<string>("Dosage")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("MedicalRecordId")
+                    b.Property<string>("Frequency")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Notes")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalRecordId");
+                    b.ToTable("Medication");
+                });
 
-                    b.ToTable("Medicines", (string)null);
+            modelBuilder.Entity("MedicalServices.Domain.Entities.MedicationAllergy", b =>
+                {
+                    b.Property<string>("MedicationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("AllergyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("MedicationId", "AllergyId");
+
+                    b.HasIndex("AllergyId");
+
+                    b.ToTable("MedicationAllergies", (string)null);
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Patient", b =>
@@ -403,7 +591,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 991, DateTimeKind.Utc).AddTicks(1434));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 683, DateTimeKind.Utc).AddTicks(5144));
 
                     b.Property<float>("Height")
                         .HasColumnType("float");
@@ -423,6 +611,60 @@ namespace MedicalServices.Persistence.Migrations
                             Height = 1.7f,
                             Weight = 70f
                         });
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientAllergy", b =>
+                {
+                    b.Property<string>("PatientId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("AllergyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PatientId", "AllergyId");
+
+                    b.HasIndex("AllergyId");
+
+                    b.ToTable("PatientAllergies", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientDisease", b =>
+                {
+                    b.Property<string>("PatientId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("DiseaseId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PatientId", "DiseaseId");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("PatientDiseases", (string)null);
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.PatientDoctor", b =>
@@ -450,6 +692,155 @@ namespace MedicalServices.Persistence.Migrations
                     b.ToTable("PatientDoctors", (string)null);
                 });
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientMedication", b =>
+                {
+                    b.Property<string>("PatientId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("MedicationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PatientId", "MedicationId");
+
+                    b.HasIndex("MedicationId");
+
+                    b.ToTable("PatientMedications", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientSurgery", b =>
+                {
+                    b.Property<string>("PatientId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("SurgeryId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PatientId", "SurgeryId");
+
+                    b.HasIndex("SurgeryId");
+
+                    b.ToTable("PatientSurgeries", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Surgery", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 733, DateTimeKind.Utc).AddTicks(6205));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Surgeries", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.SurgeryAllergy", b =>
+                {
+                    b.Property<string>("SurgeryId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("AllergyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("SurgeryId", "AllergyId");
+
+                    b.HasIndex("AllergyId");
+
+                    b.ToTable("SurgeryAllergies", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.SurgeryMedication", b =>
+                {
+                    b.Property<string>("SurgeryId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("MedicationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("SurgeryId", "MedicationId");
+
+                    b.HasIndex("MedicationId");
+
+                    b.ToTable("SurgeryMedications", (string)null);
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -464,7 +855,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 13, 21, 9, 13, 977, DateTimeKind.Utc).AddTicks(1076));
+                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 767, DateTimeKind.Utc).AddTicks(9946));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -515,17 +906,6 @@ namespace MedicalServices.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.Check", b =>
-                {
-                    b.HasOne("MedicalServices.Domain.Entities.MedicalRecord", "MedicalRecord")
-                        .WithMany("Checks")
-                        .HasForeignKey("MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MedicalRecord");
-                });
-
             modelBuilder.Entity("MedicalServices.Domain.Entities.ClinicAddress", b =>
                 {
                     b.HasOne("MedicalServices.Domain.Entities.Clinic", "Clinic")
@@ -543,6 +923,63 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("Clinic");
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseAllergy", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Allergy", "Allergy")
+                        .WithMany()
+                        .HasForeignKey("AllergyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Disease");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseMedication", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Medication");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DiseaseSurgery", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Surgery");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Doctor", b =>
@@ -567,13 +1004,13 @@ namespace MedicalServices.Persistence.Migrations
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorClinicAddress", b =>
                 {
                     b.HasOne("MedicalServices.Domain.Entities.ClinicAddress", "ClinicAddress")
-                        .WithMany("DoctorClinicAddresses")
+                        .WithMany()
                         .HasForeignKey("ClinicAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedicalServices.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("DoctorClinicAddresses")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -581,6 +1018,25 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("ClinicAddress");
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorMedication", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Medication");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorRate", b =>
@@ -602,34 +1058,42 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.MedicalRecord", b =>
+            modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorSurgery", b =>
                 {
                     b.HasOne("MedicalServices.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("MedicalRecords")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
-                        .WithMany("MedicalRecords")
-                        .HasForeignKey("PatientId")
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Patient");
+                    b.Navigation("Surgery");
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.Medicine", b =>
+            modelBuilder.Entity("MedicalServices.Domain.Entities.MedicationAllergy", b =>
                 {
-                    b.HasOne("MedicalServices.Domain.Entities.MedicalRecord", "MedicalRecord")
-                        .WithMany("Medicines")
-                        .HasForeignKey("MedicalRecordId")
+                    b.HasOne("MedicalServices.Domain.Entities.Allergy", "Allergy")
+                        .WithMany()
+                        .HasForeignKey("AllergyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MedicalRecord");
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Medication");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Patient", b =>
@@ -643,16 +1107,54 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientAllergy", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Allergy", "Allergy")
+                        .WithMany()
+                        .HasForeignKey("AllergyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientDisease", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.PatientDoctor", b =>
                 {
                     b.HasOne("MedicalServices.Domain.Entities.Doctor", "Doctor")
-                        .WithMany("PatientDoctors")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
-                        .WithMany("PatientDoctors")
+                        .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -662,6 +1164,82 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientMedication", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medication");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.PatientSurgery", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Surgery");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.SurgeryAllergy", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Allergy", "Allergy")
+                        .WithMany()
+                        .HasForeignKey("AllergyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Surgery");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.SurgeryMedication", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medication");
+
+                    b.Navigation("Surgery");
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.Clinic", b =>
                 {
                     b.Navigation("ClinicAddresses");
@@ -669,38 +1247,16 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("Doctors");
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.ClinicAddress", b =>
-                {
-                    b.Navigation("DoctorClinicAddresses");
-                });
-
             modelBuilder.Entity("MedicalServices.Domain.Entities.Doctor", b =>
                 {
-                    b.Navigation("DoctorClinicAddresses");
-
                     b.Navigation("DoctorRates");
 
-                    b.Navigation("MedicalRecords");
-
                     b.Navigation("OwnedClinicAddresses");
-
-                    b.Navigation("PatientDoctors");
-                });
-
-            modelBuilder.Entity("MedicalServices.Domain.Entities.MedicalRecord", b =>
-                {
-                    b.Navigation("Checks");
-
-                    b.Navigation("Medicines");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Patient", b =>
                 {
                     b.Navigation("DoctorRates");
-
-                    b.Navigation("MedicalRecords");
-
-                    b.Navigation("PatientDoctors");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.User", b =>

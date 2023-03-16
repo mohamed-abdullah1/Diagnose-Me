@@ -44,25 +44,23 @@ public class RatePostCommandHandler : IRequestHandler<RatePostCommand, ErrorOr<C
             x => x.PostId == command.PostId && x.UserId == command.UserId))
             .FirstOrDefault();
 
-        try
-        {   
-            if (postRating == null)
-            {
-                postRating = new PostRating{
-                    PostId = command.PostId,
-                    UserId = command.UserId,
-                    Rating = command.Rating
-                };
-                await _postRatingRepository.AddAsync(postRating);
-            }
-            else{
-                postRating.Rating = command.Rating;
-                await _postRatingRepository.Edit(postRating);
-            }
-            await _postRatingRepository.Save();
-        }catch{
-            return Errors.Post.RatingFailed;
+
+        if (postRating == null)
+        {
+            postRating = new PostRating{
+                PostId = command.PostId,
+                UserId = command.UserId,
+                Rating = command.Rating
+            };
+            await _postRatingRepository.AddAsync(postRating);
         }
+        else{
+            postRating.Rating = command.Rating;
+            await _postRatingRepository.Edit(postRating);
+        }
+        if(await _postRatingRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Post.RatingFailed;
+        
         return new CommandResponse(
             true,
             "Post rated successfully",

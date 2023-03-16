@@ -41,15 +41,12 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
             UserId = command.UserId,
             SubscribedUserId = command.DoctorId
         };
-        try
-        {
-            await _userSubscribedUserRepository.AddAsync(userSubscribedUser);
-            await _userSubscribedUserRepository.Save();
-        }
-        catch
-        {
+
+        await _userSubscribedUserRepository.AddAsync(userSubscribedUser);
+        
+        if (await _userSubscribedUserRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.FailedToSubscribe;
-        }
+
         return new CommandResponse(
             true,
             $"You have successfully subscribed to this doctor with id {command.DoctorId}.",

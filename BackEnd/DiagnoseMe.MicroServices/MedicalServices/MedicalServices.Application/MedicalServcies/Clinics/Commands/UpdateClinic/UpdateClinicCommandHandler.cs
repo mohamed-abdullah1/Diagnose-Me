@@ -21,17 +21,14 @@ public class UpdateClinicCommandHandler : IRequestHandler<UpdateClinicCommand, E
         if (clinic == null)
             return Errors.Clinic.NotFound;
         clinic.Description = command.Description;
-        try{
-            await _clinicRepository.Edit(clinic);
-            await _clinicRepository.Save();
-            return new CommandResponse(
-                true,
-                "Clinic updated successfully.",
-                $"clinics/{clinic.Id}");
-        }
-        catch (Exception)
-        {
+        await _clinicRepository.Edit(clinic);
+
+        if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.UpdateFailed;
-        }
+
+        return new CommandResponse(
+            true,
+            "Clinic updated successfully.",
+            $"clinics/{clinic.Id}");
     }
 }

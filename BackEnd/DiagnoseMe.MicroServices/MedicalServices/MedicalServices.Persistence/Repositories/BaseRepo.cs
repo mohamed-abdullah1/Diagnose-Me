@@ -42,15 +42,17 @@ public abstract class BaseRepo<TEntity> : IDisposable, IBaseRepo<TEntity> where 
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string include = "")
     {
+        
         IQueryable<TEntity> query = table;
-        if (predicate != null)
-            query = table.Where<TEntity>(predicate);
-
         string[] includes = include.Split(',', StringSplitOptions.RemoveEmptyEntries);
         foreach (string property in includes)
         {
             query = query.Include(property);
         }
+
+        if (predicate != null)
+            query = table.Where<TEntity>(predicate);
+        
 
         if (orderBy != null)
             query = orderBy(query);
@@ -79,9 +81,14 @@ public abstract class BaseRepo<TEntity> : IDisposable, IBaseRepo<TEntity> where 
     {
         return await table.ToListAsync();
     }
-    public virtual async Task Save()
+    public virtual async Task<int> SaveAsync(CancellationToken cancellationToken = default)
     {
-        await db.SaveChangesAsync();
+
+        return await db.SaveChangesAsync(cancellationToken);
+    }
+    public virtual async Task<int> Save()
+    {
+        return await db.SaveChangesAsync();
     }
 
     public void Dispose()

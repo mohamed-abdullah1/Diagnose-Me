@@ -32,18 +32,15 @@ public class UpdateClinicAddressCommandHandler : IRequestHandler<UpdateClinicAdd
         clinicAddress.ZipCode = command.ZipCode;
         clinicAddress.OpenTime = TimeOnly.ParseExact(command.OpenTime, "HH:mm");
         clinicAddress.CloseTime = TimeOnly.ParseExact(command.CloseTime, "HH:mm");
-        try{
-            await _clinicAddressRepository.Edit(clinicAddress);
-            await _clinicAddressRepository.Save();
-            return new CommandResponse(
-                true,
-                "Clinic address updated successfully.",
-                $"clinics/{clinicAddress.ClinicId}/addresses/address-id/{clinicAddress.Id}");
-        }
-        catch (Exception)
-        {
+        await _clinicAddressRepository.Edit(clinicAddress);
+        
+        if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.ClinicAddress.UpdateFailed;
-        }
+
+        return new CommandResponse(
+            true,
+            "Clinic address updated successfully.",
+            $"clinics/{clinicAddress.ClinicId}/addresses/address-id/{clinicAddress.Id}");
     }   
 
 }

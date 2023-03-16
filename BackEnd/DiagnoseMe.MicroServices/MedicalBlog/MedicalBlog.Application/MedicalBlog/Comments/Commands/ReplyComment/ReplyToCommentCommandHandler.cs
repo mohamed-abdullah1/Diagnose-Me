@@ -45,15 +45,11 @@ public class ReplyToCommentCommandHandler : IRequestHandler<ReplyToCommentComman
             PostId = command.PostId,
             ParentId = command.ParentId,
         };
-        try
-        {
-            await _commentRepository.AddAsync(comment);
-            await _commentRepository.Save();
-        }
-        catch
-        {
+
+        await _commentRepository.AddAsync(comment);
+        if (await _commentRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Comment.AddFailed;
-        }
+            
         return new CommandResponse(
             true,
             "Comment added successfully",

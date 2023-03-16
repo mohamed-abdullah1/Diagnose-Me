@@ -2,7 +2,7 @@ using MedicalServices.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-namespace MedicalServices.Persistence.ServicesConfigrations;
+namespace MedicalServices.Persistence.ServicesConfigurations;
 
 public static class DbContextConfiguration
 {

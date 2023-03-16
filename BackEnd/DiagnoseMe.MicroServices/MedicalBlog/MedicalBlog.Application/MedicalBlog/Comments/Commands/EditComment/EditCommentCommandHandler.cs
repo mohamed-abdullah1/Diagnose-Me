@@ -33,15 +33,12 @@ public class EditCommentCommandHandler : IRequestHandler<EditCommentCommand, Err
         comment.Content = command.Content;
         comment.ModifiedOn = DateTime.UtcNow;
         
-        try
-        {
-            await _commentRepository.Edit(comment);
-            await _commentRepository.Save();
-        }
-        catch (Exception)
-        {
+
+        await _commentRepository.Edit(comment);
+        if (await _commentRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Comment.EditFailed;
-        }
+        
+
         return new CommandResponse(
             true,
             $"Comment with id: {comment.Id} was edited.",

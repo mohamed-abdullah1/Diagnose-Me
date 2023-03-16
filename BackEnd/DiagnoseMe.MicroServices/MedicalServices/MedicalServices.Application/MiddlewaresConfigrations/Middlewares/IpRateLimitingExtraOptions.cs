@@ -1,4 +1,4 @@
-namespace MedicalServices.Application.MiddlewaresConfigrations.Middlewares;
+namespace MedicalServices.Application.MiddlewaresConfigurations.Middlewares;
 
 public class IpRateLimitingExtraOptions
 {

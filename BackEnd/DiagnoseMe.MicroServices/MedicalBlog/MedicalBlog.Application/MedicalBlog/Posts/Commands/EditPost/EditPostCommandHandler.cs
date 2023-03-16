@@ -46,16 +46,12 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
         post.Tags = string.Join(',', command.Tags);
         post.ModifiedOn = DateTime.UtcNow;
 
-        try
-        {
-            await _postRepository.Edit(post);
-            await _postRepository.Save();
-        }
-        catch
-        {
-            return Errors.Post.EditFailed;
-        }
 
+        await _postRepository.Edit(post);
+        if (await _postRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Post.CreationFailed;
+
+        
         return new CommandResponse(
             true,
             "Post edited successfully",

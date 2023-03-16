@@ -1,6 +1,7 @@
 
 using Mapster;
 using MedicalServices.Application.MedicalServcies.Clinics.Common;
+using MedicalServices.Application.MedicalServcies.Doctors.Common;
 
 namespace MedicalServices.Api.Common.Mapping;
 
@@ -15,5 +16,10 @@ public class MedicalServicesMappingConfig : IRegister
         config.NewConfig<Doctor, DoctorResponse>().
         Map(dest => dest, src => src.User).
         Map(dest => dest, src => src);
+        config.NewConfig<ClinicAddress, ClinicAddressResponse>().
+        Map(dest => dest.OpenTime, src => src.OpenTime.ToString("hh:mm")).
+        Map(dest => dest.CloseTime, src => src.CloseTime.ToString("hh:mm")).
+        Map(dest => dest, src => src);
+
     }
 }

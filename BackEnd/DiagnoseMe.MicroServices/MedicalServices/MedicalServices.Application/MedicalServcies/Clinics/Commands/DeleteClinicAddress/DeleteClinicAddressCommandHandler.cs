@@ -23,17 +23,13 @@ public class DeleteClinicAddressCommandHandler : IRequestHandler<DeleteClinicAdd
         
         if (clinicAddress.OwnerId != command.DoctorId)
             return Errors.User.YouCanNotDoThis;
-        try{
-            _clinicAddressRepository.Remove(clinicAddress);
-            await _clinicAddressRepository.Save();
-            return new CommandResponse(
-                true,
-                "ClinicAddress deleted successfully.",
-                $"clinics/{clinicAddress.ClinicId}/addresses/page-number/1");
-        }
-        catch (Exception)
-        {
+        _clinicAddressRepository.Remove(clinicAddress);
+        if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.ClinicAddress.DeleteFailed;
-        }
+            
+        return new CommandResponse(
+            true,
+            "ClinicAddress deleted successfully.",
+            $"clinics/{clinicAddress.ClinicId}/addresses/page-number/1");
     }
 }

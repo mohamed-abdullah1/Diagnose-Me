@@ -34,15 +34,12 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Error
         if (post.Author.Id != user.Id || !command.Roles.Contains(Roles.Admin))
             return Errors.User.YouCanNotDoThis;
 
-        try{
-            _postRepository.Remove(post);
-            await _postRepository.Save();
-        }
-        catch (Exception)
-        {
-            return Errors.Post.DeletionFailed;
-        }
 
+        _postRepository.Remove(post);
+
+        if (await _postRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Post.DeletionFailed;
+            
         return new CommandResponse(
             true,
             $"Post with id: {post.Id} was deleted.",

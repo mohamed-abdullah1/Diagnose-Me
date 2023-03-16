@@ -8,5 +8,4 @@ public class Check : BaseEntity{
     public string Data { get; set; } = string.Empty;
     public string Report { get; set; } = string.Empty;
     
-    public virtual MedicalRecord MedicalRecord {get;set;} = new MedicalRecord();
 }

@@ -37,15 +37,10 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
             CreatedOn = DateTime.UtcNow
         };
 
-        try
-        {
-            await _postRepository.AddAsync(post);
-            await _postRepository.Save();
-        }
-        catch
-        {
+
+        await _postRepository.AddAsync(post);
+        if (await _postRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Post.CreationFailed;
-        }
 
         return new CommandResponse(
             true,

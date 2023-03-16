@@ -44,7 +44,7 @@ public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<Pos
                 UserId = query.UserId};
 
             await _postViewRepository.AddAsync(postView);
-            await _postViewRepository.Save();
+            await _postViewRepository.SaveAsync(cancellationToken);
             postViews.Add(postView);
             
         }

@@ -37,17 +37,15 @@ public class UpdateClinicAddressProfilePictureCommandHandler : IRequestHandler<U
         
         clinicAddress.ProfilPictureUrl = result.Value;
 
-        try{
-            await _clinicAddressRepository.Edit(clinicAddress);
-            await _clinicAddressRepository.Save();
-            return new CommandResponse(
-                true,
-                "ClinicAddress profile picture updated successfully.",
-                $"clinics/clinic-id/{clinicAddress.ClinicId}/adresses/address-id/{clinicAddress.Id}");
-        }
-        catch (Exception)
-        {
+        await _clinicAddressRepository.Edit(clinicAddress);
+
+        if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.ClinicAddress.UpdateFailed;
-        }
+
+        return new CommandResponse(
+            true,
+            "ClinicAddress profile picture updated successfully.",
+            $"clinics/clinic-id/{clinicAddress.ClinicId}/adresses/address-id/{clinicAddress.Id}");
+
     }
 }

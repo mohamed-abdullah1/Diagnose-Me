@@ -21,17 +21,14 @@ public class DeleteClinicCommandHandler : IRequestHandler<DeleteClinicCommand, E
         var clinic =  (await _clinicRepository.GetByIdAsync(command.ClinicId));
         if (clinic == null)
             return Errors.Clinic.NotFound;
-        try{
-            _clinicRepository.Remove(clinic);
-            await _clinicRepository.Save();
-            return new CommandResponse(
-                true,
-                "Clinic deleted successfully.",
-                $"clinics/page-number/1");
-        }
-        catch (Exception)
-        {
+        
+        _clinicRepository.Remove(clinic);
+        if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.DeleteFailed;
-        }
+        return new CommandResponse(
+            true,
+            "Clinic deleted successfully.",
+            $"clinics/page-number/1");
+        
     }
 }

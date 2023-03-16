@@ -34,16 +34,12 @@ public class EditQuestionCommandHandler : IRequestHandler<EditQuestionCommand, E
         if (question.AskingUser.Id != user.Id)
             return Errors.User.YouCanNotDoThis;
 
-        try{
-            question.QuestionString = command.QuestionString;
-            question.ModifiedOn = DateTime.UtcNow;
-            await _questionRepository.Edit(question);
-            await _questionRepository.Save();
-        }
-        catch (Exception)
-        {
-            return Errors.Question.EditFailed;
-        }
+
+        question.QuestionString = command.QuestionString;
+        question.ModifiedOn = DateTime.UtcNow;
+        await _questionRepository.Edit(question);
+        if (await _questionRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.Question.EditFailed;        
 
         return new CommandResponse(
             true,

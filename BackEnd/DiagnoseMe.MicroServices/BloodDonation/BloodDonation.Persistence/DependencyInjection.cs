@@ -12,13 +12,8 @@ public static class DependencyInjection
         )
     {
         services.AddRepositories();
+        services.AddUnitOfWork();
         services.AddDbContextConfiguration(configuration);
         return services;
     }
-
-    
-
-        
-
-
 }

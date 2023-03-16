@@ -43,15 +43,10 @@ public class UnsubscribeDoctorCommandHandler : IRequestHandler<UnsubscribeDoctor
         {
             return Errors.User.YouAreNotSubscribedToThisDoctor;
         }
-        try
-        {
-            _userSubscribedUserRepository.Remove(userSubscribedUser);
-            await _userSubscribedUserRepository.Save();
-        }
-        catch
-        {
+
+        _userSubscribedUserRepository.Remove(userSubscribedUser);
+        if (await _userSubscribedUserRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.FailedToUnsubscribe;
-        }
         return new CommandResponse(
             true,
             $"You have successfully unsubscribed from this doctor with id {command.DoctorId}.",

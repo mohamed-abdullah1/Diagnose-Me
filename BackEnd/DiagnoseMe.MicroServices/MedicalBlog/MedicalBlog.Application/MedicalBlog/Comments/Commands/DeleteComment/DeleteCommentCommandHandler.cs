@@ -41,14 +41,11 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
             !command.Roles.Contains(Roles.Admin))
             return Errors.User.YouCanNotDoThis;
 
-        try{
-            _commentRepository.Remove(comment);
-            await _commentRepository.Save();
-        }
-        catch (Exception)
-        {
+
+        _commentRepository.Remove(comment);
+
+        if (await _commentRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Comment.DeletionFailed;
-        }
 
         return new CommandResponse(
             true,

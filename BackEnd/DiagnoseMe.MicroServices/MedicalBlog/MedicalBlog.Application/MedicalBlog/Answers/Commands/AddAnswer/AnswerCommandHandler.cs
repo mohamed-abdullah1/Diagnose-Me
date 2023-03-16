@@ -40,15 +40,11 @@ public class AnswerCommandHandler : IRequestHandler<AnswerCommand, ErrorOr<Comma
             QuestionId = command.QuestionId
         };
 
-        try
-        {
-            await _answerRepository.AddAsync(answer);
-            await _answerRepository.Save();
-        }
-        catch (Exception)
-        {
+
+        await _answerRepository.AddAsync(answer);
+        if (await _answerRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Answer.AddFailed;
-        }
+        
         return new CommandResponse(
             true,
             $"Answer with id: {answer.Id} was added.",

@@ -3,7 +3,7 @@ using FluentValidation;
 using MediatR;
 using MedicalServices.Application.Common.Behaviors;
 using MedicalServices.Application.Common.Mapping;
-using MedicalServices.Application.MiddlewaresConfigrations;
+using MedicalServices.Application.MiddlewaresConfigurations;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

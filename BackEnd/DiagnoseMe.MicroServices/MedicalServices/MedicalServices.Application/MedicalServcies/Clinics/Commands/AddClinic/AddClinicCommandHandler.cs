@@ -43,20 +43,13 @@ public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr
             PictureUrl = pictureUrl,
             CreatedOn = DateTime.Now
         };
-
-        try
-        {
-            await _clinicRepository.AddAsync(clinic);
-            await _clinicRepository.Save();
-
-            return new CommandResponse(
-                true,
-                "Clinic added successfully.",
-                $"clinics/{clinic.Id}");
-        }
-        catch (Exception )
-        {
+        await _clinicRepository.AddAsync(clinic);
+        if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.AddFailed;
-        }
+
+        return new CommandResponse(
+            true,
+            "Clinic added successfully.",
+            $"clinics/{clinic.Id}");
     }
 }

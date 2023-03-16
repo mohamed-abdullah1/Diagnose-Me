@@ -34,14 +34,11 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
         if (question.AskingUser.Id != user.Id || !command.Roles.Contains(Roles.Admin))
             return Errors.User.YouCanNotDoThis;
 
-        try{
-            _questionRepository.Remove(question);
-            await _questionRepository.Save();
-        }
-        catch (Exception)
-        {
+
+        _questionRepository.Remove(question);
+        if (await _questionRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Question.DeletionFailed;
-        }
+
 
         return new CommandResponse(
             true,
