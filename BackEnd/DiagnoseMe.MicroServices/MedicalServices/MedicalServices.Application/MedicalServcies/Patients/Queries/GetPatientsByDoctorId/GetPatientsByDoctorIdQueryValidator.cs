@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace MedicalServices.Application.MedicalServcies.Doctors.Queries.GetPatientsByDoctorId;
+namespace MedicalServices.Application.MedicalServcies.Patients.Queries.GetPatientsByDoctorId;
 
 public class GetPatientsByDoctorIdQueryValidator : AbstractValidator<GetPatientsByDoctorIdQuery>
 {

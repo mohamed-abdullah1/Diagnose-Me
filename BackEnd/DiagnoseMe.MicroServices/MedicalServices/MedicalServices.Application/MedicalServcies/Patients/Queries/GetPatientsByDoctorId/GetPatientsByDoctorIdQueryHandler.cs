@@ -2,9 +2,9 @@ using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence;
-using MedicalServices.Application.MedicalServcies.Doctors.Common;
+using MedicalServices.Application.MedicalServcies.Patients.Common;
 
-namespace MedicalServices.Application.MedicalServcies.Doctors.Queries.GetPatientsByDoctorId;
+namespace MedicalServices.Application.MedicalServcies.Patients.Queries.GetPatientsByDoctorId;
 
 
 public class GetPatientsByDoctorIdQueryHandler : IRequestHandler<GetPatientsByDoctorIdQuery, ErrorOr<List<PatientResponse>>>
