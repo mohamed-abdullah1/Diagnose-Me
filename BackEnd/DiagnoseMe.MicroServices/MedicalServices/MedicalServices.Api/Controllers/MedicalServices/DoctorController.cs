@@ -1,3 +1,4 @@
+using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctor;
@@ -61,14 +62,30 @@ public class DoctorController : ApiController
         errors => Problem(errors));
     }
     [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
-    [HttpPost("doctors/Add")]
-    public async Task<IActionResult> AddDoctor(AddDoctorRequest request)
+    [HttpPost("doctors/Add/{user-id?}")]
+    public async Task<IActionResult> AddDoctor(AddDoctorRequest request, string userId = null!)
     {
-        var command = _mapper.Map<AddDoctorCommand>((request, GetUserIdFromToken()));
+        if (User.IsInRole(Roles.Admin))
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                var errors = new List<Error>
+                {
+                    Error.Validation(
+                        code: "DoctorController.AddDoctor.UserId",
+                        description: "User Id is required for admin")
+                };
+                return Problem(errors);
+            }
+        }
+        else
+        {
+            userId = GetUserIdFromToken();
+        }
+        var command = _mapper.Map<AddDoctorCommand>((request, userId));
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),
         errors => Problem(errors));
     }
-    
 }

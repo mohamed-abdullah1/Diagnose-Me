@@ -33,7 +33,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 539, DateTimeKind.Utc).AddTicks(4860));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 452, DateTimeKind.Utc).AddTicks(8876));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,7 +84,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 542, DateTimeKind.Utc).AddTicks(2459));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 457, DateTimeKind.Utc).AddTicks(6834));
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -129,7 +129,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 569, DateTimeKind.Utc).AddTicks(631));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 487, DateTimeKind.Utc).AddTicks(8114));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -189,7 +189,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 542, DateTimeKind.Utc).AddTicks(7890));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 458, DateTimeKind.Utc).AddTicks(6235));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -241,7 +241,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 582, DateTimeKind.Utc).AddTicks(100));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 495, DateTimeKind.Utc).AddTicks(6341));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -362,7 +362,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 617, DateTimeKind.Utc).AddTicks(8320));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 523, DateTimeKind.Utc).AddTicks(8388));
 
                     b.Property<bool>("IsLicenseVerified")
                         .HasColumnType("tinyint(1)");
@@ -464,7 +464,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 636, DateTimeKind.Utc).AddTicks(5523));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 539, DateTimeKind.Utc).AddTicks(6964));
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -591,7 +591,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 683, DateTimeKind.Utc).AddTicks(5144));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 556, DateTimeKind.Utc).AddTicks(606));
 
                     b.Property<float>("Height")
                         .HasColumnType("float");
@@ -760,7 +760,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 733, DateTimeKind.Utc).AddTicks(6205));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 596, DateTimeKind.Utc).AddTicks(8907));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -855,7 +855,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 16, 11, 29, 51, 767, DateTimeKind.Utc).AddTicks(9946));
+                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 605, DateTimeKind.Utc).AddTicks(4020));
 
                     b.Property<string>("FullName")
                         .IsRequired()

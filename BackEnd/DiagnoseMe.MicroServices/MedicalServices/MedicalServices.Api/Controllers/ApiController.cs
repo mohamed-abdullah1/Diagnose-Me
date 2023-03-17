@@ -75,7 +75,7 @@ public class ApiController : ControllerBase
         }
         return ValidationProblem(modelStateDictionary);
     }
-
+    
     protected string GetUserIdFromToken()
     {
         var nameIdentifierClaims = User.Claims.Where(claim => claim.Type == ClaimTypes.NameIdentifier).ToList();

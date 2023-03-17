@@ -12,13 +12,16 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
 {
     private readonly IDoctorRepository _doctorRepository;
     private readonly IClinicRepository _clinicRepository;
+    private readonly IUserRepository _userRepository;
     public AddDoctorCommandHandler(
         IDoctorRepository doctorRepository,
-        IClinicRepository clinicRepository)
+        IClinicRepository clinicRepository,
+        IUserRepository userRepository)
 
     {
         _doctorRepository = doctorRepository;
         _clinicRepository = clinicRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddDoctorCommand command, CancellationToken cancellationToken)
@@ -36,17 +39,13 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
             IsLicenseVerified = true,
             ClinicId = command.ClinicId
         };
-        var user = (await _doctorRepository.Get(
-            predicate: u => u.Id == command.UserId,
-            include: "User")).
-            FirstOrDefault()!.User;
-        
+
+        var user = await _userRepository.GetByIdAsync(command.UserId);
         if (user == null)
             return Errors.User.NotFound;
-
         
-
         await _doctorRepository.AddAsync(doctor);
+
         if (await _doctorRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Doctor.AddFailed;
 

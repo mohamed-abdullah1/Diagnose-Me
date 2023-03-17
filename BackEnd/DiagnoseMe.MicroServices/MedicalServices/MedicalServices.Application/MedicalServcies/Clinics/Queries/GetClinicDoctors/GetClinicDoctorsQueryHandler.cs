@@ -25,7 +25,7 @@ public class GetClinicDoctorsQueryHandler : IRequestHandler<GetClinicDoctorsQuer
     {
         var doctors = (await _doctorRepository.Get(
             predicate: d => d.ClinicId == query.ClinicId,
-            orderBy: d => d.OrderBy(d => d.User.Name),
+            orderBy: d => d.OrderBy(d => d.User!.Name),
             include: "User")).
             AsParallel().
             Skip((query.PageNumber - 1) * 10).

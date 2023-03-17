@@ -23,7 +23,7 @@ public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<L
     public async Task<ErrorOr<List<DoctorResponse>>> Handle(GetDoctorsQuery query, CancellationToken cancellationToken)
     {
         var doctors = (await _doctorRepository.Get(
-            orderBy: d => d.OrderBy(d => d.User.Name),
+            orderBy: d => d.OrderBy(d => d.User!.Name),
             include: "User")).
             AsParallel().
             Skip((query.PageNumber - 1) * 10).

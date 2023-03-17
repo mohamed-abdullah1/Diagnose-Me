@@ -7,8 +7,8 @@ public class Doctor : BaseEntity{
     public string License { get; set; } = string.Empty;
     public bool IsLicenseVerified {get; set;}
     public string ClinicId { get; set; } = string.Empty;
-    public virtual Clinic Clinic { get; set; } = new Clinic();
-    public virtual User User { get; set; } = new User();
+    public virtual Clinic? Clinic { get; set; }
+    public virtual User? User { get; set; }
     public virtual ICollection<Patient> Patients {get; set;} = new HashSet<Patient>();
     public virtual ICollection<DoctorRate> DoctorRates {get; set;} = new HashSet<DoctorRate>();
     public virtual ICollection<Medication> Medications {get; set;} = new HashSet<Medication>();
