@@ -2,6 +2,11 @@ using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctor;
+using MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctorRate;
+using MedicalServices.Application.MedicalServcies.Doctors.Commands.DeleteDoctor;
+using MedicalServices.Application.MedicalServcies.Doctors.Commands.DeleteDoctorRate;
+using MedicalServices.Application.MedicalServcies.Doctors.Commands.UpdateDoctor;
+using MedicalServices.Application.MedicalServcies.Doctors.Commands.UpdateDoctorRate;
 using MedicalServices.Application.MedicalServcies.Doctors.Queries.GetDoctor;
 using MedicalServices.Application.MedicalServcies.Doctors.Queries.GetDoctors;
 using MedicalServices.Application.MedicalServcies.Doctors.Queries.GetDoctorsByPatientId;
@@ -27,7 +32,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpGet("doctors/page-number/{page-number}")]
+    [HttpGet("doctors/page-number/{pageNumber}")]
     public async Task<IActionResult> GetDoctors(int pageNumber)
     {
 
@@ -39,7 +44,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpGet("doctors/{doctor-id}")]
+    [HttpGet("doctors/{doctorId}")]
     public async Task<IActionResult> GetDoctor(string doctorId)
     {
 
@@ -51,7 +56,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpGet("doctors/patient-id/{patient-id}/page-number/{page-number}")]
+    [HttpGet("doctors/patient-id/{patientId}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetDoctorsByPatientId(string patientId, int pageNumber)
     {
 
@@ -62,17 +67,17 @@ public class DoctorController : ApiController
         errors => Problem(errors));
     }
     [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
-    [HttpPost("doctors/Add/{user-id?}")]
-    public async Task<IActionResult> AddDoctor(AddDoctorRequest request, string userId = null!)
+    [HttpPost("doctors/Add/{doctorId?}")]
+    public async Task<IActionResult> AddDoctor(AddDoctorRequest request, string doctorId = null!)
     {
         if (User.IsInRole(Roles.Admin))
         {
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(doctorId))
             {
                 var errors = new List<Error>
                 {
                     Error.Validation(
-                        code: "DoctorController.AddDoctor.UserId",
+                        code: "DoctorController.AddDoctor.DoctorId",
                         description: "User Id is required for admin")
                 };
                 return Problem(errors);
@@ -80,12 +85,103 @@ public class DoctorController : ApiController
         }
         else
         {
-            userId = GetUserIdFromToken();
+            doctorId = GetUserIdFromToken();
         }
-        var command = _mapper.Map<AddDoctorCommand>((request, userId));
+        var command = _mapper.Map<AddDoctorCommand>((request, doctorId));
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),
         errors => Problem(errors));
     }
+
+    [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
+    [HttpPost("doctors/Update/{doctorId?}")]
+    public async Task<IActionResult> UpdateDoctor(UpdateDoctorRequest request, string doctorId = null!)
+    {
+        if (User.IsInRole(Roles.Admin))
+        {
+            if (string.IsNullOrEmpty(doctorId))
+            {
+                var errors = new List<Error>
+                {
+                    Error.Validation(
+                        code: "DoctorController.UpdateDoctor.DoctorId",
+                        description: "User Id is required for admin")
+                };
+                return Problem(errors);
+            }
+        }
+        else
+        {
+            doctorId = GetUserIdFromToken();
+        }
+        var command = _mapper.Map<UpdateDoctorCommand>((request, doctorId));
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
+    [HttpDelete("doctors/Delete/{doctorId?}")]
+    public async Task<IActionResult> DeleteDoctor(string doctorId = null!)
+    {
+        if (User.IsInRole(Roles.Admin))
+        {
+            if (string.IsNullOrEmpty(doctorId))
+            {
+                var errors = new List<Error>
+                {
+                    Error.Validation(
+                        code: "DoctorController.DeleteDoctor.DoctorId",
+                        description: "User Id is required for admin")
+                };
+                return Problem(errors);
+            }
+        }
+        else
+        {
+            doctorId = GetUserIdFromToken();
+        }
+        var command = new DeleteDoctorCommand(doctorId);
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpPost("doctors/rate/add")]
+    public async Task<IActionResult> AddDoctorRating(AddDoctorRateRequest request)
+    {
+        var command = _mapper.Map<AddDoctorRateCommand>((request, GetUserIdFromToken()));
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpPost("doctors/rate/update")]
+    public async Task<IActionResult> UpdateDoctorRating(UpdateDoctorRateRequest request)
+    {
+        var command = _mapper.Map<UpdateDoctorRateCommand>((request, GetUserIdFromToken()));
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpDelete("doctors/rate/delete/{doctorId}")]
+    public async Task<IActionResult> DeleteDoctorRating(string doctorId)
+    {
+        var command = new DeleteDoctorRateCommand(doctorId, GetUserIdFromToken());
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    
 }

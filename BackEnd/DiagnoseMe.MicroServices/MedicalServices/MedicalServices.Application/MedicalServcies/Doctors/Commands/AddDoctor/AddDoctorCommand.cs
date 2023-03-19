@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.MedicalServcies.Common;
-using MedicalServices.Application.MedicalServcies.Doctors.Common;
 
 namespace MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctor;
 

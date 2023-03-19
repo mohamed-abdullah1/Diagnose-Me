@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ public class HealthCheckController : ApiController
     [HttpGet("health-check")]
     public ActionResult HealthCheck()
     {
-        return Ok(true);
+        var nameIdentifier = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        return Ok(nameIdentifier);
     }
 }

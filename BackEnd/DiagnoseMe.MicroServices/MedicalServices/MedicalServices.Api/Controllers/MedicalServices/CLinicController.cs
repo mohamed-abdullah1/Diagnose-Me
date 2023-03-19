@@ -33,7 +33,7 @@ public class ClinicController : ApiController
         _mapper = mapper;
     }
     [Authorize]
-    [HttpGet("clinics/page-number/{page-number}")]
+    [HttpGet("clinics/page-number/{pageNumber}")]
     public async Task<IActionResult> GetClinics(int pageNumber)
     {
 
@@ -45,7 +45,7 @@ public class ClinicController : ApiController
     }
     
     [Authorize]
-    [HttpGet("clinics/{clinic-id}/addresses/page-number/{page-number}")]
+    [HttpGet("clinics/{clinicId}/addresses/page-number/{pageNumber}")]
     public async Task<IActionResult> GetClinicsAddresses(int pageNumber,string clinicId)
     {
 
@@ -57,7 +57,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize]
-    [HttpGet("clinics/{clinic-id}/doctors/page-number/{page-number}")]
+    [HttpGet("clinics/{clinicId}/doctors/page-number/{pageNumber}")]
     public async Task<IActionResult> GetClinicsDoctors(int pageNumber,string clinicId)
     {
 
@@ -81,7 +81,7 @@ public class ClinicController : ApiController
 
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpDelete("clinics/{clinic-id}/delete")]
+    [HttpDelete("clinics/{clinicId}/delete")]
     public async Task<IActionResult> DeleteClinic(string clinicId)
     {
         var command = new DeleteClinicCommand(clinicId);
@@ -92,7 +92,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpPost("clinics/{clinic-id}/update")]
+    [HttpPost("clinics/{clinicId}/update")]
     public async Task<IActionResult> UpdateClinic(string clinicId,UpdateClinicRequest request)
     {
         var command = new UpdateClinicCommand(
@@ -106,7 +106,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpPost("clinics/{clinic-id}/update-picture")]
+    [HttpPost("clinics/{clinicId}/update-picture")]
     public async Task<IActionResult> UpdateClinicPicture(string clinicId,UpdateClinicPictureRequest request)
     {
         var command = new UpdateClinicPictureCommand(
@@ -120,7 +120,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinic-id}/addresses/add")]
+    [HttpPost("clinics/{clinicId}/addresses/add")]
     public async Task<IActionResult> AddClinicAddress(string clinicId,AddClinicAddressRequest request)
     {
         var command = _mapper.Map<AddClinicAddressCommand>((request,GetUserIdFromToken()));
@@ -132,7 +132,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpDelete("clinics/{clinic-id}/addresses/{address-id}/delete")]
+    [HttpDelete("clinics/{clinicId}/addresses/{address-id}/delete")]
     public async Task<IActionResult> DeleteClinicAddress(string clinicId,string addressId)
     {
         var command = new DeleteClinicAddressCommand(addressId, GetUserIdFromToken());
@@ -144,7 +144,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinic-id}/addresses/{address-id}/update")]
+    [HttpPost("clinics/{clinicId}/addresses/{address-id}/update")]
     public async Task<IActionResult> UpdateClinicAddress(string clinicId,string addressId,UpdateClinicAddressRequest request)
     {
         var command = _mapper.Map<UpdateClinicAddressCommand>((request,GetUserIdFromToken()));
@@ -156,7 +156,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinic-id}/addresses/{address-id}/update-picture")]
+    [HttpPost("clinics/{clinicId}/addresses/address-id/{addressId}/update-picture")]
     public async Task<IActionResult> UpdateClinicAddressProfilePicture(string clinicId,string addressId,UpdateClinicAddressProfilePictureRequest request)
     {
         var command = new UpdateClinicAddressProfilePictureCommand(

@@ -33,7 +33,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 452, DateTimeKind.Utc).AddTicks(8876));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 77, DateTimeKind.Utc).AddTicks(5472));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,7 +84,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 457, DateTimeKind.Utc).AddTicks(6834));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 91, DateTimeKind.Utc).AddTicks(168));
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -129,7 +129,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 487, DateTimeKind.Utc).AddTicks(8114));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 117, DateTimeKind.Utc).AddTicks(6586));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -189,7 +189,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 458, DateTimeKind.Utc).AddTicks(6235));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 91, DateTimeKind.Utc).AddTicks(8823));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -241,7 +241,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 495, DateTimeKind.Utc).AddTicks(6341));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 134, DateTimeKind.Utc).AddTicks(6803));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -362,7 +362,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 523, DateTimeKind.Utc).AddTicks(8388));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 175, DateTimeKind.Utc).AddTicks(4850));
 
                     b.Property<bool>("IsLicenseVerified")
                         .HasColumnType("tinyint(1)");
@@ -452,36 +452,32 @@ namespace MedicalServices.Persistence.Migrations
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorRate", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
+                    b.Property<string>("DoctorId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 539, DateTimeKind.Utc).AddTicks(6964));
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DoctorId", "UserId");
 
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("DoctorRates", (string)null);
                 });
@@ -591,7 +587,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 556, DateTimeKind.Utc).AddTicks(606));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 226, DateTimeKind.Utc).AddTicks(248));
 
                     b.Property<float>("Height")
                         .HasColumnType("float");
@@ -760,7 +756,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 596, DateTimeKind.Utc).AddTicks(8907));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 290, DateTimeKind.Utc).AddTicks(4688));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -855,7 +851,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 17, 15, 18, 28, 605, DateTimeKind.Utc).AddTicks(4020));
+                        .HasDefaultValue(new DateTime(2023, 3, 19, 11, 30, 13, 317, DateTimeKind.Utc).AddTicks(2521));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -1047,15 +1043,15 @@ namespace MedicalServices.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                    b.HasOne("MedicalServices.Domain.Entities.User", "User")
                         .WithMany("DoctorRates")
-                        .HasForeignKey("PatientId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Patient");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.DoctorSurgery", b =>
@@ -1254,14 +1250,11 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("OwnedClinicAddresses");
                 });
 
-            modelBuilder.Entity("MedicalServices.Domain.Entities.Patient", b =>
-                {
-                    b.Navigation("DoctorRates");
-                });
-
             modelBuilder.Entity("MedicalServices.Domain.Entities.User", b =>
                 {
                     b.Navigation("Doctor");
+
+                    b.Navigation("DoctorRates");
 
                     b.Navigation("Patient");
                 });

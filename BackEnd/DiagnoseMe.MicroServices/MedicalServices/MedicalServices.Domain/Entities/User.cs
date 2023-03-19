@@ -8,4 +8,5 @@ public class User : BaseEntity
     public bool IsDoctor {get; set;}
     public virtual Doctor? Doctor {get; set;}
     public virtual Patient? Patient {get; set;}
+    public virtual ICollection<DoctorRate> DoctorRates {get; set;} = new HashSet<DoctorRate>();
 }

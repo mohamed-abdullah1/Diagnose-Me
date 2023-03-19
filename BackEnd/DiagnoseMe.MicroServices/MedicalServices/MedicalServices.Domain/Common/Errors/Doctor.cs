@@ -26,5 +26,27 @@ public static partial class Errors
             code: "Doctor.NotFound",
             description: "Doctor not found."
         );
+    
+    public static class Rate
+    {
+        public static Error AddFailed => Error.Failure(
+            code: "Doctor.Rate.AddFailed",
+            description: "Failed to add doctor rate."
+        );
+        public static Error UpdateFailed => Error.Failure(
+            code: "Doctor.Rate.UpdateFailed",
+            description: "Failed to update doctor rate."
+        );
+
+        public static Error DeleteFailed => Error.Failure(
+            code: "Doctor.Rate.DeleteFailed",
+            description: "Failed to delete doctor rate."
+        );
+
+        public static Error NotFound => Error.NotFound(
+            code: "Doctor.Rate.NotFound",
+            description: "Doctor rate not found."
+        );
+    }
     }
 }
