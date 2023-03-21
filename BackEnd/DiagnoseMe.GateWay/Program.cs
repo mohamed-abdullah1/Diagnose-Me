@@ -26,6 +26,12 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 }
 var app = builder.Build();
 {
+    app.UseCors(builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
     await app.UseOcelot();
     app.UseAuthentication();
     app.UseAuthorization();
