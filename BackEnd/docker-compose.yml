@@ -178,6 +178,20 @@ services:
     ports:
       - 3310:3306
     restart: always
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    hostname: rabbitmq.diagnose.me
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=DiagnoseMe
+      - RABBITMQ_DEFAULT_PASS=DiagnoseMe
+    networks:
+      - rabbitmq-network
+    restart: always
+
 volumes:
   authdbvolume:
   medicalblogdbvolume:

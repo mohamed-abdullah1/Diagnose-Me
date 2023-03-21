@@ -4,6 +4,7 @@ using Auth.Application.Authentication.Commands.ChangeName;
 using Auth.Application.Authentication.Commands.ChangePassword;
 using Auth.Application.Authentication.Commands.ConfirmEmail;
 using Auth.Application.Authentication.Commands.ConfirmEmailChange;
+using Auth.Application.Authentication.Commands.DeleteAccount;
 using Auth.Application.Authentication.Commands.ForgotPassword;
 using Auth.Application.Authentication.Commands.Register;
 using Auth.Application.Authentication.Commands.RemoveUserFromRole;
@@ -18,6 +19,7 @@ using Auth.Application.Authentication.Queries.GetToken;
 using Auth.Application.Authentication.Queries.GetUsersInRole;
 using Auth.Contracts.Authentication;
 using Auth.Domain.Common.Roles;
+using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -151,6 +153,35 @@ public class AuthController : ApiController
         authResult => Ok(authResult),
         errors => Problem(errors));
     }
+
+    [Authorize]
+    [HttpDelete("user/account/delete/{userId?}")]
+    public async Task<IActionResult> DeleteAccount(string userId = null!)
+    {
+        if (User.IsInRole(Roles.Admin))
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                var errors = new List<Error>
+                {
+                    Error.Validation(
+                        code: "DoctorController.AddDoctor.DoctorId",
+                        description: "User Id is required for admin")
+                };
+                return Problem(errors);
+            }
+        }
+        else
+        {
+            userId = GetUserIdFromToken();
+        }
+        var command = new DeleteAccountCommand(userId);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    
 
     [Authorize]
     [HttpPost("name/change")]

@@ -1,3 +1,6 @@
+using Auth.Application.Common.Interfaces.RabbitMq;
+using MapsterMapper;
+
 namespace Auth.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler :
@@ -6,14 +9,20 @@ public class ConfirmEmailCommandHandler :
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IMemoryCache _memoryCache;
+    private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IMapper _mapper;
 
     public ConfirmEmailCommandHandler(
         UserManager<ApplicationUser> userManager,
         IJwtTokenGenerator jwtTokenGenerator,
-        IMemoryCache memoryCache): base(userManager)
+        IMemoryCache memoryCache,
+        IMessageQueueManager messageQueueManager,
+        IMapper mapper): base(userManager)
     {
         _jwtTokenGenerator =jwtTokenGenerator;
         _memoryCache = memoryCache;
+        _messageQueueManager = messageQueueManager;
+        _mapper = mapper;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(ConfirmEmailCommand command, CancellationToken cancellationToken)
@@ -46,6 +55,7 @@ public class ConfirmEmailCommandHandler :
             return Errors.User.MapIdentityError(updateResult.Errors.ToList());
             
         _memoryCache.Remove(command.Id);
+        _messageQueueManager.PublishUser(_mapper.Map<ApplicationUserResponse>(user));
         return new AuthenticationResult{
             Message = "Email is successfully confirmed",
             Username = user.UserName

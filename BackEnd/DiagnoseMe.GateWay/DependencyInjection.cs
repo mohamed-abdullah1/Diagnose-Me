@@ -1,5 +1,6 @@
 using DiagnoseMe.GateWay.MiddlewaresConfigrations;
 using Ocelot.DependencyInjection;
+using DiagnoseMe.GateWay.ServicesConfigurations;
 
 namespace DiagnoseMe.GateWay;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddOcelot(configuration);
         services.AddMiddlewares(configuration);
+        services.AddCorsConfiguration();
         return services;
     }
 }

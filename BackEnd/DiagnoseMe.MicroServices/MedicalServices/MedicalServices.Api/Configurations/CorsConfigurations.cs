@@ -1,0 +1,24 @@
+namespace MedicalServices.Api.Configurations;
+
+public static class CorsConfigurations
+{
+    public static IServiceCollection AddCorsConfigurations(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        services.AddCors(options =>
+        {
+            var allowedorigins = new List<string>();
+            configuration.Bind("AllowedOrigins", allowedorigins);
+            options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .WithOrigins(allowedorigins.ToArray())
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
+
+        return services;
+    }
+}

@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
     builder.Services
-        .AddPresentation()
+        .AddPresentation(builder.Configuration)
         .AddApplication(builder.Configuration)
         .AddPersistence(builder.Configuration)
         .AddInfrastrucure(builder.Configuration);
@@ -47,5 +47,6 @@ var app = builder.Build();
     app.UseAuthorization();
     app.UseHttpsRedirection();
     app.MapControllers();
+    app.UseCors("CorsPolicy");
     app.Run();
 }

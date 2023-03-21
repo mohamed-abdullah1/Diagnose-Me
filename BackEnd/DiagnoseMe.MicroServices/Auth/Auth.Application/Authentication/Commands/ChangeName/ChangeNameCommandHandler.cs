@@ -1,3 +1,6 @@
+using Auth.Application.Common.Interfaces.RabbitMq;
+using MapsterMapper;
+
 namespace Auth.Application.Authentication.Commands.ChangeName;
 
 public class ChangeNameCommandHandler :
@@ -5,12 +8,18 @@ public class ChangeNameCommandHandler :
     IRequestHandler<ChangeNameCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IMapper _mapper;
     public ChangeNameCommandHandler(
         UserManager<ApplicationUser> userManager,
-        IJwtTokenGenerator jwtTokenGenerator
+        IJwtTokenGenerator jwtTokenGenerator,
+        IMessageQueueManager messageQueueManager,
+        IMapper mapper
     ): base(userManager)
     {
         _jwtTokenGenerator =jwtTokenGenerator;
+        _messageQueueManager = messageQueueManager;
+        _mapper = mapper;
     }
     public async Task<ErrorOr<AuthenticationResult>> Handle(ChangeNameCommand command, CancellationToken cancellationToken)
     {
@@ -31,7 +40,8 @@ public class ChangeNameCommandHandler :
         var result = await _userManager.SetUserNameAsync(user, command.NewUserName);
         if (!result.Succeeded)
             return Errors.User.MapIdentityError(result.Errors.ToList());
-         
+        
+        _messageQueueManager.UpdateUser(_mapper.Map<ApplicationUserResponse>(user));
         return new AuthenticationResult
         {
             Message = "Your username is successfully changed",
