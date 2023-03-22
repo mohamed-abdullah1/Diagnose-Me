@@ -1,12 +1,12 @@
 {
   "name": "chat-service",
   "version": "1.0.0",
-  "description": "leqaa GP chat service",
+  "description": "Diagnose Me Chatting Service",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "nodemon server.js"
   },
-  "author": "Amr Senblo",
+  "author": "Mahmoud Hamza",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
