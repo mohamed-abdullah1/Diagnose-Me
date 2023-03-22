@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-var uuid = require('node-uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const messageSchema = mongoose.Schema(
   {
-    _id: { type: String, default: uuid.v1 },
-    sender: { type: String, default: uuid.v1, ref: 'User' },
+    _id: { type: String, default: uuidv4 },
+    sender: { type: String, default: uuidv4, ref: 'User' },
     content: { type: String, trim: true },
-    chat: { type: String, default: uuid.v1, ref: 'Chat' },
-    readBy: [{ type: String, default: uuid.v1, ref: 'User' }],
+    chat: { type: String, default: uuidv4, ref: 'Chat' },
+    readBy: [{ type: String, default: uuidv4, ref: 'User' }],
   },
   { timestamps: true }
 );

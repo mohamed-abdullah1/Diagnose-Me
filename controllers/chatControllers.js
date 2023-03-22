@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/userModel");
 
-var uuid = require("node-uuid");
+const { v4: uuidv4 } = require('uuid');
 
 //@description     Create or fetch One to One Chat
 //@route           POST /api/chat/
@@ -34,7 +34,7 @@ const accessChat = asyncHandler(async (req, res) => {
     res.send(isChat[0]);
   } else {
     var chatData = {
-      _id: uuid.v1(),
+      _id: uuidv4(),
       chatName: "sender",
       isGroupChat: false,
       users: [req.user._id, userId],
@@ -97,7 +97,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
 
   try {
     const groupChat = await Chat.create({
-      _id: uuid.v1(),
+      _id: uuidv4(),
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
