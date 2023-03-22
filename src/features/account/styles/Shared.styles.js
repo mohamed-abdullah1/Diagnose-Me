@@ -34,7 +34,7 @@ export const Form = styled.View`
             ? 0.7
             : props.flexKeyIsHide
             ? props.flexKeyIsHide
-            : 0.2};
+            : 0.3};
     justify-content: space-around;
     align-items: center;
     margin-top: 33px;
@@ -55,6 +55,8 @@ export const InputField = styled(TextInput)`
 `;
 
 export const Btn = styled(Button)`
+    /* elevation: 5; */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
     background-color: ${(props) => props.theme.colors[props.bgColor]};
     border-radius: 32px;
     height: ${(props) => (props.height ? props.height : 43)}px;

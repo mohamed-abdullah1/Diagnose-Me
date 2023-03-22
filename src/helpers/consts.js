@@ -1347,20 +1347,6 @@ export const meetingsForDoctor = [
                 img: require("../../assets/helpers/male_1.png"),
                 time: "1:00 pm",
             },
-            {
-                id: 2,
-                patientId: 2,
-                patientName: "Amara Said",
-                img: require("../../assets/helpers/male_1.png"),
-                time: "2:00 pm",
-            },
-            {
-                id: 3,
-                patientId: 3,
-                patientName: "Soha Samy",
-                img: require("../../assets/helpers/female_1.png"),
-                time: "3:00 pm",
-            },
         ],
         available: [
             { id: uuid.v4(), time: "7:00 pm" },

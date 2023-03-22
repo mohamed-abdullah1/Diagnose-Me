@@ -28,6 +28,8 @@ import { View, Text, Platform, StatusBar } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../services/slices/auth.slice";
 const Profile = ({ navigation }) => {
     const [user, setUser] = useState();
     const [editImg, setEditImg] = useState(false);
@@ -37,6 +39,7 @@ const Profile = ({ navigation }) => {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const cameraRef = useRef();
 
+    const dispatch = useDispatch();
     const handleChangeType = () => {
         setType((prev) =>
             prev === Camera.Constants.Type.front
@@ -75,6 +78,9 @@ const Profile = ({ navigation }) => {
         } catch (e) {
             // error reading value
         }
+    };
+    const logoutHandler = () => {
+        dispatch(logout());
     };
     useEffect(() => {
         setUser(loadedUser);
@@ -236,6 +242,9 @@ const Profile = ({ navigation }) => {
                                 <EditBtnContent>Edit</EditBtnContent>
                             </EditBtn>
                         </Ele>
+                        <Button mode="contained" onPress={logoutHandler}>
+                            LogOut 📤
+                        </Button>
                     </Container>
                 </>
             )}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Top from "../components/Top";
 import { Background, Btn, Form, Reg, RegOption } from "../styles/Shared.styles";
 import { Keyboard } from "react-native";
@@ -9,6 +9,7 @@ const LoginMainScreen = ({ navigation }) => {
     Keyboard.addListener("KeyboardDidShow", () => setIsKeyVisible(true));
     Keyboard.addListener("KeyboardDidHide", () => setIsKeyVisible(false));
     const loginPressHandler = () => navigation.navigate("Login");
+
     return (
         <Background>
             <Top
