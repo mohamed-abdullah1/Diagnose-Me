@@ -16,6 +16,7 @@ using Auth.Application.Authentication.Commands.VerifyDoctorIdentity;
 using Auth.Application.Authentication.Commands.VerifyPin;
 using Auth.Application.Authentication.Queries.GetAllUsers;
 using Auth.Application.Authentication.Queries.GetToken;
+using Auth.Application.Authentication.Queries.GetUser;
 using Auth.Application.Authentication.Queries.GetUsersInRole;
 using Auth.Contracts.Authentication;
 using Auth.Domain.Common.Roles;
@@ -224,6 +225,17 @@ public class AuthController : ApiController
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMe()
+    {
+        var query = new GetUserQuery(GetUserIdFromToken());
+        var result = await _mediator.Send(query);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    
     [Authorize(Roles = Roles.Admin)]
     [HttpGet("users/role/{role}/page-number/{pageNumber}")]
     public async Task<IActionResult> GetUsersInRoles(string role, int pageNumber)
