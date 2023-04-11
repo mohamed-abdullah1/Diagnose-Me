@@ -4,5 +4,4 @@ public record UserData(
     string Id,
     string Name,
     string FullName,
-    string ProfilePictureUrl
-);
+    string ProfilePictureUrl);

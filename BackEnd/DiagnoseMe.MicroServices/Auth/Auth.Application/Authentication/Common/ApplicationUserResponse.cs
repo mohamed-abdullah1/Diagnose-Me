@@ -4,12 +4,12 @@ namespace Auth.Application.Authentication.Common;
 
 public record ApplicationUserResponse(
     string Id,
-    string UserName,
+    string Name,
     string FullName,
     string Gender,
     string DateOfBirth,
     string BloodType,
-    string ProfilePic,
+    string ProfilePictureUrl,
     string PhoneNumber,
     string NationalID,
     bool IsDoctor

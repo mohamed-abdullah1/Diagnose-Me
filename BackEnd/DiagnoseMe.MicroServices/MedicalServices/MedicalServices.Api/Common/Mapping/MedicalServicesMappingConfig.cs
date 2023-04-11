@@ -1,10 +1,10 @@
 using Mapster;
-using MedicalServices.Application.MedicalServcies.Clinics.Commands.AddClinicAddress;
-using MedicalServices.Application.MedicalServcies.Clinics.Commands.UpdateClinicAddress;
-using MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctor;
-using MedicalServices.Application.MedicalServcies.Doctors.Commands.AddDoctorRate;
-using MedicalServices.Application.MedicalServcies.Doctors.Commands.UpdateDoctor;
-using MedicalServices.Application.MedicalServcies.Doctors.Commands.UpdateDoctorRate;
+using MedicalServices.Application.MedicalServices.Clinics.Commands.AddClinicAddress;
+using MedicalServices.Application.MedicalServices.Clinics.Commands.UpdateClinicAddress;
+using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctor;
+using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctorRate;
+using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
+using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctorRate;
 using MedicalServices.Contracts.Clinics;
 using MedicalServices.Contracts.Doctors;
 

@@ -31,12 +31,14 @@ services:
       - Debug:ShowHost=true
     depends_on:
       - authdb
+      - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://authdb:3306"]
+      test: ["CMD", "curl","-f","http://authdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
       interval: 1m30s
       timeout: 30s
       retries: 5
       start_period: 30s
+
     networks:
       - authapi-authdb
       - gateway
@@ -72,8 +74,9 @@ services:
       - Debug:ShowHost=true
     depends_on:
       - medicalblogdb
+      - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://medicalblogdb:3306"]
+      test: ["CMD", "curl","-f","http://medicalblogdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -112,8 +115,9 @@ services:
       - Debug:ShowHost=true
     depends_on:
       - blooddonationdb
+      - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://blooddonationdb:3306"]
+      test: ["CMD", "curl","-f","http://blooddonationdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -152,8 +156,9 @@ services:
       - Debug:ShowHost=true
     depends_on:
       - medicalservicesdb
+      - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://medicalservicesdb:3306"]
+      test: ["CMD", "curl","-f","http://medicalservicesdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
       interval: 1m30s
       timeout: 30s
       retries: 5

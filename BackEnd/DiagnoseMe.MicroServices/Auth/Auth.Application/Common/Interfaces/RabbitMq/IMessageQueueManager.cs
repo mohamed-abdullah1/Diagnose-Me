@@ -1,5 +1,5 @@
 
-namespace Auth.Application.Common.Interfaces.RabbitMq;
+namespace Auth.Application.Common.Interfaces.RabbitMQ;
 
 public interface IMessageQueueManager
 {

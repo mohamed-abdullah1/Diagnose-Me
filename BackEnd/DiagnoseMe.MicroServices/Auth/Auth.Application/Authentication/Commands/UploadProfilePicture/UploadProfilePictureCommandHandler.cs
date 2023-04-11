@@ -1,5 +1,5 @@
 using Auth.Application.Authentication.Helpers;
-using Auth.Application.Common.Interfaces.RabbitMq;
+using Auth.Application.Common.Interfaces.RabbitMQ;
 using Auth.Application.Common.Interfaces.Services;
 using FileTypeChecker.Extensions;
 using MapsterMapper;

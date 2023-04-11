@@ -6,6 +6,23 @@ public static partial class Errors
 {
     public static class User
     {
+        public static Error AlreadyExists => Error.Validation(
+            code: "User.AlreadyExists",
+            description: "User already exists."
+        );
+        public static Error AddFailed => Error.Failure(
+            code: "User.AddFailed",
+            description: "Failed to add user."
+        );
+
+        public static Error UpdateFailed => Error.Failure(
+            code: "User.UpdateFailed",
+            description: "Failed to update user."
+        );
+        public static Error DeleteFailed => Error.Failure(
+            code: "User.DeleteFailed",
+            description: "Failed to delete user."
+        );
         public static Error FailedToUnsubscribe => Error.Failure(
             code: "User.FailedToUnsubscribe",
             description: "Failed to unsubscribe."

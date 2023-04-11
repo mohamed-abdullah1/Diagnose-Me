@@ -1,6 +1,6 @@
 using System.Text;
 using Auth.Application.Authentication.Common;
-using Auth.Application.Common.Interfaces.RabbitMq;
+using Auth.Application.Common.Interfaces.RabbitMQ;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -9,18 +9,10 @@ namespace Auth.Infrastructure.RabbitMQ;
 public class MessageQueueManager : IMessageQueueManager
 {
     private readonly IModel channel;
-    public MessageQueueManager(IOptions<RabbitMqSettings> rabbitMqSettings)
+    public MessageQueueManager(IOptions<RabbitMQSettings> rabbitMqSettings)
     {
-        var factory = new ConnectionFactory()
-        {
-            HostName = rabbitMqSettings.Value.Host,
-            UserName = rabbitMqSettings.Value.Username,
-            Password = rabbitMqSettings.Value.Password,
-            VirtualHost = rabbitMqSettings.Value.VirtualHost,
-            Port = rabbitMqSettings.Value.Port
-        };
-        var connection = factory.CreateConnection();
-        channel = connection.CreateModel();
+        
+        channel = RabbitMQConnector.ConnectAsync(rabbitMqSettings.Value);
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange, 
             type : ExchangeType.Topic,

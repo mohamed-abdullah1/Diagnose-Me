@@ -1,5 +1,6 @@
 using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Infrastructure.Services;
+using MedicalServices.Infrastructure.ServicesConfigrations;
 using MedicalServices.Infrastructure.ServicesConfigurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ public static class DependencyInjection
         ConfigurationManager configuration
         )
     {
+        services.AddRabbitMQConfiguration(configuration);
         services.AddAuthentication(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IFileHandler, FileHandler>();

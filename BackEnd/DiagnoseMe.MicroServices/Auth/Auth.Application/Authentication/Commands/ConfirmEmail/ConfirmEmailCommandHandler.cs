@@ -1,4 +1,4 @@
-using Auth.Application.Common.Interfaces.RabbitMq;
+using Auth.Application.Common.Interfaces.RabbitMQ;
 using MapsterMapper;
 
 namespace Auth.Application.Authentication.Commands.ConfirmEmail;

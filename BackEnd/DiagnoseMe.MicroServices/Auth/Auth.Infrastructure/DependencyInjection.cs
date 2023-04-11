@@ -16,7 +16,7 @@ public static class DependencyInjection
         ConfigurationManager configuration
         )
     {
-        services.AddRabbitMqConfiguration(configuration);
+        services.AddRabbitMQConfiguration(configuration);
         services.AddAuthentication(configuration);
         services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
         services.AddSingleton<ISmtp, Smtp>();

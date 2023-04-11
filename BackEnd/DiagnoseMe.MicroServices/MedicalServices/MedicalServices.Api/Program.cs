@@ -6,6 +6,7 @@ using MedicalServices.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreRateLimit;
 using Serilog;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,9 @@ var builder = WebApplication.CreateBuilder(args);
     logger.Information("Starting up");
 }
 
+// try{
+//     IModel channel = RabbitMQ
+// }
 var app = builder.Build();
 
 {

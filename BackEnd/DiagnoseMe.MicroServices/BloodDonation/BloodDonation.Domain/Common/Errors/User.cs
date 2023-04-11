@@ -20,5 +20,23 @@ public static partial class Errors
             code: "Post.YouCanNotDoThis",
             description: "You are not authorized to do this."
         );
+
+        public static Error AlreadyExists => Error.Validation(
+            code: "User.AlreadyExists",
+            description: "User already exists."
+        );
+        public static Error AddFailed => Error.Failure(
+            code: "User.AddFailed",
+            description: "Failed to add user."
+        );
+
+        public static Error UpdateFailed => Error.Failure(
+            code: "User.UpdateFailed",
+            description: "Failed to update user."
+        );
+        public static Error DeleteFailed => Error.Failure(
+            code: "User.DeleteFailed",
+            description: "Failed to delete user."
+        );
     }
 }
