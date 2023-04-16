@@ -14,12 +14,6 @@ public static class RabbitMQConnector
             Password = rabbitMqSettings.Password,
             Port = rabbitMqSettings.Port
         };
-        Console.WriteLine("=========================================");
-        Console.WriteLine(rabbitMqSettings.Host);
-        Console.WriteLine(rabbitMqSettings.Username);
-        Console.WriteLine(rabbitMqSettings.Password);
-        Console.WriteLine(rabbitMqSettings.Port);
-        Console.WriteLine("=========================================");
         return factory.CreateConnection().CreateModel();
     }
 }    
