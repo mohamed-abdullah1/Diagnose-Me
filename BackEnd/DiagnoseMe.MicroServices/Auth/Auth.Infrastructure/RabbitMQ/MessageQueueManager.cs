@@ -15,7 +15,7 @@ public class MessageQueueManager : IMessageQueueManager
         channel = RabbitMQConnector.ConnectAsync(rabbitMqSettings.Value);
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange, 
-            type : ExchangeType.Topic,
+            type : ExchangeType.Fanout,
             durable: false,
             autoDelete: false);
     }

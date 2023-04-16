@@ -18,7 +18,7 @@ public class MessageQueueHelper
     {
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
-            type: ExchangeType.Topic,
+            type: ExchangeType.Fanout,
             durable: false,
             autoDelete: false
         );
@@ -63,7 +63,7 @@ public class MessageQueueHelper
     {
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
-            type: ExchangeType.Topic,
+            type: ExchangeType.Fanout,
             durable: false,
             autoDelete: false
         );
@@ -108,7 +108,7 @@ public class MessageQueueHelper
     {
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
-            type: ExchangeType.Topic,
+            type: ExchangeType.Fanout,
             durable: false,
             autoDelete: false
         );

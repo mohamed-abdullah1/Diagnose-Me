@@ -11,7 +11,6 @@ public static class RabbitMQConnector
             HostName = rabbitMqSettings.Host,
             UserName = rabbitMqSettings.Username,
             Password = rabbitMqSettings.Password,
-            VirtualHost = rabbitMqSettings.VirtualHost,
             Port = rabbitMqSettings.Port
         };
         return factory.CreateConnection().CreateModel();
