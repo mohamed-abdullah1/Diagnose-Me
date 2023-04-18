@@ -16,6 +16,8 @@ import RegistrationSpecialty from "../features/account/screens/RegistrationSpeci
 import RegistrationHourPrice from "../features/account/screens/RegistrationHourPrice.screen";
 import RegistrationClinicLocation from "../features/account/screens/RegistrationClinicLocation.screen";
 import RegistrationYearsOfExperience from "../features/account/screens/RegistrationYearsOfExperience.screen";
+import RegistrationPinCode from "../features/account/screens/RegistrationPinCode.screen";
+import RegistrationUserName from "../features/account/screens/RegistrationUserName";
 
 const Stack = createNativeStackNavigator();
 const AccountNavigator = () => {
@@ -38,6 +40,10 @@ const AccountNavigator = () => {
                 component={RegistrationName}
             />
             <Stack.Screen
+                name="RegistrationUserName"
+                component={RegistrationUserName}
+            />
+            <Stack.Screen
                 name="RegistrationPassword"
                 component={RegistrationPassword}
             />
@@ -57,6 +63,10 @@ const AccountNavigator = () => {
             <Stack.Screen
                 name="RegistrationBloodType"
                 component={RegistrationBloodType}
+            />
+            <Stack.Screen
+                name="RegistrationPinCode"
+                component={RegistrationPinCode}
             />
             <Stack.Screen
                 name="RegistrationSpecialty"

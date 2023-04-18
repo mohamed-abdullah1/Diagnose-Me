@@ -22,7 +22,7 @@ const Input = ({ label, state, setState, icon, iconPress, ...props }) => {
                 <TextInput.Icon
                     icon={icon}
                     color={() => colors.secondary}
-                    onPress={() => iconPress((prev) => !prev)}
+                    onPress={() => iconPress && iconPress((prev) => !prev)}
                 />
             }
             {...props}

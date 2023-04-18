@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const authApi = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://51a1-45-98-30-32.eu.ngrok.io/auth/v1",
+        baseUrl: "https://cb10-45-100-152-23.ngrok-free.app/auth/v1",
         headers: {
             "Content-Type": "application/json",
         },
@@ -28,7 +28,46 @@ export const authApi = createApi({
             }),
             providesTags: ["Auth"],
         }),
+        register: builder.mutation({
+            query: (body) => ({
+                url: "/register",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+        verify: builder.mutation({
+            query: (body) => ({
+                url: "/pin/verify",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+        confirm: builder.mutation({
+            query: (body) => ({
+                url: "/email/confirm",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+        resendConfirm: builder.mutation({
+            query: (body) => ({
+                url: "/email/confirmation/resend",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
     }),
 });
 
-export const { useLoginMutation, useGetInfoQuery } = authApi;
+export const {
+    useLoginMutation,
+    useGetInfoQuery,
+    useRegisterMutation,
+    useVerifyMutation,
+    useConfirmMutation,
+    useResendConfirmMutation,
+} = authApi;

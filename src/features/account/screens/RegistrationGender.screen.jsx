@@ -11,6 +11,15 @@ import {
     GenderType,
     MalesContainer,
 } from "../styles/Shared.styles";
+import { Appbar, Button } from "react-native-paper";
+import { View } from "react-native";
+import colors from "../../../infrastructure/theme/colors";
+import {
+    addInfo,
+    selectRegisterUser,
+} from "../../../services/slices/registration.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const data = [
     {
@@ -25,24 +34,35 @@ const data = [
     },
 ];
 
-const RegistrationGender = ({ navigation }) => {
+const RegistrationGender = ({ navigation, route }) => {
     const [maleOrFemale, setMaleOrFemale] = useState("none");
+    const registerUser = useSelector(selectRegisterUser);
+    const dispatch = useDispatch();
+
     const pressHandler = (type) => {
         setMaleOrFemale(type);
     };
     const nextPressHandler = () => {
         if (maleOrFemale !== "none") {
             navigation.navigate("RegistrationTypeOfAccount");
+            if (!registerUser.gender) {
+                dispatch(addInfo({ gender: maleOrFemale }));
+            }
         }
     };
+    useEffect(() => {
+        setMaleOrFemale(registerUser?.gender ? registerUser.gender : "none");
+    }, []);
     return (
         <Background>
-            <Upper navigation={navigation} />
-            <Top
-                title="What Is Your GENDER?"
-                desc="To get better experience we need to know your gender"
-                widthDesc={250}
-            />
+            <Upper navigation={navigation} showSkip={false} />
+            <View style={{ marginBottom: 60 }}>
+                <Top
+                    title="What Is Your GENDER?"
+                    desc="To get better experience we need to know your gender"
+                    widthDesc={250}
+                />
+            </View>
             <MalesContainer>
                 {data.map((ele) => (
                     <GenderContainer

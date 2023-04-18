@@ -1,8 +1,14 @@
-import { useState } from "react";
 import ComponentLayout from "../components/CommonLayout.component";
+import * as yup from "yup";
+const regSchema = yup.object({
+    age: yup
+        .number()
+        .required("Age is Required")
+        .min(18, "Minimum Age is 18")
+        .max(100, "Maximum Age is 100"),
+});
 
-const RegistrationAge = ({ navigation }) => {
-    const [age, setAge] = useState(0);
+const RegistrationAge = ({ navigation, route }) => {
     return (
         <ComponentLayout
             topTitle="How Old are you?"
@@ -12,10 +18,12 @@ const RegistrationAge = ({ navigation }) => {
             imgSrc={require("../../../../assets/helpers/doctors.png")}
             navigationObj={navigation}
             navigateTo="RegistrationWeightHeight"
-            state={age}
-            setState={setAge}
             imgHeight={245}
             imgWidth={300}
+            route={route}
+            regSchema={regSchema}
+            paramName="age"
+            keyboardType="numeric"
         />
     );
 };

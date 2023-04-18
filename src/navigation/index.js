@@ -12,17 +12,25 @@ const Com = ({ name = "screen" }) => (
         <Text>{name}</Text>
     </View>
 );
-
+//component for MainNavigator to check if user is logged in or not
 const MainNavigator = () => {
     const user = useSelector(selectUser);
-    console.log("🔒", user);
     return (
         <NavigationContainer>
-            {user ? (
-                !user.isDoctor ? (
-                    <AppNavigator />
-                ) : (
+            {/* {user ? (
+                user.isDoctor ? (
                     <AppDocNavigator />
+                ) : (
+                    <AppNavigator />
+                )
+            ) : (
+                <AccountNavigator />
+            )} */}
+            {user ? (
+                user.fullName === "Doctor " ? (
+                    <AppDocNavigator />
+                ) : (
+                    <AppNavigator />
                 )
             ) : (
                 <AccountNavigator />

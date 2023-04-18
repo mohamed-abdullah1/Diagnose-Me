@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import Top from "../components/Top";
 import Upper from "../components/Upper";
@@ -13,6 +13,10 @@ import {
     VectorBgContainer,
     VectorImg,
 } from "../styles/Shared.styles";
+import { useRegisterMutation } from "../../../services/apis/auth.api";
+import { Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRegisterUser } from "../../../services/slices/registration.slice";
 
 const bloodGroups = [
     {
@@ -68,13 +72,72 @@ const Item = ({ item, blood, setBlood }) => (
 
 const RegistrationBloodType = ({ navigation }) => {
     const [blood, setBlood] = useState("none");
-    const nextPressHandler = () => {
-        console.log("hi");
-        navigation.navigate("RegistrationSpecialty");
+    const [
+        registerUser,
+        {
+            // data: registerResponse,
+            isSuccess: registerSuccess,
+            isError: registerIsError,
+            isLoading: registerIsLoading,
+            error: registerError,
+        },
+    ] = useRegisterMutation();
+    const { weight, height, isDoctor, ...userData } =
+        useSelector(selectRegisterUser);
+    const dispatch = useDispatch();
+    console.log("👉", userData);
+    console.log("👉", blood);
+    const nextPressHandler = async () => {
+        //register request
+        //TODO: handle the nationalID
+        await registerUser({
+            ...userData,
+            nationalID: "12345678912345",
+            bloodType: blood,
+        });
+        if (!Object.keys(userData).includes("bloodType")) {
+            dispatch(addInfo({ bloodType: blood }));
+        }
     };
+    useEffect(() => {
+        if (registerIsError) {
+            console.log("👉", registerError);
+            Alert.alert(
+                "Something went wrong",
+                `Error:- ${registerError}`,
+                [
+                    {
+                        text: "Try again",
+                    },
+                ],
+                { cancelable: true }
+            );
+        }
+    }, [registerIsError]);
+    useEffect(() => {
+        if (registerSuccess) {
+            Alert.alert(
+                "Registered Successfully 😀🎈",
+                `Check Your Email Address for Pin code and enter it`,
+                [
+                    {
+                        text: "Next",
+                        onPress: () =>
+                            navigation.navigate("RegistrationPinCode"),
+                    },
+                ],
+                { cancelable: true }
+            );
+        }
+    }, [registerSuccess]);
+    useEffect(() => {
+        if (Object.keys(userData).includes("bloodType")) {
+            setBlood(userData.bloodType);
+        }
+    }, []);
     return (
         <Background>
-            <Upper navigation={navigation} />
+            <Upper navigation={navigation} showSkip={false} />
             <Top
                 widthDesc={250}
                 title="Blood Group"
@@ -105,8 +168,9 @@ const RegistrationBloodType = ({ navigation }) => {
                     textColor="#fff"
                     width={323}
                     onPress={nextPressHandler}
+                    loading={registerIsLoading}
                 >
-                    Next
+                    Done ✅
                 </Btn>
             </BottomBtnWrapper>
             <VectorBgContainer>

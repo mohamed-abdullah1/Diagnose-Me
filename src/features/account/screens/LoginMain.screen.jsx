@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Top from "../components/Top";
 import { Background, Btn, Form, Reg, RegOption } from "../styles/Shared.styles";
 import { Keyboard } from "react-native";
+import { useSelector } from "react-redux";
+import { selectWaitPinCode } from "../../../services/slices/registration.slice";
 
 const LoginMainScreen = ({ navigation }) => {
     const [isKeyVisible, setIsKeyVisible] = useState(false);
@@ -9,7 +11,12 @@ const LoginMainScreen = ({ navigation }) => {
     Keyboard.addListener("KeyboardDidShow", () => setIsKeyVisible(true));
     Keyboard.addListener("KeyboardDidHide", () => setIsKeyVisible(false));
     const loginPressHandler = () => navigation.navigate("Login");
-
+    const pinCodeState = useSelector(selectWaitPinCode);
+    useEffect(() => {
+        if (pinCodeState) {
+            navigation.navigate("RegistrationPinCode");
+        }
+    }, []);
     return (
         <Background>
             <Top

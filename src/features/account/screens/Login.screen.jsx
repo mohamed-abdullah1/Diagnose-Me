@@ -3,11 +3,7 @@ import { Background, Btn, Form, Reg, RegOption } from "../styles/Shared.styles";
 import { useState } from "react";
 import { Alert, Keyboard, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    login,
-    selectError,
-    setUserInfo,
-} from "../../../services/slices/auth.slice";
+import { login, setUserInfo } from "../../../services/slices/auth.slice";
 import { useEffect } from "react";
 import {
     useGetInfoQuery,
@@ -33,29 +29,34 @@ const LoginScreen = ({ navigation }) => {
         { data, isSuccess, isError, error: loginError, isLoading },
     ] = useLoginMutation();
     const dispatch = useDispatch();
-    const { data: userInfo } = useGetInfoQuery(data?.token);
-    // const error = useSelector(selectError);
+    const {
+        data: userInfo,
+        isLoading: infoLoading,
+        error: infoError,
+    } = useGetInfoQuery(data?.token);
+
     const [isKeyVisible, setIsKeyVisible] = useState(false);
     Keyboard.addListener("KeyboardDidShow", () => setIsKeyVisible(true));
     Keyboard.addListener("KeyboardDidHide", () => setIsKeyVisible(false));
 
     const submitHandler = async (values) => {
-        console.log("👉👉👉", values);
         await loginUser(values);
     };
-
+    console.log("👉", infoLoading);
     useEffect(() => {
         if (!isSuccess) return console.log("👉", "not successful 🥲", data);
         if (data) {
             const { token } = data;
             dispatch(login({ token }));
-            console.log("👉data", data);
-        }
-        if (userInfo) {
-            dispatch(setUserInfo(userInfo));
-            console.log("👉userInfo", userInfo);
+            // console.log("👉data", data);
         }
     }, [data]);
+    //
+    useEffect(() => {
+        if (userInfo) {
+            dispatch(setUserInfo(userInfo));
+        }
+    }, [userInfo]);
     useEffect(() => {
         if (!isError) return;
         console.log("👉🚩", loginError.data.title);
@@ -109,9 +110,9 @@ const LoginScreen = ({ navigation }) => {
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                                 icon="email"
-                                error={errors.email}
+                                error={errors.email && touched.email}
                             />
-                            {errors && touched && (
+                            {errors.email && touched.email && (
                                 <Text
                                     style={{
                                         color: "red",
@@ -131,9 +132,9 @@ const LoginScreen = ({ navigation }) => {
                                 icon={showPassword ? "eye-off-outline" : "eye"}
                                 iconPress={setShowPassword}
                                 secureTextEntry={!showPassword}
-                                error={errors.password}
+                                error={errors.password && touched.password}
                             />
-                            {errors && touched && (
+                            {errors.password && touched.password && (
                                 <Text
                                     style={{
                                         color: "red",
@@ -150,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
                             textColor="#fff"
                             width={323}
                             disabled={!isValid}
-                            loading={isLoading}
+                            loading={isLoading || infoLoading}
                         >
                             LOGIN
                         </Btn>
@@ -163,22 +164,6 @@ const LoginScreen = ({ navigation }) => {
                     Register
                 </Reg>
             </RegOption>
-            {/* <BottomContainer>
-        {!txtFocus ? <TitleOption>Or Continue With </TitleOption> : null}
-        <FaceAndGoogleContainer>
-          <Btn textColor="#fff" width="142" bgColor="blue">
-            Facebook
-          </Btn>
-          <Btn
-            textColor="#fff"
-            width="142"
-            bgColor="success"
-            onPres={() => console.log("👉", "google")}
-          >
-            Google
-          </Btn>
-        </FaceAndGoogleContainer>
-      </BottomContainer> */}
         </Background>
     );
 };

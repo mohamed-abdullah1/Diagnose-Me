@@ -11,58 +11,100 @@ import {
 } from "../styles/Shared.styles";
 import Top from "./Top";
 import Upper from "./Upper";
+import { Formik } from "formik";
+import Input from "../../components/Input.component";
+import {
+    addInfo,
+    selectRegisterUser,
+} from "../../../services/slices/registration.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ComponentLayout = ({
     topTitle,
     topDesc,
     topWidth,
-    inputPlaceHolder,
     imgSrc,
     navigationObj,
     navigateTo,
-    state,
-    setState,
     imgWidth,
     imgHeight,
+    regSchema,
+    route,
+    inputPlaceHolder,
+    paramName,
+    ...rest
 }) => {
     const [isKeyVisible, setIsKeyVisible] = useState(false);
-    const pressHandler = () => navigationObj.navigate(navigateTo);
+    const registerUser = useSelector(selectRegisterUser);
+    const dispatch = useDispatch();
+
+    const pressHandler = (values) => {
+        navigationObj.navigate(navigateTo);
+        if (!Object.keys(registerUser).includes(paramName)) {
+            dispatch(addInfo(values));
+        }
+    };
     Keyboard.addListener("keyboardDidShow", () => {
         setIsKeyVisible(true);
     });
     Keyboard.addListener("keyboardDidHide", () => {
         setIsKeyVisible(false);
     });
+    console.log("👉👉👉", paramName);
     return (
         <Background>
-            <Upper navigation={navigationObj} />
+            <Upper navigation={navigationObj} showSkip={false} />
             <Top title={topTitle} desc={topDesc} widthDesc={topWidth} />
-            <Form isKeyVisible={isKeyVisible}>
-                <InputField
-                    placeholder={inputPlaceHolder}
-                    onChangeText={setState}
-                    value={state}
-                />
-            </Form>
-            {!isKeyVisible && (
-                <DoctorsImgContainer>
-                    <DoctorsImg
-                        imgHeight={imgHeight}
-                        imgWidth={imgWidth}
-                        source={imgSrc}
-                    />
-                </DoctorsImgContainer>
-            )}
-            <BottomBtnWrapper>
-                <Btn
-                    onPress={pressHandler}
-                    bgColor="secondary"
-                    textColor="#fff"
-                    width={323}
-                >
-                    Next
-                </Btn>
-            </BottomBtnWrapper>
+            <Formik
+                initialValues={{
+                    [paramName]: registerUser[paramName]
+                        ? registerUser[paramName]
+                        : "",
+                }}
+                onSubmit={pressHandler}
+                validationSchema={regSchema}
+            >
+                {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                    touched,
+                }) => (
+                    <>
+                        <Form isKeyVisible={isKeyVisible}>
+                            <Input
+                                label={inputPlaceHolder}
+                                state={paramName && values[paramName]}
+                                setState={handleChange(paramName)}
+                                onBlur={handleBlur(paramName)}
+                                error={errors.age && touched.age}
+                                {...rest}
+                            />
+                        </Form>
+                        {!isKeyVisible && (
+                            <DoctorsImgContainer>
+                                <DoctorsImg
+                                    imgHeight={imgHeight}
+                                    imgWidth={imgWidth}
+                                    source={imgSrc}
+                                />
+                            </DoctorsImgContainer>
+                        )}
+                        <BottomBtnWrapper>
+                            <Btn
+                                onPress={handleSubmit}
+                                bgColor="secondary"
+                                textColor="#fff"
+                                width={323}
+                            >
+                                Next
+                            </Btn>
+                        </BottomBtnWrapper>
+                    </>
+                )}
+            </Formik>
         </Background>
     );
 };

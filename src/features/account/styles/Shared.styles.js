@@ -4,7 +4,7 @@ import { Button } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
 
 export const Background = styled.View`
-    background-color: #fff;
+    background-color: ${(props) => props.theme.colors.light};
     flex: 1;
     justify-content: center;
 `;
@@ -122,7 +122,7 @@ export const MalesContainer = styled.View`
     flex-direction: row;
     justify-content: space-around;
     /* border: solid red 1px; */
-    margin-top: 90px;
+    /* margin-top: 50px; */
 `;
 export const GenderContainer = styled(TouchableOpacity)`
     background-color: ${(props) =>
@@ -152,6 +152,7 @@ export const BottomBtnWrapper = styled.View`
     width: 100%;
     justify-content: center;
     align-items: center;
+    background-color: ${(props) => props.theme.colors.light};
 `;
 
 export const TypesContainer = styled.View`

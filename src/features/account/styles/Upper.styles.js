@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 export const UpperContainer = styled.View`
     position: absolute;
-    top: 16px;
+    top: 64px;
     width: 100%;
     flex-direction: row;
     align-items: center;

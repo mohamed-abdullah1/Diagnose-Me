@@ -13,6 +13,9 @@ import {
 } from "../styles/Shared.styles";
 import Upper from "../components/Upper";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRegisterUser } from "../../../services/slices/registration.slice";
+import { useEffect } from "react";
 
 const typeOfAccounts = [
     {
@@ -29,13 +32,37 @@ const typeOfAccounts = [
     },
 ];
 
-const RegistrationTypeOfAccount = ({ navigation }) => {
+const RegistrationTypeOfAccount = ({ navigation, route }) => {
     const [typeAccount, setTypeAccount] = useState("none");
     const typePressHandler = (t) => setTypeAccount(t);
-    const nextPressHandler = () => navigation.navigate("RegistrationAge");
+
+    const registerUser = useSelector(selectRegisterUser);
+    const dispatch = useDispatch();
+
+    const nextPressHandler = () => {
+        if (typeAccount === "I Am A Patient") {
+            navigation.navigate("RegistrationAge");
+            if (Object.keys(registerUser).includes("isDoctor")) {
+                dispatch(addInfo({ isDoctor: false }));
+            }
+        } else {
+            navigation.navigate("RegistrationSpecialty");
+            if (Object.keys(registerUser).includes("isDoctor")) {
+                dispatch(addInfo({ isDoctor: true }));
+            }
+        }
+    };
+    useEffect(() => {
+        if (registerUser.isDoctor) {
+            setTypeAccount("I Am A Doctor");
+        } else {
+            setTypeAccount("I Am A Patient");
+        }
+    }, []);
+
     return (
         <Background>
-            <Upper navigation={navigation} />
+            <Upper navigation={navigation} showSkip={false} />
             <Top
                 title="Type Of Account"
                 desc="Choose the type and be carefull because it is impossible to change it again"

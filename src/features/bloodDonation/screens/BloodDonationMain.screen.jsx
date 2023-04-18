@@ -29,7 +29,7 @@ import {
 import { Button as ButtonPaper } from "react-native-paper";
 import SelectDropdown from "react-native-select-dropdown";
 
-const BloodDonationMain = ({ navigation }) => {
+const BloodDonationMain = ({ navigation, route }) => {
     const [donations, setDonations] = useState([]);
     const [visible, setVisible] = useState(false);
     useEffect(() => {
