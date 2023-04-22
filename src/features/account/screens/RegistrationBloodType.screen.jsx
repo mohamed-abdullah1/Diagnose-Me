@@ -16,7 +16,10 @@ import {
 import { useRegisterMutation } from "../../../services/apis/auth.api";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { selectRegisterUser } from "../../../services/slices/registration.slice";
+import {
+    addInfo,
+    selectRegisterUser,
+} from "../../../services/slices/registration.slice";
 
 const bloodGroups = [
     {

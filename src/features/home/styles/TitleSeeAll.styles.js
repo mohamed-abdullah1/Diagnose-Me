@@ -26,5 +26,5 @@ export const Btn = styled(TouchableOpacity)`
 export const Content = styled.Text`
     color: ${(props) => props.theme.colors.light};
     font-family: "Poppins";
-    font-size: 10;
+    font-size: 10px;
 `;

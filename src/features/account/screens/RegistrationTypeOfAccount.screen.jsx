@@ -41,7 +41,7 @@ const RegistrationTypeOfAccount = ({ navigation, route }) => {
 
     const nextPressHandler = () => {
         if (typeAccount === "I Am A Patient") {
-            navigation.navigate("RegistrationAge");
+            navigation.navigate("RegistrationBloodType");
             if (Object.keys(registerUser).includes("isDoctor")) {
                 dispatch(addInfo({ isDoctor: false }));
             }

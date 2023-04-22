@@ -45,9 +45,9 @@ const RegistrationGender = ({ navigation, route }) => {
     const nextPressHandler = () => {
         if (maleOrFemale !== "none") {
             navigation.navigate("RegistrationTypeOfAccount");
-            if (!registerUser.gender) {
-                dispatch(addInfo({ gender: maleOrFemale }));
-            }
+            // if (!registerUser.gender) {
+            dispatch(addInfo({ gender: maleOrFemale }));
+            // }
         }
     };
     useEffect(() => {

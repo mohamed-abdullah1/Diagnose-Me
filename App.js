@@ -16,15 +16,13 @@ export default () => {
     if (!fontLoaded) {
         return null;
     }
-    const user = store.getState().user;
-    console.log("👉", user);
-    // const token = store.getState().token;
+
     return (
         <SafeArea>
             <ThemeProvider theme={theme}>
                 <Provider store={store}>
                     <AuthProvider>
-                        <MainNavigator user={user} />
+                        <MainNavigator />
                     </AuthProvider>
                 </Provider>
             </ThemeProvider>

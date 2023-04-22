@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Keyboard, Text } from "react-native";
+import { Alert, Keyboard, Text } from "react-native";
 import Top from "../components/Top";
 import {
     Circle,
@@ -20,6 +20,8 @@ import {
     selectRegisterUser,
 } from "../../../services/slices/registration.slice";
 import { useDispatch, useSelector } from "react-redux";
+import { usePasswordResetMutation } from "../../../services/apis/auth.api";
+import { useEffect } from "react";
 
 const regSchema = yup.object({
     password: yup
@@ -36,18 +38,26 @@ const regSchema = yup.object({
         .required("Confirm Password is Required")
         .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
-const RegistrationPassword = ({ navigation, route }) => {
+const NewPassword = ({ navigation, route }) => {
     const [isKeyVisible, setKeyboardVisible] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const registerUser = useSelector(selectRegisterUser);
-    const dispatch = useDispatch();
+    const [
+        passwordReset,
+        {
+            error: passwordResetError,
+            isSuccess: passwordResetIsSuccess,
+            isLoading: passwordResetIsLoading,
+            isError: passwordResetIsError,
+        },
+    ] = usePasswordResetMutation();
+    const { pinId } = route.params;
 
     const proceedPressHandler = (values) => {
-        navigation.navigate("RegistrationGender");
-        // if (!registerUser?.password) {
-        dispatch(addInfo({ password: values.password }));
-        // }
+        passwordReset({
+            id: pinId,
+            newPassword: values.password,
+        });
     };
     Keyboard.addListener("keyboardDidShow", () => {
         setKeyboardVisible(true); // or some other action
@@ -55,22 +65,49 @@ const RegistrationPassword = ({ navigation, route }) => {
     Keyboard.addListener("keyboardDidHide", () => {
         setKeyboardVisible(false); // or some other action
     });
-
+    useEffect(() => {
+        if (passwordResetIsSuccess) {
+            Alert.alert(
+                "Password Changed",
+                "Go to Login screen to enter the app",
+                [
+                    {
+                        text: "Continue🔥",
+                        onPress: () => navigation.navigate("Login"),
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+    }, [passwordResetIsSuccess]);
+    useEffect(() => {
+        if (passwordResetIsError) {
+            Alert.alert(
+                "Error",
+                `error: ${passwordResetError}`,
+                [
+                    {
+                        text: "Try Again ♻️",
+                        onPress: () => {
+                            console.log("👉", passwordResetError);
+                        },
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+    }, [passwordResetIsError]);
     return (
         <Background>
             <Top
-                title="PASSWORD"
+                title="Change Your Password"
                 desc="Please enter your New Password and Confirm it"
                 widthDesc={250}
             />
             <Formik
                 initialValues={{
-                    password: registerUser?.password
-                        ? registerUser.password
-                        : "",
-                    rePassword: registerUser?.password
-                        ? registerUser.password
-                        : "",
+                    password: "",
+                    rePassword: "",
                 }}
                 onSubmit={proceedPressHandler}
                 validationSchema={regSchema}
@@ -82,10 +119,11 @@ const RegistrationPassword = ({ navigation, route }) => {
                     values,
                     errors,
                     touched,
+                    isValid,
                 }) => (
                     <Form isKeyVisible={isKeyVisible} flexKeyIsHide={0.4}>
                         <Input
-                            label="Password"
+                            label="New Password"
                             state={values.password}
                             setState={handleChange("password")}
                             onBlur={handleBlur("password")}
@@ -155,6 +193,8 @@ const RegistrationPassword = ({ navigation, route }) => {
                             bgColor="secondary"
                             textColor="#fff"
                             width={323}
+                            loading={passwordResetIsLoading}
+                            disabled={!isValid}
                         >
                             Proceed
                         </Btn>
@@ -165,4 +205,4 @@ const RegistrationPassword = ({ navigation, route }) => {
     );
 };
 
-export default RegistrationPassword;
+export default NewPassword;

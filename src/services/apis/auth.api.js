@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const authApi = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://cb10-45-100-152-23.ngrok-free.app/auth/v1",
+        baseUrl: "https://69a2-45-100-93-197.ngrok-free.app/auth/v1",
         headers: {
             "Content-Type": "application/json",
         },
@@ -60,6 +60,21 @@ export const authApi = createApi({
             }),
             invalidatesTags: ["Auth"],
         }),
+        forgetPassword: builder.mutation({
+            query: (body) => ({
+                url: "/password/forget",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+        passwordReset: builder.mutation({
+            query: (body) => ({
+                url: "/password/reset",
+                method: "POST",
+                body,
+            }),
+        }),
     }),
 });
 
@@ -70,4 +85,6 @@ export const {
     useVerifyMutation,
     useConfirmMutation,
     useResendConfirmMutation,
+    useForgetPasswordMutation,
+    usePasswordResetMutation,
 } = authApi;

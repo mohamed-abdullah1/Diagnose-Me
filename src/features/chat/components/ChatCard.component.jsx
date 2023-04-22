@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { selectChat } from "../../../services/slices/chat.slice";
 import {
     Container,
     DataContainer,
@@ -6,31 +8,27 @@ import {
     Name,
     Time,
 } from "../styles/ChatCard.styles";
-
+import * as dateFns from "date-fns";
 const ChatCard = ({
-    doctorImg,
-    doctorName,
+    senderImg,
+    senderName,
     message,
     navigation,
-    doctorId,
-    patientId,
+    senderId,
+    createdAt,
+    otherPerson,
 }) => {
-    const messageContent =
-        (message.owner === "patient" ? "You: " : "") + message.content;
-    const { time } = message;
-    const formatTime = (t) => {
-        const hour = [10, 11, 12].includes(t.hour) ? t.hour : "0" + t.hour;
-        const minute = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(t.minute)
-            ? "0" + t.minute
-            : t.minute;
-        return `${hour}:${minute} ${t.amOrPm}`;
-    };
+    const { userId } = useSelector(selectChat);
+    // const messageContent =
+    //     (message.owner === "patient" ? "You: " : "") + message.content;
+    // const { time } = message;
+
     const pressHandler = () =>
         navigation.navigate({
             name: "Chat",
             params: {
-                doctorId,
-                patientId,
+                otherId: otherPerson._id,
+                userId,
             },
         });
     return (
@@ -44,12 +42,14 @@ const ChatCard = ({
             }}
             onPress={pressHandler}
         >
-            <Img source={doctorImg} />
+            <Img source={{ uri: senderImg }} />
             <DataContainer>
-                <Name>{"Dr. " + doctorName}</Name>
-                <Message>{messageContent.substring(0, 25)}</Message>
+                <Name>{"Dr. " + senderName}</Name>
+                <Message>{message.substring(0, 25)}</Message>
             </DataContainer>
-            <Time>{formatTime(time)}</Time>
+            <Time>
+                {dateFns.format(dateFns.parseISO(createdAt), "h:mm aaa")}
+            </Time>
         </Container>
     );
 };

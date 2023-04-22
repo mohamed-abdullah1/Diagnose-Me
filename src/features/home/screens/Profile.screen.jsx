@@ -28,8 +28,12 @@ import { View, Text, Platform, StatusBar } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch } from "react-redux";
-import { logout } from "../../../services/slices/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    logout,
+    selectUser,
+    setPersonalPic,
+} from "../../../services/slices/auth.slice";
 const Profile = ({ navigation }) => {
     const [user, setUser] = useState();
     const [editImg, setEditImg] = useState(false);
@@ -38,6 +42,7 @@ const Profile = ({ navigation }) => {
     const [type, setType] = useState(Camera.Constants.Type.front);
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const cameraRef = useRef();
+    const authUser = useSelector(selectUser);
 
     const dispatch = useDispatch();
     const handleChangeType = () => {
@@ -61,6 +66,7 @@ const Profile = ({ navigation }) => {
                 setImage({ uri: data.uri });
                 saveLocalStorage({ uri: data.uri });
                 setEditImg(false);
+                dispatch(setPersonalPic(image));
             })();
         }
     };
@@ -84,7 +90,7 @@ const Profile = ({ navigation }) => {
     };
     useEffect(() => {
         setUser(loadedUser);
-
+        setImage(authUser.profilePictureUrl);
         getLocalStorage("@personalImg")
             .then((d) => {
                 setImage(d);

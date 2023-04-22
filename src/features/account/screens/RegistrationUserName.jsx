@@ -32,15 +32,15 @@ const RegistrationUserName = ({ navigation }) => {
     Keyboard.addListener("KeyboardDidHide", () => setIsKeyVisible(false));
     const proceedPressHandler = (values) => {
         navigation.navigate("RegistrationPassword");
-        if (!registerUser.dateOfbirth || !registerUser.userName) {
-            dispatch(
-                addInfo({
-                    ...values,
-                    dateOfbirth: dateFns.format(date, "yyyy-MM-dd"),
-                })
-            );
-            console.log("👉");
-        }
+        // if (!registerUser.dateOfbirth || !registerUser.userName) {
+        dispatch(
+            addInfo({
+                ...values,
+                dateOfbirth: dateFns.format(date, "yyyy-MM-dd"),
+            })
+        );
+        // console.log("👉");
+        // }
     };
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({

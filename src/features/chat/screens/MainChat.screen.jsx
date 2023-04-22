@@ -9,18 +9,53 @@ import { View } from "react-native";
 import UpperBack from "../../doctor/components/UpperBack.component";
 import { Appbar } from "react-native-paper";
 import { Content } from "../../schedule/styles/ScheduleMain.styles";
+import { useGetChatsQuery } from "../../../services/apis/chat.api";
+import { useSelector } from "react-redux";
+import { selectChat } from "../../../services/slices/chat.slice";
 const MainChat = ({ navigation }) => {
     const [messages, setMessages] = useState(null);
+    const chatsInfo = useSelector(selectChat);
+    const {
+        data: chats,
+        isLoading: chatsLoading,
+        isSuccess: chatsIsSuccess,
+        isError: chatsIsError,
+        error: chatsError,
+    } = useGetChatsQuery(chatsInfo.token);
+
     useEffect(() => {
-        setMessages(
-            loadedMessages.map((msg) => {
-                const { name: doctorName, doctorImg } = doctors.find(
-                    (d) => d.id === msg.doctorId
-                );
-                return { ...msg, doctorName, doctorImg };
-            })
-        );
-    }, []);
+        if (chatsIsSuccess) {
+            setMessages(
+                chats.map((chat) => {
+                    const otherPerson = chat.users.filter(
+                        (user) => user.id !== chatsInfo.userId
+                    )[0];
+                    const {
+                        _id: msgId,
+                        sender,
+                        content: msgContent,
+                        createdAt,
+                        chat: chatId,
+                    } = chat.latestMessage;
+                    const {
+                        _id: senderId,
+                        name: senderName,
+                        pic: senderImg,
+                    } = sender;
+                    return {
+                        otherPerson,
+                        msgId,
+                        senderId,
+                        senderImg,
+                        senderName,
+                        msgContent,
+                        createdAt,
+                        chatId,
+                    };
+                })
+            );
+        }
+    }, [chatsIsSuccess]);
     useFocusEffect(
         useCallback(() => {
             navigation.setOptions({
@@ -64,21 +99,23 @@ const MainChat = ({ navigation }) => {
                 >
                     {messages?.map(
                         ({
-                            doctorId,
-                            patientId,
-                            id,
-                            doctorImg,
-                            doctorName,
-                            messages,
+                            senderId,
+                            msgId,
+                            senderImg,
+                            senderName,
+                            msgContent,
+                            createdAt,
+                            otherPerson,
                         }) => (
                             <ChatCard
-                                patientId={patientId}
-                                doctorId={doctorId}
+                                senderId={senderId}
                                 navigation={navigation}
-                                key={id}
-                                doctorImg={doctorImg}
-                                doctorName={doctorName}
-                                message={messages[messages.length - 1]}
+                                key={msgId}
+                                senderImg={senderImg}
+                                senderName={senderName}
+                                message={msgContent}
+                                createdAt={createdAt}
+                                otherPerson={otherPerson}
                             />
                         )
                     )}

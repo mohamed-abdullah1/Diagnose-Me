@@ -13,6 +13,9 @@ import ScheduleMain from "../features/schedule/screens/ScheduleMain.screen";
 import { Badge } from "react-native-paper";
 import { View } from "react-native";
 import QuestionNavigator from "./question.navigation";
+import { useSelector } from "react-redux";
+import { selectChat } from "../services/slices/chat.slice";
+import { useEffect } from "react";
 
 const Wrapper = ({ badgeNumber, children }) => {
     return (
@@ -77,6 +80,10 @@ const badgeNumbers = {
 };
 const { Navigator, Screen } = createBottomTabNavigator();
 const AppNavigator = () => {
+    const chatsInfo = useSelector(selectChat);
+    useEffect(() => {
+        badgeNumbers.Messages = chatsInfo.numOfChats;
+    }, []);
     return (
         <Navigator
             screenOptions={({ route }) => ({

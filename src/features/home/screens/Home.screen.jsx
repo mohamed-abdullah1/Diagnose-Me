@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TopHeader from "../../components/TopHeader.component";
 import TitleSeeAll from "../components/TitleSeeAll.component";
 import {
@@ -34,10 +34,24 @@ import BlogCard from "../../components/BlogCard.component";
 import colors from "../../../infrastructure/theme/colors";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../services/slices/auth.slice";
+// import { selectChat } from "../../../services/slices/chat.slice";
+// import { useGetChatsQuery } from "../../../services/apis/chat.api";
 
 const Home = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const user = useSelector(selectUser);
+    // const chatInfo = useSelector(selectChat);
+    // const {
+    //     data: chats,
+    //     error: chatsError,
+    //     isSuccess,
+    // } = useGetChatsQuery(chatInfo.token);
+    console.log("👉HOME SCREEN: ", user);
+    // console.log("👉HOME SCREEN: ", chatInfo);
+
     useFocusEffect(
         useCallback(() => {
             navigation.getParent().setOptions({
@@ -66,6 +80,16 @@ const Home = ({ navigation }) => {
                 category: value,
             },
         });
+
+    // useEffect(() => {
+    //     if (chatInfo) {
+    //         getChats(chatInfo.token);
+    //     }
+    // }, [chatInfo]);
+    // useEffect(() => {
+    //     console.log("👉CHATS LENGTH: ", chats);
+    //     console.log("🔥CHATS Errors: ", chatsError);
+    // }, [chats, isSuccess]);
     return (
         <BgContainer>
             <TopHeader
@@ -103,7 +127,7 @@ const Home = ({ navigation }) => {
             </Modal>
             <ScrollView>
                 <HeaderContainer>
-                    <Hello>Hi, {userFirstName}</Hello>
+                    <Hello>Hi, {user.fullName.split(" ")[0]}</Hello>
                     <Emoji
                         source={require("../../../../assets/helpers/emoji.png")}
                     />
@@ -164,7 +188,7 @@ const Home = ({ navigation }) => {
                         />
                         <CardsSection>
                             {trendQuestions.map((q) => (
-                                <QuestionCard question={q} />
+                                <QuestionCard question={q} key={q.id} />
                             ))}
                         </CardsSection>
                     </CategoriesSection>

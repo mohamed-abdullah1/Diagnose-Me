@@ -20,6 +20,7 @@ export const Container = styled(TouchableOpacity)`
 export const Img = styled.Image`
     width: 50px;
     height: 50px;
+    border-radius: 25px;
 `;
 export const DataContainer = styled.View`
     /* border: solid red 1px; */

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, setUserInfo } from "../../../services/slices/auth.slice";
 import { useEffect } from "react";
 import {
+    useForgetPasswordMutation,
     useGetInfoQuery,
     useLoginMutation,
 } from "../../../services/apis/auth.api";
@@ -23,6 +24,7 @@ const loginSchema = yup.object({
 
 const LoginScreen = ({ navigation }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [emailState, setEmailState] = useState("");
 
     const [
         loginUser,
@@ -34,15 +36,28 @@ const LoginScreen = ({ navigation }) => {
         isLoading: infoLoading,
         error: infoError,
     } = useGetInfoQuery(data?.token);
+    const [
+        forgetPassword,
+        {
+            isSuccess: forgetPasswordIsSuccess,
+            isError: forgetPasswordIsError,
+            isLoading: forgetPasswordIsLoading,
+            error: forgetPasswordError,
+        },
+    ] = useForgetPasswordMutation();
 
     const [isKeyVisible, setIsKeyVisible] = useState(false);
     Keyboard.addListener("KeyboardDidShow", () => setIsKeyVisible(true));
     Keyboard.addListener("KeyboardDidHide", () => setIsKeyVisible(false));
 
     const submitHandler = async (values) => {
+        await setEmailState(values.email);
         await loginUser(values);
     };
-    console.log("👉", infoLoading);
+    const handleForgetPassword = () => {
+        console.log("EMAIL STATE:- ", emailState);
+        forgetPassword({ email: emailState });
+    };
     useEffect(() => {
         if (!isSuccess) return console.log("👉", "not successful 🥲", data);
         if (data) {
@@ -61,23 +76,54 @@ const LoginScreen = ({ navigation }) => {
         if (!isError) return;
         console.log("👉🚩", loginError.data.title);
         Alert.alert(
-            //title
             "Error 📛",
-            //body
             loginError.data.title,
             [
                 {
                     text: "Try Again 🔁",
-                    onPress: () => console.log("OK Pressed"),
+                    onPress: () => console.log("OK Pressed", loginError),
                 },
                 {
                     text: "Forget Password ",
-                    onPress: () => console.log("OK Pressed"),
+                    onPress: () => handleForgetPassword(),
                 },
             ],
-            { cancelable: true }
+            { cancelable: false }
         );
     }, [isError]);
+    useEffect(() => {
+        if (forgetPasswordIsSuccess) {
+            Alert.alert(
+                "Check Your Email",
+                "Enter the pin code in the next screen so you can reset your password",
+                [
+                    {
+                        text: "Next",
+                        onPress: () =>
+                            navigation.navigate("RegistrationPinCode", {
+                                email: emailState,
+                                type: "forgetPassword",
+                            }),
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+        if (forgetPasswordIsError) {
+            console.log("👉", forgetPasswordError);
+            Alert.alert(
+                "Problem with email",
+                "This email is not valid type an email to send you a message ${forgetPasswordError.data.title}",
+                [
+                    {
+                        text: "Try Again 🔁",
+                        onPress: () => {},
+                    },
+                ],
+                { cancelable: true }
+            );
+        }
+    }, [forgetPasswordIsSuccess, forgetPasswordIsError]);
     return (
         <Background>
             <Top
@@ -151,7 +197,11 @@ const LoginScreen = ({ navigation }) => {
                             textColor="#fff"
                             width={323}
                             disabled={!isValid}
-                            loading={isLoading || infoLoading}
+                            loading={
+                                isLoading ||
+                                infoLoading ||
+                                forgetPasswordIsLoading
+                            }
                         >
                             LOGIN
                         </Btn>

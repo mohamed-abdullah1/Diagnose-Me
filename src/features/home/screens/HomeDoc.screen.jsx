@@ -41,12 +41,21 @@ import colors from "../../../infrastructure/theme/colors";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import { todayMeetings as loadedTodayMeetings } from "../../../helpers/consts";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../services/slices/auth.slice";
 
 const HomeDoc = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [todayMeetings, setTodayMeetings] = useState([]);
+    const dispatch = useDispatch();
 
+    const imgPressHandler = () => {
+        // navigation.navigate("Profile");
+        // console.log("👉", "pressed");
+        //TODO make a profile screen for doctor
+        dispatch(logout());
+    };
     useFocusEffect(
         useCallback(() => {
             navigation.setOptions({
@@ -69,9 +78,7 @@ const HomeDoc = ({ navigation }) => {
                 onPress={() => {
                     setDrawerVisible(true);
                 }}
-                onPressImg={() => {
-                    navigation.navigate("Profile");
-                }}
+                onPressImg={imgPressHandler}
                 userImg={require("../../../../assets/characters/doctor_male_1.png")}
             />
             <Modal

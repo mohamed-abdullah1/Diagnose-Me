@@ -9,8 +9,8 @@ import RegistrationName from "../features/account/screens/RegistrationName.scree
 import RegistrationPassword from "../features/account/screens/RegistrationPassword.screen";
 import RegistrationGender from "../features/account/screens/RegistrationGender.screen";
 import RegistrationTypeOfAccount from "../features/account/screens/RegistrationTypeOfAccount.screen";
-import RegistrationAge from "../features/account/screens/RegistrationAge.screen";
-import RegistrationWeightHeight from "../features/account/screens/RegistrationWeightHeight.screen";
+// import RegistrationAge from "../features/account/screens/RegistrationAge.screen";
+// import RegistrationWeightHeight from "../features/account/screens/RegistrationWeightHeight.screen";
 import RegistrationBloodType from "../features/account/screens/RegistrationBloodType.screen";
 import RegistrationSpecialty from "../features/account/screens/RegistrationSpecialty.screen";
 import RegistrationHourPrice from "../features/account/screens/RegistrationHourPrice.screen";
@@ -18,6 +18,7 @@ import RegistrationClinicLocation from "../features/account/screens/Registration
 import RegistrationYearsOfExperience from "../features/account/screens/RegistrationYearsOfExperience.screen";
 import RegistrationPinCode from "../features/account/screens/RegistrationPinCode.screen";
 import RegistrationUserName from "../features/account/screens/RegistrationUserName";
+import NewPassword from "../features/account/screens/ForgetPassword.screen";
 
 const Stack = createNativeStackNavigator();
 const AccountNavigator = () => {
@@ -55,11 +56,7 @@ const AccountNavigator = () => {
                 name="RegistrationTypeOfAccount"
                 component={RegistrationTypeOfAccount}
             />
-            <Stack.Screen name="RegistrationAge" component={RegistrationAge} />
-            <Stack.Screen
-                name="RegistrationWeightHeight"
-                component={RegistrationWeightHeight}
-            />
+
             <Stack.Screen
                 name="RegistrationBloodType"
                 component={RegistrationBloodType}
@@ -84,6 +81,7 @@ const AccountNavigator = () => {
                 name="RegistrationYearsOfExperience"
                 component={RegistrationYearsOfExperience}
             />
+            <Stack.Screen name="NewPassword" component={NewPassword} />
         </Stack.Navigator>
     );
 };
