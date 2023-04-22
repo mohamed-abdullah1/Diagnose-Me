@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('node:crypto');
+const Appointment = require('./appointmentModel');
 
 const userSchema = mongoose.Schema(
   {
@@ -19,6 +20,8 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    // doctor: { type: Boolean, default: false },
+    // appointments: [{ start_date: Date, end_date: Date, status: 'waiting' }], //"approved" || "canceled" || "waiting"
   },
   { timestamps: true }
 );
@@ -33,7 +36,7 @@ userSchema.pre('save', async function (next) {
   }
 
   const salt = await bcrypt.genSalt(10);
-  this.password = bcrypt.hash(this.password, salt);
+  this.password = await bcrypt.hash(this.password, salt);
   // console.log('the password encrypted by bcrypt: ', this.password);
   // console.log(
   //   'the password encrypted by crypto SHA256: ',

@@ -1,31 +1,15 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
-const appointmentSchema = mongoose.Schema({
-  _id: {
-    type: String,
+const availableAppointmentSchema = mongoose.Schema(
+  {
+    _id: { type: String },
+    doctor_id: { type: String, ref: 'User' },
+    date: { type: String, required: true, default: new Date() },
+    times: [{ start: Date, end: Date }],
   },
+  { timestamps: true }
+);
 
-  date: { day: Date, time: [{ start: Date, end: Date }] },
-
-  appointmentStatus: {
-    type: String,
-    default: 'available', //available || booked
-  },
-
-  bookingStatus: {
-    type: String,
-    default: 'waiting', //"approved" || "canceled" || "waiting"
-  },
-
-  doctorId: { type: String, default: uuidv4, ref: 'User' },
-
-  patientId: {
-    type: String,
-    default: '',
-    ref: 'User',
-  },
-});
-
-const Appointment = mongoose.model('Appointment', appointmentSchema);
+const Appointment = mongoose.model('Appointment', availableAppointmentSchema);
 module.exports = Appointment;
