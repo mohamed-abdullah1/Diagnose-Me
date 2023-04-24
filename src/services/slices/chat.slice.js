@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//doctor
 const initialState = {
-    userId: "59c3809e-570a-48ff-8842-99a596b3a4e1",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyZGQyZjYyLTBlNzgtNGE1MC1hZGUzLTQ2ZGFmN2QyM2RiZCIsImlhdCI6MTY4MjE0OTk0NiwiZXhwIjoxNjg0NzQxOTQ2fQ.RkHpjslmkVdT21tx_ZjuctzteKzA7Xfu5rVSWc7zZq4",
+    userId: "42dd2f62-0e78-4a50-ade3-46daf7d23dbd",
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyZGQyZjYyLTBlNzgtNGE1MC1hZGUzLTQ2ZGFmN2QyM2RiZCIsImlhdCI6MTY4MjIxMjg2MiwiZXhwIjoxNjg0ODA0ODYyfQ.xZUInWhNeBe_Xunm4b7bJFJWOl1G3WAK7KMqxFuYJ28",
     numOfChats: 0,
 };
 

@@ -7,13 +7,18 @@ import { doctors, msgs as loadedMessages } from "../../../helpers/consts";
 import ChatCard from "../components/ChatCard.component";
 import { View } from "react-native";
 import UpperBack from "../../doctor/components/UpperBack.component";
-import { Appbar } from "react-native-paper";
+import { ActivityIndicator, Appbar, Button } from "react-native-paper";
 import { Content } from "../../schedule/styles/ScheduleMain.styles";
 import { useGetChatsQuery } from "../../../services/apis/chat.api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectChat } from "../../../services/slices/chat.slice";
+import { setUser } from "../../../services/slices/chat.slice";
+import { SocketIoEndPoint } from "../../../infrastructure/Constants";
+import { io } from "socket.io-client";
+
+let socket;
+
 const MainChat = ({ navigation }) => {
-    const [messages, setMessages] = useState(null);
     const chatsInfo = useSelector(selectChat);
     const {
         data: chats,
@@ -21,41 +26,34 @@ const MainChat = ({ navigation }) => {
         isSuccess: chatsIsSuccess,
         isError: chatsIsError,
         error: chatsError,
+        isFetching: chatsIsFetching,
+        refetch: chatsRefetch,
     } = useGetChatsQuery(chatsInfo.token);
+    const dispatch = useDispatch();
+    const patientHandler = () => {
+        console.log("👉", "Iam here!");
+        dispatch(
+            setUser({
+                userId: "59c3809e-570a-48ff-8842-99a596b3a4e1",
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YzM4MDllLTU3MGEtNDhmZi04ODQyLTk5YTU5NmIzYTRlMSIsImlhdCI6MTY4MjMxNjM5MiwiZXhwIjoxNjg0OTA4MzkyfQ.jUbo6aHiRUs94faf6cr_7cU3Ve6112t_BgyXqnIdu7A",
+            })
+        );
+    };
 
     useEffect(() => {
         if (chatsIsSuccess) {
-            setMessages(
-                chats.map((chat) => {
-                    const otherPerson = chat.users.filter(
-                        (user) => user.id !== chatsInfo.userId
-                    )[0];
-                    const {
-                        _id: msgId,
-                        sender,
-                        content: msgContent,
-                        createdAt,
-                        chat: chatId,
-                    } = chat.latestMessage;
-                    const {
-                        _id: senderId,
-                        name: senderName,
-                        pic: senderImg,
-                    } = sender;
-                    return {
-                        otherPerson,
-                        msgId,
-                        senderId,
-                        senderImg,
-                        senderName,
-                        msgContent,
-                        createdAt,
-                        chatId,
-                    };
-                })
-            );
+            console.log("🥗", chats);
+            socket = io(SocketIoEndPoint);
+            chats.forEach((c) => {
+                socket.emit("join chat", c._id);
+                socket.on("new message", () => chatsRefetch());
+            });
         }
-    }, [chatsIsSuccess]);
+        if (chatsIsError) {
+            console.log("🥗", chatsError);
+        }
+    }, [chatsIsSuccess, chatsIsError]);
+
     useFocusEffect(
         useCallback(() => {
             navigation.setOptions({
@@ -69,7 +67,7 @@ const MainChat = ({ navigation }) => {
             });
         }, [])
     );
-    console.log(loadedMessages);
+    // console.log(loadedMessages);
     useFocusEffect(
         useCallback(() => {
             navigation.getParent().setOptions({
@@ -83,44 +81,59 @@ const MainChat = ({ navigation }) => {
             });
         }, [])
     );
+
+    //ui functions
+    const previewChats = chats?.map(
+        ({ msgId, msgContent, createdAt, chatUsers, chatId }) => {
+            const otherPerson = chatUsers.filter(
+                (user) => user._id !== chatsInfo.userId
+            )[0];
+            return (
+                <ChatCard
+                    senderId={otherPerson._id}
+                    navigation={navigation}
+                    key={msgId}
+                    senderImg={otherPerson.pic}
+                    senderName={otherPerson.name}
+                    message={msgContent}
+                    createdAt={createdAt}
+                    otherPerson={otherPerson}
+                    chatId={chatId}
+                />
+            );
+        }
+    );
+
     return (
         <BgContainer>
             <Appbar.Header>
                 <Content title="Chats 📭" />
             </Appbar.Header>
-            <Wrapper>
-                <View
+            {chatsLoading ? (
+                <ActivityIndicator
+                    animating={chatsIsFetching}
+                    color={colors.secondary}
                     style={{
                         flex: 1,
-                        height: "100%",
-                        alignItems: "center",
-                        justifyContent: "space-around",
+                        alignSelf: "center",
+                        justifySelf: "center",
                     }}
-                >
-                    {messages?.map(
-                        ({
-                            senderId,
-                            msgId,
-                            senderImg,
-                            senderName,
-                            msgContent,
-                            createdAt,
-                            otherPerson,
-                        }) => (
-                            <ChatCard
-                                senderId={senderId}
-                                navigation={navigation}
-                                key={msgId}
-                                senderImg={senderImg}
-                                senderName={senderName}
-                                message={msgContent}
-                                createdAt={createdAt}
-                                otherPerson={otherPerson}
-                            />
-                        )
-                    )}
-                </View>
-            </Wrapper>
+                />
+            ) : (
+                <Wrapper>
+                    <View
+                        style={{
+                            flex: 1,
+                            height: "100%",
+                            alignItems: "center",
+                            justifyContent: "space-around",
+                        }}
+                    >
+                        {previewChats}
+                    </View>
+                    <Button onPress={patientHandler}>Patient 2</Button>
+                </Wrapper>
+            )}
         </BgContainer>
     );
 };

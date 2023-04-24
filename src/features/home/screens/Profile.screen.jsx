@@ -62,7 +62,7 @@ const Profile = ({ navigation }) => {
     const handleTakePic = () => {
         if (cameraRef) {
             (async () => {
-                const data = await cameraRef.current.takePictureAsync();
+                const data = await cameraRef?.current.takePictureAsync();
                 setImage({ uri: data.uri });
                 saveLocalStorage({ uri: data.uri });
                 setEditImg(false);
@@ -114,7 +114,7 @@ const Profile = ({ navigation }) => {
 
     return (
         <BgContainer>
-            {editImg ? (
+            {false ? (
                 <View style={{ flex: 1 }}>
                     <Appbar.Header>
                         <Appbar.BackAction

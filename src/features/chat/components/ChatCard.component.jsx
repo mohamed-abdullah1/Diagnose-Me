@@ -16,19 +16,16 @@ const ChatCard = ({
     navigation,
     senderId,
     createdAt,
+    chatId,
     otherPerson,
 }) => {
     const { userId } = useSelector(selectChat);
-    // const messageContent =
-    //     (message.owner === "patient" ? "You: " : "") + message.content;
-    // const { time } = message;
-
     const pressHandler = () =>
         navigation.navigate({
             name: "Chat",
             params: {
-                otherId: otherPerson._id,
-                userId,
+                chatId,
+                otherPerson,
             },
         });
     return (
@@ -44,8 +41,11 @@ const ChatCard = ({
         >
             <Img source={{ uri: senderImg }} />
             <DataContainer>
-                <Name>{"Dr. " + senderName}</Name>
-                <Message>{message.substring(0, 25)}</Message>
+                <Name>{senderName}</Name>
+                <Message>
+                    {(userId === senderId ? "You:" : "") +
+                        message.substring(0, 25)}
+                </Message>
             </DataContainer>
             <Time>
                 {dateFns.format(dateFns.parseISO(createdAt), "h:mm aaa")}

@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useRef } from "react";
-import { Dimensions } from "react-native";
-import { TextInput } from "react-native-paper";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Dimensions, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Button, TextInput } from "react-native-paper";
 import { doctors, msgs } from "../../../helpers/consts";
 import { BgContainer } from "../../home/styles/Global.styles";
 import {
@@ -22,20 +22,75 @@ import {
     MessagesSection,
     MicroPhoneIcon,
     Name,
+    SendIcon,
     State,
     TopSection,
 } from "../styles/Chat.styles";
+import {
+    useCreateAccessChatMutation,
+    useGetAllMessagesQuery,
+    useSendMessageMutation,
+} from "../../../services/apis/chat.api";
+import { useSelector } from "react-redux";
+import { selectChat } from "../../../services/slices/chat.slice";
+import { io } from "socket.io-client";
+import { SocketIoEndPoint } from "../../../infrastructure/Constants";
+import colors from "../../../infrastructure/theme/colors";
+
+let socket;
 
 const Chat = ({ route, navigation }) => {
     const ref = useRef();
-    console.log(route.name, route.params);
-    const { patientId, doctorId } = route.params;
-    const { messages, doctorActive } = msgs.find(
-        (m) => m.patientId === patientId && m.doctorId === doctorId
-    );
-    console.log(messages);
+    const { token, userId } = useSelector(selectChat);
+    const [focus, setFocus] = useState(false);
+    const [content, setContent] = useState("");
+    const { chatId, otherPerson } = route.params;
+    const {
+        data: msgs,
+        isLoading: msgsLoading,
+        isSuccess: msgsIsSuccess,
+        isError: msgsIsError,
+        error: msgsError,
+        isFetching: msgsIsFetching,
+        refetch: msgsRefetch,
+    } = useGetAllMessagesQuery({ chatId, token });
+    const [
+        sendMsg,
+        {
+            data: sendMsgResponse,
+            isSuccess: sendMsgIsSuccess,
+            isError: sendMsgIsError,
+            error: sendMsgError,
+        },
+    ] = useSendMessageMutation();
+    // const { messages, doctorActive } = msgs.find(
+    //     (m) => m.patientId === patientId && m.doctorId === doctorId
+    // );
+    // console.log(messages, "yep");
     //if we in the patient component
-    const { name, doctorImg } = doctors.find((doc) => doc.id === doctorId);
+    // const { name, doctorImg } = doctors.find((doc) => doc.id === doctorId);
+
+    // const [
+    //     createAccessChat,
+    //     {
+    //         data: chatRes,
+    //         error: chatErr,
+    //         isError: chatIsErr,
+    //         isSuccess: chatIsSuccess,
+    //     },
+    // ] = useCreateAccessChatMutation();
+
+    const handleFocus = () => setFocus(true);
+    const handleBlur = () => setFocus(false);
+    const backPressHandler = () => {
+        navigation.goBack();
+    };
+    const sendHandler = () => {
+        if (content) {
+            sendMsg({ token, content, chatId });
+        }
+    };
+
     useFocusEffect(
         useCallback(() => {
             navigation.getParent().setOptions({
@@ -43,82 +98,136 @@ const Chat = ({ route, navigation }) => {
             });
         }, [])
     );
-    const backPressHandler = () => {
-        navigation.goBack();
-    };
-    const getScrollHeight = () => {
-        let h = 0;
-        let xChar = (Dimensions.get("window").width * 61) / 392.7;
-        messages.forEach((msg, i) => {
-            h += Math.ceil(msg.content.length / xChar);
-        });
-        console.log("🆓", Dimensions.get("window").height);
-        return h;
-    };
-    getScrollHeight();
     useEffect(() => {
-        ref.current.scrollToEnd({
-            animated: true,
+        socket = io(SocketIoEndPoint);
+        // socket.on("setup", { _id: chatId });
+        socket.emit("join chat", chatId);
+        socket.on("message recieved", async () => {
+            try {
+                await msgsRefetch();
+            } catch (e) {
+                console.error(e);
+            }
         });
+        // return () => {
+        //     socket.emit("leave", { _id: chatId });
+        // };
     }, []);
+    useEffect(() => {
+        if (focus && ref) {
+            socket.emit("typing", chatId);
+            ref?.current?.scrollToEnd({ animated: true });
+        } else {
+            socket.emit("stop typing", chatId);
+        }
+    }, [focus]);
+    useEffect(() => {
+        if (msgsIsSuccess) {
+            console.log("RESPONSE:-💚", msgs);
+        }
+        if (msgsIsError) {
+            console.log("ERROR:-🍎", msgsError);
+        }
+    }, [msgsIsSuccess, msgsIsError]);
+    useEffect(() => {
+        if (sendMsgIsSuccess) {
+            setContent("");
+            socket.emit("new message", sendMsgResponse);
+            console.log("👉", sendMsgResponse);
+            // msgsRefetch();
+        }
+    }, [sendMsgIsSuccess]);
+    useEffect(() => {
+        if (sendMsgIsError) {
+            console.log("👉", sendMsgError);
+        }
+    }, [sendMsgIsError]);
+    useEffect(() => {
+        if (ref) {
+            ref?.current?.scrollToEnd({
+                animated: true,
+            });
+        }
+    }, [msgs]);
     return (
         <BgContainer>
-            <TopSection
-                style={{
-                    elevation: 10,
-                    shadowColor: "#000000a6",
-                    shadowOffset: { width: -2, height: 4 },
-                    shadowOpacity: 0.82,
-                    shadowRadius: 8,
-                }}
-            >
-                <ImgContainer>
-                    <Img source={doctorImg} />
-                </ImgContainer>
-                <InfoData>
-                    <Name>{"Dr. " + name}</Name>
-                    <State>
-                        {doctorActive ? "Active" : "Active  1 min ago"}
-                    </State>
-                </InfoData>
-                <CloseIcon onPress={backPressHandler}>
-                    <Icon />
-                </CloseIcon>
-            </TopSection>
-            <MessagesSection>
-                <MessageScroll
-                    onLayout={(e) => console.log("🍠", e.nativeEvent.layout)}
-                    ref={ref}
-                    length={getScrollHeight()}
-                    total={messages.length}
-                >
-                    {messages.map((mes) => (
-                        <MessageContainer key={mes.id}>
-                            <MessageContent
-                                mySelf="patient"
-                                doctorOrPatient={mes.owner}
+            {msgsLoading ? (
+                <ActivityIndicator
+                    animating={msgsIsFetching}
+                    color={colors.secondary}
+                    style={{
+                        flex: 1,
+                        alignSelf: "center",
+                        justifySelf: "center",
+                    }}
+                />
+            ) : (
+                <>
+                    <TopSection
+                        style={{
+                            elevation: 10,
+                            shadowColor: "#000000a6",
+                            shadowOffset: { width: -2, height: 4 },
+                            shadowOpacity: 0.82,
+                            shadowRadius: 8,
+                        }}
+                    >
+                        <ImgContainer>
+                            <Img source={{ uri: otherPerson.pic }} />
+                        </ImgContainer>
+                        <InfoData>
+                            <Name>{otherPerson.name}</Name>
+                            <State>
+                                {/* // todo: change the state to the real state */}
+                                {true ? "Active" : "Active  1 min ago"}
+                            </State>
+                        </InfoData>
+                        <CloseIcon onPress={backPressHandler}>
+                            <Icon />
+                        </CloseIcon>
+                    </TopSection>
+                    <MessagesSection>
+                        <MessageScroll ref={ref}>
+                            {msgs.map((mes) => (
+                                <MessageContainer key={mes.id}>
+                                    <MessageContent
+                                        mySelf={userId}
+                                        doctorOrPatient={mes.senderId}
+                                    >
+                                        {mes.content}
+                                    </MessageContent>
+                                </MessageContainer>
+                            ))}
+                        </MessageScroll>
+                    </MessagesSection>
+                    <BottomSection>
+                        <InputContainer>
+                            <InputField
+                                multiline={true}
+                                placeholder="Type Your Message"
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                                onChangeText={setContent}
+                                value={content}
+                            />
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: colors.secondary,
+                                    // padding: 5,
+                                    width: 45,
+                                    height: 45,
+                                    borderRadius: 45 / 2,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                onPress={sendHandler}
                             >
-                                {mes.content}
-                            </MessageContent>
-                        </MessageContainer>
-                    ))}
-                </MessageScroll>
-            </MessagesSection>
-            <BottomSection>
-                <InputContainer>
-                    <InputField
-                        multiline={true}
-                        placeholder="Type Your Message"
-                    />
-                    <IconWrapper>
-                        <MicroPhoneIcon />
-                    </IconWrapper>
-                    <IconWrapper>
-                        <ImgIcon />
-                    </IconWrapper>
-                    <AttachIcon />
-                </InputContainer>
-            </BottomSection>
+                                {focus ? <SendIcon /> : <AttachIcon />}
+                            </TouchableOpacity>
+                        </InputContainer>
+                    </BottomSection>
+                </>
+            )}
         </BgContainer>
     );
 };

@@ -45,6 +45,7 @@
         "react-native-web": "~0.18.7",
         "react-redux": "^8.0.5",
         "rn-keyboard-avoider": "^1.0.8",
+        "socket.io-client": "^4.6.1",
         "styled-components": "^5.3.6",
         "yup": "^1.0.2"
     },

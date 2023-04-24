@@ -93,7 +93,7 @@ const Doctor = ({ route }) => {
 
     useScrollToTop(
         useRef({
-            scrollToTop: () => ref.current?.scrollToOffset({ offset: 10 }),
+            scrollToTop: () => ref?.current?.scrollToOffset({ offset: 10 }),
         })
     );
     return (

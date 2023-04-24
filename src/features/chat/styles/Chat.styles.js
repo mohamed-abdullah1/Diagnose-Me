@@ -25,8 +25,9 @@ export const ImgContainer = styled.View`
     align-items: center;
 `;
 export const Img = styled.Image`
-    width: 59px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
 `;
 export const InfoData = styled.View`
     flex: 4;
@@ -137,9 +138,16 @@ export const ImgIcon = styled(Feather).attrs((props) => ({
 export const AttachIcon = styled(Ionicons).attrs((props) => ({
     name: "attach",
     size: 24,
-    color: props.theme.colors.primary,
+    color: props.theme.colors.light,
 }))`
-    margin-right: 5px;
+    /* margin-right: 5px; */
+`;
+export const SendIcon = styled(Ionicons).attrs((props) => ({
+    name: "ios-send",
+    size: 20,
+    color: props.theme.colors.light,
+}))`
+    /* margin-right: 5px; */
 `;
 export const IconWrapper = styled.View`
     justify-content: center;
