@@ -12,14 +12,15 @@ namespace MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostById;
 public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<PostResponse>>
 {
     private readonly IPostRepository _postRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IPostRatingRepository _postRatingRepository;
     private readonly IPostViewRepository _postViewRepository;
     private readonly IMapper _mapper;
 
     public GetPostQueryHandler(
         IPostRepository postRepository,
-        ICommentAgreementRepository commentAgreementRepository,
         IPostRatingRepository postRatingRepository,
+        IUserRepository userRepository,
         IPostViewRepository postViewRepository,
         IMapper mapper)
     {
@@ -27,9 +28,14 @@ public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<Pos
         _postRatingRepository = postRatingRepository;
         _postViewRepository = postViewRepository;
         _mapper = mapper;
+        _userRepository = userRepository;
     }
     public async Task<ErrorOr<PostResponse>> Handle(GetPostByIdQuery query, CancellationToken cancellationToken)
     {
+        var user = await _userRepository.GetByIdAsync(query.UserId);
+        if (user == null)
+            return Errors.User.NotFound;
+        
         var post = await _postRepository.GetByIdAsync(query.Id);
         if (post == null)
         {
@@ -42,7 +48,8 @@ public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<Pos
             var postView = new PostView{
                 PostId = query.Id,
                 UserId = query.UserId};
-
+            postView.Post = post;
+            postView.User = user;
             await _postViewRepository.AddAsync(postView);
             await _postViewRepository.SaveAsync(cancellationToken);
             postViews.Add(postView);
