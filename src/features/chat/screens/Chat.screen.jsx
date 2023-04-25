@@ -27,24 +27,19 @@ import {
     TopSection,
 } from "../styles/Chat.styles";
 import {
-    useCreateAccessChatMutation,
     useGetAllMessagesQuery,
     useSendMessageMutation,
 } from "../../../services/apis/chat.api";
 import { useSelector } from "react-redux";
 import { selectChat } from "../../../services/slices/chat.slice";
-import { io } from "socket.io-client";
-import { SocketIoEndPoint } from "../../../infrastructure/Constants";
 import colors from "../../../infrastructure/theme/colors";
-
-let socket;
 
 const Chat = ({ route, navigation }) => {
     const ref = useRef();
     const { token, userId } = useSelector(selectChat);
     const [focus, setFocus] = useState(false);
     const [content, setContent] = useState("");
-    const { chatId, otherPerson } = route.params;
+    const { chatId, otherPerson, socket } = route.params;
     const {
         data: msgs,
         isLoading: msgsLoading,
@@ -99,19 +94,17 @@ const Chat = ({ route, navigation }) => {
         }, [])
     );
     useEffect(() => {
-        socket = io(SocketIoEndPoint);
-        // socket.on("setup", { _id: chatId });
-        socket.emit("join chat", chatId);
-        socket.on("message recieved", async () => {
-            try {
-                await msgsRefetch();
-            } catch (e) {
-                console.error(e);
-            }
+        socket.on("message received", () => {
+            (async () => {
+                try {
+                    if (!msgs) {
+                        await msgsRefetch();
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            })();
         });
-        // return () => {
-        //     socket.emit("leave", { _id: chatId });
-        // };
     }, []);
     useEffect(() => {
         if (focus && ref) {
@@ -132,9 +125,8 @@ const Chat = ({ route, navigation }) => {
     useEffect(() => {
         if (sendMsgIsSuccess) {
             setContent("");
-            socket.emit("new message", sendMsgResponse);
+            socket.emit("new message", chatId);
             console.log("👉", sendMsgResponse);
-            // msgsRefetch();
         }
     }, [sendMsgIsSuccess]);
     useEffect(() => {

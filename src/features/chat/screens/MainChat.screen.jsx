@@ -13,10 +13,7 @@ import { useGetChatsQuery } from "../../../services/apis/chat.api";
 import { useDispatch, useSelector } from "react-redux";
 import { selectChat } from "../../../services/slices/chat.slice";
 import { setUser } from "../../../services/slices/chat.slice";
-import { SocketIoEndPoint } from "../../../infrastructure/Constants";
-import { io } from "socket.io-client";
-
-let socket;
+import useSocketSetup from "../../../helpers/useSocketSetup";
 
 const MainChat = ({ navigation }) => {
     const chatsInfo = useSelector(selectChat);
@@ -43,11 +40,6 @@ const MainChat = ({ navigation }) => {
     useEffect(() => {
         if (chatsIsSuccess) {
             console.log("🥗", chats);
-            socket = io(SocketIoEndPoint);
-            chats.forEach((c) => {
-                socket.emit("join chat", c._id);
-                socket.on("new message", () => chatsRefetch());
-            });
         }
         if (chatsIsError) {
             console.log("🥗", chatsError);
@@ -99,6 +91,7 @@ const MainChat = ({ navigation }) => {
                     createdAt={createdAt}
                     otherPerson={otherPerson}
                     chatId={chatId}
+                    refetch={chatsRefetch}
                 />
             );
         }

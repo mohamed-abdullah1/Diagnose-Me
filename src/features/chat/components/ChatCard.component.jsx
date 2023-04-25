@@ -9,6 +9,8 @@ import {
     Time,
 } from "../styles/ChatCard.styles";
 import * as dateFns from "date-fns";
+import useSocketSetup from "../../../helpers/useSocketSetup";
+import { useEffect } from "react";
 const ChatCard = ({
     senderImg,
     senderName,
@@ -18,16 +20,31 @@ const ChatCard = ({
     createdAt,
     chatId,
     otherPerson,
+    refetch,
 }) => {
     const { userId } = useSelector(selectChat);
+    const socket = useSocketSetup();
     const pressHandler = () =>
         navigation.navigate({
             name: "Chat",
             params: {
                 chatId,
                 otherPerson,
+                socket,
             },
         });
+    useEffect(() => {
+        socket.emit("join chat", chatId);
+        socket.on("message received", () => {
+            (async () => {
+                try {
+                    await refetch();
+                } catch (err) {
+                    console.error(err);
+                }
+            })();
+        });
+    }, []);
     return (
         <Container
             style={{

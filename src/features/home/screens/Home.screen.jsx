@@ -35,7 +35,7 @@ import colors from "../../../infrastructure/theme/colors";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../../services/slices/auth.slice";
+import { selectToken, selectUser } from "../../../services/slices/auth.slice";
 // import { selectChat } from "../../../services/slices/chat.slice";
 // import { useGetChatsQuery } from "../../../services/apis/chat.api";
 
@@ -43,13 +43,15 @@ const Home = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState("Mohamed");
     const [drawerVisible, setDrawerVisible] = useState(false);
     const user = useSelector(selectUser);
+    const token = useSelector(selectToken);
     // const chatInfo = useSelector(selectChat);
     // const {
     //     data: chats,
     //     error: chatsError,
     //     isSuccess,
     // } = useGetChatsQuery(chatInfo.token);
-    console.log("👉HOME SCREEN: ", user);
+    console.log("👉 HOME SCREEN: ", user);
+    console.log("👉 HOME SCREEN: ", token);
     // console.log("👉HOME SCREEN: ", chatInfo);
 
     useFocusEffect(

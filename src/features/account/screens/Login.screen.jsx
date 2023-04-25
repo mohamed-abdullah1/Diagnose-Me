@@ -74,10 +74,10 @@ const LoginScreen = ({ navigation }) => {
     }, [userInfo]);
     useEffect(() => {
         if (!isError) return;
-        console.log("👉🚩", loginError.data.title);
+        console.log("👉🚩", loginError?.data?.title);
         Alert.alert(
             "Error 📛",
-            loginError.data.title,
+            loginError?.data?.title,
             [
                 {
                     text: "Try Again 🔁",
