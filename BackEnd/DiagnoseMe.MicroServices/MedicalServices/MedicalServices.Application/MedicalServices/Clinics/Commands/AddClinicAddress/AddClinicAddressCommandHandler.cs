@@ -12,15 +12,18 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
 {
     private readonly IClinicRepository _clinicRepository;
     private readonly IClinicAddressRepository _clinicAddressRepository;
+    private readonly IDoctorRepository _doctorRepository;
     private readonly IFileHandler _fileHandler;
     public AddClinicAddressCommandHandler(
         IClinicRepository clinicRepository,
         IClinicAddressRepository addressRepository,
+        IDoctorRepository doctorRepository,
         IFileHandler fileHandler)
     {
         _clinicRepository = clinicRepository;
         _clinicAddressRepository = addressRepository;
         _fileHandler = fileHandler;
+        _doctorRepository = doctorRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddClinicAddressCommand command, CancellationToken cancellationToken)
@@ -28,6 +31,11 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
         var clinic =  (await _clinicRepository.GetByIdAsync(command.ClinicId));
         if (clinic == null)
             return Errors.Clinic.NotFound;
+        
+        var owner = await _doctorRepository.GetByIdAsync(command.OwnerId);
+        if (owner == null)
+            return Errors.User.NotFound;
+
         var address = new ClinicAddress{
             Id = Guid.NewGuid().ToString(),
             Name = command.Name,
@@ -41,6 +49,8 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
             ClinicId = clinic.Id,
             CreatedOn = DateTime.Now,
             OwnerId = command.OwnerId};
+        address.Clinic = clinic;
+        address.Owner = owner;
         var result = SaveFile.SavePicture(command.Base64Picture, _fileHandler);
         if (result.IsError)
             return result.Errors;

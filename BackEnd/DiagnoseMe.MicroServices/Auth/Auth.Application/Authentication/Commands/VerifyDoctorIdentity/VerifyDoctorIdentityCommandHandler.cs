@@ -1,4 +1,6 @@
 using Auth.Application.Common.Interfaces.AI;
+using Auth.Application.Common.Interfaces.RabbitMQ;
+using MapsterMapper;
 
 namespace Auth.Application.Authentication.Commands.VerifyDoctorIdentity;
 
@@ -9,14 +11,20 @@ public class VerifyDoctorIdentityCommandHandler:
 {
     private readonly IDoctorIdentifyService _doctorIdentifyService;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IMapper _mapper;
 
     public VerifyDoctorIdentityCommandHandler(
         UserManager<ApplicationUser> userManager,
         IDoctorIdentifyService doctorIdentifyService,
+        IMessageQueueManager messageQueueManager,
+        IMapper mapper,
         IJwtTokenGenerator jwtTokenGenerator): base(userManager)
     {
         _doctorIdentifyService = doctorIdentifyService;
         _jwtTokenGenerator = jwtTokenGenerator;
+        _messageQueueManager = messageQueueManager;
+        _mapper = mapper;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyDoctorIdentityCommand command, CancellationToken cancellationToken)
@@ -41,6 +49,7 @@ public class VerifyDoctorIdentityCommandHandler:
         if(!updateResult.Succeeded)
             return Errors.User.MapIdentityError(updateResult.Errors.ToList());
         
+        _messageQueueManager.UpdateUser(_mapper.Map<ApplicationUserResponse>(user));
         return new AuthenticationResult{
             Message = $"User {user.UserName} is {(user.IsDoctor ? "doctor" : "not doctor")}",
             Token = "Bearer " + (new JwtSecurityTokenHandler().WriteToken(_jwtTokenGenerator

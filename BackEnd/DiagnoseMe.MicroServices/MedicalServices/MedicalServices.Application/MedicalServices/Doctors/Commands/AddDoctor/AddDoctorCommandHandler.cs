@@ -25,6 +25,10 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddDoctorCommand command, CancellationToken cancellationToken)
     {
+        var user = await _userRepository.GetByIdAsync(command.UserId);
+        if (user == null)
+            return Errors.User.NotFound;
+
         var clinic = await _clinicRepository.GetByIdAsync(command.ClinicId);
         if (clinic == null)
             return Errors.Clinic.NotFound;
@@ -39,9 +43,8 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
             ClinicId = command.ClinicId
         };
 
-        var user = await _userRepository.GetByIdAsync(command.UserId);
-        if (user == null)
-            return Errors.User.NotFound;
+        doctor.Clinic = clinic;
+        doctor.User = user;
         
         await _doctorRepository.AddAsync(doctor);
 

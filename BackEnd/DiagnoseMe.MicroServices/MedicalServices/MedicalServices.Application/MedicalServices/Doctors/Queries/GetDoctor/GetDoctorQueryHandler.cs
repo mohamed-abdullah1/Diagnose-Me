@@ -11,14 +11,17 @@ namespace MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctor;
 public class GetDoctorQueryHandler : IRequestHandler<GetDoctorQuery, ErrorOr<DoctorResponse>>
 {
     private readonly IDoctorRepository _doctorRepository;
+    private readonly IDoctorRateRepository _doctorRateRepository;
     private readonly IMapper _mapper;
 
     public GetDoctorQueryHandler(
-        IDoctorRepository doctorRepository, 
+        IDoctorRepository doctorRepository,
+        IDoctorRateRepository doctorRateRepository, 
         IMapper mapper)
     {
         _doctorRepository = doctorRepository;
         _mapper = mapper;
+        _doctorRateRepository = doctorRateRepository;
     }
 
     public async Task<ErrorOr<DoctorResponse>> Handle(GetDoctorQuery query, CancellationToken cancellationToken)
@@ -30,6 +33,11 @@ public class GetDoctorQueryHandler : IRequestHandler<GetDoctorQuery, ErrorOr<Doc
         if (doctor == null)
             return Errors.Doctor.NotFound;
 
+        var doctorRates = (await _doctorRateRepository.Get(
+            predicate: r => r.DoctorId == query.DoctorId,
+            include: "User")).ToList();
+
+        doctor.DoctorRates = doctorRates;  
         return _mapper.Map<DoctorResponse>(doctor);
     }
 }

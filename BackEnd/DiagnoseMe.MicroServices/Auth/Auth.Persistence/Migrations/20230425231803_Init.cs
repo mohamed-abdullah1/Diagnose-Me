@@ -48,9 +48,9 @@ namespace Auth.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NationalID = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastEmailChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(1565)),
-                    LastUserNameChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(2068)),
-                    LastConfirmationSentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(234)),
+                    LastEmailChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(6657)),
+                    LastUserNameChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(7969)),
+                    LastConfirmationSentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(4729)),
                     Gender = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
@@ -230,9 +230,9 @@ namespace Auth.Persistence.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BloodType", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "IsDoctor", "LastName", "LockoutEnabled", "LockoutEnd", "NationalID", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "00edafe3-b047-5980-d0fa-da10f400c1e5", 0, "", "c5e14f33-ca0f-44d2-8366-a452b8c0f94c", new DateOnly(2000, 4, 26), "admin@diagnose.me", true, "Admin", "", false, "", false, null, "", "admin@diagnose.me", "Admin", "AQAAAAIAAYagAAAAEEyPaijjM4XN40b7wwyZIEW2MH8U8exTjjMKS9ohL9z2f+vjfAgya3/w1zqAdhW6tw==", null, true, "", "7f85b1b3-6051-4a77-bdbc-3234d91d3b15", false, "Admin" },
-                    { "657cb6cb-abf2-00d1-5d46-939a7b3aff5f", 0, "", "7926a29f-64fe-44c5-9710-142a9be07cee", new DateOnly(2000, 4, 26), "doctor@diagnose.me", true, "Doctor", "", false, "", false, null, "", "doctor@diagnose.me", "Doctor", "AQAAAAIAAYagAAAAECED8PGqEKsQ/o+rqAQLohng9ZmAAm2K9Q+8EsOcdYfU7NYgoSxlpJKM45WgaRG/TQ==", null, true, "", "5290d371-8035-4323-ae07-7fddc2c7ecee", false, "Doctor" },
-                    { "972a1201-a9dc-2127-0827-560cb7d76af8", 0, "", "4cbd5483-0411-4914-8fcc-8ccb1fa3803f", new DateOnly(2000, 4, 26), "patient@diagnose.me", true, "Patient", "", false, "", false, null, "", "patient@diagnose.me", "Patient", "AQAAAAIAAYagAAAAEKq5hqydRmKkCDfg5Q+gaZepgMxax4Aoql9p7mqj1FxcAC76fqL3IxktyxUTDmLvAw==", null, true, "", "1a0a75d2-2f8a-4449-bd41-20dbe68a5f03", false, "Patient" }
+                    { "00edafe3-b047-5980-d0fa-da10f400c1e5", 0, "", "f71db386-d30e-451e-8435-b1516b42d9a3", new DateOnly(2000, 4, 26), "admin@diagnose.me", true, "Admin", "", false, "", false, null, "", "admin@diagnose.me", "Admin", "AQAAAAIAAYagAAAAEF4DU/NcymnFR41/25Rvj8cm4k5XbBINcEIwUVji2Sf9+6euOKwc13S4LalayCusSg==", null, true, "", "cb3b5db6-f1a0-479f-85b5-4ff188108895", false, "Admin" },
+                    { "657cb6cb-abf2-00d1-5d46-939a7b3aff5f", 0, "", "f6eb8616-664d-496e-9323-b74d8e538ccb", new DateOnly(2000, 4, 26), "doctor@diagnose.me", true, "Doctor", "", false, "", false, null, "", "doctor@diagnose.me", "Doctor", "AQAAAAIAAYagAAAAEKLNVePb72f6YpgBg64T+8CBpTVZz69XxtiPpYsC4qB3OMkujJBXLkcTioGPhim4Ug==", null, true, "", "d9df3508-ebd7-4ab1-ae25-ad4ecef4d2a8", false, "Doctor" },
+                    { "972a1201-a9dc-2127-0827-560cb7d76af8", 0, "", "5573a79f-9a5e-46e3-87bb-654af78fb6a7", new DateOnly(2000, 4, 26), "patient@diagnose.me", true, "Patient", "", false, "", false, null, "", "patient@diagnose.me", "Patient", "AQAAAAIAAYagAAAAEAtrKJxbQyk4aOplqmDb//Ae18k44bIm7rUw4aDq5EelCMuERb1tNZHBSabcmsLuKQ==", null, true, "", "0c5a9ee8-c77e-45dd-b40c-dd78f1c981e1", false, "Patient" }
                 });
 
             migrationBuilder.InsertData(

@@ -17,7 +17,9 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(command.Id);
+        var user = (await _userRepository.Get(
+            predicate: x => x.Id == command.Id,
+            include: "Doctor,Patient")).FirstOrDefault();
         if (user == null)
             return Errors.User.NotFound;
         
@@ -25,6 +27,20 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         user.FullName = command.FullName;
         user.ProfilePictureUrl = command.ProfilePictureUrl;
         user.IsDoctor = command.IsDoctor;
+
+        if(user.IsDoctor)
+        {
+            user.Patient = null;
+            user.Doctor ??= new Doctor{
+                Id = user.Id
+            };
+        }
+        else{
+            user.Doctor = null;
+            user.Patient ??= new Patient{
+                Id = user.Id
+            };
+        }
 
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.UpdateFailed;

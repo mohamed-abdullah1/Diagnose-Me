@@ -47,6 +47,11 @@ public static partial class Errors
             code: "Doctor.Rate.NotFound",
             description: "Doctor rate not found."
         );
+
+        public static Error AlreadyExists => Error.Failure(
+            code: "Doctor.Rate.AlreadyExists",
+            description: "Doctor rate already exists."
+        );
     }
     }
 }

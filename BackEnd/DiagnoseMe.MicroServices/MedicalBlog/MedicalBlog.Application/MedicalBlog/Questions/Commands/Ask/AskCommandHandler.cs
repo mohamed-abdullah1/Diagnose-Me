@@ -20,7 +20,6 @@ public class AskCommandHandler : IRequestHandler<AskCommand, ErrorOr<CommandResp
     }
     public async Task<ErrorOr<CommandResponse>> Handle(AskCommand command, CancellationToken cancellationToken)
     {
-        
         var askingUser = await _userRepository.GetByIdAsync(command.AskingUserId);
         if (askingUser == null)
         {
@@ -34,7 +33,7 @@ public class AskCommandHandler : IRequestHandler<AskCommand, ErrorOr<CommandResp
             AskingUserId = command.AskingUserId,
             CreatedOn = DateTime.UtcNow
         };
-
+        question.AskingUser = askingUser;   
         await _questionRepository.AddAsync(question);
 
         if (await _questionRepository.SaveAsync(cancellationToken) == 0)

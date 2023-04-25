@@ -37,6 +37,7 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
             CreatedOn = DateTime.UtcNow
         };
 
+        post.Author = author;
 
         await _postRepository.AddAsync(post);
         if (await _postRepository.SaveAsync(cancellationToken) == 0)

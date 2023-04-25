@@ -10,16 +10,16 @@ public class AnswerCommandHandler : IRequestHandler<AnswerCommand, ErrorOr<Comma
 {
     private readonly IAnswerRepository _answerRepository;
     private readonly IQuestionRepository _questionRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IUserRepository _answeringDoctorRepository;
 
     public AnswerCommandHandler(
         IAnswerRepository answerRepository,
         IQuestionRepository questionRepository,
-        IUserRepository userRepository)
+        IUserRepository answeringDoctorRepository)
     {
         _answerRepository = answerRepository;
         _questionRepository = questionRepository;
-        _userRepository = userRepository;
+        _answeringDoctorRepository = answeringDoctorRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AnswerCommand command, CancellationToken cancellationToken)
@@ -27,9 +27,9 @@ public class AnswerCommandHandler : IRequestHandler<AnswerCommand, ErrorOr<Comma
         var question = await _questionRepository.GetByIdAsync(command.QuestionId);
         if (question is null)
             return Errors.Question.NotFound;
-        var user = await _userRepository.GetByIdAsync(command.AnsweringDoctorId);
-        if (user is null){
-            // TODO: Check user in auth service
+        var answeringDoctor = await _answeringDoctorRepository.GetByIdAsync(command.AnsweringDoctorId);
+        if (answeringDoctor is null){
+            // TODO: Check answeringDoctor in auth service
             return Errors.User.NotFound;
         }
         var answer = new Answer
@@ -39,7 +39,8 @@ public class AnswerCommandHandler : IRequestHandler<AnswerCommand, ErrorOr<Comma
             AnsweringDoctorId = command.AnsweringDoctorId,
             QuestionId = command.QuestionId
         };
-
+        answer.AnsweringDoctor = answeringDoctor;
+        answer.Question = question;
 
         await _answerRepository.AddAsync(answer);
         if (await _answerRepository.SaveAsync(cancellationToken) == 0)

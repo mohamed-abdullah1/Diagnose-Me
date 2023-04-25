@@ -41,6 +41,8 @@ public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand, Error
             PostId = command.PostId,
             ParentId = Guid.Empty.ToString(),
         };
+        comment.Author = author;
+        comment.Post = post;
         
         await _commentRepository.AddAsync(comment);
 

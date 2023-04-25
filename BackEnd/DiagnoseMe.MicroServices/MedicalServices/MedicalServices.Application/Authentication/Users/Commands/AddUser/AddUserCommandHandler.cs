@@ -19,10 +19,8 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ErrorOr<Com
     {
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user != null)
-        {
             return Errors.User.AlreadyExists;
-        }
-
+        
         user = new User{
             Id = command.Id,
             Name = command.Name,
@@ -32,10 +30,21 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ErrorOr<Com
         };
         
         await _userRepository.AddAsync(user);
-        if (await _userRepository.SaveAsync(cancellationToken) == 0)
+
+        if (user.IsDoctor)
         {
-            return Errors.User.AddFailed;
+            user.Doctor = new Doctor{
+                Id = user.Id
+            };
         }
+        else{
+            user.Patient = new Patient{
+                Id = user.Id
+            };
+        }
+
+        if (await _userRepository.SaveAsync(cancellationToken) == 0)
+            return Errors.User.AddFailed;
 
         return new CommandResponse(
             Success: true,

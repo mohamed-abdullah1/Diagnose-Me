@@ -25,13 +25,23 @@ public class UpdateDoctorRateCommandHandler : IRequestHandler<UpdateDoctorRateCo
         if (user is null)
             return Errors.User.NotFound;
         
-        var doctor = await _userRepository.GetByIdAsync(command.DoctorId);
-        if (doctor is null || !doctor.IsDoctor)
+        var doctorUser = (await _userRepository.Get(
+            predicate: x => x.Id == command.DoctorId,
+            include: "Doctor"
+        )).FirstOrDefault();
+
+        if (doctorUser is null || !doctorUser.IsDoctor)
             return Errors.Doctor.NotFound;
 
         var doctorRate = await _doctorRateRepository.GetByIdAsync(new {command.DoctorId, command.UserId});
         if (doctorRate is null)
             return Errors.Doctor.Rate.NotFound;
+
+        var doctorRates = (await _doctorRateRepository.Get(
+            predicate: x => x.DoctorId == command.DoctorId
+        )).ToList();
+
+        doctorUser.Doctor!.AverageRate = (doctorRates.Sum(x => x.Rate) - doctorRate.Rate + command.Rate) / (doctorRates.Count);
 
         doctorRate.Rate = command.Rate;
         doctorRate.Comment = command.Comment;

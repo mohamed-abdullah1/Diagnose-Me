@@ -33,6 +33,8 @@ public class RequestDonationCommandHandler : IRequestHandler<RequestDonationComm
             RequesterId = command.RequesterId,
             Status = DonationRequestStatus.Pending
         };
+
+        donationRequest.Requester = user;
         await _bloodDonationRepository.AddAsync(donationRequest);
         return new CommandResponse(
             true,

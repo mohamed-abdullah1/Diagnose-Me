@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auth.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230311175106_Init")]
+    [Migration("20230425231803_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -65,12 +65,12 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastConfirmationSentDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(234));
+                        .HasDefaultValue(new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(4729));
 
                     b.Property<DateTime>("LastEmailChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(1565));
+                        .HasDefaultValue(new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(6657));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -80,7 +80,7 @@ namespace Auth.Persistence.Migrations
                     b.Property<DateTime>("LastUserNameChangeDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 51, 4, 719, DateTimeKind.Utc).AddTicks(2068));
+                        .HasDefaultValue(new DateTime(2023, 4, 25, 23, 18, 2, 608, DateTimeKind.Utc).AddTicks(7969));
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -142,7 +142,7 @@ namespace Auth.Persistence.Migrations
                             Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
                             AccessFailedCount = 0,
                             BloodType = "",
-                            ConcurrencyStamp = "c5e14f33-ca0f-44d2-8366-a452b8c0f94c",
+                            ConcurrencyStamp = "f71db386-d30e-451e-8435-b1516b42d9a3",
                             DateOfBirth = new DateOnly(2000, 4, 26),
                             Email = "admin@diagnose.me",
                             EmailConfirmed = true,
@@ -157,10 +157,10 @@ namespace Auth.Persistence.Migrations
                             NationalID = "",
                             NormalizedEmail = "admin@diagnose.me",
                             NormalizedUserName = "Admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEyPaijjM4XN40b7wwyZIEW2MH8U8exTjjMKS9ohL9z2f+vjfAgya3/w1zqAdhW6tw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF4DU/NcymnFR41/25Rvj8cm4k5XbBINcEIwUVji2Sf9+6euOKwc13S4LalayCusSg==",
                             PhoneNumberConfirmed = true,
                             ProfilePictureUrl = "",
-                            SecurityStamp = "7f85b1b3-6051-4a77-bdbc-3234d91d3b15",
+                            SecurityStamp = "cb3b5db6-f1a0-479f-85b5-4ff188108895",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -169,7 +169,7 @@ namespace Auth.Persistence.Migrations
                             Id = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
                             AccessFailedCount = 0,
                             BloodType = "",
-                            ConcurrencyStamp = "7926a29f-64fe-44c5-9710-142a9be07cee",
+                            ConcurrencyStamp = "f6eb8616-664d-496e-9323-b74d8e538ccb",
                             DateOfBirth = new DateOnly(2000, 4, 26),
                             Email = "doctor@diagnose.me",
                             EmailConfirmed = true,
@@ -184,10 +184,10 @@ namespace Auth.Persistence.Migrations
                             NationalID = "",
                             NormalizedEmail = "doctor@diagnose.me",
                             NormalizedUserName = "Doctor",
-                            PasswordHash = "AQAAAAIAAYagAAAAECED8PGqEKsQ/o+rqAQLohng9ZmAAm2K9Q+8EsOcdYfU7NYgoSxlpJKM45WgaRG/TQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKLNVePb72f6YpgBg64T+8CBpTVZz69XxtiPpYsC4qB3OMkujJBXLkcTioGPhim4Ug==",
                             PhoneNumberConfirmed = true,
                             ProfilePictureUrl = "",
-                            SecurityStamp = "5290d371-8035-4323-ae07-7fddc2c7ecee",
+                            SecurityStamp = "d9df3508-ebd7-4ab1-ae25-ad4ecef4d2a8",
                             TwoFactorEnabled = false,
                             UserName = "Doctor"
                         },
@@ -196,7 +196,7 @@ namespace Auth.Persistence.Migrations
                             Id = "972a1201-a9dc-2127-0827-560cb7d76af8",
                             AccessFailedCount = 0,
                             BloodType = "",
-                            ConcurrencyStamp = "4cbd5483-0411-4914-8fcc-8ccb1fa3803f",
+                            ConcurrencyStamp = "5573a79f-9a5e-46e3-87bb-654af78fb6a7",
                             DateOfBirth = new DateOnly(2000, 4, 26),
                             Email = "patient@diagnose.me",
                             EmailConfirmed = true,
@@ -211,10 +211,10 @@ namespace Auth.Persistence.Migrations
                             NationalID = "",
                             NormalizedEmail = "patient@diagnose.me",
                             NormalizedUserName = "Patient",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKq5hqydRmKkCDfg5Q+gaZepgMxax4Aoql9p7mqj1FxcAC76fqL3IxktyxUTDmLvAw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAtrKJxbQyk4aOplqmDb//Ae18k44bIm7rUw4aDq5EelCMuERb1tNZHBSabcmsLuKQ==",
                             PhoneNumberConfirmed = true,
                             ProfilePictureUrl = "",
-                            SecurityStamp = "1a0a75d2-2f8a-4449-bd41-20dbe68a5f03",
+                            SecurityStamp = "0c5a9ee8-c77e-45dd-b40c-dd78f1c981e1",
                             TwoFactorEnabled = false,
                             UserName = "Patient"
                         });

@@ -1,12 +1,13 @@
+using MedicalServices.Application.MedicalServices.Common;
+
 namespace MedicalServices.Application.MedicalServices.Doctors.Common;
 
 public record DoctorResponse(
-    string Id,
-    string Name,
-    string FullName,
-    string ProfilePictureUrl, 
+    UserResponse User, 
     string Title,
     string Bio,
     string License,
     bool IsLicenseVerified,
-    string ClinicId);
+    string ClinicId,
+    float AverageRate,
+    List<DoctorRateResponse> DoctorRates);

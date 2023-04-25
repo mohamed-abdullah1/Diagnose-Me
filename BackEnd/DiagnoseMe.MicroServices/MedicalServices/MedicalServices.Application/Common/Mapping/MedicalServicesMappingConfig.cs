@@ -14,7 +14,10 @@ public class MedicalServicesMappingConfig : IRegister
         Map(dest => dest.ClinicAddressesCount, src => src.ClinicAddresses.Count).
         Map(dest => dest, src => src);
         config.NewConfig<Doctor, DoctorResponse>().
-        Map(dest => dest, src => src.User).
+        Map(dest => dest.User, src => src.User).
+        Map(dest => dest, src => src);
+        config.NewConfig<DoctorRate, DoctorRateResponse>().
+        Map(dest => dest.User, src => src.User).
         Map(dest => dest, src => src);
         config.NewConfig<ClinicAddress, ClinicAddressResponse>().
         Map(dest => dest.OpenTime, src => src.OpenTime.ToString("hh:mm")).

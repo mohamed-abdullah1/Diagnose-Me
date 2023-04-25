@@ -15,6 +15,7 @@ public class DoctorConfiguration : BaseConfiguration<Doctor>
         builder.Property(d => d.License).IsRequired().HasMaxLength(50);
         builder.Property(d => d.IsLicenseVerified).IsRequired();
         builder.Property(d => d.ClinicId).IsRequired();
+        builder.Property(d => d.AverageRate);
         builder.HasOne(d => d.Clinic).WithMany(c => c.Doctors).HasForeignKey(d => d.ClinicId);
         builder.HasMany(d => d.Medications).
             WithMany(m => m.Doctors).

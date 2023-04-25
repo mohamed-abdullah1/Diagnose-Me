@@ -10,23 +10,32 @@ namespace MedicalServices.Application.MedicalServices.Patients.Commands.AddPatie
 public class AddPatientCommandHandler : IRequestHandler<AddPatientCommand, ErrorOr<CommandResponse>>
 {
     private readonly IPatientRepository _patientRepository;
+    private readonly IUserRepository _userRepository;
     public AddPatientCommandHandler(
-        IPatientRepository patientRepository)
+        IPatientRepository patientRepository,
+        IUserRepository userRepository)
     {
         _patientRepository = patientRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddPatientCommand command, CancellationToken cancellationToken)
     {
+        var user = await _userRepository.GetByIdAsync(command.Id);
+        if (user == null)
+            return Errors.User.NotFound;
+
         var patient = await _patientRepository.GetByIdAsync(command.Id);
         if (patient != null)
             return Errors.Patient.AlreadyExists;
+            
         patient = new Patient
         {
             Id = command.Id,
             Height = command.Height,
             Weight = command.Weight
         };
+        patient.User = user;
 
         await _patientRepository.AddAsync(patient);
 
