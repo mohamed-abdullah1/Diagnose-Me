@@ -1,7 +1,7 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Application.MedicalBlog.Questions.Common;
 
@@ -22,26 +22,13 @@ public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, Error
  
     public async Task<ErrorOr<List<QuestionResponse>>> Handle(GetQuestionsQuery query, CancellationToken cancellationToken)
     {
-        var questions = (await _questionRepository
-            .GetAllAsync())
+        var questions = (await _questionRepository.Get(
+            include: "Answers,AskingUser,Tags,AgreeingUsers"))
             .OrderByDescending(x => x.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .ToList();
-        var questionsResponse = new List<QuestionResponse>();
-        foreach (var question in questions)
-        {
-            var askingUser = _mapper.Map<UserData>(question.AskingUser);
-            var questionsAnswersCount = question.Answers.Count;
-            questionsResponse.Add(new QuestionResponse(
-                question.Id!,
-                question.QuestionString,
-                askingUser,
-                question.CreatedOn.ToString(),
-                question.ModifiedOn?.ToString(),
-                null,
-                questionsAnswersCount
-            ));
-        }
+
+        var questionsResponse = _mapper.Map<List<QuestionResponse>>(questions);
         return questionsResponse;
     }
 }

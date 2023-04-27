@@ -52,5 +52,15 @@ public static partial class Errors
             code: "Post.YouCanNotDoThis",
             description: "You are not authorized to do this."
         );
+
+        public static Error AlreadySubscribed => Error.Validation(
+            code: "User.AlreadySubscribed",
+            description: "You are already subscribed to this doctor."
+        );
+
+        public static Error YouAreNotSubscribedToThisUser => Error.Validation(
+            code: "User.YouAreNotSubscribedToThisUser",
+            description: "You are not subscribed to this user."
+        );
     }
 }

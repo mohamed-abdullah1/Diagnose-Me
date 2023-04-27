@@ -1,4 +1,3 @@
-using MedicalBlog.Application.MedicalBlog.Answers.Common;
 using MedicalBlog.Application.MedicalBlog.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Questions.Common;
@@ -9,6 +8,7 @@ public record QuestionResponse(
     UserData AskingUser,
     string CreatedOn,
     string? ModifiedOn,
-    List<AnswerResponse>? Answers,
-    int AnswersCount
-);
+    int AnswersCount,
+    List<string>? Tags,
+    int AgreementCount,
+    int DisagreementCount);

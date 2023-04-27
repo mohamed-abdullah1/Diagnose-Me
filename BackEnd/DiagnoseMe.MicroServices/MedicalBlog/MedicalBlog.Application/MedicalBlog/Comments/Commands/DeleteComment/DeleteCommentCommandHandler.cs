@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 using MedicalBlog.Domain.Common.Roles;

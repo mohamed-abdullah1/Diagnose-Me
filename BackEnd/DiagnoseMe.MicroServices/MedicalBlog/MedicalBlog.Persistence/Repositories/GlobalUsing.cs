@@ -1,1 +1,1 @@
-global using MedicalBlog.Application.Common.Interfaces.Persistence;
+global using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;

@@ -6,7 +6,6 @@ using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctorRate
 using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctorRate;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
-using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctorRate;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctors;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctorsByPatientId;
@@ -151,7 +150,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpPost("doctors/rate/add")]
+    [HttpPost("doctors/rate")]
     public async Task<IActionResult> AddDoctorRating(AddDoctorRateRequest request)
     {
         var command = _mapper.Map<AddDoctorRateCommand>((request, GetUserIdFromToken()));
@@ -161,16 +160,6 @@ public class DoctorController : ApiController
         errors => Problem(errors));
     }
 
-    [Authorize]
-    [HttpPost("doctors/rate/update")]
-    public async Task<IActionResult> UpdateDoctorRating(UpdateDoctorRateRequest request)
-    {
-        var command = _mapper.Map<UpdateDoctorRateCommand>((request, GetUserIdFromToken()));
-        var result = await _mediator.Send(command);
-        return result.Match(
-        result => Ok(result),
-        errors => Problem(errors));
-    }
 
     [Authorize]
     [HttpDelete("doctors/rate/delete/{doctorId}")]

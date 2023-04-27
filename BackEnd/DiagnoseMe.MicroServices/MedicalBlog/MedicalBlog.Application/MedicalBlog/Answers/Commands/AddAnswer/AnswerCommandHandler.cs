@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -28,10 +28,9 @@ public class AnswerCommandHandler : IRequestHandler<AnswerCommand, ErrorOr<Comma
         if (question is null)
             return Errors.Question.NotFound;
         var answeringDoctor = await _answeringDoctorRepository.GetByIdAsync(command.AnsweringDoctorId);
-        if (answeringDoctor is null){
-            // TODO: Check answeringDoctor in auth service
+        if (answeringDoctor is null)
             return Errors.User.NotFound;
-        }
+        
         var answer = new Answer
         {
             Id = Guid.NewGuid().ToString(),

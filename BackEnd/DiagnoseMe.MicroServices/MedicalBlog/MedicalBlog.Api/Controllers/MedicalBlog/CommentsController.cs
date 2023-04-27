@@ -3,7 +3,6 @@ using MediatR;
 using MedicalBlog.Application.MedicalBlog.Comments.Commands.AddComment;
 using MedicalBlog.Application.MedicalBlog.Comments.Commands.AgreeComment;
 using MedicalBlog.Application.MedicalBlog.Comments.Commands.DeleteComment;
-using MedicalBlog.Application.MedicalBlog.Comments.Commands.DeleteCommentAgreement;
 using MedicalBlog.Application.MedicalBlog.Comments.Commands.EditComment;
 using MedicalBlog.Application.MedicalBlog.Comments.Commands.ReplyComment;
 using MedicalBlog.Application.MedicalBlog.Comments.Queries.GetCommentsByPostId;
@@ -113,28 +112,17 @@ public class CommentsController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("posts/comments/comment-id/{commentId}/agreement")]
-    public async Task<IActionResult> AgreeComment(string commentId)
+    [HttpPost("posts/comments/comment-id/{commentId}/agreement/{isAgreed:bool}")]
+    public async Task<IActionResult> AgreeComment(string commentId, bool isAgreed)
     {
         var command = new AgreeCommentCommand(
             commentId,
-            GetUserIdFromToken());
+            GetUserIdFromToken(),
+            isAgreed);
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),
         errors => Problem(errors));
     }
 
-    [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("posts/comments/comment-id/{commentId}/agreement/delete")]
-    public async Task<IActionResult> DeleteAgreeComment(string commentId)
-    {
-        var command = new DeleteCommentAgreementCommand(
-            commentId,
-            GetUserIdFromToken());
-        var result = await _mediator.Send(command);
-        return result.Match(
-        result => Ok(result),
-        errors => Problem(errors));
-    }
 }

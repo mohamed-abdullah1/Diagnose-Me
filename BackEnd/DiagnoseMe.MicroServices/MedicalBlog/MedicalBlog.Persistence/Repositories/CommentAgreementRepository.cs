@@ -5,11 +5,4 @@ public class CommentAgreementRepository : BaseRepo<CommentAgreement>, ICommentAg
     {
     }
 
-    public async Task<List<CommentAgreement>> GetCommentAgreementsByCommentsIdAsync(List<string> commentsId)
-    {
-        return await table
-            .Where(x => commentsId.Contains(x.CommentId!))
-            .Include(x => x.User)
-            .ToListAsync();
-    }
 }

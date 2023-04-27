@@ -1,7 +1,4 @@
 using System.Linq.Expressions;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
-using MedicalBlog.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace MedicalBlog.Persistence.Repositories;
 #nullable disable

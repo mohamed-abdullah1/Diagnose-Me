@@ -30,5 +30,9 @@ public static partial class Errors
             code: "Comment.EditFailed",
             description: "Comment edit failed."
         );
+
+        public static Error AlreadyAgreed => Error.Validation(
+            code: "Comment.AlreadyAgreed",
+            description: "Comment already agreed.");
     }
 }

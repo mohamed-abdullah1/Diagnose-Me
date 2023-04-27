@@ -11,7 +11,5 @@ public class CommentAgreementConfigration : BaseConfiguration<CommentAgreement>
         builder.Property(c => c.IsAgreed).IsRequired();
         builder.Property(c => c.UserId).IsRequired();
         builder.Property(c => c.CommentId).IsRequired();
-        builder.HasOne(c => c.Comment).WithMany(c => c.CommentAgreements).HasForeignKey(c => c.Id);
-        builder.HasOne(c => c.User).WithMany(u => u.CommentAgreements).HasForeignKey(c => c.UserId);
     }
 }

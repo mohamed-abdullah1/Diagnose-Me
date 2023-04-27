@@ -1,11 +1,9 @@
 using ErrorOr;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
-using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MediatR;
 using MedicalBlog.Domain.Common.Errors;
 using MapsterMapper;
 using MedicalBlog.Application.MedicalBlog.Posts.Common;
-using MedicalBlog.Application.MedicalBlog.Comments.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostById;
 
@@ -13,87 +11,36 @@ public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<Pos
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IPostRatingRepository _postRatingRepository;
-    private readonly IPostViewRepository _postViewRepository;
     private readonly IMapper _mapper;
 
     public GetPostQueryHandler(
         IPostRepository postRepository,
-        IPostRatingRepository postRatingRepository,
         IUserRepository userRepository,
-        IPostViewRepository postViewRepository,
         IMapper mapper)
     {
         _postRepository = postRepository;
-        _postRatingRepository = postRatingRepository;
-        _postViewRepository = postViewRepository;
         _mapper = mapper;
         _userRepository = userRepository;
     }
     public async Task<ErrorOr<PostResponse>> Handle(GetPostByIdQuery query, CancellationToken cancellationToken)
-    {
+    {    
         var user = await _userRepository.GetByIdAsync(query.UserId);
         if (user == null)
             return Errors.User.NotFound;
-        
-        var post = await _postRepository.GetByIdAsync(query.Id);
+
+        var post = (await _postRepository.Get(
+            predicate: x => x.Id == query.Id,
+            include: "RatingUsers,Author,Tags,Comments,ViewingUsers")).FirstOrDefault();
+
         if (post == null)
-        {
             return Errors.Post.NotFound;
-        }
-        var postViews = await _postViewRepository.GetByPostIdAsync(post.Id!);
-        var userViewed = postViews.Any(x => x.UserId == query.UserId);
-        if(!userViewed)
-        {
-            var postView = new PostView{
-                PostId = query.Id,
-                UserId = query.UserId};
-            postView.Post = post;
-            postView.User = user;
-            await _postViewRepository.AddAsync(postView);
-            await _postViewRepository.SaveAsync(cancellationToken);
-            postViews.Add(postView);
-            
-        }
-        var postRatings = await _postRatingRepository.GetByPostIdAsync(post.Id!);
-        var comments = post.Comments.ToList();
-        var viewingUsers = _mapper.Map<List<UserData>>(postViews.Select(x => x.User)); 
-        var authorData = _mapper.Map<UserData>(post.Author);
-        var ratingUsers = _mapper.Map<List<UserData>>(postRatings.Select(x => x.User));
-        var commentsResponse = new List<CommentResponse>();
-        var avgRating = postRatings.Count > 0 ? postRatings.Average(x => x.Rating) : 0;
-        var reponseComments = comments
-            .OrderByDescending(x => x.CreatedOn)
-            .Take(20)
-            .ToList();
 
-
-        foreach (var comment in reponseComments)
-        {
-            var commentAgreementCount = comment.CommentAgreements.Count();
-            var commentAgreementUsers = _mapper.Map<List<UserData>>(comment.CommentAgreements.Select(x => x.User));
-            var commentAuthor = _mapper.Map<UserData>(comment.Author);
-            commentsResponse.Add(new CommentResponse(
-                comment.Id!,
-                comment.ParentId,
-                comment.Content,
-                commentAuthor!,
-                comment.CreatedOn.ToString(),
-                comment.ModifiedOn.ToString(),
-                commentAgreementCount,
-                commentAgreementUsers
-            ));
+        if(!post.ViewingUsers.Any(x => x.Id == user.Id)){
+            post.ViewingUsers.Add(user);
+            await _postRepository.SaveAsync();
         }
-        PostResponse postResponse = QueryHelper.MapPostResponse(
-            post,
-            postRatings.Count,
-            comments.Count,
-            authorData,
-            ratingUsers,
-            commentsResponse,
-            postViews.Count,
-            viewingUsers,
-            avgRating);
+
+        var postResponse = _mapper.Map<PostResponse>(post);
         return postResponse;
     }  
 }

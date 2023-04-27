@@ -6,9 +6,8 @@ public record CommentResponse(
     string Id,
     string ParentId,
     string Content,
-    UserData AuthorData,
+    UserData Auther,
     string CreatedOn,
     string? ModifiedOn,
-    int ComentAgreementsCount,
-    List<UserData> CommentAgreementUsers
-);
+    int AgreementCount,
+    int DisagreementCount);

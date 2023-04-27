@@ -23,5 +23,13 @@ public static partial class Errors
             code: "Question.EditFailed",
             description: "Question edit failed."
         );
+        public static Error AgreementFailed => Error.Failure(
+            code: "Question.AgreementFailed",
+            description: "Question agreement failed."
+        );
+        
+        public static Error AlreadyAgreed => Error.Validation(
+            code: "Question.AlreadyAgreed",
+            description: "Question already agreed.");
     }
 }

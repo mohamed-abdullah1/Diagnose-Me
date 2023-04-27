@@ -1,7 +1,7 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Comments.Common;
 using MedicalBlog.Application.MedicalBlog.Common;
 
@@ -20,29 +20,14 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPare
     }
     public async Task<ErrorOr<List<CommentResponse>>> Handle(GetCommentsByParentIdQuery query, CancellationToken cancellationToken)
     {
-        var comments = (await _commentRepository
-            .GetByParentIdAsync(query.ParentId))
+        var comments = (await _commentRepository.Get(
+            predicate: c => c.ParentId == query.ParentId,
+            include: "Auther,AgreeingUsers"))
             .OrderByDescending(x => x.CreatedOn)
-            .Skip((query.PageNumber - 1) * 20)
-            .Take(20);
-        var commentsResponse = new List<CommentResponse>();
-        foreach (var comment in comments)
-        {
-            var commentAgreementCount = comment.CommentAgreements.Count();
-            var commentAuthor = _mapper.Map<UserData>(comment.Author);
-            var commentAgreementUsers = _mapper.Map<List<UserData>>(comment.CommentAgreements.Select(x => x.User));
-            commentsResponse.Add(new CommentResponse(
-                comment.Id!,
-                comment.ParentId,
-                comment.Content,
-                commentAuthor!,
-                comment.CreatedOn.ToString(),
-                comment.ModifiedOn.ToString(),
-                commentAgreementCount,
-                commentAgreementUsers
-            )); 
-        }
-        
+            .Skip((query.PageNumber - 1) * 10)
+            .ToList();
+
+        var commentsResponse = _mapper.Map<List<CommentResponse>>(comments);
         return commentsResponse;
     }
 }

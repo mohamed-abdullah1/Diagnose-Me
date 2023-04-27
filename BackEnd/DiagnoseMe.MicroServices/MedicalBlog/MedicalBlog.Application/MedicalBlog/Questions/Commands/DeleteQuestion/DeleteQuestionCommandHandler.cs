@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 using MedicalBlog.Domain.Common.Roles;
@@ -43,7 +43,7 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
         return new CommandResponse(
             true,
             $"Question with id: {question.Id} was deleted.",
-            "/api/questions"
+            "questions"
         );
     }
 }

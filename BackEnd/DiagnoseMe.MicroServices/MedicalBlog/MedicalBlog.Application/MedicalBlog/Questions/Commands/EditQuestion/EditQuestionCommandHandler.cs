@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -44,7 +44,7 @@ public class EditQuestionCommandHandler : IRequestHandler<EditQuestionCommand, E
         return new CommandResponse(
             true,
             $"Question with id: {question.Id} was edited.",
-            "/api/questions/{question.Id}"
+            "questions/{question.Id}"
         );
     }
 }

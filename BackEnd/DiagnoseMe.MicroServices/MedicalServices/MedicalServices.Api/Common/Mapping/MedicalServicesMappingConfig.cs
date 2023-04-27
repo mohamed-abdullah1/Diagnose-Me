@@ -4,7 +4,6 @@ using MedicalServices.Application.MedicalServices.Clinics.Commands.UpdateClinicA
 using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctorRate;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
-using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctorRate;
 using MedicalServices.Contracts.Clinics;
 using MedicalServices.Contracts.Doctors;
 
@@ -29,8 +28,6 @@ public class MedicalServicesMappingConfig : IRegister
         config.NewConfig<(AddDoctorRateRequest request, string UserId),AddDoctorRateCommand>().
                     Map(dest => dest.UserId, src => src.UserId).
                     Map(dest => dest, src => src.request);
-        config.NewConfig<(UpdateDoctorRateRequest request, string UserId),UpdateDoctorRateCommand>().
-                    Map(dest => dest.DoctorId, src => src.UserId).
-                    Map(dest => dest, src => src.request);
+
     }
 }

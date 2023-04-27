@@ -26,5 +26,10 @@ public static partial class Errors
             code: "Post.EditFailed",
             description: "Post edit failed."
         );
+
+        public static Error FailedToAddRating => Error.Failure(
+            code: "Post.FailedToAddRating",
+            description: "Failed to add rating."
+        );
     }
 }

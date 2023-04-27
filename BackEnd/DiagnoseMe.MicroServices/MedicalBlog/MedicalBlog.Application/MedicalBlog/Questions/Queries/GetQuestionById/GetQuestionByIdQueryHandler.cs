@@ -1,9 +1,7 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
-using MedicalBlog.Application.MedicalBlog.Answers.Queries.GetAnswersByQuestionId;
-using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Questions.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -12,38 +10,27 @@ namespace MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestionById;
 public class GetQuestionByIdQueryHandler : IRequestHandler<GetQuestionByIdQuery, ErrorOr<QuestionResponse>>
 {
     private readonly IQuestionRepository _questionRepository;
-    private readonly ISender _mediator;
     private readonly IMapper _mapper;
 
     public GetQuestionByIdQueryHandler(
         IQuestionRepository questionRepository, 
-        IMapper mapper,
-        ISender mediator)
+        IMapper mapper)
     {
         _questionRepository = questionRepository;
         _mapper = mapper;
-        _mediator = mediator;
     }
 
     public async Task<ErrorOr<QuestionResponse>> Handle(GetQuestionByIdQuery query, CancellationToken cancellationToken)
     {
-        var question = await _questionRepository.GetByIdAsync(query.QuestionId);
+        var question = (await _questionRepository.Get(
+            predicate: q => q.Id == query.QuestionId,
+            include: "Answers,AskingUser,Tags,AgreeingUsers"))
+            .FirstOrDefault();
+
         if (question == null)
-        {
             return Errors.Question.NotFound;
-        }
-        var answersResponses = _mediator.Send(new GetAnswersByQuestionIdQuery(
-            query.QuestionId,
-            1)).Result.Value;
-        var questionResponse = new QuestionResponse(
-            question.Id!,
-            question.QuestionString,
-            _mapper.Map<UserData>(question.AskingUser),
-            question.CreatedOn.ToString(),
-            question.ModifiedOn?.ToString(),
-            answersResponses,
-            question.Answers.Count
-        );
+        
+        var questionResponse = _mapper.Map<QuestionResponse>(question);
         return questionResponse;
     }
 }

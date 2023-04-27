@@ -6,11 +6,9 @@ public class UserSubscribedUserConfiguration : BaseConfiguration<UserSubscribedU
 {
     public override void Configure(EntityTypeBuilder<UserSubscribedUser> builder)
     {
-        builder.HasKey(x => new { x.UserId, x.SubscribedUserId });
+        builder.HasKey(x => new { x.SubscriberId, x.SubscribedUserId });
         builder.ToTable("UserSubscribedUsers");
-        builder.Property(x => x.UserId).IsRequired();
+        builder.Property(x => x.SubscriberId).IsRequired();
         builder.Property(x => x.SubscribedUserId).IsRequired();
-        builder.HasOne(x => x.User).WithMany(x => x.SubscribedUsers).HasForeignKey(x => x.UserId);
-        builder.HasOne(x => x.SubscribedUser).WithMany(x => x.Subscribers).HasForeignKey(x => x.SubscribedUserId);
     }
 }

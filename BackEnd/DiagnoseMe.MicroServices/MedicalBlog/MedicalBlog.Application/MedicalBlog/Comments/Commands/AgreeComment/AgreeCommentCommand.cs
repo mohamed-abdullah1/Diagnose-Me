@@ -6,4 +6,5 @@ namespace MedicalBlog.Application.MedicalBlog.Comments.Commands.AgreeComment;
 
 public record AgreeCommentCommand(
     string CommentId,
-    string UserId) : IRequest<ErrorOr<CommandResponse>>;
+    string UserId,
+    bool IsAgreed) : IRequest<ErrorOr<CommandResponse>>;

@@ -18,6 +18,11 @@ public static class Repositories
             services.AddScoped<IPostViewRepository, PostViewRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserSubscribedUserRepository, UserSubscribedUserRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IPostTagRepository, PostTagRepository>();
+            services.AddScoped<IQuestionTagRepository, QuestionTagRepository>();
+            services.AddScoped<IQuestionAgreementRepository, QuestionAgreementRepository>();
+            
             return services;
         }
 }

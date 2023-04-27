@@ -1,5 +1,6 @@
 using MapsterMapper;
 using MediatR;
+using MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.Ask;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.DeleteQuestion;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.EditQuestion;
@@ -7,6 +8,7 @@ using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestionById;
 using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestions;
 using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestionsByAskingUserId;
 using MedicalBlog.Contracts.MedicalBlog.Questions;
+using MedicalBlog.Domain.Common.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,10 +62,6 @@ public class QuestionsController : ApiController
         errors => Problem(errors));
     }
 
-    
-
-    
-
     [Authorize]
     [HttpPost("questions/ask")]
     public async Task<IActionResult> AskQuestion(AskRequest request)
@@ -103,5 +101,18 @@ public class QuestionsController : ApiController
         errors => Problem(errors));
     }
 
+    [Authorize(Roles = Roles.Doctor + "," + Roles.Admin)]
+    [HttpPost("questions/question-id/{questionId}/agreement/{isAgreement:bool}")]
+    public async Task<IActionResult> Agreement(string questionId, bool isAgreement)
+    {
+        var command = new QuestionAgreementCommand(
+            questionId,
+            GetUserIdFromToken(),
+            isAgreement);
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
     
 }

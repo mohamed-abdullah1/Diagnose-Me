@@ -26,6 +26,9 @@ namespace MedicalBlog.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("AgreementCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("AnswerString")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -41,7 +44,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 211, DateTimeKind.Utc).AddTicks(7793));
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 49, DateTimeKind.Utc).AddTicks(696));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -61,7 +64,7 @@ namespace MedicalBlog.Persistence.Migrations
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.AnswerAgreement", b =>
                 {
-                    b.Property<string>("AnsweringUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("AnswerId")
@@ -80,7 +83,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<bool>("IsAgreed")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("AnsweringUserId", "AnswerId");
+                    b.HasKey("UserId", "AnswerId");
 
                     b.HasIndex("AnswerId");
 
@@ -93,6 +96,9 @@ namespace MedicalBlog.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("AgreementCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("AuthorId")
                         .IsRequired()
@@ -109,7 +115,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 214, DateTimeKind.Utc).AddTicks(7598));
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 83, DateTimeKind.Utc).AddTicks(8367));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -147,14 +153,14 @@ namespace MedicalBlog.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsAgreed")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("UserId", "CommentId");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("CommentId");
 
                     b.ToTable("CommentAgreements", (string)null);
                 });
@@ -170,6 +176,9 @@ namespace MedicalBlog.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<float>("AverageRate")
+                        .HasColumnType("float");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
@@ -181,20 +190,18 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 217, DateTimeKind.Utc).AddTicks(4569));
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 95, DateTimeKind.Utc).AddTicks(5565));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<int>("ViewsCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -232,6 +239,31 @@ namespace MedicalBlog.Persistence.Migrations
                     b.ToTable("PostsRating", (string)null);
                 });
 
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.PostTag", b =>
+                {
+                    b.Property<string>("PostId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTags", (string)null);
+                });
+
             modelBuilder.Entity("MedicalBlog.Domain.Entities.PostView", b =>
                 {
                     b.Property<string>("UserId")
@@ -264,6 +296,9 @@ namespace MedicalBlog.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("AgreementCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("AskingUserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -275,7 +310,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 220, DateTimeKind.Utc).AddTicks(414));
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 156, DateTimeKind.Utc).AddTicks(6570));
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime(6)");
@@ -289,6 +324,87 @@ namespace MedicalBlog.Persistence.Migrations
                     b.HasIndex("AskingUserId");
 
                     b.ToTable("Questions", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.QuestionAgreement", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsAgreed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("UserId", "QuestionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionAgreements", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.QuestionTag", b =>
+                {
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("QuestionId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("QuestionTags", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.Tag", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 172, DateTimeKind.Utc).AddTicks(1063));
+
+                    b.Property<string>("TagName")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
+
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.User", b =>
@@ -305,7 +421,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 3, 11, 17, 57, 39, 220, DateTimeKind.Utc).AddTicks(6191));
+                        .HasDefaultValue(new DateTime(2023, 4, 27, 23, 5, 43, 174, DateTimeKind.Utc).AddTicks(3263));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -327,7 +443,7 @@ namespace MedicalBlog.Persistence.Migrations
                         new
                         {
                             Id = "972a1201-a9dc-2127-0827-560cb7d76af8",
-                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(1977),
+                            CreatedOn = new DateTime(2023, 4, 27, 23, 5, 43, 196, DateTimeKind.Utc).AddTicks(9043),
                             FullName = "Patient",
                             Name = "Patient",
                             ProfilePictureUrl = ""
@@ -335,7 +451,7 @@ namespace MedicalBlog.Persistence.Migrations
                         new
                         {
                             Id = "657cb6cb-abf2-00d1-5d46-939a7b3aff5f",
-                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(2074),
+                            CreatedOn = new DateTime(2023, 4, 27, 23, 5, 43, 196, DateTimeKind.Utc).AddTicks(9095),
                             FullName = "Doctor",
                             Name = "Doctor",
                             ProfilePictureUrl = ""
@@ -343,7 +459,7 @@ namespace MedicalBlog.Persistence.Migrations
                         new
                         {
                             Id = "00edafe3-b047-5980-d0fa-da10f400c1e5",
-                            CreatedOn = new DateTime(2023, 3, 11, 17, 57, 39, 240, DateTimeKind.Utc).AddTicks(2099),
+                            CreatedOn = new DateTime(2023, 4, 27, 23, 5, 43, 196, DateTimeKind.Utc).AddTicks(9119),
                             FullName = "Admin",
                             Name = "Admin",
                             ProfilePictureUrl = ""
@@ -352,7 +468,7 @@ namespace MedicalBlog.Persistence.Migrations
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.UserSubscribedUser", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("SubscriberId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("SubscribedUserId")
@@ -368,7 +484,7 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("longtext");
 
-                    b.HasKey("UserId", "SubscribedUserId");
+                    b.HasKey("SubscriberId", "SubscribedUserId");
 
                     b.HasIndex("SubscribedUserId");
 
@@ -397,20 +513,20 @@ namespace MedicalBlog.Persistence.Migrations
             modelBuilder.Entity("MedicalBlog.Domain.Entities.AnswerAgreement", b =>
                 {
                     b.HasOne("MedicalBlog.Domain.Entities.Answer", "Answer")
-                        .WithMany("AnswerAgreements")
+                        .WithMany()
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedicalBlog.Domain.Entities.User", "AnsweringUser")
-                        .WithMany("AnswerAgreements")
-                        .HasForeignKey("AnsweringUserId")
+                    b.HasOne("MedicalBlog.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Answer");
 
-                    b.Navigation("AnsweringUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.Comment", b =>
@@ -443,11 +559,13 @@ namespace MedicalBlog.Persistence.Migrations
             modelBuilder.Entity("MedicalBlog.Domain.Entities.CommentAgreement", b =>
                 {
                     b.HasOne("MedicalBlog.Domain.Entities.Comment", "Comment")
-                        .WithMany("CommentAgreements")
-                        .HasForeignKey("Id");
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MedicalBlog.Domain.Entities.User", "User")
-                        .WithMany("CommentAgreements")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -471,13 +589,13 @@ namespace MedicalBlog.Persistence.Migrations
             modelBuilder.Entity("MedicalBlog.Domain.Entities.PostRating", b =>
                 {
                     b.HasOne("MedicalBlog.Domain.Entities.Post", "Post")
-                        .WithMany("PostRatings")
+                        .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedicalBlog.Domain.Entities.User", "User")
-                        .WithMany("PostRatings")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -487,16 +605,35 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.PostTag", b =>
+                {
+                    b.HasOne("MedicalBlog.Domain.Entities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalBlog.Domain.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("MedicalBlog.Domain.Entities.PostView", b =>
                 {
                     b.HasOne("MedicalBlog.Domain.Entities.Post", "Post")
-                        .WithMany("PostViews")
+                        .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedicalBlog.Domain.Entities.User", "User")
-                        .WithMany("PostViews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -517,44 +654,71 @@ namespace MedicalBlog.Persistence.Migrations
                     b.Navigation("AskingUser");
                 });
 
-            modelBuilder.Entity("MedicalBlog.Domain.Entities.UserSubscribedUser", b =>
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.QuestionAgreement", b =>
                 {
-                    b.HasOne("MedicalBlog.Domain.Entities.User", "SubscribedUser")
-                        .WithMany("Subscribers")
-                        .HasForeignKey("SubscribedUserId")
+                    b.HasOne("MedicalBlog.Domain.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedicalBlog.Domain.Entities.User", "User")
-                        .WithMany("SubscribedUsers")
+                        .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.QuestionTag", b =>
+                {
+                    b.HasOne("MedicalBlog.Domain.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalBlog.Domain.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("MedicalBlog.Domain.Entities.UserSubscribedUser", b =>
+                {
+                    b.HasOne("MedicalBlog.Domain.Entities.User", "SubscribedUser")
+                        .WithMany()
+                        .HasForeignKey("SubscribedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalBlog.Domain.Entities.User", "Subscriber")
+                        .WithMany()
+                        .HasForeignKey("SubscriberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("SubscribedUser");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MedicalBlog.Domain.Entities.Answer", b =>
-                {
-                    b.Navigation("AnswerAgreements");
+                    b.Navigation("Subscriber");
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.Comment", b =>
                 {
                     b.Navigation("ChildComments");
-
-                    b.Navigation("CommentAgreements");
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("PostRatings");
-
-                    b.Navigation("PostViews");
                 });
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.Question", b =>
@@ -564,25 +728,13 @@ namespace MedicalBlog.Persistence.Migrations
 
             modelBuilder.Entity("MedicalBlog.Domain.Entities.User", b =>
                 {
-                    b.Navigation("AnswerAgreements");
-
                     b.Navigation("Answers");
 
-                    b.Navigation("CommentAgreements");
-
                     b.Navigation("Comments");
-
-                    b.Navigation("PostRatings");
-
-                    b.Navigation("PostViews");
 
                     b.Navigation("Posts");
 
                     b.Navigation("Questions");
-
-                    b.Navigation("SubscribedUsers");
-
-                    b.Navigation("Subscribers");
                 });
 #pragma warning restore 612, 618
         }

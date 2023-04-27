@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -22,10 +22,8 @@ public class AskCommandHandler : IRequestHandler<AskCommand, ErrorOr<CommandResp
     {
         var askingUser = await _userRepository.GetByIdAsync(command.AskingUserId);
         if (askingUser == null)
-        {
-            // TODO: get the user from the auth service and add it to the db
-            return Errors.User.SomethingWentWrong;
-        }
+            return Errors.User.NotFound;
+    
         var question = new Question
         {
             Id = Guid.NewGuid().ToString(),

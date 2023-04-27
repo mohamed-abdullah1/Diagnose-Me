@@ -1,4 +1,4 @@
-using MedicalBlog.Application.Common.Interfaces.Persistence;
+using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 namespace MedicalBlog.Persistence.ServicesConfigrations;
 
