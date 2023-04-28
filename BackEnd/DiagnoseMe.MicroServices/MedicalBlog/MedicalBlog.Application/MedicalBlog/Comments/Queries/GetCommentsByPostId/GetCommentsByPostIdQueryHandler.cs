@@ -20,12 +20,12 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPost
     public async Task<ErrorOr<List<CommentResponse>>> Handle(GetCommentsByPostIdQuery query, CancellationToken cancellationToken)
     {
         var comments = (await _commentRepository.Get(
-            predicate: c => c.PostId == query.PostId,
-            include: "Auther,AgreeingUsers"))
+            predicate: c => c.PostId == query.PostId && c.ParentId == Guid.Empty.ToString(),
+            include: "Auther,AgreeingUsers,ChildComments"))
             .OrderByDescending(x => x.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .ToList();
-
+        
         var commentsResponse = _mapper.Map<List<CommentResponse>>(comments);
         return commentsResponse;
     }

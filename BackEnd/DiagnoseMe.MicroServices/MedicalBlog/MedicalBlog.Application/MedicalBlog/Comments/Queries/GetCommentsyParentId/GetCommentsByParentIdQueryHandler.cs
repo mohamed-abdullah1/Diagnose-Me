@@ -22,7 +22,7 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPare
     {
         var comments = (await _commentRepository.Get(
             predicate: c => c.ParentId == query.ParentId,
-            include: "Auther,AgreeingUsers"))
+            include: "Auther,AgreeingUsers,ChildComments"))
             .OrderByDescending(x => x.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .ToList();

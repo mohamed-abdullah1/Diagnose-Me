@@ -1,6 +1,7 @@
 
 using Mapster;
 using MedicalBlog.Application.MedicalBlog.Answers.Common;
+using MedicalBlog.Application.MedicalBlog.Comments.Common;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Application.MedicalBlog.Posts.Common;
 using MedicalBlog.Application.MedicalBlog.Questions.Common;
@@ -27,6 +28,11 @@ public class MedicalBlogMappingConfig : IRegister
             Map(dest => dest, src => src);
             
         config.NewConfig<Answer, AnswerResponse>().
+            Map(dest => dest.DisagreementCount, src => (src.AgreeingUsers.Count - src.AgreementCount)).
+            Map(dest => dest, src => src);
+
+        config.NewConfig<Comment, CommentResponse>().
+            Map(dest => dest.ChildCommentsCount, src => src.ChildComments.Count).
             Map(dest => dest.DisagreementCount, src => (src.AgreeingUsers.Count - src.AgreementCount)).
             Map(dest => dest, src => src);
     }

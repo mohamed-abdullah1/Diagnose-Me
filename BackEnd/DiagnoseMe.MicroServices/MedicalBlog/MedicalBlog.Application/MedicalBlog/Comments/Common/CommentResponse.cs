@@ -10,4 +10,5 @@ public record CommentResponse(
     string CreatedOn,
     string? ModifiedOn,
     int AgreementCount,
-    int DisagreementCount);
+    int DisagreementCount,
+    int ChildCommentsCount);
