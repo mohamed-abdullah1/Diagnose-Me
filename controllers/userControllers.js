@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const generateToken = require('../config/generateToken');
 const { v4: uuidv4 } = require('uuid');
+const Calendar = require('../models/calendarModel');
 
 //@description     Get or Search all users
 //@route           GET /api/user?search=
@@ -16,7 +17,7 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  const users = await User.find(keyword).find({ _id: { $ne: req.user?._id } }); // the optional chaningin here if there is no users exists
   res.send(users);
 });
 
@@ -24,18 +25,17 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password, pic, isDoctor } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(400);
-    throw new Error('Please Enter all the Feilds');
-  }
+  // if (!name || !email || !password) {  // we used validation error instead to keep business logic in the model layer
+  //   res.status(400);
+  //   throw new Error('Please Enter all the Feilds');
+  // }
 
-  const userExists = await User.findOne({ email });
-
+  const userExists = await User.findOne({ email }); // we can't use unique option in schema instead as it is not a validator.
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error('this email is already exists 🙄');
   }
 
   const user = await User.create({
@@ -43,21 +43,27 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    pic,
+    pic, // this is undefined if not provided so the default will be set
+    isDoctor, // this is undefined if not provided so the default will be set
   });
+
+  if (isDoctor) {
+    await Calendar.create({ _id: uuidv4(), doctorId: user._id });
+  }
 
   if (user) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
+      isDoctor: user.isDoctor,
       pic: user.pic,
+      calendar: user.calendar,
       token: generateToken(user._id),
     });
   } else {
     res.status(400);
-    throw new Error('User not found');
+    throw new Error('User failed to be created 😱');
   }
 });
 
@@ -73,14 +79,25 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
+      isDoctor: user.isDoctor,
+      calendar: user.calendar,
+      // pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
     res.status(401);
-    throw new Error('Invalid Email or Password');
+    throw new Error('Invalid Email or Password  😱');
   }
 });
 
-module.exports = { allUsers, registerUser, authUser };
+const deleteAllUsers = asyncHandler(async (req, res) => {
+  await User.deleteMany({});
+  res.send('All Users Deleted');
+});
+
+const deleteUsers = asyncHandler(async (req, res) => {
+  const usersList = req.body.users;
+  const acknowledgement = await User.deleteMany({ _id: { $in: usersList } });
+  res.send(`${acknowledgement.deletedCount} users is deleted`);
+});
+module.exports = { allUsers, registerUser, authUser, deleteAllUsers, deleteUsers };

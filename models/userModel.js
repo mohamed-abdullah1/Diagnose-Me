@@ -2,14 +2,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('node:crypto');
-const Appointment = require('./appointmentModel');
+const Appointment = require('./calendarModel');
 
 const userSchema = mongoose.Schema(
   {
     _id: { type: String, default: uuidv4 },
-    name: { type: 'String', required: true },
-    email: { type: 'String', unique: true, required: true },
-    password: { type: 'String', required: true },
+    name: { type: 'String', required: [true, 'Enter the Name feild 🔑'] },
+    email: {
+      type: 'String',
+      unique: true, // unique option is not a validator so there is no validation message
+      required: [true, 'Enter the Email feild 🔑'],
+    },
+    password: { type: 'String', required: [true, 'Enter the Password feild 🔑'] },
     pic: {
       type: 'String',
       required: true,
@@ -20,8 +24,8 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    // doctor: { type: Boolean, default: false },
-    // appointments: [{ start_date: Date, end_date: Date, status: 'waiting' }], //"approved" || "canceled" || "waiting"
+    isDoctor: { type: Boolean, default: false },
+    // calendar: { type: String, ref: 'Calendar', default: '' },
   },
   { timestamps: true }
 );

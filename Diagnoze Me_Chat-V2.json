@@ -1,0 +1,1195 @@
+{
+	"info": {
+		"_postman_id": "399dbb40-6252-48c1-bed5-fa083f4528ec",
+		"name": "Diagnoze Me",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19669979"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"hamza\",\r\n    \"email\":\"6@test.com\",\r\n    \"password\":\"hamza\",\r\n    \"isDoctor\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"6@test.com\",\r\n    \"password\":\"hamza\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All or Search Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/?search=",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/user/delete-all",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"delete-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete List of Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"users\":[\"4760d34c-d83a-4092-bf23-8a1518f4bfee\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/delete",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chats",
+			"item": [
+				{
+					"name": "Create or fetch single Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"secondUserId\":\"5bd872b5-6e76-4c86-8d86-012e0112d8e3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetching All Chats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/chat",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Single Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"88c74fad-aba9-4ea9-9ff1-f8ca4501e82f\",\r\n    \"customUserId\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/delete-chat/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"delete-chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Delete Single Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"88c74fad-aba9-4ea9-9ff1-f8ca4501e82f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/admin-delete-chat/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"admin-delete-chat",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Send a New Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"😂hello world! again!!🙂\",\r\n    \"chatId\":\"bbc78c16-567e-44a5-a95b-bed5b639be7c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/message",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/api/message/set-read/1c13cffd-08b5-416a-bc72-bea99b900e95",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"set-read",
+								"1c13cffd-08b5-416a-bc72-bea99b900e95"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set All Read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"bbc78c16-567e-44a5-a95b-bed5b639be7c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/message/set-all-read/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"set-all-read",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"the message edited 😁\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/message/edit-message/0cf05974-1cc4-4acd-b5eb-2cb968e39391",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"edit-message",
+								"0cf05974-1cc4-4acd-b5eb-2cb968e39391"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetching All Messages",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/message/bbc78c16-567e-44a5-a95b-bed5b639be7c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"bbc78c16-567e-44a5-a95b-bed5b639be7c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Messages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/message/88c74fad-aba9-4ea9-9ff1-f8ca4501e82f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"88c74fad-aba9-4ea9-9ff1-f8ca4501e82f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/message/delete-message/42715c72-9d7f-491d-8b4b-143273085e45",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"delete-message",
+								"42715c72-9d7f-491d-8b4b-143273085e45"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Booking",
+					"item": [
+						{
+							"name": "Book Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\":\"2023-05-26T05:30:00.000Z\",\r\n    \"end_date\":\"2023-05-26T06:30:00.000Z\",\r\n    \"doctor_id\":\"19daefb6-d826-4fff-8f09-3d9d02be3454\",\r\n    \"patient_id\":\"5bd872b5-6e76-4c86-8d86-012e0112d8e3\"\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/book-appointment/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"book-appointment",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Booked Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\":\"canceled\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/change-booked-status/ac56eb55-3ed6-4f14-b27e-622fdd59759e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"change-booked-status",
+										"ac56eb55-3ed6-4f14-b27e-622fdd59759e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Booked Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"appointmentId\":\"ac56eb55-3ed6-4f14-b27e-622fdd59759e\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/delete-booked-appointment/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"delete-booked-appointment",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All booked Appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/appointment/get-all-booked-appointments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"get-all-booked-appointments",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Calendar (Available Dates)",
+					"item": [
+						{
+							"name": "Add Available Individual Date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\":\"2200-10-01T04:00:00.000Z\",\r\n    \"times\":[{\"start_time\":\"07:00:00\", \"end_time\":\"08:00:00\"}]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/add-available-individual-date/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"add-available-individual-date",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Available Repeated Date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\":\"2023-01-01T00:00:00.000Z\",\r\n    \"end_date\":\"2023-01-15T00:00:00.000Z\",\r\n    \"frequency\":\"weekly\",\r\n    \"recurring_days\":[\"sat\",\"sun\",\"mon\"],\r\n    \"times\":[{\"start_time\":\"09:00:00\", \"end_time\":\"10:00:00\"}]\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/add-available-repeated-date/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"add-available-repeated-date",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Available Individual Date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2200-11-11T04:00:00.000Z\",\r\n    \"times\": [\r\n        {\r\n            \"start_time\": \"17:00:00\",\r\n            \"end_time\": \"18:00:00\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/update-available-individual-date/644f94df393fd68038c628a7",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"update-available-individual-date",
+										"644f94df393fd68038c628a7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Available Repeated Date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2023-01-01T00:00:00.000Z\",\r\n    \"end_date\": \"2023-01-15T00:00:00.000Z\",\r\n    \"frequency\": \"weekly\",\r\n    \"recurring_days\": [\r\n        \"mon\",\r\n        \"sun\",\r\n        \"mon\"\r\n    ],\r\n    \"times\": [\r\n        {\r\n            \"start_time\": \"15:00:00\",\r\n            \"end_time\": \"20:00:00\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/update-available-repeated-date/644f9ab1efc255a43fa36b12",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"update-available-repeated-date",
+										"644f9ab1efc255a43fa36b12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Available Date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dateId\":\"644f278c71ea90a894853fb9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/delete-available-date/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"delete-available-date",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Available Dates",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/appointment/get-available-dates/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"get-available-dates",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear Individual Dates",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/appointment/clear-individual-dates/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"clear-individual-dates",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear Repeated Dates",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{Token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/appointment/clear-repeated-dates/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"appointment",
+										"clear-repeated-dates",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "not used group routes",
+			"item": [
+				{
+					"name": "Create a Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Test Group\",\r\n    \"users\":\"[\\\"63f6272e67c6759e056f6aa9\\\",\\\"63f62f42952e89e118f53d06\\\"]\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/group",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rename the Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"63f7d30232d66ecae306dcf0\",\r\n    \"chatName\":\"Test Group Updated_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/rename",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"rename"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User to Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"63f7d30232d66ecae306dcf0\",\r\n    \"userId\":\"63f66ffca39e4dde17c3d7f0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/groupadd",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"groupadd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatId\":\"63f7d30232d66ecae306dcf0\",\r\n    \"userId\":\"63f66ffca39e4dde17c3d7f0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/chat/groupremove",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"chat",
+								"groupremove"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
-const availableAppointmentSchema = mongoose.Schema(
-  {
-    _id: { type: String },
-    doctor_id: { type: String, ref: 'User' },
-    date: { type: String, required: true, default: new Date() },
-    times: [{ start: Date, end: Date }],
+const AppointmentSchema = mongoose.Schema({
+  _id: String,
+  start_date: { type: Date, required: [true, 'you have to provide start date to the appointment🙃'] },
+  end_date: { type: Date, required: [true, 'you have to provide end date to the appointment🙃'] },
+  status: {
+    type: String,
+    default: 'waiting',
+    enum: { values: ['waiting', 'approved', 'canceled'], message: '🙃🙃{VALUE} is not a vaild status 😫😕' },
   },
-  { timestamps: true }
-);
+  patient_id: { type: String, required: [true, '🙃 where is the patient ID 😑'], ref: 'User' },
+  doctor_id: { type: String, required: [true, '🙃 wh-ere is the doctor ID 😑'], ref: 'User' },
+});
 
-const Appointment = mongoose.model('Appointment', availableAppointmentSchema);
+const Appointment = mongoose.model('Appointment', AppointmentSchema);
 module.exports = Appointment;
