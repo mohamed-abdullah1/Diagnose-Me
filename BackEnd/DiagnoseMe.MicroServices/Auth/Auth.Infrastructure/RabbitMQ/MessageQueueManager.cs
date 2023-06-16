@@ -1,6 +1,7 @@
 using System.Text;
 using Auth.Application.Authentication.Common;
 using Auth.Application.Common.Interfaces.RabbitMQ;
+using Auth.Application.MedicalBlog.Common;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -42,6 +43,40 @@ public class MessageQueueManager : IMessageQueueManager
         channel.BasicPublish(
             exchange: RabbitMQConstants.AuthExchange,
             routingKey: RabbitMQConstants.DeletingUserQueue,
+            mandatory: false,
+            basicProperties: props,
+            body: body);
+    }
+
+    public void PublishNotification(NotificationResponse notificationResponse)
+    {
+        channel.ExchangeDeclare(
+            exchange: RabbitMQConstants.NotificationExchange, 
+            type : ExchangeType.Fanout,
+            durable: false,
+            autoDelete: false);
+
+        channel.QueueDeclare(
+            queue: RabbitMQConstants.NotificationQueue,
+            durable: false,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null);
+        channel.QueueBind(
+            queue: RabbitMQConstants.NotificationQueue,
+            exchange: RabbitMQConstants.NotificationExchange,
+            routingKey: RabbitMQConstants.NotificationQueue
+        );
+        IBasicProperties props = channel.CreateBasicProperties();
+        props.ContentType = "application/json";
+        props.DeliveryMode = 2;
+
+        string serializedNotification = JsonConvert.SerializeObject(notificationResponse);
+        byte[] body = Encoding.UTF8.GetBytes(serializedNotification);
+
+        channel.BasicPublish(
+            exchange: RabbitMQConstants.AuthExchange,
+            routingKey: RabbitMQConstants.NotificationQueue,
             mandatory: false,
             basicProperties: props,
             body: body);

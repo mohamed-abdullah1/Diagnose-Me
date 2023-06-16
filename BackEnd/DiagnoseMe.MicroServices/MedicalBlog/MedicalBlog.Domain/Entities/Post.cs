@@ -7,6 +7,9 @@ public class Post : BaseEntity{
     public DateTime? ModifiedOn {get; set;}
     public float AverageRate {get; set;}
     public int ViewsCount {get; set;}
+
+    public virtual ICollection<User> SavingUsers {get; set;} = new HashSet<User>();
+    public virtual ICollection<PostImage> PostImages {get; set;} = new HashSet<PostImage>();
     public virtual ICollection<User> RatingUsers {get; set;} = new HashSet<User>();
     public virtual ICollection<User> ViewingUsers {get; set;} = new HashSet<User>();
     public string AuthorId {get; set;} = string.Empty;

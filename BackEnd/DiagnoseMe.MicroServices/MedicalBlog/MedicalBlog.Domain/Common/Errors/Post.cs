@@ -31,5 +31,31 @@ public static partial class Errors
             code: "Post.FailedToAddRating",
             description: "Failed to add rating."
         );
+
+        public static Error TooManyImages => Error.Validation(
+            code: "Post.TooManyImages",
+            description: "Too many images."
+        );
+
+        public static Error AlreadySaved => Error.Validation(
+            code: "Post.AlreadySaved",
+            description: "Post already saved."
+        );
+
+        public static Error NotSaved => Error.Validation(
+            code: "Post.NotSaved",
+            description: "Post not saved."
+        );
+
+        public static Error SaveFailed => Error.Failure(
+            code: "Post.SaveFailed",
+            description: "Post save failed."
+        );
+
+        public static Error UnSaveFailed => Error.Failure(
+            code: "Post.UnSaveFailed",
+            description: "Post unsave failed."
+        );
     }
+
 }

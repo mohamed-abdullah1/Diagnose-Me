@@ -83,5 +83,17 @@ public class UserConfiguration : BaseConfiguration<User>
                     .OnDelete(DeleteBehavior.Cascade)
             );
             
+        builder.HasMany(u => u.SavedPosts)
+            .WithMany(a => a.SavingUsers)
+            .UsingEntity<UserSavedPost>(
+                j => j.HasOne(u => u.Post)
+                    .WithMany()
+                    .HasForeignKey(u => u.PostId)
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j.HasOne(u => u.User)
+                    .WithMany()
+                    .HasForeignKey(u => u.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+            );
     }
 }

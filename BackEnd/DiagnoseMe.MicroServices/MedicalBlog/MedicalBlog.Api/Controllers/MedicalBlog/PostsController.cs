@@ -4,12 +4,16 @@ using MedicalBlog.Application.MedicalBlog.Posts.Commands.CreatePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.DeletePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.EditPost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.RatePost;
+using MedicalBlog.Application.MedicalBlog.Posts.Commands.SavePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.SubscribeDoctor;
+using MedicalBlog.Application.MedicalBlog.Posts.Commands.UnSavePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.UnsubscribeDoctor;
+using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetBySubscribedDoctor;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostById;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPosts;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostsByDocterId;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostsByTags;
+using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetSavedPosts;
 using MedicalBlog.Contracts.MedicalBlog.Posts;
 using MedicalBlog.Domain.Common.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -94,7 +98,8 @@ public class PostsController : ApiController
             GetUserIdFromToken(),
             request.Title,
             request.Content,
-            request.Tags);
+            request.Tags,
+            request.Base64Images);
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),
@@ -110,6 +115,8 @@ public class PostsController : ApiController
             request.Title,
             request.Content,
             request.Tags,
+            request.RemovedImagesUrls,
+            request.Base64Images,
             GetUserIdFromToken());
         var result = await _mediator.Send(command);
         return result.Match(
@@ -168,6 +175,55 @@ public class PostsController : ApiController
         errors => Problem(errors));
     }
 
-
+    [Authorize]
+    [HttpGet("posts/saved/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetSavedPosts(int pageNumber)
+    {
+        var query = new GetSavedPostsQuery(
+            pageNumber,
+            GetUserIdFromToken());
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
     
+    [Authorize]
+    [HttpPost("posts/post-id/{postId}/save")]
+    public async Task<IActionResult> SavePost(string postId)
+    {
+        var command = new SavePostCommand(
+            postId,
+            GetUserIdFromToken());
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpPost("posts/post-id/{postId}/unsave")]
+    public async Task<IActionResult> UnSavePost(string postId)
+    {
+        var command = new UnSavePostCommand(
+            postId,
+            GetUserIdFromToken());
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+    
+    [Authorize]
+    [HttpGet("posts/by-subscribed-doctors/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetBySubscribedDoctor(int pageNumber)
+    {
+        var query = new GetBySubscribedDoctorQuery(
+            GetUserIdFromToken(),
+            pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
 }

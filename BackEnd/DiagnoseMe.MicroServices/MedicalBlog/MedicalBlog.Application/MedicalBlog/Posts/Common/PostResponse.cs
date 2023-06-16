@@ -9,6 +9,7 @@ public record PostResponse(
     string Content,
     UserData Author,
     List<string> Tags,
+    List<string> PostImages,
     string CreatedOn,
     string? ModifiedOn,
     int CommentsCount,

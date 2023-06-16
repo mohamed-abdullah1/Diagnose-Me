@@ -4,11 +4,12 @@ using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MapsterMapper;
 using MedicalBlog.Application.MedicalBlog.Posts.Common;
 using MedicalBlog.Domain.Common.Errors;
+using MedicalBlog.Application.MedicalBlog.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostsByTags;
 
 
-public class GetPostsByTagsQueryHandler : IRequestHandler<GetPostsByTagsQuery, ErrorOr<List<PostResponse>>>
+public class GetPostsByTagsQueryHandler : IRequestHandler<GetPostsByTagsQuery, ErrorOr<PageResponse>>
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
@@ -24,7 +25,7 @@ public class GetPostsByTagsQueryHandler : IRequestHandler<GetPostsByTagsQuery, E
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<List<PostResponse>>> Handle(GetPostsByTagsQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetPostsByTagsQuery query, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(query.UserId);
         if (user == null)
@@ -32,7 +33,11 @@ public class GetPostsByTagsQueryHandler : IRequestHandler<GetPostsByTagsQuery, E
 
         var posts = (await _postRepository.Get(
             predicate: x => x.Tags.Any(t => query.Tags.Contains(t.TagName)),
-            include: "RatingUsers,Author,Tags,Comments,ViewingUsers")).
+            include: "RatingUsers,Author,Tags,Comments,ViewingUsers,PostImages"));
+        
+        var IsNextPage = posts.Count() > query.PageNumber * 10;
+
+        var resultPosts = posts.
             OrderByDescending(x => x.CreatedOn).
             Skip((query.PageNumber - 1) * 10).
             Take(10).
@@ -48,6 +53,10 @@ public class GetPostsByTagsQueryHandler : IRequestHandler<GetPostsByTagsQuery, E
 
         var postsResponses = _mapper.Map<List<PostResponse>>(posts);
         
-        return postsResponses;
+        return new PageResponse(
+            postsResponses.Select(p => (object)p).ToList(),
+            query.PageNumber,
+            IsNextPage
+        );
     }
 }

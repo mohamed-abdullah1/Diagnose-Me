@@ -2,12 +2,13 @@ using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MediatR;
 using MapsterMapper;
 using ErrorOr;
-using MedicalBlog.Application.MedicalBlog.Posts.Common;
 using MedicalBlog.Domain.Common.Errors;
+using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Application.MedicalBlog.Posts.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPosts;
 
-public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, ErrorOr<List<PostResponse>>>
+public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, ErrorOr<PageResponse>>
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
@@ -23,14 +24,18 @@ public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, ErrorOr<List<
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<List<PostResponse>>> Handle(GetPostsQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetPostsQuery query, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(query.UserId);
         if (user == null)
             return Errors.User.NotFound;
 
         var posts = (await _postRepository.Get(
-            include: "Author,Tags,Comments,ViewingUsers,RatingUsers")).
+            include: "Author,Tags,Comments,ViewingUsers,RatingUsers,PostImages"));
+        
+        var IsNextPage = posts.Count() > query.PageNumber * 10;
+
+        var resultPosts = posts.
             OrderByDescending(x => x.CreatedOn).
             Skip((query.PageNumber - 1) * 10).
             Take(10).
@@ -46,6 +51,10 @@ public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, ErrorOr<List<
 
         var postsResponses = _mapper.Map<List<PostResponse>>(posts);
         
-        return postsResponses;
+        return new PageResponse(
+            postsResponses.Select(p => (object)p).ToList(),
+            query.PageNumber,
+            IsNextPage
+        );
     }
 }

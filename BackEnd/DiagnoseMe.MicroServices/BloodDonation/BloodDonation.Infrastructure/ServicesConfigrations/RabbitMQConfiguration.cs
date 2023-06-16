@@ -1,3 +1,4 @@
+using BloodDonation.Application.Common.Interfaces.RabbitMQ;
 using BloodDonation.Infrastructure.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ public static class RabbitMQConfiguration
             try{
                 var rabbitMQConnector = RabbitMQConnector.ConnectAsync(RabbitMQSettings);
                 services.AddSingleton(rabbitMQConnector);
+                services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
                 MessageQueueHelper.SubscribeToRegisterUserQueue(rabbitMQConnector, services.BuildServiceProvider());
                 MessageQueueHelper.SubscribeToDeleteUserQueue(rabbitMQConnector, services.BuildServiceProvider());
                 MessageQueueHelper.SubscribeToUpdateUserQueue(rabbitMQConnector, services.BuildServiceProvider());

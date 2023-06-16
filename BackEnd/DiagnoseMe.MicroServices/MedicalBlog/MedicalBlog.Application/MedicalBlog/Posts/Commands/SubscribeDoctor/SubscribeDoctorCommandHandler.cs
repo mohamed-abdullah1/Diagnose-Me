@@ -2,6 +2,7 @@ using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
+using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -10,13 +11,17 @@ namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.SubscribeDoctor;
 public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorCommand, ErrorOr<CommandResponse>>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IMessageQueueManager _messageQueueManager;
     private readonly IUnitOfWork _unitOfWork;
+    
     public SubscribeDoctorCommandHandler(
         IUserRepository userRepository,
+        IMessageQueueManager messageQueueManager,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(SubscribeDoctorCommand command, CancellationToken cancellationToken)
@@ -46,6 +51,10 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
         if (await _unitOfWork.Save() == 0)
             return Errors.User.FailedToSubscribe;
 
+        _messageQueueManager.PublishNotification(new NotificationResponse(
+            doctor.Id!,
+            $"User {user.Name} has started to subscribe you."));
+        
         return new CommandResponse(
             true,
             $"You have successfully subscribed to this doctor with id {command.DoctorId}.",

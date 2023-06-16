@@ -1,9 +1,12 @@
 using ErrorOr;
 using MediatR;
+using MedicalBlog.Application.Authentication.Helpers;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
+using MedicalBlog.Application.Common.Interfaces.Services;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
+
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.EditPost;
 
@@ -13,16 +16,19 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITagRepository _tagRepository;
+    private readonly IFileHandler _fileHandler;
 
     public EditPostCommandHandler(IPostRepository postRepository,
         IUserRepository userRepository,
         IUnitOfWork unitOfWork,
-        ITagRepository tagRepository)
+        ITagRepository tagRepository,
+        IFileHandler fileHandler)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
         _tagRepository = tagRepository;
+        _fileHandler = fileHandler;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(EditPostCommand command, CancellationToken cancellationToken)
@@ -51,6 +57,24 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
         post.Content = command.Content;
         post.Tags = allTags;
         post.ModifiedOn = DateTime.UtcNow;
+
+        post.PostImages = post.PostImages
+            .Where(x => !command.RemovedImagesUrls.Contains(x.ImageUrl))
+            .ToList();
+        
+        var postImages = new List<PostImage>();
+        var result = new ErrorOr<string>();
+        foreach(var base64Image in command.Base64Images){
+            result = SaveFile.SavePicture(base64Image,_fileHandler);
+
+            if(result.IsError)
+                return result.Errors;
+            
+            postImages.Add(new PostImage{
+                PostId = post.Id!,
+                ImageUrl = result.Value
+            });
+        };
 
 
         await _postRepository.Edit(post);

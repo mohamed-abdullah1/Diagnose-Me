@@ -1,9 +1,9 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.MedicalBlog.Answers.Common;
+using MedicalBlog.Application.MedicalBlog.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Answers.Queries.GetAnswersByQuestionId;
 
 public record GetAnswersByQuestionIdQuery(
     string QuestionId,
-    int PageNumber) : IRequest<ErrorOr<List<AnswerResponse>>>;
+    int PageNumber) : IRequest<ErrorOr<PageResponse>>;

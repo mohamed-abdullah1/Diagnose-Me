@@ -22,6 +22,8 @@ public static class Repositories
             services.AddScoped<IPostTagRepository, PostTagRepository>();
             services.AddScoped<IQuestionTagRepository, QuestionTagRepository>();
             services.AddScoped<IQuestionAgreementRepository, QuestionAgreementRepository>();
+            services.AddScoped<IUserSavedPostRepository, UserSavedPostRepository>();
+            services.AddScoped<IPostImageRepository, PostImageRepository>();
             
             return services;
         }

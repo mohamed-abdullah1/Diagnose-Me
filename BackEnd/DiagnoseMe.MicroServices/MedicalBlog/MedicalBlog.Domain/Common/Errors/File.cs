@@ -10,5 +10,10 @@ public static partial class Errors
             code: "File.NotAPicture",
             description: "The file is not a picture."
         );
+
+        public static Error SizeDoesNotMatch => Error.Validation(
+            code: "File.SizeDoesNotMatch",
+            description: "The file size Should be between 10KB and 5MB."
+        );
     }
 }

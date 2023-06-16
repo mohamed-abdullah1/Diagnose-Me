@@ -7,7 +7,7 @@ using MedicalBlog.Application.MedicalBlog.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Answers.Queries.GetAnswersByQuestionId;
 
-public class GetAnswersByQuestionIdQueryHandler : IRequestHandler<GetAnswersByQuestionIdQuery, ErrorOr<List<AnswerResponse>>>
+public class GetAnswersByQuestionIdQueryHandler : IRequestHandler<GetAnswersByQuestionIdQuery, ErrorOr<PageResponse>>
 {
     private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
@@ -20,16 +20,25 @@ public class GetAnswersByQuestionIdQueryHandler : IRequestHandler<GetAnswersByQu
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<List<AnswerResponse>>> Handle(GetAnswersByQuestionIdQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetAnswersByQuestionIdQuery query, CancellationToken cancellationToken)
     {
         var answers = (await _answerRepository.Get(
             predicate: a => a.QuestionId == query.QuestionId,
-            include: "AnsweringUser,AgreeingUsers"))
+            include: "AnsweringUser,AgreeingUsers"));
+        
+        var IsNextPage = answers.Count() > query.PageNumber * 10;
+
+        var resultAnswers = answers
             .OrderByDescending(x => x.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
+            .Take(10)
             .ToList();
 
         var answersResponse = _mapper.Map<List<AnswerResponse>>(answers);
-        return answersResponse;
+        return new PageResponse(
+            answersResponse.Select(a => (object)a).ToList(),
+            query.PageNumber,
+            IsNextPage
+        );
     }
 }

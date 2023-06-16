@@ -30,7 +30,8 @@ public class GetPostQueryHandler : IRequestHandler<GetPostByIdQuery, ErrorOr<Pos
 
         var post = (await _postRepository.Get(
             predicate: x => x.Id == query.Id,
-            include: "RatingUsers,Author,Tags,Comments,ViewingUsers")).FirstOrDefault();
+            include: "RatingUsers,Author,Tags,Comments,ViewingUsers,PostImages"))
+            .FirstOrDefault();
 
         if (post == null)
             return Errors.Post.NotFound;
