@@ -46,6 +46,10 @@ public class ReplyToCommentCommandHandler : IRequestHandler<ReplyToCommentComman
             ParentId = command.ParentId,
         };
 
+        comment.ParentComment = parent;
+        comment.Author = author;
+        comment.Post = post;
+        
         await _commentRepository.AddAsync(comment);
         if (await _commentRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Comment.AddFailed;

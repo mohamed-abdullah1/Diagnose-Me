@@ -24,10 +24,9 @@ public class EditCommentCommandHandler : IRequestHandler<EditCommentCommand, Err
         if (comment is null)
             return Errors.Comment.NotFound;
         var user = await _userRepository.GetByIdAsync(command.UserId);
-        if (user is null){
-            // TODO: Check user in auth service
+        if (user is null)
             return Errors.User.NotFound;
-        }
+        
         if (comment.Author.Id != user.Id)
             return Errors.User.YouCanNotDoThis;
         comment.Content = command.Content;

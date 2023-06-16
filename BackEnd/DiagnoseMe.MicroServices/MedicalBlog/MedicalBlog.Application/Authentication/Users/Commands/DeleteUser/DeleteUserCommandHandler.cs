@@ -20,15 +20,13 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
     {
         var user = await _userRepository.GetByIdAsync(command.Id);
         if (user == null)
-        {
             return Errors.User.NotFound;
-        }
+        
 
         _userRepository.Remove(user);
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
-        {
             return Errors.User.DeleteFailed;
-        }
+        
 
         return new CommandResponse(
             Success: true,
