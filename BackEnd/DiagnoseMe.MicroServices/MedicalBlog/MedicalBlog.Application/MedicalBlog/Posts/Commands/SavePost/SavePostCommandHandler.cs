@@ -37,18 +37,21 @@ public class SavePostCommandHandler : IRequestHandler<SavePostCommand, ErrorOr<C
         var user = await _userRepository.GetByIdAsync(command.UserId);
         if (user is null)
             return Errors.User.NotFound;
-        
-        if (post.SavingUsers.Any(x => x.Id == user.Id))
-           return Errors.Post.AlreadySaved;
-        
-        post.SavingUsers.Add(user);
+        var ifSaved = post.SavingUsers.Any(x => x.Id == user.Id);
+        if (ifSaved)
+        {
+            post.SavingUsers.Remove(user);
+        }
+        else
+        {
+        post.SavingUsers.Add(user);}
 
         if (await _unitOfWork.Save() == 0)
             return Errors.Post.SaveFailed;
-        
+        var message = ifSaved ? "saved" : "unsaved";
         return new CommandResponse(
             Success: true,
-            Message: "Post saved successfully",
+            Message: $"Post {message} successfully",
             Path: $"posts/{post.Id}"
         );
 

@@ -67,7 +67,7 @@ namespace MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
 
         return new CommandResponse(
             true,
-            "Question agreement updated successfully",
+            $"Question agreement updated successfully to {command.IsAgreed}",
             $"questions/{question.Id}");
         
     }

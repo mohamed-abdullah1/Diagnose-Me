@@ -41,23 +41,28 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
         if (doctor.Id == user.Id)
             return Errors.User.YouCanNotDoThis;
         
-        if (doctor.Subscribers.Any(x => x.Id == user.Id))
-            return Errors.User.AlreadySubscribed;
+        var ifSubscribed = doctor.Subscribers.Any(x => x.Id == user.Id);
+        if (ifSubscribed)
+        {
+            doctor.Subscribers.Remove(user);
+        }
+        else{
+            doctor.Subscribers.Add(user);
+        }
 
-        doctor.Subscribers.Add(user); 
 
         await _userRepository.Edit(doctor);
         
         if (await _unitOfWork.Save() == 0)
             return Errors.User.FailedToSubscribe;
-
-        _messageQueueManager.PublishNotification(new NotificationResponse(
-            doctor.Id!,
-            $"User {user.Name} has started to subscribe you."));
-        
+        if(ifSubscribed)
+            _messageQueueManager.PublishNotification(new NotificationResponse(
+                doctor.Id!,
+                $"User {user.Name} has started to subscribe you."));
+        var message = ifSubscribed ? "subscribed" : "unsubscribed";
         return new CommandResponse(
             true,
-            $"You have successfully subscribed to this doctor with id {command.DoctorId}.",
+            $"You have successfully {message} to this doctor with id {command.DoctorId}.",
             null!);
 
     }

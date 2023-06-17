@@ -6,8 +6,6 @@ using MedicalBlog.Application.MedicalBlog.Posts.Commands.EditPost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.RatePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.SavePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.SubscribeDoctor;
-using MedicalBlog.Application.MedicalBlog.Posts.Commands.UnSavePost;
-using MedicalBlog.Application.MedicalBlog.Posts.Commands.UnsubscribeDoctor;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetBySubscribedDoctor;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostById;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPosts;
@@ -162,18 +160,7 @@ public class PostsController : ApiController
         result => Ok(result),
         errors => Problem(errors));
     }
-    [Authorize]
-    [HttpPost("unsubscribe/Doctor-id/{doctorId}")]
-    public async Task<IActionResult> Unsubscribe(string doctorId)
-    {
-        var command = new UnsubscribeDoctorCommand(
-            doctorId,
-            GetUserIdFromToken());
-        var result = await _mediator.Send(command);
-        return result.Match(
-        result => Ok(result),
-        errors => Problem(errors));
-    }
+ 
 
     [Authorize]
     [HttpGet("posts/saved/page-number/{pageNumber}")]
@@ -201,18 +188,7 @@ public class PostsController : ApiController
         errors => Problem(errors));
     }
 
-    [Authorize]
-    [HttpPost("posts/post-id/{postId}/unsave")]
-    public async Task<IActionResult> UnSavePost(string postId)
-    {
-        var command = new UnSavePostCommand(
-            postId,
-            GetUserIdFromToken());
-        var result = await _mediator.Send(command);
-        return result.Match(
-        result => Ok(result),
-        errors => Problem(errors));
-    }
+   
     
     [Authorize]
     [HttpGet("posts/by-subscribed-doctors/page-number/{pageNumber}")]
