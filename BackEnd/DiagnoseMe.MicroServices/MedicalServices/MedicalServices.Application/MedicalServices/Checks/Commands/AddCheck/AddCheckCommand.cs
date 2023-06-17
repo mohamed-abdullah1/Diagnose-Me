@@ -1,0 +1,1 @@
+namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck; 

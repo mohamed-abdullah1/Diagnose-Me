@@ -16,4 +16,5 @@ public class Doctor : BaseEntity{
     public virtual ICollection<Surgery> Surgeries {get; set;} = new HashSet<Surgery>();
     public virtual ICollection<ClinicAddress> ClinicAddresses {get; set;} = new HashSet<ClinicAddress>();
     public virtual ICollection<ClinicAddress> OwnedClinicAddresses {get; set;} = new HashSet<ClinicAddress>();
+    public virtual ICollection<Check> Checks {get; set;} = new HashSet<Check>();
 }

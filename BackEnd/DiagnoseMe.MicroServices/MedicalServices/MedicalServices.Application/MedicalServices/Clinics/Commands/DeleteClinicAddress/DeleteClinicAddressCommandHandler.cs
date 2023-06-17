@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Domain.Common.Errors;
 namespace MedicalServices.Application.MedicalServices.Clinics.Commands.DeleteClinicAddress;

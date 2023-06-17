@@ -1,4 +1,4 @@
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalServices.Persistence.Context;
 
 namespace MedicalServices.Persistence;

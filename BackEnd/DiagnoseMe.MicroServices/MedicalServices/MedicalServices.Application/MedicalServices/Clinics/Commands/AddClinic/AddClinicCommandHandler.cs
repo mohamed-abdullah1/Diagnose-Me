@@ -1,7 +1,7 @@
 using ErrorOr;
 using FileTypeChecker.Extensions;
 using MediatR;
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Helpers;

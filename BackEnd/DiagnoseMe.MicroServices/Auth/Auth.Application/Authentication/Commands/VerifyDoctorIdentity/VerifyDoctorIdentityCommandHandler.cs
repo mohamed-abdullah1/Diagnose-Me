@@ -39,12 +39,13 @@ public class VerifyDoctorIdentityCommandHandler:
         
         user!.IsDoctor = result.Value;
 
-        if(user.IsDoctor){
-            var roleResult = await _userManager.AddToRoleAsync(user, Roles.Doctor);
+        if(!user.IsDoctor){
+            return Errors.Role.NotDoctor;
+        }
+        var roleResult = await _userManager.AddToRoleAsync(user, Roles.Doctor);
             if(!roleResult.Succeeded)
                 return Errors.User.MapIdentityError(roleResult.Errors.ToList());
-        }
-            
+
         var updateResult = await _userManager.UpdateAsync(user);
         if(!updateResult.Succeeded)
             return Errors.User.MapIdentityError(updateResult.Errors.ToList());

@@ -33,7 +33,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 122, DateTimeKind.Utc).AddTicks(8917));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 33, 986, DateTimeKind.Utc).AddTicks(622));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,18 +84,24 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 127, DateTimeKind.Utc).AddTicks(1570));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 2, DateTimeKind.Utc).AddTicks(6475));
 
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("MedicalRecordId")
+                    b.Property<string>("DoctorId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PatientId")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
@@ -112,7 +118,148 @@ namespace MedicalServices.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Checks", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckAllergy", b =>
+                {
+                    b.Property<string>("CheckId")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("AllergyId")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("CheckId", "AllergyId");
+
+                    b.HasIndex("AllergyId");
+
+                    b.ToTable("CheckAllergies", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckDisease", b =>
+                {
+                    b.Property<string>("CheckId")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("DiseaseId")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("CheckId", "DiseaseId");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("CheckDiseases", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckFile", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CheckId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 50, DateTimeKind.Utc).AddTicks(6348));
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CheckId");
+
+                    b.ToTable("CheckFiles", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckMedication", b =>
+                {
+                    b.Property<string>("MedicationId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CheckId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("MedicationId", "CheckId");
+
+                    b.HasIndex("CheckId");
+
+                    b.ToTable("CheckMedication", (string)null);
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckSurgery", b =>
+                {
+                    b.Property<string>("SurgeryId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CheckId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("SurgeryId", "CheckId");
+
+                    b.HasIndex("CheckId");
+
+                    b.ToTable("CheckSurgery", (string)null);
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Clinic", b =>
@@ -129,7 +276,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 142, DateTimeKind.Utc).AddTicks(4064));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 106, DateTimeKind.Utc).AddTicks(6864));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -189,7 +336,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 128, DateTimeKind.Utc).AddTicks(757));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 59, DateTimeKind.Utc).AddTicks(3399));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -241,7 +388,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 150, DateTimeKind.Utc).AddTicks(6241));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 124, DateTimeKind.Utc).AddTicks(9893));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -365,7 +512,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 177, DateTimeKind.Utc).AddTicks(7331));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 208, DateTimeKind.Utc).AddTicks(2002));
 
                     b.Property<bool>("IsLicenseVerified")
                         .HasColumnType("tinyint(1)");
@@ -591,7 +738,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 229, DateTimeKind.Utc).AddTicks(29));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 319, DateTimeKind.Utc).AddTicks(5495));
 
                     b.Property<float>("Height")
                         .HasColumnType("float");
@@ -760,7 +907,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 258, DateTimeKind.Utc).AddTicks(8371));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 508, DateTimeKind.Utc).AddTicks(1292));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -855,7 +1002,7 @@ namespace MedicalServices.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 4, 18, 14, 56, 59, 267, DateTimeKind.Utc).AddTicks(3972));
+                        .HasDefaultValue(new DateTime(2023, 6, 17, 17, 1, 34, 560, DateTimeKind.Utc).AddTicks(6839));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -904,6 +1051,112 @@ namespace MedicalServices.Persistence.Migrations
                             Name = "Admin",
                             ProfilePictureUrl = ""
                         });
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Check", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Doctor", "Doctor")
+                        .WithMany("Checks")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Patient", "Patient")
+                        .WithMany("Checks")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckAllergy", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Allergy", "Allergy")
+                        .WithMany()
+                        .HasForeignKey("AllergyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Check", "Check")
+                        .WithMany()
+                        .HasForeignKey("CheckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Allergy");
+
+                    b.Navigation("Check");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckDisease", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Check", "Check")
+                        .WithMany()
+                        .HasForeignKey("CheckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Disease", "Disease")
+                        .WithMany()
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Check");
+
+                    b.Navigation("Disease");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckFile", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Check", "Check")
+                        .WithMany("CheckFiles")
+                        .HasForeignKey("CheckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Check");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckMedication", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Check", "Check")
+                        .WithMany()
+                        .HasForeignKey("CheckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Medication", "Medication")
+                        .WithMany()
+                        .HasForeignKey("MedicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Check");
+
+                    b.Navigation("Medication");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.CheckSurgery", b =>
+                {
+                    b.HasOne("MedicalServices.Domain.Entities.Check", "Check")
+                        .WithMany()
+                        .HasForeignKey("CheckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalServices.Domain.Entities.Surgery", "Surgery")
+                        .WithMany()
+                        .HasForeignKey("SurgeryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Check");
+
+                    b.Navigation("Surgery");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.ClinicAddress", b =>
@@ -1240,6 +1493,11 @@ namespace MedicalServices.Persistence.Migrations
                     b.Navigation("Surgery");
                 });
 
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Check", b =>
+                {
+                    b.Navigation("CheckFiles");
+                });
+
             modelBuilder.Entity("MedicalServices.Domain.Entities.Clinic", b =>
                 {
                     b.Navigation("ClinicAddresses");
@@ -1249,9 +1507,16 @@ namespace MedicalServices.Persistence.Migrations
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.Doctor", b =>
                 {
+                    b.Navigation("Checks");
+
                     b.Navigation("DoctorRates");
 
                     b.Navigation("OwnedClinicAddresses");
+                });
+
+            modelBuilder.Entity("MedicalServices.Domain.Entities.Patient", b =>
+                {
+                    b.Navigation("Checks");
                 });
 
             modelBuilder.Entity("MedicalServices.Domain.Entities.User", b =>

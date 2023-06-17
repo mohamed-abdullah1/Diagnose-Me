@@ -11,4 +11,5 @@ public class Surgery : BaseEntity
     public ICollection<Doctor> Doctors {get; set;} = new List<Doctor>();
     public ICollection<Disease> Diseases {get; set;} = new List<Disease>();
     public ICollection<Allergy> Allergies {get; set;} = new List<Allergy>();
+    public ICollection<Check> Checks {get; set;} = new List<Check>();
 }

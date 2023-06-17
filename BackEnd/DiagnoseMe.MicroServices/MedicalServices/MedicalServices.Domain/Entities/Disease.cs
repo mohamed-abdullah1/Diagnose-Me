@@ -9,4 +9,5 @@ public class Disease : BaseEntity
     public ICollection<Medication> Medications {get; set;} = new List<Medication>();
     public ICollection<Surgery> Surgeries {get; set;} = new List<Surgery>();
     public ICollection<Patient> Patients {get; set;} = new List<Patient>();
+    public ICollection<Check> Checks {get; set;} = new List<Check>();
 }

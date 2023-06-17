@@ -1,4 +1,4 @@
-using MedicalServices.Application.Common.Interfaces.RabbitMQ;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Infrastructure.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

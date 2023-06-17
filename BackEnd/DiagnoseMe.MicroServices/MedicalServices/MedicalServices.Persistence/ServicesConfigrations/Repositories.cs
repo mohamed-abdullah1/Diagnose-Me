@@ -1,4 +1,4 @@
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Persistence.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,6 +35,11 @@ public static class Repositories
             services.AddScoped<ISurgeryAllergyRepository,SurgeryAllergyRepository>();
             services.AddScoped<ISurgeryMedicationRepository,SurgeryMedicationRepository>();
             services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<ICheckAllergyRepository,CheckAllergyRepository>();
+            services.AddScoped<ICheckFileRepository,CheckFileRepository>();
+            services.AddScoped<ICheckMedicationRepository,CheckMedicationRepository>();
+            services.AddScoped<ICheckDiseaseRepository,CheckDiseaseRepository>();
+            services.AddScoped<ICheckSurgeryRepository,CheckSurgeryRepository>();
 
             return services;
         }

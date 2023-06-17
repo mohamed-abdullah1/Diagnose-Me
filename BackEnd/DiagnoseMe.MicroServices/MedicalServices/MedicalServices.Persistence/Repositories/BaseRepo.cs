@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-namespace MedicalServices.Application.Common.Interfaces.Persistence;
+namespace MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
 
 
 public interface IUnitOfWork

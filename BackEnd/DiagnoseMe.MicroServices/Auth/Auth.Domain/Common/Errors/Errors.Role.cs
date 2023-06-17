@@ -16,5 +16,11 @@ public static partial class Errors
         public static Error FialToRemove => Error.Failure(
             code: "Role.FialToAdd",
             description: "Failed to remove user from role");
+
+        
+        public static Error NotDoctor => Error.Validation(
+            code: "User.NotDoctor",
+            description: "User is not doctor."
+        );
     }
 }

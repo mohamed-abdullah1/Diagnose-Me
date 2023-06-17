@@ -1,5 +1,5 @@
 using System.Text;
-using MedicalServices.Application.Common.Interfaces.RabbitMQ;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

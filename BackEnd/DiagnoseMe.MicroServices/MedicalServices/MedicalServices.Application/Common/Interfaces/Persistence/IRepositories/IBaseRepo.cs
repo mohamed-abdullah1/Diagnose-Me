@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 #nullable disable
-namespace MedicalServices.Application.Common.Interfaces.Persistence;
+namespace MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 
 public interface IBaseRepo<TEntity> where TEntity : BaseEntity
 {

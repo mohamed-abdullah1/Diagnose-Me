@@ -1,7 +1,7 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalServices.Application.Common.Interfaces.Persistence;
+using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.MedicalServices.Patients.Common;
 
 namespace MedicalServices.Application.MedicalServices.Patients.Queries.GetPatientsByDoctorId;
