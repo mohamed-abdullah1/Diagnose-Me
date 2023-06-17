@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const allMessages = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId }).sort('createdAt');
-    // .populate('sender', 'name pic email')
+    // .populate('sender', 'name pic ')
     // .populate('chat');
     res.json(messages);
   } catch (error) {
@@ -64,7 +64,7 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   try {
     let message = await Message.create(newMessage);
-    message = await message.populate('sender', 'name pic');
+    message = await message.populate('sender', 'Name pic');
 
     const counter = isRead ? 0 : 1;
     const chatUpdated = await Chat.findByIdAndUpdate(
@@ -75,7 +75,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     // message = await message.populate('chat');
     // message = await User.populate(message, {
     //   path: 'chat.users',
-    //   select: 'name pic email',
+    //   select: 'name pic',
     // });
 
     res.json(message);

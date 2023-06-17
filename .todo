@@ -14,6 +14,9 @@ Done:
   ☐ you can now send times in any of the two formats HH:MM:SS or in ISO date format
   ☐ delete single chat completely by (admin) or delete it from me as a user
   ☐ removed populated users and other not needed data (can be returned if needed)
+  ☐ change the configuration for JWT in configuration file with ALY 's one @today
+  ☐ added 3 roles to the user schema @today 
+  ☐ 
 
 to do:
   ☐ check for all routes that update or delete or read from documet that the document exists and handle if the user provided unexisted values

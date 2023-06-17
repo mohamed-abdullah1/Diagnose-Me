@@ -7,6 +7,8 @@ const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const MyControllers = require('./controllers/Consumer');
+const User = require('./models/userModel');
 
 connectDB();
 const app = express();
@@ -20,6 +22,20 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/appointment', appointmentRoutes);
+
+const seedings = [
+  { _id: '00edafe3-b047-5980-d0fa-da10f400c1e5', name: 'Admin' },
+  { _id: '657cb6cb-abf2-00d1-5d46-939a7b3aff5f', name: 'Doctor' },
+  { _id: '972a1201-a9dc-2127-0827-560cb7d76af8', name: 'Patient' },
+];
+
+User.create({ _id: '657cb6cb-abf2-00d1-5d46-939a7b3aff5f', name: 'Doctor' })
+  .then((createdDocuments) => {
+    console.log('created Docs:🧓👉👉', createdDocuments);
+  })
+  .catch((err) => console.log(err));
+
+MyControllers.startConsumingMessages();
 
 const PORT = process.env.PORT || 6969;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));
