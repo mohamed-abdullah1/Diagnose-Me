@@ -33,7 +33,7 @@ public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, Error
             .Take(10)
             .ToList();
 
-        var questionsResponse = _mapper.Map<List<QuestionResponse>>(questions);
+        var questionsResponse = _mapper.Map<List<QuestionResponse>>(resultQuestions);
         return new PageResponse(
             questionsResponse.Select(q => (object)q).ToList(),
             query.PageNumber,

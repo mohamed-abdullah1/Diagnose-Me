@@ -87,8 +87,9 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
         
         foreach(var user in author.Subscribers){
             _messageQueueManager.PublishNotification(new NotificationResponse(
-                user.Id!,
-                $"New post from Dr. {author.Name}"));
+                SenderId: author.Id!,
+                RecipientId: user.Id!,
+                Message: $"New post from Dr. {author.Name}"));
         }
         
         return new CommandResponse(

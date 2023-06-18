@@ -37,7 +37,7 @@ public class GetQuestionsByAskingUserIdQueryHandler :  IRequestHandler<GetQuesti
             .Skip((query.PageNumber - 1) * 10)
             .ToList();
 
-        var questionsResponse = _mapper.Map<List<QuestionResponse>>(questions);
+        var questionsResponse = _mapper.Map<List<QuestionResponse>>(resultQuestions);
         return questionsResponse;
     }
 }

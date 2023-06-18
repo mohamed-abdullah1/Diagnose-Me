@@ -32,7 +32,7 @@ public class GetCommentsByPostIdQueryHandler : IRequestHandler<GetCommentsByPare
             .Take(10)
             .ToList();
 
-        var commentsResponse = _mapper.Map<List<CommentResponse>>(comments);
+        var commentsResponse = _mapper.Map<List<CommentResponse>>(resultComments);
 
         return new PageResponse(
             commentsResponse.Select(c => (object)c).ToList(),

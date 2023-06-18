@@ -34,7 +34,7 @@ public class GetAnswersByQuestionIdQueryHandler : IRequestHandler<GetAnswersByQu
             .Take(10)
             .ToList();
 
-        var answersResponse = _mapper.Map<List<AnswerResponse>>(answers);
+        var answersResponse = _mapper.Map<List<AnswerResponse>>(resultAnswers);
         return new PageResponse(
             answersResponse.Select(a => (object)a).ToList(),
             query.PageNumber,

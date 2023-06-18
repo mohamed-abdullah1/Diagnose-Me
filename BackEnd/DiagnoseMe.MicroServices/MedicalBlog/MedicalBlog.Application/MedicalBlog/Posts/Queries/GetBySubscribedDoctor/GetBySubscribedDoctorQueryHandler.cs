@@ -54,7 +54,7 @@ public class GetBySubscribedDoctorQueryHandler : IRequestHandler<GetBySubscribed
             await _postRepository.SaveAsync();
         }
 
-        var postsResponses = _mapper.Map<List<PostResponse>>(posts);
+        var postsResponses = _mapper.Map<List<PostResponse>>(resultPosts);
         
         return new PageResponse(
             postsResponses.Select(p => (object)p).ToList(),

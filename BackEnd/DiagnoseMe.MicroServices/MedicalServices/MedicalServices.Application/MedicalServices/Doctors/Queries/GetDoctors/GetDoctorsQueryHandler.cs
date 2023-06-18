@@ -2,12 +2,13 @@ using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
+using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Doctors.Common;
 
 namespace MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctors;
 
 
-public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<List<DoctorResponse>>>
+public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<PageResponse>>
 {
     private readonly IDoctorRepository _doctorRepository;
     private readonly IMapper _mapper;
@@ -20,16 +21,22 @@ public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<L
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<List<DoctorResponse>>> Handle(GetDoctorsQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetDoctorsQuery query, CancellationToken cancellationToken)
     {
         var doctors = (await _doctorRepository.Get(
             orderBy: d => d.OrderBy(d => d.User!.Name),
             include: "User")).
-            AsParallel().
+            ToList();
+        var IsNextPage = doctors.Count > query.PageNumber * 10;
+        var resDoctors = doctors.
             Skip((query.PageNumber - 1) * 10).
             Take(10).
             ToList();
-        var doctorsResponse = _mapper.Map<List<DoctorResponse>>(doctors);
-        return doctorsResponse;
+        var doctorsResponse = _mapper.Map<List<DoctorResponse>>(resDoctors);
+        return new PageResponse(
+            doctorsResponse.Select(p => (object)p).ToList(),
+            query.PageNumber,
+            IsNextPage
+        );
     }
 }

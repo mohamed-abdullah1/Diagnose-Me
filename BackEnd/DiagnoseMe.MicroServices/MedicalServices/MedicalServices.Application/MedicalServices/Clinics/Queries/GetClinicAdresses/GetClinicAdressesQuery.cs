@@ -1,9 +1,9 @@
 using ErrorOr;
 using MediatR;
-using MedicalServices.Application.MedicalServices.Clinics.Common;
+using MedicalServices.Application.MedicalServices.Common;
 
 namespace MedicalServices.Application.MedicalServices.Clinics.Queries.GetClinicAdresses;
 
 public record GetClinicAddressesQuery(
     string ClinicId,
-    int PageNumber) : IRequest<ErrorOr<List<ClinicAddressResponse>>>;
+    int PageNumber) : IRequest<ErrorOr<PageResponse>>;

@@ -49,7 +49,7 @@ public class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, ErrorOr<PageR
             await _postRepository.SaveAsync();
         }
 
-        var postsResponses = _mapper.Map<List<PostResponse>>(posts);
+        var postsResponses = _mapper.Map<List<PostResponse>>(resultPosts);
         
         return new PageResponse(
             postsResponses.Select(p => (object)p).ToList(),

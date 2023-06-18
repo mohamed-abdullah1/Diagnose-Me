@@ -4,7 +4,7 @@ namespace Auth.Application.Authentication.Queries.GetAllUsers;
 
 public class GetAllUsersQueryHandler :
     BaseAuthenticationHandler,
-    IRequestHandler<GetAllUsersQuery, List<ApplicationUserResponse>>
+    IRequestHandler<GetAllUsersQuery, PageResponse>
 {
     private readonly IMapper _mapper;
     public GetAllUsersQueryHandler(
@@ -12,18 +12,24 @@ public class GetAllUsersQueryHandler :
         IMapper mapper) : base(userManager){
         _mapper = mapper;
         }
-    public async Task<List<ApplicationUserResponse>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
+    public async Task<PageResponse> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
         var users = _userManager.
                     Users.
                     OrderBy(u => u.UserName).
-                    AsParallel().
+                    ToList();
+        var IsNextPage = users.Count() > query.pageNumber * 10;
+        var resUsers = users.
                     Skip((query.pageNumber -1)* 10).
                     Take(10).
                     ToList();
-        
-        return _mapper.Map<List<ApplicationUserResponse>>(users);
+        var usersResponse = _mapper.Map<List<ApplicationUserResponse>>(resUsers);
+        return new PageResponse(
+            usersResponse.Select(u => (object)u).ToList(),
+            query.pageNumber,
+            IsNextPage
+        );
     }
     
 }

@@ -4,7 +4,7 @@ namespace Auth.Application.Authentication.Queries.GetUsersInRole;
 
 public class GetUsersInRoleQueryHandler :
     BaseAuthenticationHandler,
-    IRequestHandler<GetUsersInRoleQuery, ErrorOr<List<ApplicationUserResponse>>>
+    IRequestHandler<GetUsersInRoleQuery, ErrorOr<PageResponse>>
 {
     private readonly IMapper _mapper;
     public GetUsersInRoleQueryHandler(
@@ -12,7 +12,7 @@ public class GetUsersInRoleQueryHandler :
         IMapper mapper): base(userManager){
         _mapper = mapper;
         }
-    public async Task<ErrorOr<List<ApplicationUserResponse>>> Handle(GetUsersInRoleQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetUsersInRoleQuery query, CancellationToken cancellationToken)
     {
         
         var role = query.Role[0].ToString().ToUpper() + query.Role.Substring(1).ToLower();
@@ -22,10 +22,17 @@ public class GetUsersInRoleQueryHandler :
         var users = (await _userManager.
                     GetUsersInRoleAsync(role)).
                     OrderBy(u => u.UserName).
+                    ToList();
+        var IsNextPage = users.Count() > query.pageNumber * 10;
+        var resUsers = users.
                     Skip((query.pageNumber -1)* 10).
                     Take(10).
-                    AsParallel().
                     ToList();
-        return  _mapper.Map<List<ApplicationUserResponse>>(users);
+        var usersResponse = _mapper.Map<List<ApplicationUserResponse>>(resUsers);
+        return  new PageResponse(
+            usersResponse.Select(u => (object)u).ToList(),
+            query.pageNumber,
+            IsNextPage
+        );
     }
 }
