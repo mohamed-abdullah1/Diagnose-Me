@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
     // },
     // email: {
     //   type: 'String',
-    //   unique: true, // unique option is not a validator so there is no validation message
+    //   unique: false, // unique option is not a validator so there is no validation message
     //   required: [true, 'Enter the Email feild 🔑'],
     // },
     // password: { type: 'String', required: [true, 'Enter the Password feild 🔑'] },

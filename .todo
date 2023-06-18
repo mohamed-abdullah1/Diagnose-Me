@@ -16,7 +16,9 @@ Done:
   ☐ removed populated users and other not needed data (can be returned if needed)
   ☐ change the configuration for JWT in configuration file with ALY 's one @today
   ☐ added 3 roles to the user schema @today 
-  ☐ 
+  ☐ create script to add seeding emails if not found @today 
+  ☐ delete register user endpoing - delete login endpoint that signing authintication user - replace it with adding user handler in Rabit MQ - delete Delete user end point & replace it with delete user Handler in Rabit MQ - adding update user Handler in Rabit MQ 
+  ☐ Remove pre-Hashing and match password methods from & remove password and email from schema @today  
 
 to do:
   ☐ check for all routes that update or delete or read from documet that the document exists and handle if the user provided unexisted values
@@ -45,4 +47,7 @@ problems solved:
   but also needed to remove the chat document when there is no users in the list --> so i started to retrive the users list each time i update the it and check if it becomes empty, if it is empty then remove the chat document.
   ☐ "Converting circular structure to JSON" this error in PostMan means that you didn't execute the query to DB using .exec() method or await --> note that await do 2 things 1- execute the query returned and wait to the promise so you can't even if you used .exec() not use await for the promise
   ☐ findOneAndUpdate() returns document by default and updateOne returns acknowledgement object
+  ☐ i already removed a field from my schema but it's validator still works so to drop that index (i think) you need to re-run the schema file by making any update in it or drop the index manually (https://chat.openai.com/share/5c5b3961-d610-4397-96cb-5e83afb7e2db)
+
+  
 
