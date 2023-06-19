@@ -9,12 +9,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(
         this IServiceCollection services,
-        ConfigurationManager configuration)
+        WebApplicationBuilder builder)
+    {
     {
         services.AddMapping();
         services.AddControllers();
         services.AddSingleton<ProblemDetailsFactory,BloodDonationProblemDetailsFactory>();
-        services.AddCorsConfigurations(configuration);
+        services.AddCorsConfigurations(builder.Configuration);
+        services.AddConfigurations(builder);
         return services;
+    }
     }
 }

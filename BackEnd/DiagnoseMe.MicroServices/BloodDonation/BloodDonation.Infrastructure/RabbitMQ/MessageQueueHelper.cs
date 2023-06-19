@@ -8,6 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Serilog;
+using ErrorOr;
+using MapsterMapper;
+using BloodDonation.Application.Authentication.Users.Common;
 
 namespace BloodDonation.Infrastructure.RabbitMQ;
 
@@ -19,21 +23,21 @@ public class MessageQueueHelper
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
             type: ExchangeType.Fanout,
-            durable: false,
+            durable: true,
             autoDelete: false
         );
 
         channel.QueueDeclare(
-            queue: RabbitMQConstants.AddingUserQueue,
-            durable: false,
+            queue: RabbitMQConstants.BloodDonationAddingUserQueue,
+            durable: true,
             exclusive: false,
             autoDelete: false
         );
 
         channel.QueueBind(
-            queue: RabbitMQConstants.AddingUserQueue,
+            queue: RabbitMQConstants.BloodDonationAddingUserQueue,
             exchange: RabbitMQConstants.AuthExchange,
-            routingKey: RabbitMQConstants.AddingUserQueue
+            routingKey: RabbitMQConstants.BloodDonationAddingUserQueue
         );
 
         var consumer = new EventingBasicConsumer(channel);
@@ -42,20 +46,26 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var user = JsonConvert.DeserializeObject<AddUserCommand>(UserDecoded);
+            var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
+            var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
+            var userCommand = mapper.Map<AddUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(user!);
-            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+            var result = await mediator.Send(userCommand!);
+            var logger = (ILogger) serviceProvider.GetRequiredService(typeof(ILogger))!;
             if (result.IsError)
             {
-                var errors = JsonConvert.SerializeObject(result.Errors);
-                logger.Error(JsonConvert.DeserializeObject<String>(errors)!);
+                Logging(logger, result.Errors);
             }
             else
             {
                 logger.Information(result.Value.Message);
             }
         };
+        channel.BasicConsume(
+            queue: RabbitMQConstants.BloodDonationAddingUserQueue,
+            autoAck: false,
+            consumer: consumer
+        );
         return Task.CompletedTask;
     }
 
@@ -64,21 +74,21 @@ public class MessageQueueHelper
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
             type: ExchangeType.Fanout,
-            durable: false,
+            durable: true,
             autoDelete: false
         );
 
         channel.QueueDeclare(
-            queue: RabbitMQConstants.DeletingUserQueue,
-            durable: false,
+            queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
+            durable: true,
             exclusive: false,
             autoDelete: false
         );
 
         channel.QueueBind(
-            queue: RabbitMQConstants.DeletingUserQueue,
+            queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
             exchange: RabbitMQConstants.AuthExchange,
-            routingKey: RabbitMQConstants.DeletingUserQueue
+            routingKey: RabbitMQConstants.BloodDonationDeletingUserQueue
         );
 
         var consumer = new EventingBasicConsumer(channel);
@@ -93,14 +103,18 @@ public class MessageQueueHelper
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
-                var errors = JsonConvert.SerializeObject(result.Errors);
-                logger.Error(JsonConvert.DeserializeObject<String>(errors)!);
+                Logging(logger, result.Errors);
             }
             else
             {
                 logger.Information(result.Value.Message);
             }
         };
+        channel.BasicConsume(
+            queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
+            autoAck: false,
+            consumer: consumer
+        );
         return Task.CompletedTask;
     }
 
@@ -109,21 +123,21 @@ public class MessageQueueHelper
         channel.ExchangeDeclare(
             exchange: RabbitMQConstants.AuthExchange,
             type: ExchangeType.Fanout,
-            durable: false,
+            durable: true,
             autoDelete: false
         );
 
         channel.QueueDeclare(
-            queue: RabbitMQConstants.UpdatingUserQueue,
-            durable: false,
+            queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
+            durable: true,
             exclusive: false,
             autoDelete: false
         );
 
         channel.QueueBind(
-            queue: RabbitMQConstants.UpdatingUserQueue,
+            queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
             exchange: RabbitMQConstants.AuthExchange,
-            routingKey: RabbitMQConstants.UpdatingUserQueue
+            routingKey: RabbitMQConstants.BloodDonationUpdatingUserQueue
         );
 
         var consumer = new EventingBasicConsumer(channel);
@@ -132,20 +146,36 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var user = JsonConvert.DeserializeObject<UpdateUserCommand>(UserDecoded);
+            var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
+            var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
+            var userCommand = mapper.Map<UpdateUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(user!);
+            var result = await mediator.Send(userCommand!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
-                var errors = JsonConvert.SerializeObject(result.Errors);
-                logger.Error(JsonConvert.DeserializeObject<String>(errors)!);
+                Logging(logger, result.Errors);
             }
             else
             {
                 logger.Information(result.Value.Message);
             }
         };
+        channel.BasicConsume(
+            queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
+            autoAck: false,
+            consumer: consumer
+        );
         return Task.CompletedTask;
+    }
+
+    private static void Logging (ILogger _logger, List<Error> errors)
+    {
+        
+            _logger.Error(@$"An error has been occured..
+                UserId: RabitMQ
+                Called Method: 
+                TraceId: 
+                Errors: [{string.Join(", ", errors.Select(error => error.Description))}]");
     }
 }

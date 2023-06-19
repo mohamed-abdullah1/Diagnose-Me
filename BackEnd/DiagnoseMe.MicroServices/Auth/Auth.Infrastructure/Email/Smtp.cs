@@ -18,15 +18,16 @@ public class Smtp : ISmtp
     }
     public async Task SendEmailAsync(MailAddress to, string subject, string message)
     {
-        var from = new MailAddress(_mailSittings.Mail,_mailSittings.DisplayName);
-        var mailMessage = new MailMessage(from, to);
-        mailMessage.Subject = subject;
-        mailMessage.Body = message;
-        mailMessage.IsBodyHtml = true;
-        mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(message, null, MediaTypeNames.Text.Html));
-        using var smtpClient = new SmtpClient(_mailSittings.Host, _mailSittings.Port);
-        smtpClient.Credentials = new System.Net.NetworkCredential(_mailSittings.Mail, _mailSittings.Password);
-        smtpClient.EnableSsl = true;
-        await smtpClient.SendMailAsync(mailMessage);
+        // var from = new MailAddress(_mailSittings.Mail,_mailSittings.DisplayName);
+        // var mailMessage = new MailMessage(from, to);
+        // mailMessage.Subject = subject;
+        // mailMessage.Body = message;
+        // mailMessage.IsBodyHtml = true;
+        // mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(message, null, MediaTypeNames.Text.Html));
+        // using var smtpClient = new SmtpClient(_mailSittings.Host, _mailSittings.Port);
+        // smtpClient.Credentials = new System.Net.NetworkCredential(_mailSittings.Mail, _mailSittings.Password);
+        // smtpClient.EnableSsl = true;
+        // await smtpClient.SendMailAsync(mailMessage);
+        await Task.CompletedTask;
     }
 }

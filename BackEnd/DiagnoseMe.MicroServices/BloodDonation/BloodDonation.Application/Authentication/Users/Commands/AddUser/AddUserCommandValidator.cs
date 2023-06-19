@@ -17,8 +17,8 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
         RuleFor(x => x.FullName).
             NotEmpty().
             WithMessage("FullName is required.");
-        RuleFor(x => x.ProfilePictureUrl).
+        RuleFor(x => x.BloodType).
             NotEmpty().
-            WithMessage("ProfilePictureUrl is required.");
+            WithMessage("BloodType is required.");
     }
 }

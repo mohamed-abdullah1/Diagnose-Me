@@ -14,7 +14,7 @@ public class UserConfiguration : BaseConfiguration<User>
         base.Configure(builder);
         builder.Property(u => u.Name).IsRequired();
         builder.Property(u => u.FullName).IsRequired();
-        builder.Property(u => u.ProfilePictureUrl).IsRequired();
+        builder.Property(u => u.ProfilePictureUrl);
         builder.Property(u => u.IsDoctor).IsRequired();
         builder.HasOne(u => u.Doctor).WithOne(d => d.User).HasForeignKey<Doctor>(d => d.Id);
         builder.HasOne(u => u.Patient).WithOne(p => p.User).HasForeignKey<Patient>(p => p.Id);

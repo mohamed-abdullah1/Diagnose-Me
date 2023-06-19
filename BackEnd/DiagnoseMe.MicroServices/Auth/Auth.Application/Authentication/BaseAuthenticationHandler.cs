@@ -33,7 +33,8 @@ public class BaseAuthenticationHandler
         var bytes = new byte[10];
         using (var rng = RandomNumberGenerator.Create()){
             rng.GetBytes(bytes);
-            return Convert.ToBase64String(bytes).Substring(0,10);
+            // return Convert.ToBase64String(bytes).Substring(0,10);
+            return "1234567890";
         }
     }
 

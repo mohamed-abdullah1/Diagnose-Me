@@ -2,11 +2,12 @@ namespace BloodDonation.Api.Configurations;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddConfigurations(
+   public static IServiceCollection AddConfigurations(
         this IServiceCollection services,
-        ConfigurationManager configuration)
+        WebApplicationBuilder builder)
     {
-        services.AddCorsConfigurations(configuration);
+        services.AddCorsConfigurations(builder.Configuration);
+        services.AddSerilogConfiguration(builder);
         return services;
     }
 }

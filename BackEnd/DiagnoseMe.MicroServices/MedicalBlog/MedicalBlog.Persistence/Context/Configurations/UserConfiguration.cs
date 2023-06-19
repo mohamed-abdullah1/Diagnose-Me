@@ -8,7 +8,7 @@ public class UserConfiguration : BaseConfiguration<User>
         builder.ToTable("Users");
         base.Configure(builder);
         builder.Property(c => c.Name).IsRequired();  
-        builder.Property(c => c.ProfilePictureUrl).IsRequired();
+        builder.Property(c => c.ProfilePictureUrl);
         builder.Property(c => c.FullName).IsRequired();
         builder.HasMany(u => u.SubscribedUsers)
             .WithMany(u => u.Subscribers)

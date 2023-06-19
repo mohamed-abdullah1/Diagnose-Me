@@ -13,6 +13,7 @@ public static class DependencyInjection
         ConfigurationManager configuration
         )
     {
+        services.AddRabbitMQConfiguration(configuration);
         services.AddAuthentication(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IFileHandler, FileHandler>();

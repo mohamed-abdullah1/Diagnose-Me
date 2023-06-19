@@ -13,21 +13,23 @@ public class MessageQueueManager : IMessageQueueManager
     {
         
         channel = RabbitMQConnector.ConnectAsync(rabbitMqSettings.Value);
-        channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.NotificationExchange, 
-            type : ExchangeType.Fanout,
-            durable: false,
-            autoDelete: false);
+
     }
 
     public void PublishNotification(NotificationResponse notificationResponse)
     {
+        channel.ExchangeDeclare(
+            exchange: RabbitMQConstants.NotificationExchange, 
+            type : ExchangeType.Fanout,
+            durable: true,
+            autoDelete: false);
+
         channel.QueueDeclare(
             queue: RabbitMQConstants.NotificationQueue,
-            durable: false,
+            durable: true,
             exclusive: false,
-            autoDelete: false,
-            arguments: null);
+            autoDelete: false);
+
         channel.QueueBind(
             queue: RabbitMQConstants.NotificationQueue,
             exchange: RabbitMQConstants.NotificationExchange,
@@ -42,7 +44,7 @@ public class MessageQueueManager : IMessageQueueManager
 
         channel.BasicPublish(
             exchange: RabbitMQConstants.NotificationExchange,
-            routingKey: RabbitMQConstants.NotificationQueue,
+            routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,
             body: body);
