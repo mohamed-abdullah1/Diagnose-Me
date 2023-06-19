@@ -42,6 +42,7 @@ services:
     networks:
       - authapi-authdb
       - gateway
+      - rabbitmq-network
 
     entrypoint: dotnet run
   authdb:
@@ -84,6 +85,7 @@ services:
     networks:
       - gateway
       - medicalblogapi-medicalblogdb
+      - rabbitmq-network
     entrypoint: dotnet run
   medicalblogdb:
     container_name: medical-blog-db
@@ -125,6 +127,7 @@ services:
     networks:
       - gateway
       - blooddonationapi-blooddonationdb
+      - rabbitmq-network
     entrypoint: dotnet run
   blooddonationdb:
     container_name: blood-donation-db
@@ -166,6 +169,7 @@ services:
     networks:
       - gateway
       - medicalservicesapi-medicalservicesdb
+      - rabbitmq-network
     entrypoint: dotnet run
   medicalservicesdb:
     container_name: medical-services-db
@@ -212,4 +216,6 @@ networks:
   blooddonationapi-blooddonationdb:
     driver: bridge
   medicalservicesapi-medicalservicesdb:
+    driver: bridge
+  rabbitmq-network:
     driver: bridge
