@@ -2,7 +2,9 @@ namespace BloodDonation.Infrastructure.RabbitMQ;
 
 public static class RabbitMQConstants
 {
-    public const string AuthExchange = "Auth";
+    public const string AuthAddExchange = "Auth.Add";
+    public const string AuthDeleteExchange = "Auth.Delete";
+    public const string AuthUpdateExchange = "Auth.Update";
     public const string BloodDonationAddingUserQueue = "Auth.BloodDonation.User.Add";
     public const string BloodDonationDeletingUserQueue = "Auth.BloodDonation.User.Delete";
     public const string BloodDonationUpdatingUserQueue = "Auth.BloodDonation.User.Update";

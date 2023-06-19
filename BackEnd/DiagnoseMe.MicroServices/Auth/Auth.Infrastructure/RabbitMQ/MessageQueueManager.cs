@@ -20,7 +20,7 @@ public class MessageQueueManager : IMessageQueueManager
     public void DeleteUser(string userId)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -51,22 +51,22 @@ public class MessageQueueManager : IMessageQueueManager
         
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.MedicalBlogDeletingUserQueue);
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.MedicalServicesDeletingUserQueue);
 
         channel.QueueBind(
             queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.BloodDonationDeletingUserQueue);
 
         channel.QueueBind(
             queue: RabbitMQConstants.NotificationDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.NotificationDeletingUserQueue);
         
         IBasicProperties props = channel.CreateBasicProperties();
@@ -75,7 +75,7 @@ public class MessageQueueManager : IMessageQueueManager
 
         byte[] body = Encoding.UTF8.GetBytes(userId);
         channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,
@@ -119,7 +119,7 @@ public class MessageQueueManager : IMessageQueueManager
     public void PublishUser(ApplicationUserResponse user)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange, 
+            exchange: RabbitMQConstants.AuthAddExchange, 
             type : ExchangeType.Fanout,
             durable: true,
             autoDelete: false);
@@ -150,22 +150,22 @@ public class MessageQueueManager : IMessageQueueManager
        
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: RabbitMQConstants.MedicalBlogAddingUserQueue
         );
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesAddingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: RabbitMQConstants.MedicalServicesAddingUserQueue
         );
         channel.QueueBind(
             queue: RabbitMQConstants.BloodDonationAddingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: RabbitMQConstants.BloodDonationAddingUserQueue
         );
         channel.QueueBind(
             queue: RabbitMQConstants.NotificationAddingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: RabbitMQConstants.NotificationAddingUserQueue
         );
 
@@ -177,7 +177,7 @@ public class MessageQueueManager : IMessageQueueManager
         byte[] body = Encoding.UTF8.GetBytes(serializedUser);
 
         channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,
@@ -187,7 +187,7 @@ public class MessageQueueManager : IMessageQueueManager
     public void UpdateUser(ApplicationUserResponse user)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange, 
+            exchange: RabbitMQConstants.AuthUpdateExchange, 
             type : ExchangeType.Fanout,
             durable: true,
             autoDelete: false);
@@ -215,23 +215,23 @@ public class MessageQueueManager : IMessageQueueManager
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.MedicalBlogUpdatingUserQueue
         );
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.MedicalServicesUpdatingUserQueue
         );
         channel.QueueBind(
             queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.BloodDonationUpdatingUserQueue
         );
         channel.QueueBind(
             queue: RabbitMQConstants.NotificationUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.NotificationUpdatingUserQueue
         );
 
@@ -243,7 +243,7 @@ public class MessageQueueManager : IMessageQueueManager
         byte[] body = Encoding.UTF8.GetBytes(serializedUser);
 
         channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,

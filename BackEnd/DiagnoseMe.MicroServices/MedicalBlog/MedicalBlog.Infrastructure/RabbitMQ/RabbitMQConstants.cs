@@ -2,7 +2,9 @@ namespace MedicalBlog.Infrastructure.RabbitMQ;
 
 public static class RabbitMQConstants
 {
-    public const string AuthExchange = "Auth";
+    public const string AuthAddExchange = "Auth.Add";
+    public const string AuthDeleteExchange = "Auth.Delete";
+    public const string AuthUpdateExchange = "Auth.Update";
     public const string MedicalBlogAddingUserQueue = "Auth.MedicalBlog.User.Add";
     public const string MedicalBlogDeletingUserQueue = "Auth.MedicalBlog.User.Delete";
     public const string MedicalBlogUpdatingUserQueue = "Auth.MedicalBlog.User.Update";

@@ -21,7 +21,7 @@ public class MessageQueueHelper
     public static Task SubscribeToRegisterUserQueue(IModel channel, IServiceProvider serviceProvider)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -36,7 +36,7 @@ public class MessageQueueHelper
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesAddingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthAddExchange,
             routingKey: RabbitMQConstants.MedicalServicesAddingUserQueue
         );
 
@@ -72,7 +72,7 @@ public class MessageQueueHelper
     public static Task SubscribeToDeleteUserQueue(IModel channel, IServiceProvider serviceProvider)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -87,7 +87,7 @@ public class MessageQueueHelper
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.MedicalServicesDeletingUserQueue
         );
 
@@ -121,7 +121,7 @@ public class MessageQueueHelper
     public static Task SubscribeToUpdateUserQueue(IModel channel, IServiceProvider serviceProvider)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -136,7 +136,7 @@ public class MessageQueueHelper
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalServicesUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthExchange,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.MedicalServicesUpdatingUserQueue
         );
 
