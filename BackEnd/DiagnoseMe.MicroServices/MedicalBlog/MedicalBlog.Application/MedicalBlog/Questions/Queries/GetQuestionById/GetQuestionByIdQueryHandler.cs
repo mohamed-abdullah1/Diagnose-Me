@@ -26,7 +26,8 @@ public class GetQuestionByIdQueryHandler : IRequestHandler<GetQuestionByIdQuery,
             predicate: q => q.Id == query.QuestionId,
             include: "Answers,AskingUser,Tags,AgreeingUsers"))
             .FirstOrDefault();
-
+        Console.WriteLine($"========================={question!.AskingUser.Id}==========================");
+        Console.WriteLine($"========================={question!.AskingUserId}==========================");
         if (question == null)
             return Errors.Question.NotFound;
         

@@ -168,12 +168,12 @@ public class MessageQueueHelper
         );
         return Task.CompletedTask;
     }
-    private static void Logging (ILogger _logger, List<Error> errors)
+    private static void Logging (ILogger _logger, List<Error> errors,[CallerMemberName] string callingMethod = "")
     {
         
             _logger.Error(@$"An error has been occured..
                 UserId: RabitMQ
-                Called Method: 
+                Called Method: {callingMethod}
                 TraceId: 
                 Errors: [{string.Join(", ", errors.Select(error => error.Description))}]");
     }

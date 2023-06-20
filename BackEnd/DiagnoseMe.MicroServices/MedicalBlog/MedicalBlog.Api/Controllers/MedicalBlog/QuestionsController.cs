@@ -68,7 +68,8 @@ public class QuestionsController : ApiController
     {
         var command = new AskCommand(
             GetUserIdFromToken(),
-            request.QuestionString);
+            request.QuestionString,
+            request.Tags);
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),

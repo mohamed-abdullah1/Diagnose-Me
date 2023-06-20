@@ -13,7 +13,8 @@ public class AskCommandValidator : AbstractValidator<AskCommand>
         RuleFor(x => x.QuestionString)
             .NotEmpty()
             .WithMessage("QuestionString is required.");
-
+        
+    
 
     }
 }

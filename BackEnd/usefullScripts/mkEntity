@@ -7,6 +7,6 @@ PersistenceDir=$(find "$baseDir" -type d -name "*\.Persistence")
 
 # touch $entity
 touch ${entity}.cs
-touch "${appDir}/Common/Interfaces/Persistence/I${entity}Repository.cs"
+touch "${appDir}/Common/Interfaces/Persistence//IRepositoriesI${entity}Repository.cs"
 touch "${PersistenceDir}/Repositories/${entity}Repository.cs"
 touch "${PersistenceDir}/Context/Configurations/${entity}Configuration.cs"

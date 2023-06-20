@@ -19,6 +19,7 @@ using Auth.Application.Authentication.Queries.GetToken;
 using Auth.Application.Authentication.Queries.GetUser;
 using Auth.Application.Authentication.Queries.GetUsersInRole;
 using Auth.Contracts.Authentication;
+using Auth.Domain.Common.BloodTypes;
 using Auth.Domain.Common.Roles;
 using ErrorOr;
 using MapsterMapper;
@@ -284,4 +285,12 @@ public class AuthController : ApiController
         authResult => Ok(authResult),
         errors => Problem(errors));
    }  
+
+    [HttpGet("BloodTypes")]
+    [AllowAnonymous]
+    public IActionResult GetBloodTypes()
+    {
+        var result = BloodTypes.All;
+        return Ok(result);
+    }
 }
