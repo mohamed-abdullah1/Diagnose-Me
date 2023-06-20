@@ -17,6 +17,9 @@ public static class RabbitMQConstants
     public const string NotificationAddingUserQueue = "Auth.Notification.User.Add";
     public const string NotificationDeletingUserQueue = "Auth.Notification.User.Delete";
     public const string NotificationUpdatingUserQueue = "Auth.Notification.User.Update";
+    public const string ChatAddingUserQueue = "Auth.Chat.User.Add";
+    public const string ChatDeletingUserQueue = "Auth.Chat.User.Delete";
+    public const string ChatUpdatingUserQueue = "Auth.Chat.User.Update";
     public const string NotificationExchange = "Global.Notification";
     public const string NotificationQueue = "Global.Notification";
 }

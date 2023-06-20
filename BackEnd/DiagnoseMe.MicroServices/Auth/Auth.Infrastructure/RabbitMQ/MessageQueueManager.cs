@@ -48,6 +48,11 @@ public class MessageQueueManager : IMessageQueueManager
             durable: true,
             exclusive: false,
             autoDelete: false);
+        channel.QueueDeclare(
+            queue: RabbitMQConstants.ChatDeletingUserQueue,
+            durable: true,
+            exclusive: false,
+            autoDelete: false);
         
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogDeletingUserQueue,
@@ -68,6 +73,10 @@ public class MessageQueueManager : IMessageQueueManager
             queue: RabbitMQConstants.NotificationDeletingUserQueue,
             exchange: RabbitMQConstants.AuthDeleteExchange,
             routingKey: RabbitMQConstants.NotificationDeletingUserQueue);
+        channel.QueueBind(
+            queue: RabbitMQConstants.ChatDeletingUserQueue,
+            exchange: RabbitMQConstants.AuthDeleteExchange,
+            routingKey: RabbitMQConstants.ChatDeletingUserQueue);
         
         IBasicProperties props = channel.CreateBasicProperties();
         props.ContentType = "text/plain";
@@ -147,6 +156,18 @@ public class MessageQueueManager : IMessageQueueManager
             durable: true,
             exclusive: false,
             autoDelete: false);
+        
+        channel.QueueDeclare(
+            queue: RabbitMQConstants.ChatAddingUserQueue,
+            durable: true,
+            exclusive: false,
+            autoDelete: false);
+
+        channel.QueueBind(
+            queue: RabbitMQConstants.ChatAddingUserQueue,
+            exchange: RabbitMQConstants.AuthAddExchange,
+            routingKey: RabbitMQConstants.ChatAddingUserQueue
+        );
        
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
@@ -212,6 +233,12 @@ public class MessageQueueManager : IMessageQueueManager
             durable: true,
             exclusive: false,
             autoDelete: false);
+        
+        channel.QueueDeclare(
+            queue: RabbitMQConstants.ChatUpdatingUserQueue,
+            durable: true,
+            exclusive: false,
+            autoDelete: false);
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
@@ -233,6 +260,12 @@ public class MessageQueueManager : IMessageQueueManager
             queue: RabbitMQConstants.NotificationUpdatingUserQueue,
             exchange: RabbitMQConstants.AuthUpdateExchange,
             routingKey: RabbitMQConstants.NotificationUpdatingUserQueue
+        );
+
+        channel.QueueBind(
+            queue: RabbitMQConstants.ChatUpdatingUserQueue,
+            exchange: RabbitMQConstants.AuthUpdateExchange,
+            routingKey: RabbitMQConstants.ChatUpdatingUserQueue
         );
 
         IBasicProperties props = channel.CreateBasicProperties();
