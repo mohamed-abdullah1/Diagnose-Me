@@ -45,9 +45,9 @@ public class AnswersController : ApiController
     public async Task<IActionResult> AddAnswerQuestion(AddAnswerRequest request, string questionId)
     {
         var command = new AnswerCommand(
+            GetUserIdFromToken(),
             questionId,
-            request.AnswerString,
-            GetUserIdFromToken());
+            request.AnswerString);
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),
