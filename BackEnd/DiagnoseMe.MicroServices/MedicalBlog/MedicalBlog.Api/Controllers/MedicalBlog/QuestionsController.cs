@@ -31,13 +31,13 @@ public class QuestionsController : ApiController
     }
 
     [Authorize]
-    [HttpGet("questions/query/{q?}/tag/{tag?}/page-number/{pageNumber}")]
-    public async Task<IActionResult> GetQuestions(int pageNumber, string q, string tag)
+    [HttpGet("questions/page-number/{pageNumber}?q={q}&tag={tag}")]
+    public async Task<IActionResult> GetQuestions(int pageNumber, string? q, string? tag)
     {
         var query = new GetQuestionsQuery(
             pageNumber,
-            q,
-            tag);
+            q!,
+            tag!);
         var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),
