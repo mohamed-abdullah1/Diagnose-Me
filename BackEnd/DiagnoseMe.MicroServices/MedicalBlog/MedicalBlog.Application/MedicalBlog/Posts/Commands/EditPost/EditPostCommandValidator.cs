@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using FluentValidation;
+using MedicalBlog.Domain.Common.Regexes;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.EditPost;
 
@@ -24,6 +26,10 @@ public class EditPostCommandValidator : AbstractValidator<EditPostCommand>
         RuleFor(x => x.UserId)
             .NotEmpty()
             .WithMessage("UserId is required.");
+
+        RuleForEach(x => x.Base64Images).
+            Must(x => x is not null && Regex.IsMatch(x, Regexes.Base64Regex)).
+                WithMessage(" Data is required and Data must be base64");
             
     }
 }

@@ -15,6 +15,8 @@ public class MedicalServicesMappingConfig : IRegister
         Map(dest => dest, src => src);
         config.NewConfig<Doctor, DoctorResponse>().
         Map(dest => dest.User, src => src.User).
+        Map(dest => dest.ClinicId, src => src.Clinic!.Id).
+        Map(dest => dest.ClinicSpecialization, src => src.Clinic!.Specialization).
         Map(dest => dest, src => src);
         config.NewConfig<DoctorRate, DoctorRateResponse>().
         Map(dest => dest.User, src => src.User).

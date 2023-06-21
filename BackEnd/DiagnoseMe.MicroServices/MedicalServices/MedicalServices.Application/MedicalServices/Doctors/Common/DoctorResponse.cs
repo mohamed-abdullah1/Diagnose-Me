@@ -9,5 +9,6 @@ public record DoctorResponse(
     string License,
     bool IsLicenseVerified,
     string ClinicId,
+    string ClinicSpecialization,
     float AverageRate,
     List<DoctorRateResponse> DoctorRates);

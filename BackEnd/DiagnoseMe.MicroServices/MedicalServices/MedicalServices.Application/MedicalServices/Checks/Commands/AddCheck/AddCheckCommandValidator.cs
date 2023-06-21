@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using FluentValidation;
 using MedicalServices.Domain.Common.FIles;
+using MedicalServices.Domain.Common.Regexes;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck;
 
@@ -35,9 +37,9 @@ public class AddCheckCommandValidator : AbstractValidator<AddCheckCommand>
                 WithMessage("PatientId must not exceed 50 characters.");
 
         RuleForEach(x => x.Base64Files).
-            Must(x => x.Type is not null && x.Data is not null).
-                WithMessage("Type and Data are required.").
-            Must(x => AllowedFileTypes.AllowedTypes.Contains(x.Type)).
+            Must(x => x.Type is not null && x.Data is not null && Regex.IsMatch(x.Data,Regexes.Base64Regex)).
+                WithMessage("Type and Data are required and Data must be base64").
+            Must(x => AllowedFileTypes.AllowedTypes.Contains(x.Type) ).
                 When(x => x.Type is not null).
                 WithMessage("Type is not allowed.");
             

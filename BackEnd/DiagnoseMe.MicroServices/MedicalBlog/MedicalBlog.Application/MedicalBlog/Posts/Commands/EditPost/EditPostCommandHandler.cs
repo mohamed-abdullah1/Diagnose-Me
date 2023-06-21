@@ -76,7 +76,7 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
             });
         };
 
-
+        post.PostImages = post.PostImages.Concat(postImages).ToList();
         await _postRepository.Edit(post);
 
         if (await _unitOfWork.Save() == 0)

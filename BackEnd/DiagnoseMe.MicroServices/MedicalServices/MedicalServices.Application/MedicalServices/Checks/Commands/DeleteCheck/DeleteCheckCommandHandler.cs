@@ -3,6 +3,7 @@ using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Domain.Common.Errors;
+using MedicalServices.Domain.Common.Roles;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.DeleteCheck;
 
@@ -23,7 +24,9 @@ public class DeleteCheckCommandHandeler : IRequestHandler<DeleteCheckCommand, Er
             return Errors.Check.NotFound;
         
 
-        if (check.PatientId != command.UserId)
+        if (check.PatientId != command.UserId ||
+            check.DoctorId != command.UserId || 
+            !command.Roles.Contains(Roles.Admin))
             return Errors.User.YouCanNotDoThis;
         
 

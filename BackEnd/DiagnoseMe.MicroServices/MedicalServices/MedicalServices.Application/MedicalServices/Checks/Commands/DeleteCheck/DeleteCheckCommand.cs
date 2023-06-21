@@ -6,4 +6,5 @@ namespace MedicalServices.Application.MedicalServices.Checks.Commands.DeleteChec
 
 public record DeleteCheckCommand(
     string UserId,
+    List<string> Roles,
     string CheckId) : IRequest<ErrorOr<CommandResponse>>;

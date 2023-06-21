@@ -2,6 +2,7 @@ using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck;
 using MedicalServices.Application.MedicalServices.Checks.Commands.DeleteCheck;
+using MedicalServices.Application.MedicalServices.Checks.Commands.UpdateCheck;
 using MedicalServices.Contracts.Checks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,9 @@ public class CheckController : ApiController
     [HttpPost("check/add")]
     public async Task<IActionResult> AddCheck(AddCheckRequest request)
     {
-        var command = _mapper.Map<AddCheckCommand>(request);
+        var command = _mapper.Map<AddCheckCommand>((request, 
+            GetUserIdFromToken(),
+            GetUserRolesFromToken()));
         var result = await _mediator.Send(command);
         return result.Match(
             result => Ok(result),
@@ -39,7 +42,21 @@ public class CheckController : ApiController
     {
         var command = new DeleteCheckCommand(
             GetUserIdFromToken(),
+            GetUserRolesFromToken(),
             checkId);
+        var result = await _mediator.Send(command);
+        return result.Match(
+            result => Ok(result),
+            errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("check/update")]
+    public async Task<IActionResult> UpdateCheck(UpdateCheckRequest request)
+    {
+        var command = _mapper.Map<UpdateCheckCommand>((request, 
+            GetUserIdFromToken(),
+            GetUserRolesFromToken()));
         var result = await _mediator.Send(command);
         return result.Match(
             result => Ok(result),

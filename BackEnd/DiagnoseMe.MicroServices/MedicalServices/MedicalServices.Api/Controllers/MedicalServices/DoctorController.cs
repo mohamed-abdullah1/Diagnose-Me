@@ -9,6 +9,7 @@ using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctors;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctorsByPatientId;
+using MedicalServices.Application.MedicalServices.Doctors.Queries.GetPopularDoctors;
 using MedicalServices.Contracts.Doctors;
 using MedicalServices.Domain.Common.Roles;
 using Microsoft.AspNetCore.Authorization;
@@ -172,5 +173,15 @@ public class DoctorController : ApiController
         errors => Problem(errors));
     }
 
+    [Authorize]
+    [HttpGet("doctors/popuplar/{specialization?}")]
+    public async Task<IActionResult> GetPopularDoctors(string? specialization)
+    {
+        var query = new GetPopularDoctorsQuery(specialization!);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
     
 }

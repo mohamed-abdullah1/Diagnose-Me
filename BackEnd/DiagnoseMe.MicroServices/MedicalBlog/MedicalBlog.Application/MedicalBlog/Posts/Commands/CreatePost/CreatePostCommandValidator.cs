@@ -1,4 +1,7 @@
 using FluentValidation;
+using System.Text.RegularExpressions;
+using MedicalBlog.Domain.Common.Regexes;
+
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.CreatePost;
 
@@ -26,5 +29,11 @@ public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
         RuleFor(x => x.AuthorId)
             .NotEmpty()
             .WithMessage("AuthorId is required");
+
+        RuleForEach(x => x.Base64Images).
+            Must(x => x is not null && Regex.IsMatch(x, Regexes.Base64Regex)).
+                WithMessage(" Data is required and Data must be base64");
     }
+
+   
 }

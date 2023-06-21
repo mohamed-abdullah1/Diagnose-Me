@@ -5,6 +5,8 @@ using MedicalServices.Application.MedicalServices.Common;
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck; 
 
 public record AddCheckCommand(
+    string UserId,
+    List<string> Roles,
     string Name,
     string Type,
     string Data,

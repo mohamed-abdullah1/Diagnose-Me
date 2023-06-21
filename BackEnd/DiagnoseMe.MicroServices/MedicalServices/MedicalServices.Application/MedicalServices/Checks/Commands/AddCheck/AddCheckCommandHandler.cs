@@ -8,6 +8,7 @@ using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Domain.Common.Errors;
 using MedicalServices.Domain.Common.FIles;
+using MedicalServices.Domain.Common.Roles;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck;
 
@@ -42,6 +43,12 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddCheckCommand command, CancellationToken cancellationToken)
     {   
+
+        if((command.UserId == command.PatientId && !command.Roles.Contains(Roles.User)) ||
+            (command.UserId == command.DoctorId && !command.Roles.Contains(Roles.Doctor)) ||
+            command.UserId != command.PatientId && command.UserId != command.DoctorId)
+            return Errors.User.YouCanNotDoThis;
+
         var patient = await _patientRepository.GetByIdAsync(command.PatientId);
         if (patient is null)
             return Errors.Patient.NotFound;
@@ -56,7 +63,8 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
                 return Errors.Doctor.NotFound;
             check.Doctor = doctor;
         }
-        
+
+        List<CheckFile> checkFiles = new();
         foreach (var file in command.Base64Files)
         {
             var result = new ErrorOr<string>();
@@ -72,6 +80,7 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
             {
                 return Errors.File.NotAllowed;
             }
+            
             if (result.IsError)
                     return result.Errors;
                 var checkFile = new CheckFile()
@@ -81,9 +90,11 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
                     FileUrl = result.Value,
                     Type = file.Type
                 };
+                checkFiles.Add(checkFile);
                 await _fileRepository.AddAsync(checkFile);
         }
 
+        check.CheckFiles = checkFiles;
         await _checkRepository.AddAsync(check);
         if(await _unitOfWork.Save() == 0)
             return Errors.Check.AddFailed;
