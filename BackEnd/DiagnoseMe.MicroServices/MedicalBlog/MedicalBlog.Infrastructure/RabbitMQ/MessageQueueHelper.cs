@@ -28,12 +28,12 @@ public class MessageQueueHelper
             autoDelete: false
         );
 
-
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false);
+            autoDelete: false
+        );
 
         channel.QueueBind(
             queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
@@ -49,9 +49,9 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var userCommand = mapper.Map<AddUserCommand>(userResponse!);
+            var command = mapper.Map<AddUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(userCommand!);
+            var result = await mediator.Send(command!);
             var logger = (ILogger) serviceProvider.GetRequiredService(typeof(ILogger))!;
             if (result.IsError)
             {
@@ -68,7 +68,6 @@ public class MessageQueueHelper
             consumer: consumer
         );
         return Task.CompletedTask;
-
     }
 
     public static Task SubscribeToDeleteUserQueue(IModel channel, IServiceProvider serviceProvider)
@@ -99,9 +98,9 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var user = JsonConvert.DeserializeObject<DeleteUserCommand>(UserDecoded);
+            var command = new DeleteUserCommand(UserDecoded);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(user!);
+            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
@@ -150,9 +149,9 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var userCommand = mapper.Map<UpdateUserCommand>(userResponse!);
+            var command = mapper.Map<UpdateUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(userCommand!);
+            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
@@ -163,7 +162,6 @@ public class MessageQueueHelper
                 logger.Information(result.Value.Message);
             }
         };
-
         channel.BasicConsume(
             queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
             autoAck: false,

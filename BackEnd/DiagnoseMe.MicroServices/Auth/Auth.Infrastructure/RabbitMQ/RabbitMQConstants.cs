@@ -22,4 +22,31 @@ public static class RabbitMQConstants
     public const string ChatUpdatingUserQueue = "Auth.Chat.User.Update";
     public const string NotificationExchange = "Global.Notification";
     public const string NotificationQueue = "Global.Notification";
+
+    public static List<string> AddQueues = new List<string>()
+    {
+        MedicalBlogAddingUserQueue,
+        MedicalServicesAddingUserQueue,
+        BloodDonationAddingUserQueue,
+        NotificationAddingUserQueue,
+        ChatAddingUserQueue
+    };
+
+    public static List<string> DeleteQueues = new List<string>()
+    {
+        MedicalBlogDeletingUserQueue,
+        MedicalServicesDeletingUserQueue,
+        BloodDonationDeletingUserQueue,
+        NotificationDeletingUserQueue,
+        ChatDeletingUserQueue
+    };
+
+    public static List<string> UpdateQueues = new List<string>()
+    {
+        MedicalBlogUpdatingUserQueue,
+        MedicalServicesUpdatingUserQueue,
+        BloodDonationUpdatingUserQueue,
+        NotificationUpdatingUserQueue,
+        ChatUpdatingUserQueue
+    };
 }

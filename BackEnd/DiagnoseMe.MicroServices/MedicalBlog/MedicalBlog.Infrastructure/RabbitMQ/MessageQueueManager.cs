@@ -18,35 +18,62 @@ public class MessageQueueManager : IMessageQueueManager
 
     public void PublishNotification(NotificationResponse notificationResponse)
     {
-        channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.NotificationExchange, 
-            type : ExchangeType.Fanout,
-            durable: true,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.NotificationQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        channel.QueueBind(
-            queue: RabbitMQConstants.NotificationQueue,
+        Publish(
             exchange: RabbitMQConstants.NotificationExchange,
-            routingKey: RabbitMQConstants.NotificationQueue
+            queues: new List<string> { RabbitMQConstants.NotificationQueue },
+            obj: notificationResponse,
+            contentType: "application/json");
+    }
+
+    private void Publish(
+        string exchange,
+        List<string> queues,
+        Object obj,
+        string contentType)
+    {
+        channel.ExchangeDeclare(
+            exchange: exchange,
+            type: ExchangeType.Fanout,
+            durable: true,
+            autoDelete: false
         );
+
+        foreach (var queue in queues)
+        {
+            channel.QueueDeclare(
+                queue: queue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false);
+        }
+
+        foreach (var queue in queues)
+        {
+            channel.QueueBind(
+                queue: queue,
+                exchange: exchange,
+                routingKey: queue
+            );
+        }
+
         IBasicProperties props = channel.CreateBasicProperties();
-        props.ContentType = "application/json";
+        props.ContentType = contentType;
         props.DeliveryMode = 2;
 
-        string serializedNotification = JsonConvert.SerializeObject(notificationResponse);
-        byte[] body = Encoding.UTF8.GetBytes(serializedNotification);
+        byte[] body = new byte[] { };
+        if (contentType == "text/plain")
+        {
+            body = Encoding.UTF8.GetBytes(obj.ToString()!);
+        }
+        else{
+            string serializedObject = JsonConvert.SerializeObject(obj);
+            body = Encoding.UTF8.GetBytes(serializedObject);}
 
         channel.BasicPublish(
-            exchange: RabbitMQConstants.NotificationExchange,
+            exchange: exchange,
             routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,
             body: body);
     }
-
 }

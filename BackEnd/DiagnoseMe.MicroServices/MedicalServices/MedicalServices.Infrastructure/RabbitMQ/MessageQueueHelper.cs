@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using System.Text;
 using ErrorOr;
 using MapsterMapper;
@@ -48,9 +49,9 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var userCommand = mapper.Map<AddUserCommand>(userResponse!);
+            var command = mapper.Map<AddUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(userCommand!);
+            var result = await mediator.Send(command!);
             var logger = (ILogger) serviceProvider.GetRequiredService(typeof(ILogger))!;
             if (result.IsError)
             {
@@ -97,9 +98,9 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var user = JsonConvert.DeserializeObject<DeleteUserCommand>(UserDecoded);
+            var command = new DeleteUserCommand(UserDecoded);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(user!);
+            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
@@ -148,9 +149,9 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var userCommand = mapper.Map<UpdateUserCommand>(userResponse!);
+            var command = mapper.Map<UpdateUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(userCommand!);
+            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             if (result.IsError)
             {
@@ -168,6 +169,7 @@ public class MessageQueueHelper
         );
         return Task.CompletedTask;
     }
+
     private static void Logging (ILogger _logger, List<Error> errors,[CallerMemberName] string callingMethod = "")
     {
         

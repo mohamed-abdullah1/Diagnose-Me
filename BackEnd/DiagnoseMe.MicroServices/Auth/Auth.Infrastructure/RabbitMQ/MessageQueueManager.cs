@@ -19,264 +19,90 @@ public class MessageQueueManager : IMessageQueueManager
 
     public void DeleteUser(string userId)
     {
-        channel.ExchangeDeclare(
+        Publish(
             exchange: RabbitMQConstants.AuthDeleteExchange,
-            type: ExchangeType.Fanout,
-            durable: true,
-            autoDelete: false
+            queues: RabbitMQConstants.DeleteQueues,
+            obj: userId,
+            contentType: "text/plain"
         );
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalBlogDeletingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false
-        );
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalServicesDeletingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false
-        );
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false
-        );
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.NotificationDeletingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.ChatDeletingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalBlogDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: RabbitMQConstants.MedicalBlogDeletingUserQueue);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalServicesDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: RabbitMQConstants.MedicalServicesDeletingUserQueue);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: RabbitMQConstants.BloodDonationDeletingUserQueue);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.NotificationDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: RabbitMQConstants.NotificationDeletingUserQueue);
-        channel.QueueBind(
-            queue: RabbitMQConstants.ChatDeletingUserQueue,
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: RabbitMQConstants.ChatDeletingUserQueue);
-        
-        IBasicProperties props = channel.CreateBasicProperties();
-        props.ContentType = "text/plain";
-        props.DeliveryMode = 2;
-
-        byte[] body = Encoding.UTF8.GetBytes(userId);
-        channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthDeleteExchange,
-            routingKey: String.Empty,
-            mandatory: false,
-            basicProperties: props,
-            body: body);
     }
 
     public void PublishNotification(NotificationResponse notificationResponse)
     {
-        channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.NotificationExchange, 
-            type : ExchangeType.Fanout,
-            durable: true,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.NotificationQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.NotificationQueue,
+        Publish(
             exchange: RabbitMQConstants.NotificationExchange,
-            routingKey: RabbitMQConstants.NotificationQueue
+            queues: new List<string>() { RabbitMQConstants.NotificationQueue },
+            obj: notificationResponse,
+            contentType: "application/json"
         );
-        IBasicProperties props = channel.CreateBasicProperties();
-        props.ContentType = "application/json";
-        props.DeliveryMode = 2;
-
-        string serializedNotification = JsonConvert.SerializeObject(notificationResponse);
-        byte[] body = Encoding.UTF8.GetBytes(serializedNotification);
-
-        channel.BasicPublish(
-            exchange: RabbitMQConstants.NotificationExchange,
-            routingKey: String.Empty,
-            mandatory: false,
-            basicProperties: props,
-            body: body);
     }
 
     public void PublishUser(ApplicationUserResponse user)
     {
-        channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthAddExchange, 
-            type : ExchangeType.Fanout,
-            durable: true,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalServicesAddingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.BloodDonationAddingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.NotificationAddingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.ChatAddingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.ChatAddingUserQueue,
+        Publish(
             exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: RabbitMQConstants.ChatAddingUserQueue
+            queues: RabbitMQConstants.AddQueues,
+            obj: user,
+            contentType: "application/json"
         );
-       
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
-            exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: RabbitMQConstants.MedicalBlogAddingUserQueue
-        );
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalServicesAddingUserQueue,
-            exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: RabbitMQConstants.MedicalServicesAddingUserQueue
-        );
-        channel.QueueBind(
-            queue: RabbitMQConstants.BloodDonationAddingUserQueue,
-            exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: RabbitMQConstants.BloodDonationAddingUserQueue
-        );
-        channel.QueueBind(
-            queue: RabbitMQConstants.NotificationAddingUserQueue,
-            exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: RabbitMQConstants.NotificationAddingUserQueue
-        );
-
-        IBasicProperties props = channel.CreateBasicProperties();
-        props.ContentType = "application/json";
-        props.DeliveryMode = 2;
-
-        string serializedUser = JsonConvert.SerializeObject(user);
-        byte[] body = Encoding.UTF8.GetBytes(serializedUser);
-
-        channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthAddExchange,
-            routingKey: String.Empty,
-            mandatory: false,
-            basicProperties: props,
-            body: body);
     }
 
     public void UpdateUser(ApplicationUserResponse user)
     {
+        Publish(
+            exchange: RabbitMQConstants.AuthUpdateExchange,
+            queues: RabbitMQConstants.UpdateQueues,
+            obj: user,
+            contentType: "application/json"
+        );
+    }
+
+    private void Publish(
+        string exchange,
+        List<string> queues,
+        Object obj,
+        string contentType)
+    {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.AuthUpdateExchange, 
-            type : ExchangeType.Fanout,
+            exchange: exchange,
+            type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false);
-
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.MedicalServicesUpdatingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.NotificationUpdatingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-        
-        channel.QueueDeclare(
-            queue: RabbitMQConstants.ChatUpdatingUserQueue,
-            durable: true,
-            exclusive: false,
-            autoDelete: false);
-
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthUpdateExchange,
-            routingKey: RabbitMQConstants.MedicalBlogUpdatingUserQueue
+            autoDelete: false
         );
 
-        channel.QueueBind(
-            queue: RabbitMQConstants.MedicalServicesUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthUpdateExchange,
-            routingKey: RabbitMQConstants.MedicalServicesUpdatingUserQueue
-        );
-        channel.QueueBind(
-            queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthUpdateExchange,
-            routingKey: RabbitMQConstants.BloodDonationUpdatingUserQueue
-        );
-        channel.QueueBind(
-            queue: RabbitMQConstants.NotificationUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthUpdateExchange,
-            routingKey: RabbitMQConstants.NotificationUpdatingUserQueue
-        );
+        foreach (var queue in queues)
+        {
+            channel.QueueDeclare(
+                queue: queue,
+                durable: true,
+                exclusive: false,
+                autoDelete: false);
+        }
 
-        channel.QueueBind(
-            queue: RabbitMQConstants.ChatUpdatingUserQueue,
-            exchange: RabbitMQConstants.AuthUpdateExchange,
-            routingKey: RabbitMQConstants.ChatUpdatingUserQueue
-        );
+        foreach (var queue in queues)
+        {
+            channel.QueueBind(
+                queue: queue,
+                exchange: exchange,
+                routingKey: queue
+            );
+        }
 
         IBasicProperties props = channel.CreateBasicProperties();
-        props.ContentType = "application/json";
+        props.ContentType = contentType;
         props.DeliveryMode = 2;
 
-        string serializedUser = JsonConvert.SerializeObject(user);
-        byte[] body = Encoding.UTF8.GetBytes(serializedUser);
+        byte[] body = new byte[] { };
+        if (contentType == "text/plain")
+        {
+            body = Encoding.UTF8.GetBytes(obj.ToString()!);
+        }
+        else{
+            string serializedObject = JsonConvert.SerializeObject(obj);
+            body = Encoding.UTF8.GetBytes(serializedObject);}
 
         channel.BasicPublish(
-            exchange: RabbitMQConstants.AuthUpdateExchange,
+            exchange: exchange,
             routingKey: String.Empty,
             mandatory: false,
             basicProperties: props,
