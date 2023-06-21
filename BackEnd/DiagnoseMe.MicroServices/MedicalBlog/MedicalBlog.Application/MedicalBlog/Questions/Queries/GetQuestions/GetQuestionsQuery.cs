@@ -5,4 +5,6 @@ using MedicalBlog.Application.MedicalBlog.Common;
 namespace MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestions;
 
 public record GetQuestionsQuery(
-    int PageNumber) : IRequest<ErrorOr<PageResponse>>;
+    int PageNumber,
+    string SearchQuery,
+    string Tag) : IRequest<ErrorOr<PageResponse>>;

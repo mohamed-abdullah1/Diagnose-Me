@@ -25,6 +25,13 @@ public class GetQuestionsQueryHandler : IRequestHandler<GetQuestionsQuery, Error
         var questions = (await _questionRepository.Get(
             include: "Answers,AskingUser,Tags,AgreeingUsers"));
         
+        if (query.SearchQuery != string.Empty)
+            questions = questions.Where(x => x.QuestionString.Contains(query.SearchQuery));
+        
+        if (query.Tag != string.Empty)
+            questions = questions.Where(x => x.Tags.Any(t => t.TagName == query.Tag));
+        
+
         var IsNextPage = questions.Count() > query.PageNumber * 10;
 
         var resultQuestions = questions
