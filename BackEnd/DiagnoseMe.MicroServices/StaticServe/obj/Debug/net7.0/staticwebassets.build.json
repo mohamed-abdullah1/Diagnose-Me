@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "icoiLKDhP1LfyjW+Ko5Pvr1ZM72YJ5T3tI7Q31/zLGU=",
+  "Source": "StaticServe",
+  "BasePath": "_content/StaticServe",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
