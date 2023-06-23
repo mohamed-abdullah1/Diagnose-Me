@@ -4,6 +4,7 @@ using MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.Ask;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.DeleteQuestion;
 using MedicalBlog.Application.MedicalBlog.Questions.Commands.EditQuestion;
+using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetImportantQuestions;
 using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestionById;
 using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestions;
 using MedicalBlog.Application.MedicalBlog.Questions.Queries.GetQuestionsByAskingUserId;
@@ -119,4 +120,14 @@ public class QuestionsController : ApiController
         errors => Problem(errors));
     }
     
+    [Authorize]
+    [HttpGet("questions/important")]
+    public async Task<IActionResult> GetImportantQuestions()
+    {
+        var query = new GetImportantQuestionsQuery();
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
 }

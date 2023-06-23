@@ -7,6 +7,6 @@ public class FileHandler : IFileHandler
 {
     public ErrorOr<string> SaveFile(byte[] file)
     {
-        throw new NotImplementedException();
+        return "FakeUrl";
     }
 }

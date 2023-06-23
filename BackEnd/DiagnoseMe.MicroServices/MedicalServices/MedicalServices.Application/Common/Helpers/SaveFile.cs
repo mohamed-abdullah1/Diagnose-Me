@@ -17,7 +17,7 @@ public class SaveFile
             if (!pictureStreem.IsImage())
                 return (Errors.File.NotAPicture);
             
-            if(picture.Length > ( 10 * 1024 ) && picture.Length < (5 * 1024 * 1024))
+            if(!(picture.Length > ( 10 * 1024 ) && picture.Length < (5 * 1024 * 1024)))
                 return Errors.File.SizeDoesNotMatch;
             
             var result = _fileHandler.SaveFile(picture);
@@ -38,7 +38,7 @@ public class SaveFile
                 return (Errors.File.NotADocument);
             
             
-            if(file.Length > ( 10 * 1024 ) && file.Length < (5 * 1024 * 1024))
+            if(!(file.Length > ( 10 * 1024 ) && file.Length < (5 * 1024 * 1024)))
                 return Errors.File.SizeDoesNotMatch;
             
             var result = _fileHandler.SaveFile(file);

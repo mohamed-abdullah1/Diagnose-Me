@@ -7,11 +7,11 @@ public class FileHandler : IFileHandler
 {
     public ErrorOr<bool> DeleteFile(string fileName)
     {
-        throw new NotImplementedException();
+        return true;
     }
 
     public ErrorOr<string> SaveFile(byte[] file)
     {
-        throw new NotImplementedException();
+        return "FakeUrl";
     }
 }
