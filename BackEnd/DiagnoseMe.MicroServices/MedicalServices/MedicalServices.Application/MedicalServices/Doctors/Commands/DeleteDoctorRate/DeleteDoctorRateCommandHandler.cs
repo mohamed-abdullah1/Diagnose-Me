@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Doctors.Common;
@@ -15,17 +14,14 @@ public class DeleteDoctorRateCommandHandler : IRequestHandler<DeleteDoctorRateCo
     private readonly IDoctorRateRepository _doctorRateRepository;
     private readonly IDoctorRepository _doctorRepository;
     private readonly IMessageQueueManager _messageQueueManager;
-    private readonly IUnitOfWork _unitOfWork;    
     public DeleteDoctorRateCommandHandler(
         IDoctorRateRepository doctorRateRepository,
         IDoctorRepository doctorRepository,
-        IMessageQueueManager messageQueueManager,
-        IUnitOfWork unitOfWork)
+        IMessageQueueManager messageQueueManager)
     {
         _doctorRateRepository = doctorRateRepository;
         _doctorRepository = doctorRepository;
         _messageQueueManager = messageQueueManager;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(DeleteDoctorRateCommand command, CancellationToken cancellationToken)
@@ -48,7 +44,7 @@ public class DeleteDoctorRateCommandHandler : IRequestHandler<DeleteDoctorRateCo
         doctor.AverageRate = (doctor.AverageRate * doctorRatesCount - doctorRate.Rate) / (doctorRatesCount - 1);
 
         _doctorRateRepository.Remove(doctorRate);
-        if (await _unitOfWork.Save() == 0)
+        if (await _doctorRateRepository.SaveAsync() == 0)
             return Errors.Doctor.Rate.DeleteFailed;
         
         _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse(

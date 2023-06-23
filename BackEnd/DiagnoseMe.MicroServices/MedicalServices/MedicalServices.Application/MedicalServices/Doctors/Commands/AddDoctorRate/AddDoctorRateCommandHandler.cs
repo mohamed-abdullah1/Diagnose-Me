@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Doctors.Common;
@@ -13,20 +12,17 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
 {
     private readonly IUserRepository _userRepository;
     private readonly IDoctorRateRepository _doctorRateRepository;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMessageQueueManager _messageQueueManager;
     private readonly IDoctorRepository _doctorRepository;
 
     public AddDoctorRateCommandHandler(
         IUserRepository userRepository,
         IDoctorRateRepository doctorRateRepository,
-        IUnitOfWork unitOfWork,
         IMessageQueueManager messageQueueManager,
         IDoctorRepository doctorRepository)
     {
         _userRepository = userRepository;
         _doctorRateRepository = doctorRateRepository;
-        _unitOfWork = unitOfWork;
         _messageQueueManager = messageQueueManager;
         _doctorRepository = doctorRepository;
     }
@@ -72,8 +68,7 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
             userDoctorRate.Doctor = doctor;
             await _doctorRateRepository.AddAsync(userDoctorRate);
         }
-
-        if (await _unitOfWork.Save() == 0)
+        if (await _doctorRateRepository.SaveAsync() == 0)
             return Errors.Doctor.Rate.AddFailed;
         _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse
         (

@@ -3,7 +3,6 @@ using MapsterMapper;
 using MediatR;
 using MedicalServices.Application.Authentication.Helpers;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Domain.Common.Errors;
@@ -21,14 +20,12 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
     private readonly IMapper _mapper;
     private readonly ICheckFileRepository _fileRepository;
     private readonly IFileHandler _fileHandler;
-    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateCheckCommandHandler(
         ICheckRepository checkRepository,
         IDoctorRepository doctorRepository,
         IPatientRepository patientRepository,
         ICheckFileRepository fileRepository,
-        IUnitOfWork unitOfWork,
         IFileHandler fileHandler,
         IMapper mapper)
     {
@@ -37,7 +34,6 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         _patientRepository = patientRepository;
         _fileRepository = fileRepository;
         _fileHandler = fileHandler;
-        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
     
@@ -93,7 +89,7 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         check.CheckFiles.Concat(checkFiles);
         await _checkRepository.Edit(check);
 
-        if(await _unitOfWork.Save() == 0)
+        if(await _checkRepository.SaveAsync() == 0)
             return Errors.Check.UpdateFailed;
         
         return new CommandResponse(
