@@ -24,16 +24,16 @@ public class MedicalBlogMappingConfig : IRegister
         config.NewConfig<Question, QuestionResponse>().
             Map(dest => dest.AnswersCount, src => src.Answers.Count).
             Map(dest => dest.Tags, src => src.Tags.Select(x => x.TagName).ToList()).
-            Map(dest => dest.DisagreementCount, src => (src.AgreeingUsers.Count - src.AgreementCount)).
+            Map(dest => dest.DisagreementCount, src => (src.AgreementCount - src.AgreeingUsers.Count)).
             Map(dest => dest, src => src);
             
         config.NewConfig<Answer, AnswerResponse>().
-            Map(dest => dest.DisagreementCount, src => (src.AgreeingUsers.Count - src.AgreementCount)).
+            Map(dest => dest.DisagreementCount, src => (src.AgreementCount - src.AgreeingUsers.Count)).
             Map(dest => dest, src => src);
 
         config.NewConfig<Comment, CommentResponse>().
             Map(dest => dest.ChildCommentsCount, src => src.ChildComments.Count).
-            Map(dest => dest.DisagreementCount, src => (src.AgreeingUsers.Count - src.AgreementCount)).
+            Map(dest => dest.DisagreementCount, src => (src.AgreementCount - src.AgreeingUsers.Count)).
             Map(dest => dest, src => src);
     }
 }

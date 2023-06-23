@@ -6,7 +6,7 @@ public record CommentResponse(
     string Id,
     string ParentId,
     string Content,
-    UserData Auther,
+    DoctorData Auther,
     string CreatedOn,
     string? ModifiedOn,
     int AgreementCount,

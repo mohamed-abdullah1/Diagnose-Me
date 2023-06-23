@@ -2,7 +2,9 @@ using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
+using MedicalServices.Application.MedicalServices.Doctors.Common;
 using MedicalServices.Domain.Common.Errors;
 
 namespace MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctorRate;
@@ -12,25 +14,31 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
     private readonly IUserRepository _userRepository;
     private readonly IDoctorRateRepository _doctorRateRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IDoctorRepository _doctorRepository;
 
     public AddDoctorRateCommandHandler(
         IUserRepository userRepository,
         IDoctorRateRepository doctorRateRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMessageQueueManager messageQueueManager,
+        IDoctorRepository doctorRepository)
     {
         _userRepository = userRepository;
         _doctorRateRepository = doctorRateRepository;
         _unitOfWork = unitOfWork;
+        _messageQueueManager = messageQueueManager;
+        _doctorRepository = doctorRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddDoctorRateCommand command, CancellationToken cancellationToken)
     {
-        var doctorUser = (await _userRepository.Get(
+        var doctor = ( await _doctorRepository.Get(
             predicate: x => x.Id == command.DoctorId,
-            include: "Doctor"
-        )).FirstOrDefault();
+            include: "Clinic")).
+        FirstOrDefault();
     
-        if (doctorUser == null || !doctorUser.IsDoctor)
+        if (doctor == null)
             return Errors.Doctor.NotFound;
         
         var user = await _userRepository.GetByIdAsync(command.UserId);
@@ -44,13 +52,13 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
         var userDoctorRate = doctorRates.FirstOrDefault(x => x.UserId == command.UserId);
 
         if (userDoctorRate != null){
-            doctorUser.Doctor!.AverageRate = (doctorRates.Sum(x => x.Rate) - userDoctorRate.Rate + command.Rate) / (doctorRates.Count);
+            doctor!.AverageRate = (doctorRates.Sum(x => x.Rate) - userDoctorRate.Rate + command.Rate) / (doctorRates.Count);
             userDoctorRate.Rate = command.Rate;
             userDoctorRate.Comment = command.Comment;
             await _doctorRateRepository.Edit(userDoctorRate);
         }
         else{
-            doctorUser.Doctor!.AverageRate = doctorRates.Count == 0
+            doctor!.AverageRate = doctorRates.Count == 0
             ? command.Rate
             : (doctorRates.Sum(x => x.Rate) + command.Rate) / (doctorRates.Count + 1);
             userDoctorRate = new DoctorRate{
@@ -61,12 +69,18 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
             };
 
             userDoctorRate.User = user;
-            userDoctorRate.Doctor = doctorUser.Doctor;
+            userDoctorRate.Doctor = doctor;
             await _doctorRateRepository.AddAsync(userDoctorRate);
         }
 
         if (await _unitOfWork.Save() == 0)
             return Errors.Doctor.Rate.AddFailed;
+        _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse
+        (
+            Id: doctor.Id!,
+            Specialization: doctor.Clinic!.Specialization,
+            Rating: doctor!.AverageRate
+        ));
         
         return new CommandResponse(
             Success: true,

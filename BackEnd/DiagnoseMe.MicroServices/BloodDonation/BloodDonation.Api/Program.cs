@@ -6,6 +6,7 @@ using BloodDonation.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreRateLimit;
 using Serilog;
+using BloodDonation.Infrastructure.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ var app = builder.Build();
         context.Database.Migrate();
 
     }
+    MessageQueueSubscriber.start(builder.Services.BuildServiceProvider(), builder.Configuration);
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseIpRateLimiting();

@@ -1,7 +1,9 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
+using MedicalServices.Application.MedicalServices.Doctors.Common;
 using MedicalServices.Domain.Common.Errors;
 
 namespace MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctor;
@@ -12,15 +14,18 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
     private readonly IDoctorRepository _doctorRepository;
     private readonly IClinicRepository _clinicRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IMessageQueueManager _messageQueueManager;
     public AddDoctorCommandHandler(
         IDoctorRepository doctorRepository,
         IClinicRepository clinicRepository,
-        IUserRepository userRepository)
+        IUserRepository userRepository,
+        IMessageQueueManager messageQueueManager)
 
     {
         _doctorRepository = doctorRepository;
         _clinicRepository = clinicRepository;
         _userRepository = userRepository;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddDoctorCommand command, CancellationToken cancellationToken)
@@ -47,7 +52,13 @@ public class AddDoctorCommandHandler : IRequestHandler<AddDoctorCommand, ErrorOr
         doctor.User = user;
         
         await _doctorRepository.AddAsync(doctor);
-
+        _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse
+        (
+            Id: doctor.Id,
+            Specialization: clinic.Specialization,
+            Rating: 0
+        ));
+        
         if (await _doctorRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Doctor.AddFailed;
 

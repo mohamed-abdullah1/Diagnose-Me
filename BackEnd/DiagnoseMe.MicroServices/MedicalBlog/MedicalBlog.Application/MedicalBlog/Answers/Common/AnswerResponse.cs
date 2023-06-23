@@ -6,7 +6,7 @@ public record AnswerResponse(
     string Id,
     string QuestionId,
     string AnswerString,
-    UserData AnsweringDoctor,
+    DoctorData AnsweringDoctor,
     string CreatedOn,
     string? ModifiedOn,
     int AgreementCount,

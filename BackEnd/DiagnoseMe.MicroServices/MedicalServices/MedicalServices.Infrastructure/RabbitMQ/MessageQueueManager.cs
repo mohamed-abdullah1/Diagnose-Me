@@ -1,6 +1,7 @@
 using System.Text;
 using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
+using MedicalServices.Application.MedicalServices.Doctors.Common;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -26,6 +27,16 @@ public class MessageQueueManager : IMessageQueueManager
         );
     }
 
+    public void PublishUpdatedDoctor(RMQUpdateDoctorResponse doctor)
+    {
+        Publish(
+            exchange: RabbitMQConstants.MedicalServiciesUpdateExchange,
+            queues: new List<string>() { RabbitMQConstants.MedicalServiciesUpdatingDoctorQueue },
+            obj: doctor,
+            contentType: "application/json"
+        );
+    }
+    
     private void Publish(
         string exchange,
         List<string> queues,

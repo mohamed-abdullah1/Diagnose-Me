@@ -17,18 +17,8 @@ public static class RabbitMQConfiguration
             configuration.Bind("RabbitMQ",RabbitMQSettings);
             services.AddSingleton(Options.Create(RabbitMQSettings));
             
-            try{
-                var rabbitMQConnector = RabbitMQConnector.ConnectAsync(RabbitMQSettings);
-                services.AddSingleton(rabbitMQConnector);
-                services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
-                MessageQueueHelper.SubscribeToRegisterUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-                MessageQueueHelper.SubscribeToDeleteUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-                MessageQueueHelper.SubscribeToUpdateUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-            }
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
+            
             return services;
         }
 }

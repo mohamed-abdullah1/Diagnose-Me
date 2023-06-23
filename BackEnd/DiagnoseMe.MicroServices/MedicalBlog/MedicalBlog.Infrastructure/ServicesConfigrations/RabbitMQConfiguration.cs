@@ -13,22 +13,8 @@ public static class RabbitMQConfiguration
         IConfiguration configuration
         )
         {
-            var RabbitMQSettings = new RabbitMQSettings();
-            configuration.Bind("RabbitMQ",RabbitMQSettings);
-            services.AddSingleton(Options.Create(RabbitMQSettings));
+            services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
             
-            try{
-                var rabbitMQConnector = RabbitMQConnector.ConnectAsync(RabbitMQSettings);
-                services.AddSingleton(rabbitMQConnector);
-                services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
-                MessageQueueHelper.SubscribeToRegisterUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-                MessageQueueHelper.SubscribeToDeleteUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-                MessageQueueHelper.SubscribeToUpdateUserQueue(rabbitMQConnector, services.BuildServiceProvider());
-            }
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
             return services;
         }
 }

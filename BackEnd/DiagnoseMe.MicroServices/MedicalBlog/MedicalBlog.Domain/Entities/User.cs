@@ -7,6 +7,9 @@ public class User : BaseEntity
     public string Name {get; set;} = string.Empty;
     public string FullName {get; set;} = string.Empty;
     public string ProfilePictureUrl {get; set;} = string.Empty;
+    public bool IsDoctor {get; set;} = false;
+    public string? Specialization {get; set;}
+    public float Rating {get; set;} = 0;
     public virtual ICollection<Answer> Answers {get; set;} = new HashSet<Answer>();
     public virtual ICollection<Comment> Comments {get; set;} = new HashSet<Comment>();
     public virtual ICollection<Comment> CommentAgreements {get; set;} = new HashSet<Comment>();

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AspNetCoreRateLimit;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Metadata;
+using MedicalServices.Infrastructure.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddInfrastrucure(builder.Configuration);
 }
 
-// try{
-//     IModel channel = RabbitMQ
-// }
+
 var app = builder.Build();
 
 {
@@ -33,6 +32,8 @@ var app = builder.Build();
         context.Database.Migrate();
 
     }
+
+    MessageQueueSubscriber.start(builder.Services.BuildServiceProvider(), builder.Configuration);
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseIpRateLimiting();

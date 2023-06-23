@@ -7,7 +7,7 @@ public record PostResponse(
     string Id,
     string Title,
     string Content,
-    UserData Author,
+    DoctorData Author,
     List<string> Tags,
     List<string> PostImages,
     string CreatedOn,
