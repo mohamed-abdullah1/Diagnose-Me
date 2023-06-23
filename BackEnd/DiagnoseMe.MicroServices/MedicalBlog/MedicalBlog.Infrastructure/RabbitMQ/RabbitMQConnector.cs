@@ -6,6 +6,7 @@ public static class RabbitMQConnector
 {
     public static IModel ConnectAsync(RabbitMQSettings rabbitMqSettings)
     {
+
         var factory = new ConnectionFactory()
         {
             HostName = rabbitMqSettings.Host,

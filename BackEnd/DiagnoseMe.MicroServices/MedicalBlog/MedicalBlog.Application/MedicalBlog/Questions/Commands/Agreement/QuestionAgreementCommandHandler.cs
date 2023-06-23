@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -10,18 +9,15 @@ namespace MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
  {
     private readonly IQuestionRepository _questionRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IQuestionAgreementRepository _questionAgreementRepository;
 
     public AgreementCommandHandler(
         IQuestionRepository questionRepository,
         IUserRepository userRepository,
-        IUnitOfWork unitOfWork,
         IQuestionAgreementRepository questionAgreementRepository)
     {
         _questionRepository = questionRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
         _questionAgreementRepository = questionAgreementRepository;
     }
 
@@ -61,8 +57,8 @@ namespace MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
             question.AgreementCount += command.IsAgreed ? 1 : 0;
             await _questionAgreementRepository.AddAsync(questionAgreement);
         }
-
-        if (await _unitOfWork.Save() == 0)
+        question.AgreeingUsers.Add(user);
+        if (await _questionAgreementRepository.SaveAsync() == 0)
             return Errors.Question.AgreementFailed;
 
         return new CommandResponse(

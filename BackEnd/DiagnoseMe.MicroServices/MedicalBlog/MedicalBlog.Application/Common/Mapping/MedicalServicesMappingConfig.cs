@@ -2,7 +2,6 @@
 using Mapster;
 using MedicalBlog.Application.MedicalBlog.Answers.Common;
 using MedicalBlog.Application.MedicalBlog.Comments.Common;
-using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Application.MedicalBlog.Posts.Common;
 using MedicalBlog.Application.MedicalBlog.Questions.Common;
 

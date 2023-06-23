@@ -175,6 +175,28 @@
                 "PeriodTimespan": 60,
                 "Limit": 20
             }
+        },
+        {
+            "UpstreamPathTemplate": "/chat/v1/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "chat.diagnose.me",
+                    "Port": 6969
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
         }
 
     ],

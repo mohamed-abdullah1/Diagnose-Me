@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -13,18 +12,15 @@ public class AgreeCommentCommandHandler : IRequestHandler<AgreeCommentCommand, E
     private readonly ICommentRepository _commentRepository;
     private readonly ICommentAgreementRepository _commentAgreementRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public AgreeCommentCommandHandler(
         ICommentRepository commentRepository,
         ICommentAgreementRepository commentAgreementRepository,
-        IUserRepository userRepository,
-        IUnitOfWork unitOfWork)
+        IUserRepository userRepository)
     {
         _commentRepository = commentRepository;
         _commentAgreementRepository = commentAgreementRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AgreeCommentCommand command, CancellationToken cancellationToken)
@@ -63,8 +59,9 @@ public class AgreeCommentCommandHandler : IRequestHandler<AgreeCommentCommand, E
             comment.AgreementCount += command.IsAgreed ? 1 : 0;
             await _commentAgreementRepository.AddAsync(commentAgreement);
         }   
+        comment.AgreeingUsers.Add(user);
 
-        if(await _unitOfWork.Save() == 0)
+        if(await _commentAgreementRepository.SaveAsync() == 0)
             return Errors.Comment.AgreementFailed;
         return new CommandResponse(
             true,

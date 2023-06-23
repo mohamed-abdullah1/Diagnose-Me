@@ -2,7 +2,6 @@ using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Authentication.Helpers;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.Common.Interfaces.Services;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
@@ -14,19 +13,16 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ITagRepository _tagRepository;
     private readonly IFileHandler _fileHandler;
 
     public EditPostCommandHandler(IPostRepository postRepository,
         IUserRepository userRepository,
-        IUnitOfWork unitOfWork,
         ITagRepository tagRepository,
         IFileHandler fileHandler)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
         _tagRepository = tagRepository;
         _fileHandler = fileHandler;
     }
@@ -79,7 +75,7 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
         post.PostImages = post.PostImages.Concat(postImages).ToList();
         await _postRepository.Edit(post);
 
-        if (await _unitOfWork.Save() == 0)
+        if (await _postRepository.SaveAsync() == 0)
             return Errors.Post.CreationFailed;
 
         

@@ -11,9 +11,7 @@ public class MessageQueueManager : IMessageQueueManager
     private readonly IModel channel;
     public MessageQueueManager(IOptions<RabbitMQSettings> rabbitMqSettings)
     {
-        
         channel = RabbitMQConnector.ConnectAsync(rabbitMqSettings.Value);
-
     }
 
     public void PublishNotification(NotificationResponse notificationResponse)

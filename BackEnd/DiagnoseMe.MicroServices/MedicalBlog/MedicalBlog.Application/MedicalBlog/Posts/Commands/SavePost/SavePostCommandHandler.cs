@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -11,16 +10,13 @@ public class SavePostCommandHandler : IRequestHandler<SavePostCommand, ErrorOr<C
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public SavePostCommandHandler(
         IPostRepository postRepository,
-        IUserRepository userRepository,
-        IUnitOfWork unitOfWork)
+        IUserRepository userRepository)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(SavePostCommand command, CancellationToken cancellationToken)
@@ -46,7 +42,7 @@ public class SavePostCommandHandler : IRequestHandler<SavePostCommand, ErrorOr<C
         {
         post.SavingUsers.Add(user);}
 
-        if (await _unitOfWork.Save() == 0)
+        if (await _postRepository.SaveAsync() == 0)
             return Errors.Post.SaveFailed;
         var message = ifSaved ? "saved" : "unsaved";
         return new CommandResponse(

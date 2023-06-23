@@ -13,7 +13,9 @@ public static class RabbitMQConfiguration
         IConfiguration configuration
         )
         {
-            
+            var rabbitMQSettings = new RabbitMQSettings();
+            configuration.Bind("RabbitMQ", rabbitMQSettings);
+            services.AddSingleton(Options.Create(rabbitMQSettings));
             services.AddSingleton<IMessageQueueManager, MessageQueueManager>();
             
             return services;

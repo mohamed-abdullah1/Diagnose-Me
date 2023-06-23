@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
@@ -12,15 +11,12 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
 {
     private readonly IUserRepository _userRepository;
     private readonly IMessageQueueManager _messageQueueManager;
-    private readonly IUnitOfWork _unitOfWork;
     
     public SubscribeDoctorCommandHandler(
         IUserRepository userRepository,
-        IMessageQueueManager messageQueueManager,
-        IUnitOfWork unitOfWork)
+        IMessageQueueManager messageQueueManager)
     {
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
         _messageQueueManager = messageQueueManager;
     }
 
@@ -53,7 +49,7 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
 
         await _userRepository.Edit(doctor);
         
-        if (await _unitOfWork.Save() == 0)
+        if (await _userRepository.SaveAsync() == 0)
             return Errors.User.FailedToSubscribe;
         if(ifSubscribed)
             _messageQueueManager.PublishNotification(new NotificationResponse(

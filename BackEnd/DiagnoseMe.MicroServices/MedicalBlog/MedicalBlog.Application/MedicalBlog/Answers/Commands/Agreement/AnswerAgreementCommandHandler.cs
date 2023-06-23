@@ -2,7 +2,6 @@ using System.Diagnostics;
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -14,18 +13,15 @@ public class AnswerAgreementCommandHandler : IRequestHandler<AnswerAgreementComm
     private readonly IAnswerRepository _answerRepository;
     private readonly IAnswerAgreementRepository _answerAgreementRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public AnswerAgreementCommandHandler(
         IAnswerRepository answerRepository,
         IAnswerAgreementRepository answerAgreementRepository,
-        IUserRepository userRepository,
-        IUnitOfWork unitOfWork)
+        IUserRepository userRepository)
     {
         _answerRepository = answerRepository;
         _answerAgreementRepository = answerAgreementRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AnswerAgreementCommand request, CancellationToken cancellationToken)
@@ -65,8 +61,9 @@ public class AnswerAgreementCommandHandler : IRequestHandler<AnswerAgreementComm
             answer.AgreementCount += request.IsAgreed ? 1 : 0;
             await _answerAgreementRepository.AddAsync(answerAgreement);
         }
-
-        if (await _unitOfWork.Save() == 0)
+        answer.AgreeingUsers.Add(user);
+        
+        if (await _answerAgreementRepository.SaveAsync() == 0)
             return Errors.Answer.AgreementFailed;
 
         return new CommandResponse(

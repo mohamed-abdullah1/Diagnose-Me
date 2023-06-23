@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 
@@ -13,17 +12,14 @@ public class RatePostCommandHandler : IRequestHandler<RatePostCommand, ErrorOr<C
 private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
     private readonly IPostRatingRepository _postRatingRepository;
-    private readonly IUnitOfWork _unitOfWork;
     public RatePostCommandHandler(
         IPostRepository postRepository,
         IUserRepository userRepository,
-        IPostRatingRepository postRatingRepository,
-        IUnitOfWork unitOfWork)
+        IPostRatingRepository postRatingRepository)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
         _postRatingRepository = postRatingRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(RatePostCommand command, CancellationToken cancellationToken)
@@ -69,7 +65,7 @@ private readonly IPostRepository _postRepository;
 
 
 
-        if (await _unitOfWork.Save() == 0)
+        if (await _postRatingRepository.SaveAsync() == 0)
             return Errors.Post.FailedToAddRating;
             
         return new CommandResponse(

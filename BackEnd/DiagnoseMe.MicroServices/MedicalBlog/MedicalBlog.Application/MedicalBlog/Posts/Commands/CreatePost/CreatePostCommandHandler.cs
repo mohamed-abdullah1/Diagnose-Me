@@ -2,7 +2,6 @@ using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Authentication.Helpers;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
 using MedicalBlog.Application.Common.Interfaces.Services;
 using MedicalBlog.Application.MedicalBlog.Common;
@@ -15,21 +14,18 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITagRepository _tagRepository;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IFileHandler _fileHandler;
     private readonly IMessageQueueManager _messageQueueManager;
 
     public CreatePostCommandHandler(IPostRepository postRepository,
         IUserRepository userRepository,
         ITagRepository tagRepository,
-        IUnitOfWork unitOfWork,
         IFileHandler fileHandler,
         IMessageQueueManager messageQueueManager)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
         _tagRepository = tagRepository;
-        _unitOfWork = unitOfWork;
         _fileHandler = fileHandler;
         _messageQueueManager = messageQueueManager;
     }
@@ -82,7 +78,7 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
             
         
         await _postRepository.AddAsync(post);
-        if (await _unitOfWork.Save() == 0)
+        if (await _postRepository.SaveAsync() == 0)
             return Errors.Post.CreationFailed;
         
         foreach(var user in author.Subscribers){

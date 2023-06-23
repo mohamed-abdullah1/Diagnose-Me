@@ -15,7 +15,7 @@ public class RatePostCommandValidator : AbstractValidator<RatePostCommand>
             .InclusiveBetween(1, 5)
             .WithMessage("Rating must be between 1 and 5");
         RuleFor(x => x.UserId)
-            .Null()
+            .NotEmpty()
             .WithMessage("UserId is required");
     }
 }

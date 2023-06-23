@@ -1,7 +1,6 @@
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common.Errors;
 using MedicalBlog.Domain.Common.Roles;
@@ -12,16 +11,13 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Error
 {
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public DeletePostCommandHandler(
         IPostRepository postRepository, 
-        IUserRepository userRepository,
-        IUnitOfWork unitOfWork)
+        IUserRepository userRepository)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(DeletePostCommand command, CancellationToken cancellationToken)
@@ -40,7 +36,7 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Error
 
         _postRepository.Remove(post);
 
-        if (await _unitOfWork.Save() == 0)
+        if (await _postRepository.SaveAsync() == 0)
             return Errors.Post.DeletionFailed;
             
         return new CommandResponse(
