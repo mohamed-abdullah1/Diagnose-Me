@@ -24,7 +24,7 @@ public class GetAnswersByQuestionIdQueryHandler : IRequestHandler<GetAnswersByQu
     {
         var answers = (await _answerRepository.Get(
             predicate: a => a.QuestionId == query.QuestionId,
-            include: "AnsweringUser,AgreeingUsers"));
+            include: "AnsweringDoctor,AgreeingUsers"));
         
         var IsNextPage = answers.Count() > query.PageNumber * 10;
 
