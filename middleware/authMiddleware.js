@@ -9,15 +9,16 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
       //   0        1
       token = req.headers.authorization.split(' ')[1]; // Bearer kdjfasjkj
-
+      console.log('😋😋😋');
       // decodes token id
       // const decoded = jwt.verify(token, process.env.JWT_SECRET); // will verify the token if valid will return decoded payload if not will throw error
+      const nameIdentifier = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
       const decoded = jwt.verify(token, process.env.JWT_SECRET, {
         issuer: process.env.Issuer,
         audience: process.env.Audience,
       });
-      console.log('✅❌💙💙', decoded);
-      req.user = await User.findById(decoded.id).select('-password');
+      console.log('✅❌💙💙', decoded[nameIdentifier][0]);
+      req.user = await User.findById(decoded[nameIdentifier][0]).select('-password');
 
       next();
     } catch (error) {
