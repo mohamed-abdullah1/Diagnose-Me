@@ -11,7 +11,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY [".", "DiagnoseMe.GateWay/"]
+COPY ["DiagnoseMe.GateWay/", "DiagnoseMe.GateWay/"]
 RUN dotnet restore "DiagnoseMe.GateWay/DiagnoseMe.GateWay.csproj"
 COPY . .
 WORKDIR "/src/DiagnoseMe.GateWay"

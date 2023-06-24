@@ -23,7 +23,7 @@ services:
     hostname: auth.diagnose.me
     build:
       context: .
-      dockerfile: DiagnoseMe.MicroServices/Auth/Dockerfile
+      dockerfile: DiagnoseMe.MicroServices/Auth/Auth.Api/Dockerfile
     ports:
       - 7095:7095
     environment:
@@ -67,7 +67,7 @@ services:
     hostname: medical-blog.diagnose.me
     build:
       context: .
-      dockerfile: DiagnoseMe.MicroServices/MedicalBlog/Dockerfile
+      dockerfile: DiagnoseMe.MicroServices/MedicalBlog/MedicalBlog.Api/Dockerfile
     ports:
       - 7131:7131
     environment:
@@ -109,7 +109,7 @@ services:
     hostname: blood-donation.diagnose.me
     build:
       context: .
-      dockerfile: DiagnoseMe.MicroServices/BloodDonation/Dockerfile
+      dockerfile: DiagnoseMe.MicroServices/BloodDonation/BloodDonation.Api/Dockerfile
     ports:
       - 7234:7234
     environment:
@@ -151,7 +151,7 @@ services:
     hostname: medical-services.diagnose.me
     build:
       context: .
-      dockerfile: DiagnoseMe.MicroServices/MedicalServices/Dockerfile
+      dockerfile: DiagnoseMe.MicroServices/MedicalServices/MedicalServices.Api/Dockerfile
     ports:
       - 7018:7018
     environment:
