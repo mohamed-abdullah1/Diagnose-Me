@@ -28,6 +28,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ErrorOr<Com
             Name = command.Name,
             FullName = command.FullName,
             ProfilePictureUrl = command.ProfilePictureUrl,
+            IsDoctor = command.IsDoctor
         };
         
         await _userRepository.AddAsync(user);
