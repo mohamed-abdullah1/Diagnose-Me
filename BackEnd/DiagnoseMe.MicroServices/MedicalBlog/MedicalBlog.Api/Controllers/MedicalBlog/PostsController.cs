@@ -7,6 +7,7 @@ using MedicalBlog.Application.MedicalBlog.Posts.Commands.RatePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.SavePost;
 using MedicalBlog.Application.MedicalBlog.Posts.Commands.SubscribeDoctor;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetBySubscribedDoctor;
+using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPopularPosts;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostById;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPosts;
 using MedicalBlog.Application.MedicalBlog.Posts.Queries.GetPostsByDocterId;
@@ -197,6 +198,18 @@ public class PostsController : ApiController
         var query = new GetBySubscribedDoctorQuery(
             GetUserIdFromToken(),
             pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [AllowAnonymous]
+    [HttpGet("posts/popular")]
+    public async Task<IActionResult> GetPopularPosts()
+    {
+        var query = new GetPopularPostsQuery(
+            GetUserIdFromToken());
         var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),
