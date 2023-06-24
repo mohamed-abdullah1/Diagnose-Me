@@ -1,8 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 7199
+EXPOSE 7131
 
-ENV ASPNETCORE_URLS=http://+:7199
+ENV ASPNETCORE_URLS=http://+:7131
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ConnectionStrings__DefaultConnection="Server=medicalblogdb;Database=MedicalBlogDb;Uid=DiagnoseMe;Pwd=DiagnoseMe"
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
@@ -11,14 +13,14 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY [".", "DiagnoseMe.GateWay/"]
-RUN dotnet restore "DiagnoseMe.GateWay/DiagnoseMe.GateWay.csproj"
+COPY [".", "MedicalBlog/"]
+RUN dotnet restore "MedicalBlog/MedicalBlog.Api/MedicalBlog.Api.csproj"
 COPY . .
-WORKDIR "/src/DiagnoseMe.GateWay"
-RUN dotnet build "DiagnoseMe.GateWay.csproj" -c Release -o /app/build
+WORKDIR "/src/MedicalBlog/MedicalBlog.Api"
+RUN dotnet build "MedicalBlog.Api.csproj" -c Release -o /app/build
 
 FROM build AS final
-WORKDIR /src/DiagnoseMe.GateWay
+WORKDIR /src/MedicalBlog/MedicalBlog.Api
 RUN dotnet dev-certs https --trust
-COPY --from=build /src/DiagnoseMe.GateWay .
+COPY --from=build /src/MedicalBlog/MedicalBlog.Api .
 ENTRYPOINT ["dotnet", "run"]

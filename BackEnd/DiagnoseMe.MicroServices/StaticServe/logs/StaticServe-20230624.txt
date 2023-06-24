@@ -1,0 +1,29 @@
+2023-06-24 22:49:51.326 +03:00 [INF] Starting up
+2023-06-24 22:50:35.324 +03:00 [INF] Starting up
+2023-06-24 22:54:23.087 +03:00 [INF] Starting up
+2023-06-24 22:55:31.919 +03:00 [INF] Starting up
+2023-06-24 22:55:32.790 +03:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2023-06-24 22:55:32.834 +03:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2023-06-24 22:55:32.866 +03:00 [DBG] Hosting starting
+2023-06-24 22:55:33.034 +03:00 [INF] Now listening on: http://localhost:5127
+2023-06-24 22:55:33.038 +03:00 [DBG] Loaded hosting startup assembly StaticServe
+2023-06-24 22:55:33.038 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-24 22:55:33.039 +03:00 [INF] Hosting environment: Development
+2023-06-24 22:55:33.039 +03:00 [INF] Content root path: /media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/StaticServe
+2023-06-24 22:55:33.040 +03:00 [DBG] Hosting started
+2023-06-24 22:59:33.407 +03:00 [INF] Application is shutting down...
+2023-06-24 22:59:33.411 +03:00 [DBG] Hosting stopping
+2023-06-24 22:59:33.484 +03:00 [DBG] Hosting stopped
+2023-06-24 22:59:53.829 +03:00 [INF] Starting up
+2023-06-24 22:59:54.521 +03:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2023-06-24 22:59:54.558 +03:00 [INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+2023-06-24 22:59:54.564 +03:00 [DBG] Hosting starting
+2023-06-24 22:59:54.723 +03:00 [INF] Now listening on: http://localhost:5127
+2023-06-24 22:59:54.751 +03:00 [DBG] Loaded hosting startup assembly StaticServe
+2023-06-24 22:59:54.754 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-06-24 22:59:54.757 +03:00 [INF] Hosting environment: Development
+2023-06-24 22:59:54.760 +03:00 [INF] Content root path: /media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/StaticServe
+2023-06-24 22:59:54.761 +03:00 [DBG] Hosting started
+2023-06-24 23:01:23.972 +03:00 [INF] Application is shutting down...
+2023-06-24 23:01:23.976 +03:00 [DBG] Hosting stopping
+2023-06-24 23:01:24.023 +03:00 [DBG] Hosting stopped

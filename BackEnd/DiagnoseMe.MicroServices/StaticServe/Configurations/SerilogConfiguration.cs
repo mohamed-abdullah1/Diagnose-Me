@@ -1,6 +1,6 @@
 using Serilog;
 
-namespace Auth.Api.Configurations;
+namespace StaticServe.Configurations;
 
 
 public static class SerilogConfiguration
@@ -11,7 +11,7 @@ public static class SerilogConfiguration
     {
         Log.Logger = new LoggerConfiguration()
                     .WriteTo.Console()
-                    .WriteTo.File("logs/auth_api-.txt", rollingInterval: RollingInterval.Day)
+                    .WriteTo.File("logs/StaticServe-.txt", rollingInterval: RollingInterval.Day)
                     .MinimumLevel.Debug()
                     .CreateLogger();
         builder.Logging.ClearProviders();
