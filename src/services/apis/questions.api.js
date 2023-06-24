@@ -8,7 +8,7 @@ export const questionApi = createApi({
       "Content-Type": "application/json",
     },
   }),
-  tagTypes: ["Question"],
+  tagTypes: ["Question", "Blogs"],
   endpoints: (builder) => ({
     ask: builder.mutation({
       query: ({ body, token }) => ({
@@ -23,8 +23,7 @@ export const questionApi = createApi({
     }),
     getQuestions: builder.query({
       query: ({ token, pageNumber, searchQuery, specialty }) => ({
-        url: `/questions/page-number/${pageNumber}`,
-        // url: `/questions/page-number/${pageNumber}?q=${searchQuery}&tag=${specialty}`, //TODO: un comment this
+        url: `/questions/page-number/${pageNumber}?q=${searchQuery}&tag=${specialty}`,
         method: "GET",
         headers: {
           Authorization: token,
@@ -43,53 +42,26 @@ export const questionApi = createApi({
       }),
       providesTags: ["Question"],
     }),
-    //     register: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/register",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //       invalidatesTags: ["Auth"],
-    //     }),
-    //     verify: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/pin/verify",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //       invalidatesTags: ["Auth"],
-    //     }),
-    //     confirm: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/email/confirm",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //       invalidatesTags: ["Auth"],
-    //     }),
-    //     resendConfirm: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/email/confirmation/resend",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //       invalidatesTags: ["Auth"],
-    //     }),
-    //     forgetPassword: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/password/forget",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //       invalidatesTags: ["Auth"],
-    //     }),
-    //     passwordReset: builder.mutation({
-    //       query: (body) => ({
-    //         url: "/password/reset",
-    //         method: "POST",
-    //         body,
-    //       }),
-    //     }),
+    getAnswers: builder.query({
+      query: ({ token, questionId, page }) => ({
+        url: `/questions/question-id/${questionId}/answers/page-number/${page}`,
+        method: "GET",
+        headers: {
+          Authorization: token,
+        },
+      }),
+      providesTags: ["Question"],
+    }),
+    getTrendQuestions: builder.query({
+      query: ({ token }) => ({
+        url: `questions/important`,
+        method: "GET",
+        headers: {
+          Authorization: token,
+        },
+      }),
+      providesTags: ["Question"],
+    }),
   }),
 });
 
@@ -97,4 +69,6 @@ export const {
   useAskMutation,
   useGetQuestionsQuery,
   useGetSingleQuestionQuery,
+  useGetAnswersQuery,
+  useGetTrendQuestionsQuery,
 } = questionApi;

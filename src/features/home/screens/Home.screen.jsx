@@ -16,11 +16,12 @@ import {
   doctors,
   services,
   specialties,
-  trendQuestions,
+  // trendQuestions,
 } from "../../../helpers/consts";
 import ServiceCard from "../../components/ServiceCard.component";
 import DoctorCard from "../../components/DoctorCard.component";
 import {
+  Alert,
   Dimensions,
   ScrollView,
   Text,
@@ -36,6 +37,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
 import { selectToken, selectUser } from "../../../services/slices/auth.slice";
+import { useGetTrendQuestionsQuery } from "../../../services/apis/questions.api";
+import { ActivityIndicator } from "react-native-paper";
+import theme from "../../../infrastructure/theme";
+import { useGetBlogsQuery } from "../../../services/apis/blogs.api";
 // import { selectChat } from "../../../services/slices/chat.slice";
 // import { useGetChatsQuery } from "../../../services/apis/chat.api";
 
@@ -44,6 +49,18 @@ const Home = ({ navigation }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
+  const {
+    data: trendQuestions,
+    error: trendQuestionsError,
+    isLoading: trendQuestionsLoading,
+    isError: trendQuestionsIsError,
+  } = useGetTrendQuestionsQuery({ token });
+  const {
+    data: blogs,
+    isError: blogsIsError,
+    error: blogsError,
+    isLoading: blogsIsLoading,
+  } = useGetBlogsQuery({ token, page: 1 });
   // const chatInfo = useSelector(selectChat);
   // const {
   //     data: chats,
@@ -82,7 +99,16 @@ const Home = ({ navigation }) => {
         category: value,
       },
     });
-
+  useEffect(() => {
+    if (trendQuestionsError) {
+      Alert.alert(
+        "Error",
+        "Something Went Wrong in TrendQuestions",
+        [{ text: "Ok" }],
+        { cancelable: false }
+      );
+    }
+  }, [trendQuestionsIsError]);
   // useEffect(() => {
   //     if (chatInfo) {
   //         getChats(chatInfo.token);
@@ -101,7 +127,11 @@ const Home = ({ navigation }) => {
         onPressImg={() => {
           navigation.navigate("Profile");
         }}
-        userImg={require("../../../../assets/characters/male.png")}
+        userImg={
+          user?.profilePictureUrl
+            ? user?.profilePictureUrl
+            : require("../../../../assets/characters/male.png")
+        }
       />
       <Modal
         coverScreen={false}
@@ -185,9 +215,27 @@ const Home = ({ navigation }) => {
               pressFunction={() => navigation.navigate("Questions")}
             />
             <CardsSection>
-              {trendQuestions.map((q) => (
-                <QuestionCard question={q} key={q.id} />
-              ))}
+              {trendQuestionsLoading ? (
+                <ActivityIndicator
+                  animating={trendQuestionsLoading}
+                  color={theme.colors.primary}
+                />
+              ) : (
+                trendQuestions?.objects?.map((q) => (
+                  <QuestionCard
+                    question={q}
+                    key={q.id}
+                    onPress={() => {
+                      navigation.navigate("Questions", {
+                        screen: "QuestionPage",
+                        params: {
+                          questionId: q?.id,
+                        },
+                      });
+                    }}
+                  />
+                ))
+              )}
             </CardsSection>
           </CategoriesSection>
         </TrendQuestionsSection>
@@ -199,18 +247,18 @@ const Home = ({ navigation }) => {
                 pressFunction={() => navigation.navigate("Blogs")}
               />
               <CardsSection>
-                {blogs.map((blog) => (
+                {blogs?.objects.map((blog) => (
                   <BlogCard
                     onPress={() =>
                       navigation.navigate("Home", {
                         screen: "BlogPage",
-                        params: { blog },
+                        params: { blogId: blog?.id },
                       })
                     }
-                    key={blog.id}
+                    key={blog?.id}
                     blog={blog}
-                    total={blogs.length}
-                    index={blog.id}
+                    total={6}
+                    index={blog?.id}
                   />
                 ))}
               </CardsSection>

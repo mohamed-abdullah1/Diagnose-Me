@@ -84,7 +84,7 @@ const BoxButton = ({ specialty }) => {
   );
 };
 
-const MainQuestions = ({ navigation }) => {
+const DocMainQuestions = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   // const [questions, setQuestions] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -420,4 +420,4 @@ const MainQuestions = ({ navigation }) => {
     </BgContainer>
   );
 };
-export default MainQuestions;
+export default DocMainQuestions;

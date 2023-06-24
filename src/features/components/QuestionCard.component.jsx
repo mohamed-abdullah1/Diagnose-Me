@@ -61,7 +61,7 @@ const QuestionCard = ({ question, styles, onPress, viewAllQuestion }) => {
         />
       )}
       BottomRight={() => <BottomRight value={question?.answersCount} />}
-      img={question?.profilePictureUrl?.patientImg}
+      img={question?.profilePictureUrl}
       name={question?.askingUser?.fullName}
       date={question?.modifiedOn}
       content={question?.questionString}

@@ -8,24 +8,27 @@ import { AuthProvider } from "./src/services/auth/auth.context";
 import MainNavigator from "./src/navigation";
 import "react-native-gesture-handler";
 import { Provider, useSelector } from "react-redux";
-import store from "./src/services/store";
+import store, { persister } from "./src/services/store";
 import { selectToken, selectUser } from "./src/services/slices/auth.slice";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default () => {
-    const [fontLoaded] = useFonts(poppinsFonts);
-    if (!fontLoaded) {
-        return null;
-    }
+  const [fontLoaded] = useFonts(poppinsFonts);
+  if (!fontLoaded) {
+    return null;
+  }
 
-    return (
-        <SafeArea>
-            <ThemeProvider theme={theme}>
-                <Provider store={store}>
-                    <AuthProvider>
-                        <MainNavigator />
-                    </AuthProvider>
-                </Provider>
-            </ThemeProvider>
-        </SafeArea>
-    );
+  return (
+    <SafeArea>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persister}>
+            <MainNavigator />
+          </PersistGate>
+          {/* <AuthProvider>
+                    </AuthProvider> */}
+        </Provider>
+      </ThemeProvider>
+    </SafeArea>
+  );
 };
