@@ -16,6 +16,7 @@ const protect = asyncHandler(async (req, res, next) => {
         issuer: process.env.Issuer,
         audience: process.env.Audience,
       });
+      console.log('✅❌💙💙', decoded);
       req.user = await User.findById(decoded.id).select('-password');
 
       next();

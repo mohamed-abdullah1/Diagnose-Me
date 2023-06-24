@@ -13,6 +13,7 @@ const User = require('./models/userModel');
 
 connectDB();
 addSeedings();
+MyControllers.startConsumingMessages();
 
 const app = express();
 
@@ -25,8 +26,6 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/appointment', appointmentRoutes);
-
-MyControllers.startConsumingMessages();
 
 const PORT = process.env.PORT || 6969;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));

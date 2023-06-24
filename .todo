@@ -18,7 +18,9 @@ Done:
   ☐ added 3 roles to the user schema @today 
   ☐ create script to add seeding emails if not found @today 
   ☐ delete register user endpoing - delete login endpoint that signing authintication user - replace it with adding user handler in Rabit MQ - delete Delete user end point & replace it with delete user Handler in Rabit MQ - adding update user Handler in Rabit MQ 
-  ☐ Remove pre-Hashing and match password methods from & remove password and email from schema @today  
+  ☐ Remove pre-Hashing and match password methods from & remove password and email from schema @today
+  ☐ install docker and run a Docker Container with RabbitMQ using the following command docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=DiagnoseMe -e RABBITMQ_DEFAULT_PASS=DiagnoseMe --hostname rabbitmq.diagnose.me rabbitmq:3-management (https://chat.openai.com/share/09a0aa74-3838-48a7-b8ad-f3cd6f03a2ac)
+  ☐ create a node.js script to sendToQueue and add the connection details (hostname, port, username, password) in the connectionUrl at Rabit MQ in both sender code and receiver code
 
 to do:
   ☐ check for all routes that update or delete or read from documet that the document exists and handle if the user provided unexisted values

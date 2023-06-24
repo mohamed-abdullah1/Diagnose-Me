@@ -7,7 +7,6 @@ const seedings = [
 ];
 
 const checkAndAdd = () => {
-  console.log('haaaaaaaaaay👋🙄');
   seedings.forEach(async (user) => {
     try {
       const foundUser = await User.findById(user._id);
