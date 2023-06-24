@@ -17,8 +17,6 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
         RuleFor(x => x.FullName).
             NotEmpty().
             WithMessage("FullName is required.");
-        RuleFor(x => x.IsDoctor).
-            NotEmpty().
-            WithMessage("IsDoctor is required.");
+
     }
 }

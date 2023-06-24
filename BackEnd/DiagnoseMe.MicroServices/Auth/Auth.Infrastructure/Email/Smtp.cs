@@ -19,9 +19,6 @@ public class Smtp : ISmtp
     public async Task SendEmailAsync(MailAddress to, string subject, string message)
     {
         var from = new MailAddress(_mailSittings.Mail,_mailSittings.DisplayName);
-        Console.WriteLine(_mailSittings.Mail);
-        Console.WriteLine(_mailSittings.Password);
-        Console.WriteLine("==============================================================");
         var mailMessage = new MailMessage(from, to);
         mailMessage.Subject = subject;
         mailMessage.Body = message;

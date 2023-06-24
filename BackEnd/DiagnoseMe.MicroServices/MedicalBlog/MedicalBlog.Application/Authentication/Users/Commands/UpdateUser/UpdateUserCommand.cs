@@ -9,5 +9,6 @@ public record UpdateUserCommand(
     string Id,
     string Name,
     string FullName,
-    string ProfilePictureUrl
+    string ProfilePictureUrl,
+    bool IsDoctor
 ) : IRequest<ErrorOr<CommandResponse>>;

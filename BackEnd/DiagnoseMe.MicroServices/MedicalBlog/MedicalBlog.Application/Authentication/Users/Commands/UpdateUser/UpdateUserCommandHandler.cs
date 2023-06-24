@@ -24,6 +24,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         user.Name = command.Name;
         user.FullName = command.FullName;
         user.ProfilePictureUrl = command.ProfilePictureUrl;
+        user.IsDoctor = command.IsDoctor;
 
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.UpdateFailed;
