@@ -1,3 +1,5 @@
+using MapsterMapper;
+
 namespace Auth.Application.Authentication.Queries.GetToken;
 
 public class GetTokenQueryHandler: 
@@ -5,13 +7,16 @@ public class GetTokenQueryHandler:
     IRequestHandler<GetTokenQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IMapper _mapper;
 
     public GetTokenQueryHandler(
         UserManager<ApplicationUser> userManager,
-        IJwtTokenGenerator jwtTokenGenerator
+        IJwtTokenGenerator jwtTokenGenerator,
+        IMapper mapper
     ): base(userManager)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
+        _mapper = mapper;
     }
     public async Task<ErrorOr<AuthenticationResult>> Handle(GetTokenQuery query, CancellationToken cancellationToken)
     {
@@ -30,7 +35,7 @@ public class GetTokenQueryHandler:
             user.Id,
             user.UserName!,
             await GetUserClaims(user))));
-
+        results.User =  _mapper.Map<ApplicationUserResponse>(user);
         return results;
     }
 }
