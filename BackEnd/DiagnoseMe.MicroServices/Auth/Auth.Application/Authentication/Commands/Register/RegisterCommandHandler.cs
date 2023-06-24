@@ -56,8 +56,9 @@ public class RegisterCommandHandler :
                 Please confirm your new email by entering the pin code you received.",
             };
         }
-        catch
+        catch (Exception e)
         {
+            Console.WriteLine(e);
             return Errors.Smtp.SendFail;
         }
     }
