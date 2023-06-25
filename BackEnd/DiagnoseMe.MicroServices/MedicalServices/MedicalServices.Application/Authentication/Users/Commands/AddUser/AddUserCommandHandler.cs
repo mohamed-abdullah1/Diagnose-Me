@@ -28,8 +28,6 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ErrorOr<Com
             ProfilePictureUrl = command.ProfilePictureUrl,
             IsDoctor = command.IsDoctor
         };
-        
-        await _userRepository.AddAsync(user);
 
         if (user.IsDoctor)
         {
@@ -42,6 +40,10 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ErrorOr<Com
                 Id = user.Id
             };
         }
+        
+        await _userRepository.AddAsync(user);
+
+        
 
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.AddFailed;
