@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: DiagnoseMe.GateWay/Dockerfile
     ports:
-      - 7199:7199
+      - 443:7199
     environment:
       - Debug:ShowHost=true
     networks:
@@ -198,6 +198,28 @@ services:
       - RABBITMQ_DEFAULT_USER=DiagnoseMe
       - RABBITMQ_DEFAULT_PASS=DiagnoseMe
     networks:
+      - rabbitmq-network
+    restart: always
+  staticserve:
+    container_name: static-serve
+    hostname: static.diagnose.me
+    build: 
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/StaticServe/Dockerfile
+    ports:
+      - 5127:5127
+    environment:
+      - Debug:ShowHost=true
+    depends_on:
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
       - rabbitmq-network
     restart: always
 

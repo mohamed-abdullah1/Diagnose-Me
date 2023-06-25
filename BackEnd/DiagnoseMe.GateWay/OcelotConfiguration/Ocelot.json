@@ -187,6 +187,28 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/static/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/files/{everything}",
+            "UpstreamHttpMethod": [ "Get"],
+            "DownStreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "static.diagnose.me",
+                    "Port": 5127
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
             "DownstreamPathTemplate": "/api/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
