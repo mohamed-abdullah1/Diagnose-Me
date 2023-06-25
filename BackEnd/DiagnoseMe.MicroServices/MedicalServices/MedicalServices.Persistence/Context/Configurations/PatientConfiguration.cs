@@ -10,8 +10,8 @@ public class PatientConfiguration : BaseConfiguration<Patient>
     {
         builder.ToTable("Patients");
         base.Configure(builder);
-        builder.Property(p => p.Height).IsRequired();
-        builder.Property(p => p.Weight).IsRequired();
+        builder.Property(p => p.Height);
+        builder.Property(p => p.Weight);
         builder.HasMany(p => p.Doctors).
             WithMany(d => d.Patients).
             UsingEntity<PatientDoctor>(

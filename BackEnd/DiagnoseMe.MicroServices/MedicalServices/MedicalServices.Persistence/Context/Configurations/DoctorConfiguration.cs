@@ -10,11 +10,11 @@ public class DoctorConfiguration : BaseConfiguration<Doctor>
     {
         builder.ToTable("Doctors");
         base.Configure(builder);
-        builder.Property(d => d.Title).IsRequired().HasMaxLength(50);
-        builder.Property(d => d.Bio).IsRequired().HasMaxLength(500);
-        builder.Property(d => d.License).IsRequired().HasMaxLength(50);
-        builder.Property(d => d.IsLicenseVerified).IsRequired();
-        builder.Property(d => d.ClinicId).IsRequired();
+        builder.Property(d => d.Title);
+        builder.Property(d => d.Bio);
+        builder.Property(d => d.License);
+        builder.Property(d => d.IsLicenseVerified);
+        builder.Property(d => d.ClinicId);
         builder.Property(d => d.AverageRate);
         builder.HasOne(d => d.Clinic).WithMany(c => c.Doctors).HasForeignKey(d => d.ClinicId);
         builder.HasMany(d => d.Medications).
