@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-MessageQueueSubscriber.start(builder.Services.BuildServiceProvider(), builder.Configuration);
+MessageQueueSubscriber.start(builder);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -7,9 +7,10 @@ namespace MedicalServices.Infrastructure.RabbitMQ;
 public static class MessageQueueSubscriber
 {
     public static void start(
-        IServiceProvider serviceProvider,
-        IConfiguration configuration)
+        WebApplicationBuilder builder)
     {
+        var configuration = builder.Configuration;
+        var serviceProvider = builder.Services.BuildServiceProvider();
         var rabbitMQSettings = new RabbitMQSettings();
         configuration.Bind("RabbitMQ", rabbitMQSettings);
         var rabbitMQConnector = RabbitMQConnector.ConnectAsync(rabbitMQSettings);

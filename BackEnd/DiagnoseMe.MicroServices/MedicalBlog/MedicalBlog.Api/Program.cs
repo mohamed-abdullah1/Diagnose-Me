@@ -32,7 +32,7 @@ var app = builder.Build();
         context.Database.Migrate();
 
     }
-    MessageQueueSubscriber.start(builder.Services.BuildServiceProvider(), builder.Configuration);
+    MessageQueueSubscriber.start(builder);
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseIpRateLimiting();
