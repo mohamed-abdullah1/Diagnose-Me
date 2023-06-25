@@ -9,7 +9,6 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
-const User = require('./models/userModel');
 
 connectDB();
 addSeedings();
@@ -36,7 +35,8 @@ const server = app.listen(PORT, console.log(`server is listening on port ${PORT}
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: 'http://localhost:3000',
+    // origin: 'http://localhost:3000',
+    origin: '*',
     // credentials: true,
   },
 });
