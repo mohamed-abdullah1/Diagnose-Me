@@ -10,5 +10,10 @@ public static partial class Errors
             code: "File.NotAPicture",
             description: "The file is not a picture."
         );
+
+        public static Error NullOrEmpty => Error.Validation(
+            code: "File.NullOrEmpty",
+            description: "The file is null or empty."
+        );
     }
 }

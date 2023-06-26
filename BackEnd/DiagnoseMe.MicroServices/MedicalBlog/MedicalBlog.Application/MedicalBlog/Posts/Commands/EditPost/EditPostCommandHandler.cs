@@ -1,11 +1,12 @@
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Authentication.Helpers;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalBlog.Application.Common.Interfaces.Services;
+using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
 using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Application.MedicalBlog.Helpers;
+using MedicalBlog.Domain.Common;
 using MedicalBlog.Domain.Common.Errors;
-
+using Microsoft.AspNetCore.Http;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.EditPost;
 
@@ -14,17 +15,17 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITagRepository _tagRepository;
-    private readonly IFileHandler _fileHandler;
+    private readonly IMessageQueueManager _messageQueueManager;
 
     public EditPostCommandHandler(IPostRepository postRepository,
         IUserRepository userRepository,
         ITagRepository tagRepository,
-        IFileHandler fileHandler)
+        IMessageQueueManager messageQueueManager)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
         _tagRepository = tagRepository;
-        _fileHandler = fileHandler;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(EditPostCommand command, CancellationToken cancellationToken)
@@ -59,17 +60,23 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
             .ToList();
         
         var postImages = new List<PostImage>();
-        var result = new ErrorOr<string>();
+        var result = new ErrorOr<IFormFile>();
+        var rMQFilesResponse = new List<RMQFileResponse>();
+        
         foreach(var base64Image in command.Base64Images){
-            result = SaveFile.SavePicture(base64Image,_fileHandler);
+            result = FileConverter.ConvertToPng(base64Image);
 
             if(result.IsError)
                 return result.Errors;
             
             postImages.Add(new PostImage{
                 PostId = post.Id!,
-                ImageUrl = result.Value
+                ImageUrl = Path.Combine(StaticPaths.BlogImagesPath, result.Value.Name)
             });
+
+            rMQFilesResponse.Add(new RMQFileResponse(
+                FilePath: StaticPaths.BlogImagesPath,
+                File: result.Value));
         };
 
         post.PostImages = post.PostImages.Concat(postImages).ToList();
@@ -78,6 +85,11 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, ErrorOr<C
         if (await _postRepository.SaveAsync() == 0)
             return Errors.Post.CreationFailed;
 
+        
+        _messageQueueManager.PublishFile(rMQFilesResponse);
+        
+        
+        _messageQueueManager.DeleteFile(command.RemovedImagesUrls);
         
         return new CommandResponse(
             true,

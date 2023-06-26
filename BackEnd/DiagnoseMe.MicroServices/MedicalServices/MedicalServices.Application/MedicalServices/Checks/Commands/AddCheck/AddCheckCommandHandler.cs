@@ -1,13 +1,15 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalServices.Application.Authentication.Helpers;
+using MedicalServices.Application.Common.Helpers;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Services;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
+using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 using MedicalServices.Domain.Common.FIles;
 using MedicalServices.Domain.Common.Roles;
+using Microsoft.AspNetCore.Http;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck;
 
@@ -18,7 +20,7 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
     private readonly IPatientRepository _patientRepository;
     private readonly IMapper _mapper;
     private readonly ICheckFileRepository _fileRepository;
-    private readonly IFileHandler _fileHandler;
+    private readonly IMessageQueueManager _messageQueueManager;
 
 
     public AddCheckCommandHandler(
@@ -26,15 +28,15 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
         IDoctorRepository doctorRepository,
         IPatientRepository patientRepository,
         ICheckFileRepository fileRepository,
-        IFileHandler fileHandler,
-        IMapper mapper)
+        IMapper mapper,
+        IMessageQueueManager messageQueueManager)
     {
         _checkRepository = checkRepository;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
         _fileRepository = fileRepository;
-        _fileHandler = fileHandler;
         _mapper = mapper;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddCheckCommand command, CancellationToken cancellationToken)
@@ -61,16 +63,28 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
         }
 
         List<CheckFile> checkFiles = new();
+        var rMQFilesResponse = new List<RMQFileResponse>();
+        var result = new ErrorOr<IFormFile>();
+        var rMQFileResponse = new RMQFileResponse("", null!);
         foreach (var file in command.Base64Files)
         {
-            var result = new ErrorOr<string>();
             if (file.Type == AllowedFileTypes.Image)
             {
-                result = SaveFile.SavePicture(file.Data, _fileHandler);
+                result = FileConverter.ConvertToPng(file.Data);
+                rMQFileResponse = new RMQFileResponse(
+                    FilePath: StaticPaths.ChecksDocuments,
+                    File: result.Value
+                );
+                rMQFilesResponse.Add(rMQFileResponse);
             }
             else if (file.Type == AllowedFileTypes.Doc)
             {
-                result = SaveFile.SaveDoc(file.Data, _fileHandler);
+                result = FileConverter.ConvertToDoc(file.Data);
+                rMQFileResponse = new RMQFileResponse(
+                    FilePath: StaticPaths.ChecksDocuments,
+                    File: result.Value
+                );
+                rMQFilesResponse.Add(rMQFileResponse);
             }
             else
             {
@@ -83,7 +97,7 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
                 {
                     Id = Guid.NewGuid().ToString(),
                     Check = check,
-                    FileUrl = result.Value,
+                    FileUrl = rMQFileResponse.FilePath,
                     Type = file.Type
                 };
                 checkFiles.Add(checkFile);
@@ -94,7 +108,7 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
         await _checkRepository.AddAsync(check);
         if(await _checkRepository.SaveAsync() == 0)
             return Errors.Check.AddFailed;
-        
+        _messageQueueManager.PublishFile(rMQFilesResponse);
         return new CommandResponse(
             Success: true,
             Message: "Check added successfully.",

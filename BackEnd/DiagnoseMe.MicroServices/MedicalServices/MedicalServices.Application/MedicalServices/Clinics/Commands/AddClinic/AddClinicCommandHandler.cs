@@ -1,10 +1,10 @@
 using ErrorOr;
-using FileTypeChecker.Extensions;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Services;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Helpers;
+using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 
 namespace MedicalServices.Application.MedicalServices.Clinics.Commands.AddClinic;
@@ -12,14 +12,15 @@ namespace MedicalServices.Application.MedicalServices.Clinics.Commands.AddClinic
 
 public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr<CommandResponse>>
 {
-    private readonly IFileHandler _fileHandler;
     private readonly IClinicRepository _clinicRepository;
+    private readonly IMessageQueueManager _messageQueueManager;
+    
     public AddClinicCommandHandler(
-        IFileHandler fileHandler,
-        IClinicRepository clinicRepository)
+        IClinicRepository clinicRepository,
+        IMessageQueueManager messageQueueManager)
     {
-        _fileHandler = fileHandler;
         _clinicRepository = clinicRepository;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddClinicCommand command, CancellationToken cancellationToken)
@@ -30,23 +31,27 @@ public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr
             FirstOrDefault();
         if (clinic != null)
             return Errors.Clinic.Exists;
-        var result = SaveFile.SavePicture(command.Base64Picture, _fileHandler);
+        var result = FileConverter.ConvertToPng(command.Base64Picture);
+        var rMQFileResponse = new RMQFileResponse(
+            FilePath: StaticPaths.ClinicsImages,
+            File: result.Value);
         
         if (result.IsError)
             return result.Errors;
             
-        var pictureUrl = result.Value;
+        
         clinic = new Clinic{
             Id = Guid.NewGuid().ToString(),
             Specialization = command.Specialization,
             Description = command.Description,
-            PictureUrl = pictureUrl,
+            PictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName),
             CreatedOn = DateTime.Now
         };
         await _clinicRepository.AddAsync(clinic);
         if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.AddFailed;
 
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{rMQFileResponse});
         return new CommandResponse(
             true,
             "Clinic added successfully.",

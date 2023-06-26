@@ -22,7 +22,9 @@ public static class RabbitMQConstants
     public const string ChatUpdatingUserQueue = "Auth.Chat.User.Update";
     public const string NotificationExchange = "Global.Notification";
     public const string NotificationQueue = "Global.Notification";
-
+    public const string StaticServeExchange = "StaticServe.Exchange";
+    public const string StaticServeSaveQueue = "StaticServe.Save";
+    public const string StaticServeDeleteQueue = "StaticServe.Delete";
     public static List<string> AddQueues = new List<string>()
     {
         MedicalBlogAddingUserQueue,

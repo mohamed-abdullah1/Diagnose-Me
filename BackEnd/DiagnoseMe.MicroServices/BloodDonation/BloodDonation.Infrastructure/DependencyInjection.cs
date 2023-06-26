@@ -16,7 +16,6 @@ public static class DependencyInjection
         services.AddRabbitMQConfiguration(configuration);
         services.AddAuthentication(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddSingleton<IFileHandler, FileHandler>();
         return services;
     }
 }

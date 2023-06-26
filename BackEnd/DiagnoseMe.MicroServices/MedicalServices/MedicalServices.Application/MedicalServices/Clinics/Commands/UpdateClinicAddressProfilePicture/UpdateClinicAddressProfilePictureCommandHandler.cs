@@ -1,9 +1,11 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Helpers;
+using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 
 namespace MedicalServices.Application.MedicalServices.Clinics.Commands.UpdateClinicAddressProfilePicture;
@@ -12,14 +14,13 @@ namespace MedicalServices.Application.MedicalServices.Clinics.Commands.UpdateCli
 public class UpdateClinicAddressProfilePictureCommandHandler : IRequestHandler<UpdateClinicAddressProfilePictureCommand, ErrorOr<CommandResponse>>
 {
     private readonly IClinicAddressRepository _clinicAddressRepository;
-    private readonly IFileHandler _fileHandler;
-
+    private readonly IMessageQueueManager _messageQueueManager;
     public UpdateClinicAddressProfilePictureCommandHandler(
         IClinicAddressRepository clinicAddressRepository,
-        IFileHandler fileHandler)
+        IMessageQueueManager messageQueueManager)
     {
         _clinicAddressRepository = clinicAddressRepository;
-        _fileHandler = fileHandler;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateClinicAddressProfilePictureCommand command, CancellationToken cancellationToken)
@@ -31,17 +32,22 @@ public class UpdateClinicAddressProfilePictureCommandHandler : IRequestHandler<U
         if (clinicAddress.OwnerId != command.DoctorId)
             return Errors.User.YouCanNotDoThis;
             
-        var result = SaveFile.SavePicture(command.Base64Picture, _fileHandler);
+        var result = FileConverter.ConvertToPng(command.Base64Picture);
+        var rMQFileResponse = new RMQFileResponse(
+            FilePath: StaticPaths.ClinicsImages,
+            File: result.Value);
+        
         if (result.IsError)
             return result.Errors;
         
-        clinicAddress.ProfilPictureUrl = result.Value;
+        clinicAddress.ProfilPictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName);
 
         await _clinicAddressRepository.Edit(clinicAddress);
 
         if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.ClinicAddress.UpdateFailed;
 
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{rMQFileResponse});
         return new CommandResponse(
             true,
             "ClinicAddress profile picture updated successfully.",

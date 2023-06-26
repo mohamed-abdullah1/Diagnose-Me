@@ -9,4 +9,6 @@ public interface IMessageQueueManager
     void DeleteUser(string userId);
     void UpdateUser(ApplicationUserResponse user);
     void PublishNotification(NotificationResponse notificationResponse);
+    void PublishFile(List<RMQFileResponse> rMQFilesResponse);
+    void DeleteFile(List<string> filesPath);
 }

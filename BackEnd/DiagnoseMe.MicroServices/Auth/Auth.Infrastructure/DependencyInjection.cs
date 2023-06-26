@@ -21,7 +21,6 @@ public static class DependencyInjection
         services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
         services.AddSingleton<ISmtp, Smtp>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddSingleton<IFileHandler, FileHandler>();
         return services;
     }
 

@@ -16,6 +16,26 @@ public class MessageQueueManager : IMessageQueueManager
 
     }
 
+    public void PublishFile(List<RMQFileResponse> rMQFilesResponse)
+    {
+        Publish(
+            exchange: RabbitMQConstants.StaticServeExchange,
+            queues: new List<string>() { RabbitMQConstants.StaticServeSaveQueue },
+            obj: rMQFilesResponse,
+            contentType: "application/json"
+        );
+    }
+    
+    public void DeleteFile(List<string> filesPath)
+    {
+        Publish(
+            exchange: RabbitMQConstants.StaticServeExchange,
+            queues: new List<string>() { RabbitMQConstants.StaticServeDeleteQueue },
+            obj: filesPath,
+            contentType: "application/json"
+        );
+    }
+
     public void PublishNotification(NotificationResponse notificationResponse)
     {
         Publish(

@@ -1,13 +1,15 @@
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
-using MedicalServices.Application.Authentication.Helpers;
+using MedicalServices.Application.Common.Helpers;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
-using MedicalServices.Application.Common.Interfaces.Services;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
+using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 using MedicalServices.Domain.Common.FIles;
 using MedicalServices.Domain.Common.Roles;
+using Microsoft.AspNetCore.Http;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.UpdateCheck;
 
@@ -18,22 +20,22 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
     private readonly IDoctorRepository _doctorRepository;
     private readonly IPatientRepository _patientRepository;
     private readonly IMapper _mapper;
+    private readonly IMessageQueueManager _messageQueueManager;
     private readonly ICheckFileRepository _fileRepository;
-    private readonly IFileHandler _fileHandler;
 
     public UpdateCheckCommandHandler(
         ICheckRepository checkRepository,
         IDoctorRepository doctorRepository,
         IPatientRepository patientRepository,
         ICheckFileRepository fileRepository,
-        IFileHandler fileHandler,
+        IMessageQueueManager messageQueueManager,
         IMapper mapper)
     {
         _checkRepository = checkRepository;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
         _fileRepository = fileRepository;
-        _fileHandler = fileHandler;
+        _messageQueueManager = messageQueueManager;
         _mapper = mapper;
     }
     
@@ -60,30 +62,44 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         check.CheckFiles = check.CheckFiles.Except(removedImages).ToList();
         
         List<CheckFile> checkFiles = new();
+        var rMQFilesResponse = new List<RMQFileResponse>();
+        var result = new ErrorOr<IFormFile>();
+        var rMQFileResponse = new RMQFileResponse("", null!);
         foreach (var file in command.Base64Files)
         {
-            var result = new ErrorOr<string>();
             if (file.Type == AllowedFileTypes.Image)
             {
-                result = SaveFile.SavePicture(file.Data, _fileHandler);
+                result = FileConverter.ConvertToPng(file.Data);
+                rMQFileResponse = new RMQFileResponse(
+                    FilePath: StaticPaths.ChecksDocuments,
+                    File: result.Value
+                );
+                rMQFilesResponse.Add(rMQFileResponse);
             }
             else if (file.Type == AllowedFileTypes.Doc)
             {
-                result = SaveFile.SaveDoc(file.Data, _fileHandler);
+                result = FileConverter.ConvertToDoc(file.Data);
+                rMQFileResponse = new RMQFileResponse(
+                    FilePath: StaticPaths.ChecksDocuments,
+                    File: result.Value
+                );
+                rMQFilesResponse.Add(rMQFileResponse);
             }
             else
             {
                 return Errors.File.NotAllowed;
             }
+            
             if (result.IsError)
                     return result.Errors;
                 var checkFile = new CheckFile()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Check = check,
-                    FileUrl = result.Value,
+                    FileUrl = rMQFileResponse.FilePath,
                     Type = file.Type
                 };
+                checkFiles.Add(checkFile);
                 await _fileRepository.AddAsync(checkFile);
         }
         check.CheckFiles.Concat(checkFiles);
@@ -92,6 +108,8 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         if(await _checkRepository.SaveAsync() == 0)
             return Errors.Check.UpdateFailed;
         
+        _messageQueueManager.PublishFile(rMQFilesResponse);
+        _messageQueueManager.DeleteFile(command.RemovedImagesUrls);
         return new CommandResponse(
             Success: true,
             Message: "Check updated successfully",

@@ -15,5 +15,9 @@ public static partial class Errors
             code: "File.SizeDoesNotMatch",
             description: "The file size Should be between 10KB and 5MB."
         );
+        public static Error NullOrEmpty => Error.Validation(
+            code: "File.NullOrEmpty",
+            description: "File is null or empty."
+        );
     }
 }

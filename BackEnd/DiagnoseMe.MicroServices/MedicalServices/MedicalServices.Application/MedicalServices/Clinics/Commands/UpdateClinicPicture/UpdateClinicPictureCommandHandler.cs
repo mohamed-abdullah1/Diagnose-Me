@@ -1,9 +1,11 @@
 using ErrorOr;
 using MediatR;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
+using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Application.MedicalServices.Helpers;
+using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 
 
@@ -12,14 +14,14 @@ namespace MedicalServices.Application.MedicalServices.Clinics.Commands.UpdateCli
 
 public class UpdateClinicPictureCommandHandler : IRequestHandler<UpdateClinicPictureCommand, ErrorOr<CommandResponse>>
 {
-    private readonly IFileHandler _fileHandler;
+    private readonly IMessageQueueManager   _messageQueueManager;
     private readonly IClinicRepository _clinicRepository;
     public UpdateClinicPictureCommandHandler(
-        IFileHandler fileHandler,
-        IClinicRepository clinicRepository)
+        IClinicRepository clinicRepository,
+        IMessageQueueManager messageQueueManager)
     {
-        _fileHandler = fileHandler;
         _clinicRepository = clinicRepository;
+        _messageQueueManager = messageQueueManager;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateClinicPictureCommand command, CancellationToken cancellationToken)
@@ -27,10 +29,14 @@ public class UpdateClinicPictureCommandHandler : IRequestHandler<UpdateClinicPic
         var clinic =  (await _clinicRepository.GetByIdAsync(command.ClinicId));
         if (clinic == null)
             return Errors.Clinic.NotFound;
-        var result = SaveFile.SavePicture(command.Base64Picture, _fileHandler);
+        var result = FileConverter.ConvertToPng(command.Base64Picture);
+        var rMQFileResponse = new RMQFileResponse(
+            FilePath: StaticPaths.ClinicsImages,
+            File: result.Value);
+        
         if (result.IsError)
             return result.Errors;
-        clinic.PictureUrl = result.Value;
+        clinic.PictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName);
 
         await _clinicRepository.Edit(clinic);
 

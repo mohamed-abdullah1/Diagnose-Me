@@ -24,5 +24,9 @@ public static partial class Errors
             code: "File.NotAllowed",
             description: "The file is not allowed."
         );
+        public static Error NullOrEmpty => Error.Validation(
+            code: "File.NullOrEmpty",
+            description: "File is null or empty."
+        );
     }
 }

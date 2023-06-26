@@ -1,11 +1,13 @@
+
 using ErrorOr;
 using MediatR;
-using MedicalBlog.Application.Authentication.Helpers;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
-using MedicalBlog.Application.Common.Interfaces.Services;
 using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Domain.Common;
 using MedicalBlog.Domain.Common.Errors;
+using Microsoft.AspNetCore.Http;
+using MedicalBlog.Application.MedicalBlog.Helpers;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.CreatePost;
 
@@ -14,19 +16,16 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
     private readonly IPostRepository _postRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITagRepository _tagRepository;
-    private readonly IFileHandler _fileHandler;
     private readonly IMessageQueueManager _messageQueueManager;
 
     public CreatePostCommandHandler(IPostRepository postRepository,
         IUserRepository userRepository,
         ITagRepository tagRepository,
-        IFileHandler fileHandler,
         IMessageQueueManager messageQueueManager)
     {
         _postRepository = postRepository;
         _userRepository = userRepository;
         _tagRepository = tagRepository;
-        _fileHandler = fileHandler;
         _messageQueueManager = messageQueueManager;
     }
 
@@ -44,7 +43,8 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
         var newTags = nonExistingTags.Select(x => new Tag{TagName = x});
         var allTags = tags.Concat(newTags).ToList();
 
-        var result = new ErrorOr<string>();
+        var result = new ErrorOr<IFormFile>();
+        var rMQFilesResponse = new List<RMQFileResponse>();
         var postImages = new List<PostImage>();
         var postId = Guid.NewGuid().ToString();
 
@@ -52,15 +52,19 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
             return Errors.Post.TooManyImages;
         
         foreach(var base64Image in command.Base64Images){
-            result = SaveFile.SavePicture(base64Image,_fileHandler);
+            result = FileConverter.ConvertToPng(base64Image);
 
             if(result.IsError)
                 return result.Errors;
             
             postImages.Add(new PostImage{
                 PostId = postId,
-                ImageUrl = result.Value
+                ImageUrl = Path.Combine(StaticPaths.BlogImagesPath, result.Value.Name)
             });
+
+            rMQFilesResponse.Add(new RMQFileResponse(
+                FilePath: StaticPaths.BlogImagesPath,
+                File: result.Value));
         };
 
         Post post = new Post{
@@ -87,6 +91,10 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
                 RecipientId: user.Id!,
                 Message: $"New post from Dr. {author.Name}"));
         }
+
+        
+        _messageQueueManager.PublishFile(rMQFilesResponse);
+        
         
         return new CommandResponse(
             true,

@@ -40,21 +40,25 @@ public class MessageQueueHelper
 
         consumer.Received += async (sender, eventArgs) =>
         {
-            var fileEncoded = eventArgs.Body.ToArray();
-            var fileDecoded = Encoding.UTF8.GetString(fileEncoded);
-            var fileResponse = JsonConvert.DeserializeObject<RMQFileResponse>(fileDecoded);
-            string filePath =  Path.Combine(AppContext.BaseDirectory, "Files",fileResponse!.FilePath, fileResponse.FileName);
+            var filesEncoded = eventArgs.Body.ToArray();
+            var fileDecoded = Encoding.UTF8.GetString(filesEncoded);
+            var filesResponse = JsonConvert.DeserializeObject<List<RMQFileResponse>>(fileDecoded);
             
-            IFormFile file = fileResponse!.FileContent;
-            if (!Directory.Exists(filePath))
+            
+            foreach(var fileResponse in filesResponse! )
             {
-                var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-                Logging(logger, new List<Error>(){FileErrors.FileNotFound});
-            }
-            else{
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                string filePath =  Path.Combine(AppContext.BaseDirectory, "Files",fileResponse!.FilePath);
+                IFormFile file = fileResponse!.File;
+                if (!Directory.Exists(filePath))
                 {
-                    await file.CopyToAsync(stream);
+                    var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+                    Logging(logger, new List<Error>(){FileErrors.DirectoryNotFound});
+                }
+                else{
+                    using (var stream = new FileStream(Path.Combine(filePath,fileResponse.File.Name), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
                 }
             }
         };
@@ -92,16 +96,21 @@ public class MessageQueueHelper
 
         consumer.Received += async (sender, eventArgs) =>
         {
-            var fileNameEncoded = eventArgs.Body.ToArray();
-            var fileNameDecoded = Encoding.UTF8.GetString(fileNameEncoded);
-            if(File.Exists(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded)))
-            {
-                File.Delete(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded));
-            }
-            else
-            {
-                var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-                Logging(logger, new List<Error>(){FileErrors.DirectoryNotFound});
+            var filesNameEncoded = eventArgs.Body.ToArray();
+            var filesNameDecoded = Encoding.UTF8.GetString(filesNameEncoded);
+            var filesNameResponse = JsonConvert.DeserializeObject<List<string>>(filesNameDecoded);
+
+            foreach(var fileNameDecoded in filesNameResponse!)
+            {    
+                if(File.Exists(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded)))
+                {
+                    File.Delete(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded));
+                }
+                else
+                {
+                    var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+                    Logging(logger, new List<Error>(){FileErrors.FileNotFound});
+                }
             }
             await Task.CompletedTask;
         };
