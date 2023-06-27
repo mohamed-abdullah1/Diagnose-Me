@@ -15,6 +15,8 @@ using Auth.Application.Authentication.Commands.UploadProfilePicture;
 using Auth.Application.Authentication.Commands.VerifyDoctorIdentity;
 using Auth.Application.Authentication.Commands.VerifyPin;
 using Auth.Application.Authentication.Queries.GetAllUsers;
+using Auth.Application.Authentication.Queries.GetIfEmailExist;
+using Auth.Application.Authentication.Queries.GetIfUsernameExist;
 using Auth.Application.Authentication.Queries.GetToken;
 using Auth.Application.Authentication.Queries.GetUser;
 using Auth.Application.Authentication.Queries.GetUsersInRole;
@@ -276,7 +278,6 @@ public class AuthController : ApiController
    public async  Task<IActionResult> VerifyDoctorIdentity(VerifyDoctorIdentityRequest request)
    {
 
-    Console.WriteLine(GetUserNameFromToken());
     var command = new VerifyDoctorIdentityCommand(
         GetUserNameFromToken(),
         request.Base64License); 
@@ -291,6 +292,24 @@ public class AuthController : ApiController
     public IActionResult GetBloodTypes()
     {
         var result = BloodTypes.All;
+        return Ok(result);
+    }
+
+    [HttpGet("check/username/{username}")]
+    [AllowAnonymous]
+    public IActionResult CheckUserName(string username)
+    {
+        var query = new GetIfUsernameExistQuery(username);
+        var result = _mediator.Send(query);
+        return Ok(result);
+    }
+    
+    [HttpGet("check/email/{email}")]
+    [AllowAnonymous]
+    public IActionResult CheckEmail(string email)
+    {
+        var query = new GetIfEmailExistQuery(email);
+        var result = _mediator.Send(query);
         return Ok(result);
     }
 }
