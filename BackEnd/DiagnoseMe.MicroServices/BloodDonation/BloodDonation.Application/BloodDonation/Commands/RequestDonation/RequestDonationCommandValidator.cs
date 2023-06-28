@@ -1,3 +1,4 @@
+using BloodDonation.Domain.Common;
 using BloodDonation.Domain.Common.BloodTypes;
 using FluentValidation;
 
@@ -17,5 +18,8 @@ public class RequestDonationCommandValidator : AbstractValidator<RequestDonation
             .WithMessage("Reason is required");
         RuleFor(x => x.RequesterId).NotNull()
             .WithMessage("RequesterId is required");
+        RuleFor(x => x.Type).NotEmpty()
+            .WithMessage("Type is required")
+            .Must(x => DonationTypes.All.Contains(x));
     }
 }

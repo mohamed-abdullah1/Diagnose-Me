@@ -6,4 +6,4 @@ namespace BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
 
 public record GetByRequesterIdQuery(
     string RequesterId,
-    int PageNumber) : IRequest<ErrorOr<List<DonationResponse>>>;
+    int PageNumber) : IRequest<ErrorOr<PageResponse>>;

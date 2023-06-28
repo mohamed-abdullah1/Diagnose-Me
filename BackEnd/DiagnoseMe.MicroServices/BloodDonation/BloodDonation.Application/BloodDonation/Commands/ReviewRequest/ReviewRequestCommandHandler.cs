@@ -24,41 +24,42 @@ public class ReviewRequestCommandHandler : IRequestHandler<ReviewRequestCommand,
 
     public async Task<ErrorOr<CommandResponse>> Handle(ReviewRequestCommand command, CancellationToken cancellationToken)
     {
-        var bloodDonation = (await _donationRequestRepository.Get(
+        var donationRequest = (await _donationRequestRepository.Get(
             predicate: x => x.Id == command.Id)).FirstOrDefault();
 
-        if (bloodDonation is null)
+        if (donationRequest is null)
             return Errors.DonationRequest.NotFound;
 
-        if (bloodDonation.Status != DonationRequestStatus.UnderReview)
+        if (donationRequest.Status != DonationRequestStatus.UnderReview)
             return Errors.DonationRequest.InvalidStatus;
 
         if (command.IsAccepted)
         {
-            bloodDonation.Status = DonationRequestStatus.Pending;
+            donationRequest.Status = DonationRequestStatus.Pending;
             _messageQueueManager.PublishNotification( new NotificationResponse(
                 Title: "Donation request Pending",
-                SenderId: bloodDonation.DonnerId,
-                RecipientId: bloodDonation.RequesterId,
+                SenderId: command.UserId,
+                RecipientId: donationRequest.RequesterId,
                 Message: $"Your donation request is accepted from admin and is pending for donners."
             ));
         }
         else
         {
-            bloodDonation.Status = DonationRequestStatus.Rejected;
+            donationRequest.Status = DonationRequestStatus.Rejected;
+            var reason = command.Reason ?? "it is not applicable.";
             _messageQueueManager.PublishNotification( new NotificationResponse(
                 Title: "Donation request rejected",
-                SenderId: bloodDonation.DonnerId,
-                RecipientId: bloodDonation.RequesterId,
-                Message: $"The admin has rejected your donation request."
+                SenderId: command.UserId,
+                RecipientId: donationRequest.RequesterId,
+                Message: $"The admin has rejected your donation request because {reason}."
             ));
         }
 
-        await _donationRequestRepository.Edit(bloodDonation);
+        await _donationRequestRepository.Edit(donationRequest);
         return new CommandResponse(
             Message: "Donation request reviewed.",
             Success: true,
-            Path: $"donation-request/{bloodDonation.Id}"
+            Path: $"donation-request/{donationRequest.Id}"
         );
     }
 

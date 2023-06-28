@@ -1,3 +1,4 @@
+using System.Linq;
 using BloodDonation.Application.BloodDonation.Common;
 using BloodDonation.Application.Common.Interfaces.Persistence;
 using ErrorOr;
@@ -13,15 +14,18 @@ public class CancelDonationCommandHandler : IRequestHandler<CancelDonationComman
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IDonnerDonationRequestRepository _donnerDonationRequestRepository;
 
     public CancelDonationCommandHandler(
         IDonationRequestRepository donationRequestRepository,
         IUserRepository userRepository,
+        IDonnerDonationRequestRepository donnerDonationRequestRepository,
         IMessageQueueManager messageQueueManager)
     {
         _donationRequestRepository = donationRequestRepository;
         _userRepository = userRepository;
         _messageQueueManager = messageQueueManager;
+        _donnerDonationRequestRepository = donnerDonationRequestRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(CancelDonationCommand command, CancellationToken cancellationToken)
@@ -30,41 +34,65 @@ public class CancelDonationCommandHandler : IRequestHandler<CancelDonationComman
         if (user is null)
             return Errors.User.NotFound;
 
-        var bloodDonation = (await _donationRequestRepository.Get(
-            predicate: x => x.Id == command.Id)).FirstOrDefault();
+        var donationRequest = (await _donationRequestRepository.Get(
+            predicate: x => x.Id == command.Id,
+            include: "Donners,Requester"
+            )).FirstOrDefault();
 
-        if (bloodDonation is null)
+        if (donationRequest is null)
             return Errors.DonationRequest.NotFound;
 
-        if (bloodDonation.RequesterId == user.Id)
+        if (donationRequest.RequesterId == user.Id)
         {
-            bloodDonation.Status = DonationRequestStatus.Canceled;
-            _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request canceled",
-                SenderId: user.Id!,
-                RecipientId: bloodDonation.DonnerId,
-                Message: $"The donation request {bloodDonation.Id} has been canceled by {user.FullName}."
-            ));
+            donationRequest.Status = DonationRequestStatus.Canceled;
+            var donnerDonationRequests = (await _donnerDonationRequestRepository.Get(
+                predicate: x => x.DonationRequestId == donationRequest.Id
+            )).ToList();
+            foreach (var donnerDonationRequest in donnerDonationRequests)
+            {
+                donnerDonationRequest.Status = DonationRequestStatus.Canceled;
+                await _donnerDonationRequestRepository.Edit(donnerDonationRequest);
+            }
+
+            foreach( var donner in donationRequest.Donners)
+            {
+                _messageQueueManager.PublishNotification( new NotificationResponse(
+                    Title: "Donation request canceled",
+                    SenderId: user.Id!,
+                    RecipientId: donner.Id!,
+                    Message: $"The donation request {donationRequest.Id} has been canceled by {user.FullName}."
+                ));
+            }
         }
             
-        else if (bloodDonation.DonnerId == user.Id)
+        else if (donationRequest.Donners.Select(x => x.Id).Contains(user.Id))
         {
-            bloodDonation.Status = DonationRequestStatus.Canceled;
+            var donnerDonationRequest = (await _donnerDonationRequestRepository.GetByIdAsync( new {DonnerId = user.Id, DonationRequestId = donationRequest.Id}));
+            if (donnerDonationRequest is null)
+                return Errors.DonationRequest.NotFound;
+            
+            donnerDonationRequest.Status = DonationRequestStatus.Canceled;
             _messageQueueManager.PublishNotification( new NotificationResponse(
                 Title: "Donation request canceled",
                 SenderId: user.Id!,
-                RecipientId: bloodDonation.RequesterId,
-                Message: $"The user {user.FullName} has canceled the donation request {bloodDonation.Id}"
+                RecipientId: donationRequest.RequesterId,
+                Message: $"The user {user.FullName} has canceled the donation request {donationRequest.Id}"
             ));
+            await _donnerDonationRequestRepository.Edit(donnerDonationRequest);
+            donationRequest.Donners.Remove(user);
         }
         else
             return Errors.User.YouCanNotDoThis;
         
-        await _donationRequestRepository.Edit(bloodDonation);
+        await _donationRequestRepository.Edit(donationRequest);
+        
+        if (await _donationRequestRepository.SaveAsync() == 0)
+            return Errors.DonationRequest.SaveFailed;
+
         return new CommandResponse(
             Message: "Donation request canceled.",
             Success: true,
-            Path: $"api/donation-request/{bloodDonation.Id}"
+            Path: $"api/donation-request/{donationRequest.Id}"
         );
 
     }

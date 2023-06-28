@@ -6,6 +6,7 @@ using BloodDonation.Application.BloodDonation.Commands.ReviewRequest;
 using BloodDonation.Application.BloodDonation.Queries.GetByBloodType;
 using BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
 using BloodDonation.Application.BloodDonation.Queries.GetByStatus;
+using BloodDonation.Contracts.BloodDonation;
 using BloodDonation.Domain.Common.Roles;
 using BloodDonation.Domain.Entities;
 using MapsterMapper;
@@ -82,7 +83,7 @@ public class BloodDonationController : ApiController
 
     [Authorize]
     [HttpPost("request")]
-    public async Task<IActionResult> CreateRequest(DonationRequest request)
+    public async Task<IActionResult> CreateRequest(DonationRequestRequest request)
     {
         var command = _mapper.Map<RequestDonationCommand>((request, GetUserIdFromToken()));
         var result = await _mediator.Send(command);
@@ -132,11 +133,13 @@ public class BloodDonationController : ApiController
 
     [Authorize(Roles = Roles.Admin)]
     [HttpPost("request/{requestId}/review/{isAccepted}")]
-    public async Task<IActionResult> ReviewRequest(string requestId, bool isAccepted)
+    public async Task<IActionResult> ReviewRequest(string requestId, bool isAccepted, string? reason = null)
     {
         var command = new ReviewRequestCommand(
             requestId,
-            isAccepted);
+            isAccepted,
+            reason,
+            GetUserIdFromToken());
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),

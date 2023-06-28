@@ -1,14 +1,13 @@
 using MedicalBlog.Application.Common.Interfaces.Persistence.IUnitOfWork;
-using MedicalBlog.Persistence.Context;
 
 namespace MedicalBlog.Persistence;
 
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private ApplicationDbContext _context;
+    private DbContext _context;
 
-    public UnitOfWork(ApplicationDbContext context)
+    public UnitOfWork(DbContext context)
     {
         _context = context;
     }

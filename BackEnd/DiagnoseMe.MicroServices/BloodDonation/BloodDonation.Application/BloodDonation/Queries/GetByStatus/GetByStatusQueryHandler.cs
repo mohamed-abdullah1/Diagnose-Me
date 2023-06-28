@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BloodDonation.Application.BloodDonation.Queries.GetByStatus;
 
-public class GetByStatusHandler : IRequestHandler<GetByStatusQuery, ErrorOr<List<DonationResponse>>>
+public class GetByStatusHandler : IRequestHandler<GetByStatusQuery, ErrorOr<PageResponse>>
 {
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IMapper _mapper;
@@ -18,20 +18,24 @@ public class GetByStatusHandler : IRequestHandler<GetByStatusQuery, ErrorOr<List
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<List<DonationResponse>>> Handle(GetByStatusQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PageResponse>> Handle(GetByStatusQuery query, CancellationToken cancellationToken)
     {
         var donationRequests = (await _donationRequestRepository
             .Get(predicate: x => x.Status == query.Status))
-            .OrderByDescending(c => c.CreatedOn)
+            .OrderByDescending(c => c.CreatedOn);
+        
+        var IsNextPage = donationRequests.Count() > query.PageNumber * 10;
+        var resDonationRequests = donationRequests
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)
             .ToList();
-        var donationResponses = new List<DonationResponse>();
-        foreach (var donationRequest in donationRequests)
-        {
-            donationResponses.Add(_mapper
-                .Map<DonationResponse>(donationRequest));
-        }
-        return donationResponses;
+        
+        var donationResponses = _mapper.Map<List<DonationResponse>>(resDonationRequests);
+        return new PageResponse(
+            Objects: donationResponses.Select(x => (object)x).ToList(),
+            IsNextPage: IsNextPage,
+            CurrentPage: query.PageNumber
+        );
+        
     }
 }

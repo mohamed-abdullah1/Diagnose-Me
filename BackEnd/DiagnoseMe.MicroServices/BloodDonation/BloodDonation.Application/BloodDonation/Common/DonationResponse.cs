@@ -6,5 +6,7 @@ public record DonationResponse(
     string Id,
     string BloodType,
     string Locatoin,
+    string Type,
+    string RequesterId,
     string Reason,
     string Status);

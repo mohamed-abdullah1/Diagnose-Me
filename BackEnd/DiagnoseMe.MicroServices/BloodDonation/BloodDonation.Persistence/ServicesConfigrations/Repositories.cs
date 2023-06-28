@@ -10,6 +10,7 @@ public static class Repositories
         this IServiceCollection services)
         {
             services.AddScoped<IDonationRequestRepository, DonationRequestRepository>();
+            services.AddScoped<IDonnerDonationRequestRepository, DonnerDonationRequestRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }

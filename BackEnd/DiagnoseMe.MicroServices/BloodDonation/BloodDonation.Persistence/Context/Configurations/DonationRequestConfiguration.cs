@@ -11,8 +11,8 @@ public class DonationRequestConfiguration : BaseConfiguration<DonationRequest>
         builder.Property(c => c.Location).IsRequired();
         builder.Property(c => c.Reason).IsRequired(); 
         builder.Property(c => c.Status).IsRequired(); 
+        builder.Property(c => c.Type).IsRequired();
         builder.Property(c => c.RequesterId).IsRequired();
-        builder.Property(c => c.DonnerId); 
         builder.HasOne(c => c.Requester).WithMany(c => c.DonationRequests).HasForeignKey(c => c.RequesterId);
         builder.HasMany(d => d.Donners)
             .WithMany(d => d.DonnerDonationRequests)

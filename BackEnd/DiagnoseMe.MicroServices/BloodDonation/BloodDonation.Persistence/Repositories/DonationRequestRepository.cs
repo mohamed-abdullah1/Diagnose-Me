@@ -1,5 +1,4 @@
 using BloodDonation.Application.Common.Interfaces.Persistence;
-using BloodDonation.Persistence.Context;
 
 namespace BloodDonation.Persistence.Repositories;
 

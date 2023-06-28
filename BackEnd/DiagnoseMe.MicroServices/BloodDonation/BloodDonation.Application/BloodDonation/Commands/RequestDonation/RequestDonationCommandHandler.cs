@@ -10,15 +10,15 @@ namespace BloodDonation.Application.BloodDonation.Commands.RequestDonation;
 
 public class RequestDonationCommandHandler : IRequestHandler<RequestDonationCommand, ErrorOr<CommandResponse>>
 {
-    private readonly IDonationRequestRepository _bloodDonationRepository;
+    private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMessageQueueManager _messageQueueManager;
     public RequestDonationCommandHandler(
-        IDonationRequestRepository bloodDonationRepository,
+        IDonationRequestRepository donationRequestRepository,
         IMessageQueueManager messageQueueManager,
         IUserRepository userRepository)
     {
-        _bloodDonationRepository = bloodDonationRepository;
+        _donationRequestRepository = donationRequestRepository;
         _userRepository = userRepository;
         _messageQueueManager = messageQueueManager;
     }
@@ -32,6 +32,7 @@ public class RequestDonationCommandHandler : IRequestHandler<RequestDonationComm
         var donationRequest = new DonationRequest{
             Id = Guid.NewGuid().ToString(),
             BloodType = command.BloodType,
+            Type = command.Type,
             Location = command.Location,
             Reason = command.Reason,
             RequesterId = command.RequesterId,
@@ -51,7 +52,7 @@ public class RequestDonationCommandHandler : IRequestHandler<RequestDonationComm
                 Message: $"A donation request has been created by {user.FullName} with the same blood type as yours. Do you want to accept it?"
             ));
         }
-        await _bloodDonationRepository.AddAsync(donationRequest);
+        await _donationRequestRepository.AddAsync(donationRequest);
         return new CommandResponse(
             true,
             "Donation request created",

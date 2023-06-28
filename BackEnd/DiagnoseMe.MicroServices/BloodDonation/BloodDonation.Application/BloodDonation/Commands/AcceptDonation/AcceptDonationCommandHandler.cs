@@ -13,15 +13,19 @@ public class AcceptDonationCommandHandler : IRequestHandler<AcceptDonationComman
 {
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IDonnerDonationRequestRepository _donnerDonationRequestRepository;
     private readonly IMessageQueueManager _messageQueueManager;
+
 
     public AcceptDonationCommandHandler(
         IDonationRequestRepository donationRequestRepository,
         IUserRepository userRepository,
+        IDonnerDonationRequestRepository donnerDonationRequestRepository,
         IMessageQueueManager messageQueueManager)
     {
         _donationRequestRepository = donationRequestRepository;
         _userRepository = userRepository;
+        _donnerDonationRequestRepository = donnerDonationRequestRepository;
         _messageQueueManager = messageQueueManager;
     }
 
@@ -31,35 +35,47 @@ public class AcceptDonationCommandHandler : IRequestHandler<AcceptDonationComman
         if (user is null)
             return Errors.User.NotFound;
 
-        var bloodDonation = (await _donationRequestRepository.Get(
+        var donationRequest = (await _donationRequestRepository.Get(
             predicate: x => x.Id == command.Id)).FirstOrDefault();
 
-        if (bloodDonation is null)
+        if (donationRequest is null)
             return Errors.DonationRequest.NotFound;
 
-        if (user.BloodType != bloodDonation.BloodType)
+        if (user.BloodType != donationRequest.BloodType)
             return Errors.DonationRequest.InvalidBloodType;
         
-        if (bloodDonation.RequesterId == user.Id)
+        if (donationRequest.RequesterId == user.Id)
             return Errors.User.YouCanNotDoThis;
 
-        if (bloodDonation.Status == DonationRequestStatus.Pending )
+        if(user.LastDonationDate!.Value.AddDays(90) > DateTime.Now)
+            return Errors.User.YouCanNotDoThis;
+
+        if (donationRequest.Status == DonationRequestStatus.Pending )
         {
-            bloodDonation.Status = DonationRequestStatus.Accepted;
-            bloodDonation.DonnerId = user.Id!;
-            bloodDonation.Donners.Add(user);
-            await _donationRequestRepository.Edit(bloodDonation);
+            var donnerDonationRequest = new DonnerDonationRequest{
+                DonnerId = user.Id!,
+                DonationRequestId = donationRequest.Id!,
+                Status = DonationRequestStatus.Accepted,
+                Donner = user,
+                DonationRequest = donationRequest
+            };
+            donationRequest.Donners.Add(user);
+            await _donationRequestRepository.Edit(donationRequest);
+            await _donnerDonationRequestRepository.AddAsync(donnerDonationRequest);
+            
+            if(await _donationRequestRepository.SaveAsync() == 0)
+                return Errors.DonationRequest.SaveFailed;
             
             _messageQueueManager.PublishNotification( new NotificationResponse(
                 Title: "Donation request accepted",
                 SenderId: user.Id!,
-                RecipientId: bloodDonation.RequesterId,
+                RecipientId: donationRequest.RequesterId,
                 Message: $"Your donation request has been accepted by {user.FullName}."
             ));
             return new CommandResponse(
                 Message: "Donation request accepted.",
                 Success: true,
-                Path: $"api/donation-request/{bloodDonation.Id}"
+                Path: $"api/donation-request/{donationRequest.Id}"
             );
         }
 

@@ -34,6 +34,9 @@ public static partial class Errors
             code: "DonationRequest.InvalidReason",
             description: "Invalid reason."
         );
-        
+        public static Error SaveFailed => Error.Failure(
+            code: "DonationRequest.SaveFailed",
+            description: "Donation request save failed."
+        );
     }
 }

@@ -6,4 +6,4 @@ namespace BloodDonation.Application.BloodDonation.Queries.GetByStatus;
 
 public record GetByStatusQuery(
     string Status,
-    int PageNumber) : IRequest<ErrorOr<List<DonationResponse>>>;
+    int PageNumber) : IRequest<ErrorOr<PageResponse>>;

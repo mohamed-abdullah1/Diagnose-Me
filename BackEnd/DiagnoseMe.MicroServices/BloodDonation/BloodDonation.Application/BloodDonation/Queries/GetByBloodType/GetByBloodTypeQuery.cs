@@ -6,4 +6,4 @@ namespace BloodDonation.Application.BloodDonation.Queries.GetByBloodType;
 
 public record GetByBloodTypeQuery(
     string BloodType,
-    int PageNumber) : IRequest<ErrorOr<List<DonationResponse>>>;
+    int PageNumber) : IRequest<ErrorOr<PageResponse>>;

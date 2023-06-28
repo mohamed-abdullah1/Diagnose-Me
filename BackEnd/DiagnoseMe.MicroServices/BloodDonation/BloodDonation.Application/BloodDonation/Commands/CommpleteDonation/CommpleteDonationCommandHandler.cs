@@ -12,16 +12,19 @@ public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonation
 {
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IDonnerDonationRequestRepository _donnerDonationRequestRepository;
     private readonly IMessageQueueManager _messageQueueManager;
 
     public CommpleteDonationCommandHandler(
         IDonationRequestRepository donationRequestRepository,
         IUserRepository userRepository,
+        IDonnerDonationRequestRepository donnerDonationRequestRepository,
         IMessageQueueManager messageQueueManager)
     {
         _donationRequestRepository = donationRequestRepository;
         _userRepository = userRepository;
         _messageQueueManager = messageQueueManager;
+        _donnerDonationRequestRepository = donnerDonationRequestRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(CommpleteDonationCommand command, CancellationToken cancellationToken)
@@ -30,40 +33,41 @@ public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonation
         if (user is null)
             return Errors.User.NotFound;
 
-        var bloodDonation = (await _donationRequestRepository.Get(
-            predicate: x => x.Id == command.Id)).FirstOrDefault();
+        var donationRequest = (await _donationRequestRepository.Get(
+            predicate: x => x.Id == command.Id,
+            include: "Donners,Requester"
+            )).FirstOrDefault();
 
-        if (bloodDonation is null)
+        if (donationRequest is null)
             return Errors.DonationRequest.NotFound;
 
-        if (bloodDonation.DonnerId == user.Id)
+        if (donationRequest.Donners.Select(x => x.Id).Contains(user.Id))
         {
-            bloodDonation.Status = DonationRequestStatus.PreCompleted;
-            _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request completed",
-                SenderId: user.Id!,
-                RecipientId: bloodDonation.RequesterId,
-                Message: $"The user {user.FullName} has completed the donation request {bloodDonation.Id} awaiting your confirmation."
-            ));
+            var donnerDonationRequest = (await _donnerDonationRequestRepository.GetByIdAsync(
+                new {
+                    DonnerId = user.Id,
+                    DonationRequestId = donationRequest.Id}));
+            donnerDonationRequest!.Status = DonationRequestStatus.Completed;
+            await _donnerDonationRequestRepository.Edit(donnerDonationRequest);
+            if (await _donnerDonationRequestRepository.SaveAsync() == 0)
+                return Errors.DonationRequest.SaveFailed;
         }
-        else if (bloodDonation.RequesterId == user.Id)
+        
+        else if (donationRequest.RequesterId == user.Id)
         {
-            bloodDonation.Status = DonationRequestStatus.Completed;
-            _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request completed",
-                SenderId: user.Id!,
-                RecipientId: bloodDonation.DonnerId,
-                Message: $"The user {user.FullName} has confirmed the donation request {bloodDonation.Id} as completed."
-            ));
+            donationRequest.Status = DonationRequestStatus.Completed;
+            await _donationRequestRepository.Edit(donationRequest);
+            if(await _donationRequestRepository.SaveAsync() == 0)
+                return Errors.DonationRequest.SaveFailed;
         }
         else
             return Errors.User.YouCanNotDoThis;
         
-        await _donationRequestRepository.Edit(bloodDonation);
+        
         return new CommandResponse(
             Message: "Donation request completed.",
             Success: true,
-            Path: $"api/donation-request/{bloodDonation.Id}"
+            Path: $"api/donation-request/{donationRequest.Id}"
         );
 
     }

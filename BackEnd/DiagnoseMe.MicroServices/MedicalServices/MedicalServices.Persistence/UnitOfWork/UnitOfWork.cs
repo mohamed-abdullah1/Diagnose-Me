@@ -1,14 +1,14 @@
 using MedicalServices.Application.Common.Interfaces.Persistence.IUnitOfWork;
-using MedicalServices.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.Persistence;
 
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private ApplicationDbContext _context;
+    private DbContext _context;
 
-    public UnitOfWork(ApplicationDbContext context)
+    public UnitOfWork(DbContext context)
     {
         _context = context;
     }
