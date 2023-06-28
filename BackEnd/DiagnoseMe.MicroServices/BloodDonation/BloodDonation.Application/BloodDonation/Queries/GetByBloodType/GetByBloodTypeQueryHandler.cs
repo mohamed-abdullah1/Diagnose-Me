@@ -10,6 +10,7 @@ public class GetByBloodTypeQueryHandler : IRequestHandler<GetByBloodTypeQuery, E
 {
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IMapper _mapper;
+    
     public GetByBloodTypeQueryHandler(
         IDonationRequestRepository donationRequestRepository,
         IMapper mapper)
@@ -20,14 +21,17 @@ public class GetByBloodTypeQueryHandler : IRequestHandler<GetByBloodTypeQuery, E
     public async Task<ErrorOr<PageResponse>> Handle(GetByBloodTypeQuery query, CancellationToken cancellationToken)
     {
         var donationRequests = (await _donationRequestRepository
-            .Get(predicate: x => x.BloodType == query.BloodType))
-            .OrderByDescending(c => c.CreatedOn);
+            .Get(predicate: x => x.BloodType == query.BloodType,
+            include: "Requester"))
+            .OrderBy(c => c.CreatedOn);
 
         var IsNextPage = donationRequests.Count() > query.PageNumber * 10;
         var resDonationRequests = donationRequests
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)
             .ToList();
+        
+
         var donationResponses = _mapper.Map<List<DonationResponse>>(resDonationRequests);
         return new PageResponse(
             Objects: donationResponses.Select(x => (object)x).ToList(),

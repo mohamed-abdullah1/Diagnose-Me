@@ -3,9 +3,12 @@ using BloodDonation.Application.BloodDonation.Commands.CancelDonation;
 using BloodDonation.Application.BloodDonation.Commands.CommpleteDonation;
 using BloodDonation.Application.BloodDonation.Commands.RequestDonation;
 using BloodDonation.Application.BloodDonation.Commands.ReviewRequest;
+using BloodDonation.Application.BloodDonation.Queries.GetAvailableDonation;
 using BloodDonation.Application.BloodDonation.Queries.GetByBloodType;
 using BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
 using BloodDonation.Application.BloodDonation.Queries.GetByStatus;
+using BloodDonation.Application.BloodDonation.Queries.GetDonnerDonations;
+using BloodDonation.Application.BloodDonation.Queries.GetDonnerDonationsForDonationRequest;
 using BloodDonation.Contracts.BloodDonation;
 using BloodDonation.Domain.Common;
 using BloodDonation.Domain.Common.Roles;
@@ -153,4 +156,43 @@ public class BloodDonationController : ApiController
         var result = DonationTypes.All;
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpGet("available-donation/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetAvailableDonation(int pageNumber)
+    {
+        var query = new GetAvailableDonationQuery(
+            pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("donner-donations/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetDonnerDonations(int pageNumber)
+    {
+        var query = new GetDonnerDonationsQuery(
+            pageNumber,
+            GetUserIdFromToken());
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("donner-donations/donation-id/{donationId}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetDonnerDonations(string donationId, int pageNumber)
+    {
+        var query = new GetDonnerDonationsForDonationRequestQuery(
+            pageNumber,
+            donationId);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
 }

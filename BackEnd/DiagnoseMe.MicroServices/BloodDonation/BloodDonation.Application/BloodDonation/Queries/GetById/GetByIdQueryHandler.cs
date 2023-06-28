@@ -21,7 +21,10 @@ public class GetByIdQueryHandler : IRequestHandler<GetByIdQuery, ErrorOr<Donatio
     }
     public async Task<ErrorOr<DonationResponse>> Handle(GetByIdQuery query, CancellationToken cancellationToken)
     {
-        var donationRequest = await _donationRequestRepository.GetByIdAsync(query.Id);
+        var donationRequest = await _donationRequestRepository.Get(
+            predicate: x => x.Id == query.Id,
+            include: "Requester"
+        );
         if (donationRequest == null)
         {
             return Errors.DonationRequest.NotFound;

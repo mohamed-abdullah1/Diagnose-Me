@@ -4,7 +4,7 @@ public static class DonationRequestStatus
 {
     public const string UnderReview = "UnderReview";
     public const string Pending = "Pending";
-    public const string Closed = "Closed";
+    public const string Done = "Done";
     public const string Accepted = "Accepted";
     public const string Rejected = "Rejected";
     public const string PreCompleted = "PreCompleted";
@@ -20,6 +20,6 @@ public static class DonationRequestStatus
         Completed,
         Canceled,
         UnderReview,
-        Closed
+        Done
     };
 }
