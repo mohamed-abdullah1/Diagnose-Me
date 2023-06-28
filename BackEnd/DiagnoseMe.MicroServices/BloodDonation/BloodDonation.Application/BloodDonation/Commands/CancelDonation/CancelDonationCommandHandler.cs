@@ -6,15 +6,15 @@ using BloodDonation.Domain.Common.Errors;
 using BloodDonation.Domain.Common.DonationRequestStatus;
 using BloodDonation.Application.Common.Interfaces.RabbitMQ;
 
-namespace BloodDonation.Application.BloodDonation.Commands.CommpleteDonation;
+namespace BloodDonation.Application.BloodDonation.Commands.CancelDonation;
 
-public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonationCommand, ErrorOr<CommandResponse>>
+public class CancelDonationCommandHandler : IRequestHandler<CancelDonationCommand, ErrorOr<CommandResponse>>
 {
     private readonly IDonationRequestRepository _donationRequestRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMessageQueueManager _messageQueueManager;
 
-    public CommpleteDonationCommandHandler(
+    public CancelDonationCommandHandler(
         IDonationRequestRepository donationRequestRepository,
         IUserRepository userRepository,
         IMessageQueueManager messageQueueManager)
@@ -24,7 +24,7 @@ public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonation
         _messageQueueManager = messageQueueManager;
     }
 
-    public async Task<ErrorOr<CommandResponse>> Handle(CommpleteDonationCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<CommandResponse>> Handle(CancelDonationCommand command, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(command.UserId);
         if (user is null)
@@ -36,24 +36,25 @@ public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonation
         if (bloodDonation is null)
             return Errors.DonationRequest.NotFound;
 
-        if (bloodDonation.DonnerId == user.Id)
+        if (bloodDonation.RequesterId == user.Id)
         {
-            bloodDonation.Status = DonationRequestStatus.PreCompleted;
+            bloodDonation.Status = DonationRequestStatus.Canceled;
             _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request completed",
-                SenderId: user.Id!,
-                RecipientId: bloodDonation.RequesterId,
-                Message: $"The user {user.FullName} has completed the donation request {bloodDonation.Id} awaiting your confirmation."
-            ));
-        }
-        else if (bloodDonation.RequesterId == user.Id)
-        {
-            bloodDonation.Status = DonationRequestStatus.Completed;
-            _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request completed",
+                Title: "Donation request canceled",
                 SenderId: user.Id!,
                 RecipientId: bloodDonation.DonnerId,
-                Message: $"The user {user.FullName} has confirmed the donation request {bloodDonation.Id} as completed."
+                Message: $"The donation request {bloodDonation.Id} has been canceled by {user.FullName}."
+            ));
+        }
+            
+        else if (bloodDonation.DonnerId == user.Id)
+        {
+            bloodDonation.Status = DonationRequestStatus.Canceled;
+            _messageQueueManager.PublishNotification( new NotificationResponse(
+                Title: "Donation request canceled",
+                SenderId: user.Id!,
+                RecipientId: bloodDonation.RequesterId,
+                Message: $"The user {user.FullName} has canceled the donation request {bloodDonation.Id}"
             ));
         }
         else
@@ -61,7 +62,7 @@ public class CommpleteDonationCommandHandler : IRequestHandler<CommpleteDonation
         
         await _donationRequestRepository.Edit(bloodDonation);
         return new CommandResponse(
-            Message: "Donation request completed.",
+            Message: "Donation request canceled.",
             Success: true,
             Path: $"api/donation-request/{bloodDonation.Id}"
         );

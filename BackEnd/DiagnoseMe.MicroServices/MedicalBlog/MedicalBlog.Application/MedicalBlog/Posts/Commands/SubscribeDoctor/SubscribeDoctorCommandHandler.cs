@@ -53,6 +53,7 @@ public class SubscribeDoctorCommandHandler : IRequestHandler<SubscribeDoctorComm
             return Errors.User.FailedToSubscribe;
         if(ifSubscribed)
             _messageQueueManager.PublishNotification(new NotificationResponse(
+                Title: "A user has unsubscribed you",
                 SenderId:user.Id!,
                 RecipientId:doctor.Id!,
                 Message: $"User {user.Name} has started to subscribe you."));

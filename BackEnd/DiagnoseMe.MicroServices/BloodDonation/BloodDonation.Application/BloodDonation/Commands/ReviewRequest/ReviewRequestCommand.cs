@@ -2,9 +2,9 @@ using BloodDonation.Application.BloodDonation.Common;
 using ErrorOr;
 using MediatR;
 
-namespace BloodDonation.Application.BloodDonation.Commands.CommpleteDonation;
+namespace BloodDonation.Application.BloodDonation.Commands.ReviewRequest;
 
-public record CommpleteDonationCommand(
+public record ReviewRequestCommand(
     string Id,
-    string UserId
+    bool IsAccepted
 ) : IRequest<ErrorOr<CommandResponse>>;

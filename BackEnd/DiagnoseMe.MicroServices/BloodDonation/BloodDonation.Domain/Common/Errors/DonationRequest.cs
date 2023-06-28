@@ -22,5 +22,18 @@ public static partial class Errors
             code: "DonationRequest.InvalidStatus",
             description: "Invalid status."
         );
+        public static Error InvalidBloodType => Error.Validation(
+            code: "DonationRequest.InvalidBloodType",
+            description: "Invalid blood type."
+        );
+        public static Error InvalidLocation => Error.Validation(
+            code: "DonationRequest.InvalidLocation",
+            description: "Invalid location."
+        );
+        public static Error InvalidReason => Error.Validation(
+            code: "DonationRequest.InvalidReason",
+            description: "Invalid reason."
+        );
+        
     }
 }

@@ -2,6 +2,7 @@ namespace BloodDonation.Domain.Common.DonationRequestStatus;
 
 public static class DonationRequestStatus
 {
+    public const string UnderReview = "UnderReview";
     public const string Pending = "Pending";
     public const string Accepted = "Accepted";
     public const string Rejected = "Rejected";
