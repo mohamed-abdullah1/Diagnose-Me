@@ -1,7 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Calendar = require('../models/calendarModel');
 const Appointment = require('../models/appointmentModel');
-const User = require('../models/userModel');
 const { parseISO } = require('date-fns');
 const { v4: uuidv4 } = require('uuid');
 

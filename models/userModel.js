@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
-const Appointment = require('./calendarModel');
 
 const userSchema = mongoose.Schema(
   {

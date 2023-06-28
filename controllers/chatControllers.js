@@ -11,7 +11,7 @@ const accessChat = asyncHandler(async (req, res) => {
   //   console.log('UserId param not sent with request');
   //   return res.sendStatus(400);
   // }
-  const { secondUserId } = req.body;
+  const { id: secondUserId } = req.params;
 
   var isChat = await Chat.find({
     $and: [
@@ -33,23 +33,20 @@ const accessChat = asyncHandler(async (req, res) => {
   } else {
     var chatData = {
       _id: uuidv4(),
-      chatName: 'chat',
+      chatName: 'new chat',
       users: [req.user._id, secondUserId],
     };
 
-    try {
-      let createdChat = await Chat.create(chatData);
-      createdChat = await Chat.findById(createdChat._id)
-        .select('-__v')
-        .populate('users', '-password')
-        .populate('latestMessage');
-      console.log('😀created');
-      // const FullChat = await Chat.findOne({ _id: createdChat._id }).populate('users', '-password');
-      res.status(200).json(createdChat);
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
-    }
+    // create the chat
+    let createdChat = await Chat.create(chatData);
+    createdChat = await Chat.findById(createdChat._id) // this part for populating the users in chat created
+      .select('-__v')
+      .populate('users', '-password')
+      .populate('latestMessage');
+    console.log('😀created');
+
+    // const FullChat = await Chat.findOne({ _id: createdChat._id }).populate('users', '-password');
+    res.status(200).json(createdChat);
   }
 });
 
@@ -82,26 +79,22 @@ const deleteChat = asyncHandler(async (req, res) => {
   const { chatId, customUserId } = req.body;
 
   const userId = customUserId || req.user._id; //the registered user or the provided user id
-  try {
-    const updatedChat = await Chat.findByIdAndUpdate(
-      chatId,
-      { $pull: { users: { $eq: userId } } }, // can be used  witout $eq operator
-      { new: true, projection: { users: 1 } }
-    );
 
-    // check if the updatedChat != null, if the the chat is not exist
-    if (updatedChat) {
-      if (updatedChat.users.length == 0) {
-        const deletedChat = await Chat.findByIdAndDelete(chatId);
-        res.status(200).send('The Entire Chat document is removed:', deletedChat);
-      }
-      res.status(200).send('The user is removed from the Chat');
-    } else {
-      res.status(200).send('The Chat is not exist🙄');
+  const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    { $pull: { users: { $eq: userId } } }, // can be used  witout $eq operator
+    { new: true, projection: { users: 1 } }
+  );
+
+  // check if the updatedChat != null, if the the chat is not exist
+  if (updatedChat) {
+    if (updatedChat.users.length == 0) {
+      const deletedChat = await Chat.findByIdAndDelete(chatId);
+      res.status(200).send('The Entire Chat document is removed:', deletedChat);
     }
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(200).send('The user is removed from the Chat');
+  } else {
+    res.status(200).send('The Chat is not exist🙄');
   }
 });
 

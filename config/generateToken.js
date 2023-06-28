@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken'); // npm i jsonwebtoken      to install packa
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '12h',
+    expiresIn: '15d',
     issuer: process.env.Issuer,
     audience: process.env.Audience,
   });
