@@ -13,7 +13,10 @@ public static class DbContextConfiguration
         string connectionString = configuration.GetConnectionString("DefaultConnection")!;
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)
-            , options => options.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            , options => options.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll),
+            ServiceLifetime.Scoped  
+            );
         services.AddScoped<DbContext, ApplicationDbContext>();
         return services;
     }

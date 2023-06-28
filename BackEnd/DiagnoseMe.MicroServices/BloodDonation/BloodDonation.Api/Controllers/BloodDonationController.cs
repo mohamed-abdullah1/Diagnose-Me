@@ -7,8 +7,8 @@ using BloodDonation.Application.BloodDonation.Queries.GetByBloodType;
 using BloodDonation.Application.BloodDonation.Queries.GetByRequesterId;
 using BloodDonation.Application.BloodDonation.Queries.GetByStatus;
 using BloodDonation.Contracts.BloodDonation;
+using BloodDonation.Domain.Common;
 using BloodDonation.Domain.Common.Roles;
-using BloodDonation.Domain.Entities;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -144,5 +144,13 @@ public class BloodDonationController : ApiController
         return result.Match(
         result => Ok(result),
         errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("available-donation-types")]
+    public  IActionResult GetAvailableDonationTypes()
+    {
+        var result = DonationTypes.All;
+        return Ok(result);
     }
 }
