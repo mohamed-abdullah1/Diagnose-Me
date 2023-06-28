@@ -21,7 +21,7 @@ public class GetByStatusHandler : IRequestHandler<GetByStatusQuery, ErrorOr<List
     public async Task<ErrorOr<List<DonationResponse>>> Handle(GetByStatusQuery query, CancellationToken cancellationToken)
     {
         var donationRequests = (await _donationRequestRepository
-            .GetByStatus(query.Status))
+            .Get(predicate: x => x.Status == query.Status))
             .OrderByDescending(c => c.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)

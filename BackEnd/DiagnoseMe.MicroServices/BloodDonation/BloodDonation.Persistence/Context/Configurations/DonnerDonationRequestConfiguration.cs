@@ -12,7 +12,5 @@ public class DonnerDonationRequestConfiguration : BaseConfiguration<DonnerDonati
         builder.Property(c => c.DonnerId).IsRequired();
         builder.Property(c => c.DonationRequestId).IsRequired();
         builder.Property(c => c.Status).IsRequired();
-        builder.HasOne(c => c.Donner).WithMany(c => c.DonnerDonationRequests).HasForeignKey(c => c.DonnerId);
-        builder.HasOne(c => c.DonationRequest).WithMany(c => c.DonnerDonationRequests).HasForeignKey(c => c.DonationRequestId);
     }
 }

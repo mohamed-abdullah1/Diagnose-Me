@@ -13,8 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalBlog.Api.Controllers.MedicalBlog;
 
 
-[Route("api/v1")]
-[ApiController]
+
 public class AnswersController : ApiController
 {
     private readonly ISender _mediator;

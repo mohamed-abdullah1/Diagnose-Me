@@ -20,7 +20,7 @@ public class GetByRequesterIdHandler : IRequestHandler<GetByRequesterIdQuery, Er
     public async Task<ErrorOr<List<DonationResponse>>> Handle(GetByRequesterIdQuery query, CancellationToken cancellationToken)
     {
         var bloodDonations = (await _bloodDonationRepository
-            .GetByRequesterId(query.RequesterId))
+            .Get(predicate: x => x.RequesterId == query.RequesterId))
             .OrderByDescending(c => c.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)

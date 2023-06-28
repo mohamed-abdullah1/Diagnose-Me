@@ -20,7 +20,7 @@ public class GetByBloodTypeQueryHandler : IRequestHandler<GetByBloodTypeQuery, E
     public async Task<ErrorOr<List<DonationResponse>>> Handle(GetByBloodTypeQuery query, CancellationToken cancellationToken)
     {
         var donationRequests = (await _donationRequestRepository
-            .GetByBloodType(query.BloodType))
+            .Get(predicate: x => x.BloodType == query.BloodType))
             .OrderByDescending(c => c.CreatedOn)
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)

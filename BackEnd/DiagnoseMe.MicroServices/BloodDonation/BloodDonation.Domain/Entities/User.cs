@@ -9,5 +9,5 @@ public class User : BaseEntity
     public string BloodType {get; set;} = string.Empty;
     public DateTime? LastDonationDate {get; set;} = null!;
     public virtual ICollection<DonationRequest> DonationRequests {get; set;} = new HashSet<DonationRequest>();
-    public virtual ICollection<DonnerDonationRequest> DonnerDonationRequests {get; set;} = new HashSet<DonnerDonationRequest>();
+    public virtual ICollection<DonationRequest> DonnerDonationRequests {get; set;} = new HashSet<DonationRequest>();
 }

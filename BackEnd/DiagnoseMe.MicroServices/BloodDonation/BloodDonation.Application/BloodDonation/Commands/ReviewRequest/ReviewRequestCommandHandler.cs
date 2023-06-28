@@ -35,22 +35,22 @@ public class ReviewRequestCommandHandler : IRequestHandler<ReviewRequestCommand,
 
         if (command.IsAccepted)
         {
-            bloodDonation.Status = DonationRequestStatus.Completed;
+            bloodDonation.Status = DonationRequestStatus.Pending;
             _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request completed",
+                Title: "Donation request Pending",
                 SenderId: bloodDonation.DonnerId,
                 RecipientId: bloodDonation.RequesterId,
-                Message: $"The user {bloodDonation.Donner!.FullName} has confirmed the donation request {bloodDonation.Id} as completed."
+                Message: $"Your donation request is accepted from admin and is pending for donners."
             ));
         }
         else
         {
-            bloodDonation.Status = DonationRequestStatus.Accepted;
+            bloodDonation.Status = DonationRequestStatus.Rejected;
             _messageQueueManager.PublishNotification( new NotificationResponse(
-                Title: "Donation request accepted",
+                Title: "Donation request rejected",
                 SenderId: bloodDonation.DonnerId,
                 RecipientId: bloodDonation.RequesterId,
-                Message: $"The user {bloodDonation.Donner!.FullName} has rejected the donation request {bloodDonation.Id}."
+                Message: $"The admin has rejected your donation request."
             ));
         }
 

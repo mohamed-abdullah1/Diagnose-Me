@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BloodDonation.Api.Controllers;
 
-[Route("api/v1")]
+
 public class BloodDonationController : ApiController
 {
     private readonly ISender _mediator;

@@ -11,6 +11,7 @@ namespace MedicalServices.Api.Controllers;
 
 
 [ApiController]
+[Route("api/v1")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 public class ApiController : ControllerBase
 {

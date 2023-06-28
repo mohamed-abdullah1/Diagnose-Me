@@ -14,6 +14,19 @@ public class DonationRequestConfiguration : BaseConfiguration<DonationRequest>
         builder.Property(c => c.RequesterId).IsRequired();
         builder.Property(c => c.DonnerId); 
         builder.HasOne(c => c.Requester).WithMany(c => c.DonationRequests).HasForeignKey(c => c.RequesterId);
-        builder.HasOne(c => c.Donner).WithMany(c => c.DonationRequests).HasForeignKey(c => c.DonnerId);
+        builder.HasMany(d => d.Donners)
+            .WithMany(d => d.DonnerDonationRequests)
+            .UsingEntity<DonnerDonationRequest>(
+                j => j
+                    .HasOne(pt => pt.Donner)
+                    .WithMany()
+                    .HasForeignKey(pt => pt.DonnerId)
+                    .OnDelete(DeleteBehavior.Cascade),
+                j => j
+                    .HasOne(pt => pt.DonationRequest)
+                    .WithMany()
+                    .HasForeignKey(pt => pt.DonationRequestId)
+                    .OnDelete(DeleteBehavior.Cascade)
+            );
     }
 }

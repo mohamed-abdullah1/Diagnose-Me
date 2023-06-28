@@ -47,7 +47,7 @@ public class AcceptDonationCommandHandler : IRequestHandler<AcceptDonationComman
         {
             bloodDonation.Status = DonationRequestStatus.Accepted;
             bloodDonation.DonnerId = user.Id!;
-            bloodDonation.Donner = user;
+            bloodDonation.Donners.Add(user);
             await _donationRequestRepository.Edit(bloodDonation);
             
             _messageQueueManager.PublishNotification( new NotificationResponse(

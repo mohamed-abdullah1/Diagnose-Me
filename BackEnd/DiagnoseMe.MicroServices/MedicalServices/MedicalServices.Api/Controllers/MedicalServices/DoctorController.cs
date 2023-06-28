@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalServices.Api.Controllers.MedicalServices;
 
-[Route("api/v1")]
 public class DoctorController : ApiController
 {
     private readonly ISender _mediator;

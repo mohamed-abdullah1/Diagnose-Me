@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalServices.Api.Controllers.MedicalServices;
 
 
-[ApiController]
-[Route("api/v1")]
+
 public class CheckController : ApiController
 {
     private readonly ISender _mediator;

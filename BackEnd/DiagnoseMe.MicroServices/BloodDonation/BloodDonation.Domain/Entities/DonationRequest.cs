@@ -9,6 +9,5 @@ public class DonationRequest : BaseEntity
     public string Status {get; set;} = string.Empty;
     public string DonnerId {get; set;} = null!;
     public virtual User Requester {get; set;} = new User();
-    public virtual User? Donner {get; set;} 
-    public virtual ICollection<DonnerDonationRequest> DonnerDonationRequests {get; set;} = new HashSet<DonnerDonationRequest>();
+    public virtual ICollection<User> Donners {get; set;} = new HashSet<User>();
 }
