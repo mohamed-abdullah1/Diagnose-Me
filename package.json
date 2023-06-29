@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
+    "start2": "node server.js",
     "debug": "ndb server.js"
   },
   "author": "Mahmoud Hamza",

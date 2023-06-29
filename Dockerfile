@@ -1,5 +1,5 @@
 # Specify the base image
-FROM node:14
+FROM node:17
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -14,4 +14,6 @@ RUN npm install
 COPY . .
 
 # Specify the command to run your application
-CMD [ "node", "server.js" ]
+CMD [ "yarn", "start2" ]
+
+EXPOSE 6060

@@ -9,7 +9,7 @@ const colors = require('colors');
 // Function to consume messages from the queue
 async function consumeMessages(queueName, handlerFunc) {
   try {
-    const hostname = 'localhost'; // Replace with your RabbitMQ server hostname
+    const hostname = 'rabbitmq_container'; // Replace with your RabbitMQ server hostname
     const port = 5672; // Replace with your RabbitMQ server port
     const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
     const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
@@ -95,3 +95,12 @@ const MyControllers = {
 };
 
 module.exports = MyControllers;
+
+//public const string MedicalServiciesUpdateExchange = "MedicalServicies.Update";
+// public const string MedicalServicesChatUpdatingDoctorQueue = "MedicalServicies.Chat.Doctor.Update";
+
+// public record RMQUpdateDoctorResponse(
+//   string Id,
+//   string Specialization,
+//   float Rating
+// );

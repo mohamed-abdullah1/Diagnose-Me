@@ -26,7 +26,7 @@ app.use('/api/message', messageRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/appointment', appointmentRoutes);
 
-const PORT = process.env.PORT || 6969;
+const PORT = process.env.PORT || 6060;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));
 
 // app.use(notFound);
