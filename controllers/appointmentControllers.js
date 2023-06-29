@@ -133,14 +133,13 @@ const bookAppointment = asyncHandler(async (req, res) => {
   const end_date = parseISO(req.body.end_date);
   const doctor_id = req.body.doctor_id;
   const patient_id = req.body.patient_id;
-  //
   const createdAppointment = await Appointment.create({
     _id: uuidv4(),
     start_date,
     end_date,
     doctor_id,
     patient_id,
-  }).select('-__v');
+  });
   res.status(200).json(createdAppointment);
 });
 
@@ -210,7 +209,8 @@ const getAllBookedAppointments = asyncHandler(async (req, res) => {
   })
     .select('-__v')
     .populate('doctor_id', '-password -__v')
-    .populate('patient_id', '-passwords -__v');
+    .populate('patient_id', '-passwords -__v')
+    .sort('start_date');
 
   res.status(201).json(appointments);
 });
