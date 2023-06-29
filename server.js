@@ -17,7 +17,7 @@ MyControllers.startConsumingMessages();
 const app = express();
 
 app.use(express.static('public'));
-app.use(express.json()); //   to accept JSON data from frontend
+app.use(express.json()); // to accept JSON data from frontend
 
 // Middlewares
 app.use('/api/user', userRoutes);
@@ -43,14 +43,8 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   console.log('Connected to socket.io SOCKET ID :: ', socket.id);
-  // socket.on("setup", (userData) => {
-  //     console.log("👉", userData._id);
-  //     socket.join(userData._id); //socket.join(room): adds the client socket to the specified room.
-  //     socket.emit("connected");
-  // });
 
   //at creating a new chat or access it
-  //////////////////////
   socket.on('join chat', (room) => {
     socket.join(room);
     console.log('User Joined Room: CHAT_ID: ' + room);

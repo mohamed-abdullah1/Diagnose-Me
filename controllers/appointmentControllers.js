@@ -140,7 +140,7 @@ const bookAppointment = asyncHandler(async (req, res) => {
     end_date,
     doctor_id,
     patient_id,
-  });
+  }).select('-__v');
   res.status(200).json(createdAppointment);
 });
 
@@ -156,7 +156,7 @@ const deleteBookedAppointment = asyncHandler(async (req, res) => {
 });
 
 //
-//Clear Repeated Individual Dates in the doctor's calendar
+//Clear Individual Dates in the doctor's calendar
 const clearIndividualDates = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
@@ -195,7 +195,7 @@ const changeBookedStatus = asyncHandler(async (req, res) => {
     bookedAppointmentId,
     { $set: { status } },
     { new: true, runValidators: true }
-  );
+  ).select('-__v');
 
   res.status(201).json(editedAppointment);
 });
@@ -205,7 +205,12 @@ const changeBookedStatus = asyncHandler(async (req, res) => {
 const getAllBookedAppointments = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const appointments = await Appointment.find({ $or: [{ patient_id: userId }, { doctor_id: userId }] });
+  const appointments = await Appointment.find({
+    $or: [{ patient_id: userId }, { doctor_id: userId }],
+  })
+    .select('-__v')
+    .populate('doctor_id', '-password -__v')
+    .populate('patient_id', '-passwords -__v');
 
   res.status(201).json(appointments);
 });

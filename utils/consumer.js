@@ -57,6 +57,7 @@ const MyControllers = {
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
           Role: msg.Role,
+          speciality: msg.speciality,
         });
 
         if (msg.IsDoctor) {
@@ -73,10 +74,10 @@ const MyControllers = {
 
     const handlerUpdateUser = async (msg) => {
       // DO WE NEED CHECK FOR AUTH BEFORE ALLOW UPDATE USER ????
-      const { Id, Name, ProfilePictureUrl, IsDoctor, Role } = msg;
+      const { Id, Name, ProfilePictureUrl, IsDoctor, Role, speciality } = msg;
       const updatedUser = await User.findOneAndUpdate(
         { _id: Id },
-        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
+        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role, speciality },
         { runValidators: true, new: true }
       );
       console.log('The user is updated:✅', updatedUser);

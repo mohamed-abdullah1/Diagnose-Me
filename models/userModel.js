@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
       default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
     },
     IsDoctor: { type: Boolean, default: false },
+    speciality: String,
     Role: {
       type: String,
       enum: {
