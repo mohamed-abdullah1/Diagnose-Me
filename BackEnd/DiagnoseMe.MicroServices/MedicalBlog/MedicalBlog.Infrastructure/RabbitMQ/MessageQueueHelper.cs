@@ -9,6 +9,7 @@ using MedicalBlog.Application.Authentication.Users.Commands.DeleteUser;
 using MedicalBlog.Application.Authentication.Users.Commands.UpdateUser;
 using MedicalBlog.Application.Authentication.Users.Common;
 using MedicalBlog.Application.Doctors.Commands.UpdateDoctor;
+using MedicalBlog.Application.Doctors.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -199,7 +200,7 @@ public class MessageQueueHelper
         {
             var doctorEncoded = eventArgs.Body.ToArray();
             var doctorDecoded = Encoding.UTF8.GetString(doctorEncoded);
-            var doctorResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(doctorDecoded);
+            var doctorResponse = JsonConvert.DeserializeObject<RMQUpdateDoctorResponse>(doctorDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
             var command = mapper.Map<UpdateDoctorCommand>(doctorResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;

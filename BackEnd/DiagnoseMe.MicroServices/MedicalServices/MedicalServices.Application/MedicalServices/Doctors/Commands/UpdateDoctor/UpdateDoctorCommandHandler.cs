@@ -23,7 +23,10 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateDoctorCommand command, CancellationToken cancellationToken)
     {
-        var doctor = await _doctorRepository.GetByIdAsync(command.DoctorId);
+        var doctor = (await _doctorRepository.Get(
+            predicate: x => x.Id == command.DoctorId,
+            include: "Clinic"
+        )).FirstOrDefault();
         if (doctor == null)
             return Errors.Doctor.NotFound;
 

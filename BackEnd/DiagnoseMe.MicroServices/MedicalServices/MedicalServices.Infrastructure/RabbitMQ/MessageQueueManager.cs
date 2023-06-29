@@ -31,7 +31,9 @@ public class MessageQueueManager : IMessageQueueManager
     {
         Publish(
             exchange: RabbitMQConstants.MedicalServiciesUpdateExchange,
-            queues: new List<string>() { RabbitMQConstants.MedicalServiciesUpdatingDoctorQueue },
+            queues: new List<string>() { 
+                RabbitMQConstants.MedicalServiciesMedicalBlogUpdatingDoctorQueue,
+                RabbitMQConstants.MedicalServicesChatUpdatingDoctorQueue },
             obj: doctor,
             contentType: "application/json"
         );
