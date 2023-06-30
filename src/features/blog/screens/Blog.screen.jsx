@@ -33,7 +33,6 @@ import { Rating, RatingInput } from "react-native-stock-star-rating";
 import theme from "../../../infrastructure/theme";
 const Blog = ({ navigation, route }) => {
   const { blogId } = route.params;
-  console.log("💔inside blog screen ", blogId);
   const token = useSelector(selectToken);
   const {
     data: blog,

@@ -19,6 +19,7 @@ import {
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { blogsApi } from "./apis/blogs.api";
+import { appointmentApi } from "./apis/appointment.api";
 
 const persistConfig = {
   key: "root",
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   [chatApi.reducerPath]: chatApi.reducer,
   [questionApi.reducerPath]: questionApi.reducer, // other reducers...
   [blogsApi.reducerPath]: blogsApi.reducer, // other reducers...
+  [appointmentApi.reducerPath]: appointmentApi.reducer, // other reducers...
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -43,12 +45,15 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        warnAfter: 128,
       },
+      immutableCheck: { warnAfter: 128 },
     }).concat(
       authApi.middleware,
       chatApi.middleware,
       questionApi.middleware,
-      blogsApi.middleware
+      blogsApi.middleware,
+      appointmentApi.middleware
     ),
 });
 setupListeners(store.dispatch);

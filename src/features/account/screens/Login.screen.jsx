@@ -28,14 +28,20 @@ const LoginScreen = ({ navigation }) => {
 
   const [
     loginUser,
-    { data, isSuccess, isError, error: loginError, isLoading = false },
+    {
+      data: userInfo,
+      isSuccess,
+      isError,
+      error: loginError,
+      isLoading = false,
+    },
   ] = useLoginMutation();
   const dispatch = useDispatch();
-  const {
-    data: userInfo,
-    isLoading: infoLoading = false,
-    error: infoError,
-  } = useGetInfoQuery(data?.token);
+  // const {
+  //   data: userInfo,
+  //   isLoading: infoLoading = false,
+  //   error: infoError,
+  // } = useGetInfoQuery(data?.token);
   const [
     forgetPassword,
     {
@@ -59,17 +65,17 @@ const LoginScreen = ({ navigation }) => {
     forgetPassword({ email: emailState });
   };
   useEffect(() => {
-    if (!isSuccess) return console.log("👉", "not successful 🥲", data);
-    if (data) {
-      const { token } = data;
+    if (!isSuccess) return console.log("👉", "not successful 🥲", userInfo);
+    if (userInfo) {
+      const { token } = userInfo;
       dispatch(login({ token }));
       // console.log("👉data", data);
     }
-  }, [data]);
+  }, [userInfo]);
   //
   useEffect(() => {
     if (userInfo) {
-      dispatch(setUserInfo(userInfo));
+      dispatch(setUserInfo(userInfo.user));
     }
   }, [userInfo]);
   useEffect(() => {

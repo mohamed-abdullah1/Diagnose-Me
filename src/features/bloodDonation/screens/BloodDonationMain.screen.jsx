@@ -80,7 +80,7 @@ const BloodDonationMain = ({ navigation, route }) => {
                             </LocationInfo>
                         </LocationSection>
                         <Btn onPress={() => console.log("👉", "handle")}>
-                            Help
+                            Donate
                         </Btn>
                     </DonationCard>
                 ))}

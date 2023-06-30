@@ -15,7 +15,7 @@ import {
   ReadMoreBtn,
   Specialty,
 } from "../styles/BlogSection.styles";
-import { ActivityIndicator, Searchbar } from "react-native-paper";
+import { ActivityIndicator, Button, Searchbar } from "react-native-paper";
 import { useEffect, useState } from "react";
 import { useGetBlogsQuery } from "../../services/apis/blogs.api";
 import { useSelector } from "react-redux";
@@ -46,11 +46,11 @@ const BlogSection = () => {
       ]);
     }
   }, [blogsIsError]);
-  console.log("👉=========================================");
-  console.log(
-    "🌟",
-    blogs?.objects.map((s) => s.id)
-  );
+
+  const handlePagination = (type) => {
+    setPage((prev) => (type === "add" ? prev + 1 : prev - 1));
+  };
+
   return (
     <View>
       <Searchbar
@@ -71,54 +71,85 @@ const BlogSection = () => {
             color={theme.colors.primary}
           />
         ) : (
-          blogs?.objects.map((b) => (
-            <BlogCard
-              style={{
-                elevation: 4,
-              }}
-              key={b.id}
-            >
-              <Img
-                source={
-                  b?.postImages[0]
-                    ? b.postImages[0]
-                    : require("../../../assets/helpers/blog_1.png")
-                }
-              />
-              <Info>
-                <CategoryList>
-                  {b?.tags.map((cat, i) => (
-                    <CategoryItem key={i}>{cat}</CategoryItem>
-                  ))}
-                </CategoryList>
-                <Date>{b.modifiedOn ? b.modifiedOn : b.createdOn}</Date>
-              </Info>
-              <BlogTitle>{b?.title}</BlogTitle>
-              <DocInfo>
-                <DocImg
+          <>
+            {blogs?.objects.map((b) => (
+              <BlogCard
+                style={{
+                  elevation: 4,
+                }}
+                key={b.id}
+              >
+                <Img
                   source={
-                    b?.author.profilePictureUrl
-                      ? b?.author.profilePictureUrl
-                      : require("../../../assets/characters/doctor_4.png")
+                    b?.postImages[0]
+                      ? b.postImages[0]
+                      : require("../../../assets/helpers/blog_1.png")
                   }
                 />
-                <DocData>
-                  <Name>{"Dr. " + b?.author.fullName}</Name>
-                  <Specialty>{b?.author.specialization}</Specialty>
-                </DocData>
-                <ReadMoreBtn
-                  onPress={() =>
-                    navigation.navigate("Home", {
-                      screen: "BlogPage",
-                      params: { blogId: b.id },
-                    })
-                  }
+                <Info>
+                  <CategoryList>
+                    {b?.tags.slice(0, 2).map((cat, i) => (
+                      <CategoryItem key={i}>{cat}</CategoryItem>
+                    ))}
+                  </CategoryList>
+                  <Date>{b.modifiedOn ? b.modifiedOn : b.createdOn}</Date>
+                </Info>
+                <BlogTitle>{b?.title}</BlogTitle>
+                <DocInfo>
+                  <DocImg
+                    source={
+                      b?.author.profilePictureUrl
+                        ? b?.author.profilePictureUrl
+                        : require("../../../assets/characters/doctor_4.png")
+                    }
+                  />
+                  <DocData>
+                    <Name>{"Dr. " + b?.author.fullName}</Name>
+                    <Specialty>{b?.author.specialization}</Specialty>
+                  </DocData>
+                  <ReadMoreBtn
+                    onPress={() =>
+                      navigation.navigate("Home", {
+                        screen: "BlogPage",
+                        params: { blogId: b.id },
+                      })
+                    }
+                  >
+                    Read More
+                  </ReadMoreBtn>
+                </DocInfo>
+              </BlogCard>
+            ))}
+            {
+              <View
+                style={{
+                  flexDirection: "row",
+                  // width: "50%",
+                  justifyContent: "center",
+                  marginBottom: 6,
+                }}
+              >
+                <Button
+                  mode="outlined"
+                  onPress={() => handlePagination("minus")}
+                  textColor={colors.secondary}
+                  disabled={page === 1}
+                  style={{ marginRight: 8 }}
                 >
-                  Read More
-                </ReadMoreBtn>
-              </DocInfo>
-            </BlogCard>
-          ))
+                  Prev
+                </Button>
+                <Button
+                  mode="outlined"
+                  onPress={() => handlePagination("add")}
+                  textColor={colors.secondary}
+                  loading={blogsIsLoading}
+                  disabled={!blogs?.isNextPage}
+                >
+                  next
+                </Button>
+              </View>
+            }
+          </>
         )}
       </Container>
     </View>

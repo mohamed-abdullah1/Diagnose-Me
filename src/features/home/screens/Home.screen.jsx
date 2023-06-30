@@ -247,20 +247,27 @@ const Home = ({ navigation }) => {
                 pressFunction={() => navigation.navigate("Blogs")}
               />
               <CardsSection>
-                {blogs?.objects.map((blog) => (
-                  <BlogCard
-                    onPress={() =>
-                      navigation.navigate("Home", {
-                        screen: "BlogPage",
-                        params: { blogId: blog?.id },
-                      })
-                    }
-                    key={blog?.id}
-                    blog={blog}
-                    total={6}
-                    index={blog?.id}
+                {blogsIsLoading ? (
+                  <ActivityIndicator
+                    animating={trendQuestionsLoading}
+                    color={theme.colors.primary}
                   />
-                ))}
+                ) : (
+                  blogs?.objects.map((blog) => (
+                    <BlogCard
+                      onPress={() =>
+                        navigation.navigate("Home", {
+                          screen: "BlogPage",
+                          params: { blogId: blog?.id },
+                        })
+                      }
+                      key={blog?.id}
+                      blog={blog}
+                      total={6}
+                      index={blog?.id}
+                    />
+                  ))
+                )}
               </CardsSection>
             </CategoriesSection>
           </TrendQuestionsSection>

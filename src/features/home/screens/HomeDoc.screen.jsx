@@ -46,11 +46,13 @@ import { logout, selectToken } from "../../../services/slices/auth.slice";
 import { useGetTrendQuestionsQuery } from "../../../services/apis/questions.api";
 import { ActivityIndicator } from "react-native-paper";
 import theme from "../../../infrastructure/theme";
+import { format } from "date-fns";
+import { useGetAppointmentsQuery } from "../../../services/apis/appointment.api";
+import { useGetBlogsQuery } from "../../../services/apis/blogs.api";
 
 const HomeDoc = ({ navigation }) => {
   const [userFirstName, setUserFirstName] = useState("Mohamed");
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [todayMeetings, setTodayMeetings] = useState([]);
   const dispatch = useDispatch();
 
   const imgPressHandler = () => {
@@ -66,6 +68,18 @@ const HomeDoc = ({ navigation }) => {
     isLoading: trendQuestionsLoading,
     isError: trendQuestionsIsError,
   } = useGetTrendQuestionsQuery({ token });
+  const {
+    data: blogs,
+    isError: blogsIsError,
+    error: blogsError,
+    isLoading: blogsIsLoading,
+  } = useGetBlogsQuery({ token, page: 1 });
+  const {
+    data: bookedAppointments,
+    isLoading: bookedAppointmentsIsLoading,
+    isSuccess: bookedAppointmentsIsSuccess,
+  } = useGetAppointmentsQuery(token);
+
   useFocusEffect(
     useCallback(() => {
       navigation.setOptions({
@@ -79,9 +93,7 @@ const HomeDoc = ({ navigation }) => {
       });
     }, [])
   );
-  useEffect(() => {
-    setTodayMeetings(loadedTodayMeetings);
-  }, []);
+
   useEffect(() => {
     if (trendQuestionsError) {
       Alert.alert(
@@ -186,32 +198,50 @@ const HomeDoc = ({ navigation }) => {
               paddingRight: 4,
             }}
           >
-            {todayMeetings?.map((t) => (
-              <View
-                key={t.id}
-                elevation={2}
+            {bookedAppointmentsIsLoading ? (
+              <ActivityIndicator
+                animating={bookedAppointmentsIsLoading}
+                color={colors.secondary}
                 style={{
-                  marginRight: 16,
-                  borderRadius: 32,
-                  width: 171,
-                  backgroundColor: colors.light,
+                  flex: 1,
+                  alignSelf: "center",
+                  justifySelf: "center",
                 }}
-              >
-                <MeetingCard>
-                  <UpperSectionMeeting>
-                    <PatientImg source={t.img} />
-                    <Time>
-                      {t.clock.hour +
-                        ":" +
-                        t.clock.minutes +
-                        " " +
-                        t.clock.amOrPm}
-                    </Time>
-                  </UpperSectionMeeting>
-                  <Name>{t.patientName}</Name>
-                </MeetingCard>
-              </View>
-            ))}
+              />
+            ) : (
+              bookedAppointments
+                ?.filter(
+                  (m) =>
+                    format(new Date(m.start_date), "yyyy-MM-dd") ===
+                    format(new Date(), "yyyy-MM-dd")
+                )
+                ?.map((t) => (
+                  <View
+                    key={t.id}
+                    elevation={2}
+                    style={{
+                      marginRight: 16,
+                      borderRadius: 32,
+                      width: 171,
+                      backgroundColor: colors.light,
+                    }}
+                  >
+                    <MeetingCard>
+                      <UpperSectionMeeting>
+                        <PatientImg
+                          source={
+                            t.patient.pic
+                              ? { uri: t.patient.pic }
+                              : require("../../../../assets/characters/male.png")
+                          }
+                        />
+                        <Time>{format(new Date(t.start_date), "hh:mm a")}</Time>
+                      </UpperSectionMeeting>
+                      <Name>{t.patient.name}</Name>
+                    </MeetingCard>
+                  </View>
+                ))
+            )}
           </CardsSection>
         </TodayMeetings>
         <TrendQuestionsSection>
@@ -225,6 +255,11 @@ const HomeDoc = ({ navigation }) => {
                 <ActivityIndicator
                   animating={trendQuestionsLoading}
                   color={theme.colors.primary}
+                  style={{
+                    flex: 1,
+                    alignSelf: "center",
+                    justifySelf: "center",
+                  }}
                 />
               ) : (
                 trendQuestions?.objects?.map((q) => (
@@ -246,30 +281,42 @@ const HomeDoc = ({ navigation }) => {
           </CategoriesSection>
         </TrendQuestionsSection>
         <Spacer position="bottom" size={16}>
-          {/* <TrendQuestionsSection>
+          <TrendQuestionsSection>
             <CategoriesSection>
               <TitleSeeAll
                 title="Blogs 📓"
                 pressFunction={() => navigation.navigate("Blogs")}
               />
               <CardsSection>
-                {blogs.map((blog) => (
-                  <BlogCard
-                    onPress={() =>
-                      navigation.navigate("Home", {
-                        screen: "BlogPage",
-                        params: { blog },
-                      })
-                    }
-                    key={blog?.id}
-                    blog={blog}
-                    total={blogs.length}
-                    index={blog?.id}
+                {blogsIsLoading ? (
+                  <ActivityIndicator
+                    animating={trendQuestionsLoading}
+                    color={theme.colors.primary}
+                    style={{
+                      flex: 1,
+                      alignSelf: "center",
+                      justifySelf: "center",
+                    }}
                   />
-                ))}
+                ) : (
+                  blogs?.objects.map((blog) => (
+                    <BlogCard
+                      onPress={() =>
+                        navigation.navigate("Home", {
+                          screen: "BlogPage",
+                          params: { blogId: blog?.id },
+                        })
+                      }
+                      key={blog?.id}
+                      blog={blog}
+                      total={6}
+                      index={blog?.id}
+                    />
+                  ))
+                )}
               </CardsSection>
             </CategoriesSection>
-          </TrendQuestionsSection> */}
+          </TrendQuestionsSection>
         </Spacer>
       </ScrollView>
     </BgContainer>
