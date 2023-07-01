@@ -27,6 +27,7 @@ import {
 import ServiceCard from "../../components/ServiceCard.component";
 import DoctorCard from "../../components/DoctorCard.component";
 import {
+  Alert,
   Dimensions,
   ScrollView,
   Text,
@@ -49,6 +50,11 @@ import theme from "../../../infrastructure/theme";
 import { format } from "date-fns";
 import { useGetAppointmentsQuery } from "../../../services/apis/appointment.api";
 import { useGetBlogsQuery } from "../../../services/apis/blogs.api";
+import {
+  NoMeetingContainer,
+  NoMeetingImg,
+  NoMeetingTitle,
+} from "../../schedule/styles/ScheduleMainDoc.styles";
 
 const HomeDoc = ({ navigation }) => {
   const [userFirstName, setUserFirstName] = useState("Mohamed");
@@ -104,6 +110,14 @@ const HomeDoc = ({ navigation }) => {
       );
     }
   }, [trendQuestionsIsError]);
+  useEffect(() => {
+    if (bookedAppointmentsIsSuccess) {
+      console.log(
+        "🚀 ~ file: HomeDoc.screen.jsx ~ line 83 ~ useEffect ~ bookedAppointments",
+        bookedAppointments
+      );
+    }
+  }, [bookedAppointmentsIsSuccess]);
   return (
     <BgContainer>
       <TopHeader
@@ -189,13 +203,15 @@ const HomeDoc = ({ navigation }) => {
                     </CardsSection>
                 </CategoriesSection> */}
         <TodayMeetings>
-          <TitleSeeAll title="Today Meetings 🌻" showSeeAll={false} />
+          <TitleSeeAll title="Today Meetings " showSeeAll={false} />
           <CardsSection
             contentContainerStyle={{
-              paddingTop: 10,
-              paddingBottom: 10,
-              paddingLeft: 4,
-              paddingRight: 4,
+              // paddingTop: 10,
+              // paddingBottom: 10,
+              // paddingLeft: 4,
+              // paddingRight: 4,
+              borderColor: "red",
+              borderWidth: 1,
             }}
           >
             {bookedAppointmentsIsLoading ? (
@@ -208,7 +224,7 @@ const HomeDoc = ({ navigation }) => {
                   justifySelf: "center",
                 }}
               />
-            ) : (
+            ) : bookedAppointments?.objects?.length > 0 ? (
               bookedAppointments
                 ?.filter(
                   (m) =>
@@ -241,6 +257,22 @@ const HomeDoc = ({ navigation }) => {
                     </MeetingCard>
                   </View>
                 ))
+            ) : (
+              <>
+                <NoMeetingContainer
+                  style={{
+                    // borderColor: "red",
+                    // borderWidth: 1,
+                    width: 320,
+                    height: 200,
+                  }}
+                >
+                  <NoMeetingImg
+                    source={require("../../../../assets/helpers/no_meeting_2.png")}
+                  />
+                  <NoMeetingTitle>No Booked Meetings Today</NoMeetingTitle>
+                </NoMeetingContainer>
+              </>
             )}
           </CardsSection>
         </TodayMeetings>

@@ -31,7 +31,8 @@ export const NoMeetingImg = styled.Image`
 export const NoMeetingTitle = styled.Text`
   font-size: 14px;
   font-family: "Poppins";
-  color: ${(props) => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.secondary};
+  font-weight: bold;
 `;
 export const ContainerModal = styled(ScrollView).attrs({
   contentContainerStyle: {},

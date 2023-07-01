@@ -89,7 +89,9 @@ const Chat = ({ route, navigation }) => {
       sendMsg({ token, content, chatId });
     }
   };
-
+  const navigateCallHandler = () => {
+    navigation.navigate("VideoCall", { chatId, otherPerson, socket });
+  };
   useFocusEffect(
     useCallback(() => {
       navigation.getParent().setOptions({
@@ -179,7 +181,7 @@ const Chat = ({ route, navigation }) => {
                 {true ? "Active" : "Active  1 min ago"}
               </State>
             </InfoData>
-            <CloseIcon onPress={backPressHandler}>
+            <CloseIcon onPress={navigateCallHandler}>
               <Icon />
             </CloseIcon>
           </TopSection>
