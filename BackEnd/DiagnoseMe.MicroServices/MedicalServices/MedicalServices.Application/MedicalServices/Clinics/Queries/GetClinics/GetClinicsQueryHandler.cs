@@ -21,7 +21,7 @@ public class GetClinicsQueryHandler : IRequestHandler<GetClinicsQuery, ErrorOr<P
     public async Task<ErrorOr<PageResponse>> Handle(GetClinicsQuery query, CancellationToken cancellationToken)
     {
         var clinics = (await _clinicRepository.Get(
-            include: "ClinicAddress,Doctors",
+            include: "ClinicAddresses,Doctors",
             orderBy: x => x.OrderBy(c => c.Specialization)
         )).ToList();
         var IsNextPage = clinics.Count > query.PageNumber * 10;

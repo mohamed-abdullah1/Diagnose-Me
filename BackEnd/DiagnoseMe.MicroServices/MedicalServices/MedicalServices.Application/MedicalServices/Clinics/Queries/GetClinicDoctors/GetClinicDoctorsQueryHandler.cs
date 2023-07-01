@@ -27,7 +27,7 @@ public class GetClinicDoctorsQueryHandler : IRequestHandler<GetClinicDoctorsQuer
         var doctors = (await _doctorRepository.Get(
             predicate: d => d.ClinicId == query.ClinicId,
             orderBy: d => d.OrderBy(d => d.User!.Name),
-            include: "User")).
+            include: "User,Patients,DoctorRates,ClinicAddresses,Clinic")).
             ToList();
             var IsNextPage = doctors.Count > query.PageNumber * 10;
             var resDoctors = doctors.

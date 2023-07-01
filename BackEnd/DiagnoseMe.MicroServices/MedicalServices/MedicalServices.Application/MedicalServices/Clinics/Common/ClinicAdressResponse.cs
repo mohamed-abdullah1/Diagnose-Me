@@ -13,5 +13,7 @@ public record ClinicAddressResponse(
     string OwnerId,
     string OpenTime,
     string CloseTime,
+    string Latitude,
+    string Longitude,
     DoctorResponse Owner,
     string ProfilPictureUrl);

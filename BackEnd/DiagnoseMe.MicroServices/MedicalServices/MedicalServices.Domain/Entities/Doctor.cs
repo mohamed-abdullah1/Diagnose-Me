@@ -8,6 +8,7 @@ public class Doctor : BaseEntity{
     public bool IsLicenseVerified {get; set;}
     public string ClinicId { get; set; } = string.Empty;
     public float AverageRate {get; set;}
+    public int YearsOfExperience {get; set;}
     public virtual Clinic? Clinic { get; set; }
     public virtual User? User { get; set; }
     public virtual ICollection<Patient> Patients {get; set;} = new HashSet<Patient>();

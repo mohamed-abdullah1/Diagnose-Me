@@ -15,6 +15,7 @@ public class DefaultDoctor
             Name = Users.Doctor,
             FullName = Users.Doctor,
             ProfilePictureUrl = "",
+            IsDoctor = true
         };
         return user;
     }

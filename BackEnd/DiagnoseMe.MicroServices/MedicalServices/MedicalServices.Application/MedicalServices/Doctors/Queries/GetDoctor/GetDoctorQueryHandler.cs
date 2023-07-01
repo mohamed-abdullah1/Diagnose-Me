@@ -28,7 +28,7 @@ public class GetDoctorQueryHandler : IRequestHandler<GetDoctorQuery, ErrorOr<Doc
     {
         var doctor = (await _doctorRepository.Get(
             predicate: d => d.Id == query.DoctorId,
-            include: "User")).
+            include: "User,Patients,DoctorRates,ClinicAddresses,Clinic")).
             FirstOrDefault();
         if (doctor == null)
             return Errors.Doctor.NotFound;

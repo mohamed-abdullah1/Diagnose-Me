@@ -20,7 +20,8 @@ public class DefaultDoctor
             PhoneNumberConfirmed = true,
             Email = "doctor@diagnose.me",
             NormalizedEmail = "doctor@diagnose.me",
-            NormalizedUserName = Users.Doctor
+            NormalizedUserName = Users.Doctor,
+            IsDoctor = true
         };
         user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user,_config.GetValue<string>("DoctorPassword")!);
         return user;

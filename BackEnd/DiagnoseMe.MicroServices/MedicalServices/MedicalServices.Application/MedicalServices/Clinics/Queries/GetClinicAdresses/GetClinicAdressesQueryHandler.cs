@@ -24,7 +24,7 @@ public class GetClinicAddressesQueryHandler : IRequestHandler<GetClinicAddresses
     {
         var clinicAddresses = (await _clinicAddressRepository.Get(
             predicate: x => x.ClinicId == query.ClinicId,
-            include: "Addresses",
+            include: "Doctor",
             orderBy: x => x.OrderBy(c => c.Id)))
             .ToList();
 
