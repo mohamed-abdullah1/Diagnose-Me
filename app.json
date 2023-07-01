@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "diagnose-me",
+    "slug": "DiagnoseMe",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logoFinish.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash_screen_ui.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.mohamedabdullah1.DiagnoseMe"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f343c99a-e71d-4c13-a160-a82c4c3e1e0d"
+      }
+    }
+  }
+}
