@@ -2,16 +2,16 @@ const amqp = require('amqplib');
 const colors = require('colors');
 
 async function sendToQueue(queueName, message) {
+  const hostname = 'localhost'; // Replace with your RabbitMQ server hostname
+  const port = 5672; // Replace with your RabbitMQ server port
+  const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
+  const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
+
+  // Create connection URL
+  const connectionUrl = `amqp://${username}:${password}@${hostname}:${port}`;
+
+  // Connect to RabbitMQ server
   try {
-    const hostname = 'localhost'; // Replace with your RabbitMQ server hostname
-    const port = 5672; // Replace with your RabbitMQ server port
-    const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
-    const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
-
-    // Create connection URL
-    const connectionUrl = `amqp://${username}:${password}@${hostname}:${port}`;
-
-    // Connect to RabbitMQ server
     const connection = await amqp.connect(connectionUrl);
     const channel = await connection.createChannel();
 
@@ -27,24 +27,25 @@ async function sendToQueue(queueName, message) {
     await channel.close();
     await connection.close();
   } catch (error) {
-    console.error('Error:🙃', error);
+    console.log(error);
   }
 }
 
-// // Usage: node send.js [queueName] [message]
-// const queueName = process.argv[2];
-// const message = process.argv[3];
+const queueName = {
+  add: 'Auth.Add',
+  update: 'Auth.Update',
+  delete: 'Auth.Delete',
+  notification: 'Global.Notification',
+};
 
-// if (!queueName || !message) {
-//   console.error('Usage: node send.js [queueName] [message]');
-//   process.exit(1);
-// }
+const message = JSON.stringify({
+  Title: '👋Notification Title👋',
+  Message: 'Another notification comes from Admin✅🎉',
+  RecipientId: '657cb6cb-abf2-00d1-5d46-939a7b3aff5f',
+  SenderId: '972a1201-a9dc-2127-0827-560cb7d76af8',
+});
 
-const queueName = { add: 'Auth.Add', update: 'Auth.Update', delete: 'Auth.Delete' };
-
-const message = JSON.stringify('hello from Rabit MQ👋, How Are You🙃');
-
-sendToQueue(queueName.add, message);
+sendToQueue(queueName.notification, message);
 
 //
 

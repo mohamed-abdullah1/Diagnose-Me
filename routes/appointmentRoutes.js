@@ -23,7 +23,7 @@ router.route('/update-available-repeated-date/:dateId').patch(protect, updateRep
 router.route('/delete-available-date/').patch(protect, deleteAvailableDate);
 router.route('/clear-individual-dates/').patch(protect, clearIndividualDates);
 router.route('/clear-repeated-dates/').patch(protect, clearRepeatedDates);
-router.route('/get-available-dates/').get(protect, getAvailableDates);
+router.route('/get-available-dates/:doctorId').get(protect, getAvailableDates);
 
 router.route('/book-appointment').post(protect, bookAppointment);
 router.route('/delete-booked-appointment/').delete(protect, deleteBookedAppointment);

@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema(
       default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
     },
     IsDoctor: { type: Boolean, default: false },
-    speciality: String,
     Role: {
       type: String,
       enum: {
@@ -19,18 +18,8 @@ const userSchema = mongoose.Schema(
         message: 'Please select a valid Role.',
       },
     },
-
-    // isAdmin: {
-    //   type: Boolean,
-    //   required: true,
-    //   default: false,
-    // },
-    // email: {
-    //   type: 'String',
-    //   unique: false, // unique option is not a validator so there is no validation message
-    //   required: [true, 'Enter the Email feild 🔑'],
-    // },
-    // password: { type: 'String', required: [true, 'Enter the Password feild 🔑'] },
+    specialization: String,
+    Rating: Number,
   },
   { timestamps: true }
 );

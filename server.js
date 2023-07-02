@@ -7,8 +7,10 @@ const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 connectDB();
 addSeedings();
@@ -25,12 +27,15 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/appointment', appointmentRoutes);
+app.use('/api/notification', notificationRoutes);
 
 const PORT = process.env.PORT || 6060;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));
 
-// app.use(notFound);
-// app.use(errorHandler);
+// Error Handling
+// app.all('*', notFound);
+app.use(notFound);
+app.use(errorHandler);
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,

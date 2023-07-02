@@ -2,6 +2,8 @@ const amqp = require('amqplib');
 const User = require('../models/userModel');
 const Calendar = require('../models/calendarModel');
 const colors = require('colors');
+const Notification = require('../models/notificationModel');
+const { v4: uuidv4 } = require('uuid');
 
 // 127.0.0.1   rabbitmq.diagnose.me             C:\Windows\System32\drivers\etc\hosts
 // https://chat.openai.com/share/09a0aa74-3838-48a7-b8ad-f3cd6f03a2ac
@@ -9,7 +11,7 @@ const colors = require('colors');
 // Function to consume messages from the queue
 async function consumeMessages(queueName, handlerFunc) {
   try {
-    const hostname = 'rabbitmq_container'; // Replace with your RabbitMQ server hostname
+    const hostname = 'localhost'; // Replace with your RabbitMQ server hostname 👉"rabbitmq_container"
     const port = 5672; // Replace with your RabbitMQ server port
     const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
     const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
@@ -29,7 +31,7 @@ async function consumeMessages(queueName, handlerFunc) {
     channel.consume(queueName, (message) => {
       let messages_sent = JSON.parse(message.content.toString());
       console.log('👉', messages_sent, '👈');
-      // handlerFunc(messages_sent);
+      handlerFunc(messages_sent);
 
       // Acknowledge the message
       channel.ack(message);
@@ -57,7 +59,6 @@ const MyControllers = {
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
           Role: msg.Role,
-          speciality: msg.speciality,
         });
 
         if (msg.IsDoctor) {
@@ -73,11 +74,10 @@ const MyControllers = {
     };
 
     const handlerUpdateUser = async (msg) => {
-      // DO WE NEED CHECK FOR AUTH BEFORE ALLOW UPDATE USER ????
-      const { Id, Name, ProfilePictureUrl, IsDoctor, Role, speciality } = msg;
+      const { Id, Name, ProfilePictureUrl, IsDoctor, Role } = msg;
       const updatedUser = await User.findOneAndUpdate(
         { _id: Id },
-        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role, speciality },
+        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
         { runValidators: true, new: true }
       );
       console.log('The user is updated:✅', updatedUser);
@@ -88,19 +88,28 @@ const MyControllers = {
       console.log('The user is Deleted:✅');
     };
 
+    const handleAddNotificatioin = async (msg) => {
+      // const { Message, RecipientId, SenderId, Title } = msg;
+      const notificationAdded = await Notification.create({ _id: uuidv4(), ...msg });
+      console.log('Notification Created: 👉', notificationAdded);
+    };
+
+    const hadnleUpdateDoctor = async (msg) => {
+      const { Id, Specialization, Rating } = msg;
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: Id },
+        { Specialization, Rating },
+        { runValidators: true, new: true }
+      );
+      console.log('The user is updated:✅', updatedUser);
+    };
+
     consumeMessages('Auth.Add', handlerCreateUser);
     consumeMessages('Auth.Update', handlerUpdateUser);
     consumeMessages('Auth.Delete', handlerDeleteUser);
+    consumeMessages('Global.Notification', handleAddNotificatioin);
+    consumeMessages('MedicalServicies.Chat.Doctor.Update', hadnleUpdateDoctor);
   },
 };
 
 module.exports = MyControllers;
-
-//public const string MedicalServiciesUpdateExchange = "MedicalServicies.Update";
-// public const string MedicalServicesChatUpdatingDoctorQueue = "MedicalServicies.Chat.Doctor.Update";
-
-// public record RMQUpdateDoctorResponse(
-//   string Id,
-//   string Specialization,
-//   float Rating
-// );

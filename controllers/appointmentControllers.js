@@ -3,6 +3,8 @@ const Calendar = require('../models/calendarModel');
 const Appointment = require('../models/appointmentModel');
 const { parseISO } = require('date-fns');
 const { v4: uuidv4 } = require('uuid');
+const { AppError } = require('../middleware/errorMiddleware');
+const User = require('../models/userModel');
 
 const parsing = (dateString) => {
   return dateString.length == 8 ? parseISO(`1970-01-01T${dateString}Z`) : parseISO(dateString);
@@ -121,8 +123,13 @@ const deleteAvailableDate = asyncHandler(async (req, res) => {
 
 //
 // Get available dates for Doctor
-const getAvailableDates = asyncHandler(async (req, res) => {
-  const doctorId = req.user._id;
+const getAvailableDates = asyncHandler(async (req, res, next) => {
+  const doctorId = req.params.doctorId;
+  const doctor = await User.findOne({ _id: doctorId });
+
+  if (!doctor) {
+    next(new AppError('you have to provide Doctor Id 👌 in the url', 500));
+  }
   const calendarFetched = await Calendar.findOne({ doctorId });
   res.status(200).json({ calendarFetched });
 });

@@ -3,6 +3,7 @@ const Chat = require('../models/chatModel');
 const User = require('../models/userModel');
 
 const { v4: uuidv4 } = require('uuid');
+const { AppError } = require('../middleware/errorMiddleware');
 
 //@description     Create or fetch single Chat
 //@route           POST /api/chat/
@@ -53,29 +54,24 @@ const accessChat = asyncHandler(async (req, res) => {
 //@description     Fetch all chats for authenticated user
 //@route           GET /api/chat/
 const fetchAllChats = asyncHandler(async (req, res) => {
-  try {
-    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } }) // find all chats that my id exist in it.
-      .select('-__v -updatedAt')
-      .populate('users', '-password -__v -updatedAt')
-      .populate('latestMessage', '-__v -updatedAt')
-      .sort({ updatedAt: -1 })
-      .then(async (results) => {
-        results = await User.populate(results, {
-          path: 'latestMessage.sender',
-          select: 'name pic',
-        });
-        res.status(200).send(results);
+  Chat.find({ users: { $elemMatch: { $eq: req.user._id } } }) // find all chats that my id exist in it.
+    .select('-__v -updatedAt')
+    .populate('users', '-password -__v -updatedAt')
+    .populate('latestMessage', '-__v -updatedAt')
+    .sort({ updatedAt: -1 })
+    .then(async (results) => {
+      results = await User.populate(results, {
+        path: 'latestMessage.sender',
+        select: 'name pic',
       });
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
-  }
+      res.status(200).send(results);
+    });
 });
 
 //
 //@description      Delete Single Chat (Remove the user id from the users list in Chat document)
 //@route            DELETE  /delete-chat/
-const deleteChat = asyncHandler(async (req, res) => {
+const deleteChat = asyncHandler(async (req, res, next) => {
   const { chatId, customUserId } = req.body;
 
   const userId = customUserId || req.user._id; //the registered user or the provided user id
@@ -94,7 +90,7 @@ const deleteChat = asyncHandler(async (req, res) => {
     }
     res.status(200).send('The user is removed from the Chat');
   } else {
-    res.status(200).send('The Chat is not exist🙄');
+    next(new AppError('The Chat is not exist🙄', 404));
   }
 });
 
@@ -102,17 +98,12 @@ const deleteChat = asyncHandler(async (req, res) => {
 //@route            DELETE  /admin-delete-chat/
 const adminDeleteChat = asyncHandler(async (req, res) => {
   const { chatId } = req.body;
-  try {
-    const deletedChat = await Chat.findByIdAndDelete(chatId);
-    if (deletedChat) {
-      res.status(200).json(deletedChat);
-    } else {
-      console.log('😑', deletedChat);
-      res.status(200).json('chat is aleady not exist🙄');
-    }
-  } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+  const deletedChat = await Chat.findByIdAndDelete(chatId);
+  if (deletedChat) {
+    res.status(200).json(deletedChat);
+  } else {
+    console.log('😑', deletedChat);
+    res.status(200).json('chat is aleady not exist🙄');
   }
 });
 

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  nodeapis:
+    container_name: node_container
+    hostname: node_service
+    image: node_img
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 6060:6060
+    environment:
+      - MONGO_URI = mongodb+srv://Hamza:<PASSWORD>@cluster0.fwaagpt.mongodb.net/?retryWrites=true&w=majority
+      - DATABASE_PASSWORD = Mahmoud333
+      - JWT_SECRET = xeiQuai0ohc2Tha@
+      - Issuer = DiagnoseMeApi
+      - Audience = DiagnoseMeApiUsers
+      - STRIPE_PRIVATE_KEY = sk_test_51MnAETALes9VHSOp0MISt1T5tGPqoOIToe1glMDFWy3wF0XTB7muXk6HXbM5VBzFvTivpVzEN3PfYYR5Zi9Izs0100385Wk3zG
+    depends_on:
+      - rabbitmq
+    networks:
+      - gateway
+      - rabbitmq-network
+    entrypoint:
+      - yarn start
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+networks:
+  rabbitmq-network:
+    driver: bridge
+  gateway:
+    driver: bridge
