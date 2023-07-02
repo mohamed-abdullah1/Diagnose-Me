@@ -28,6 +28,8 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
+    external_links:
+      - rabbitmq:rabbitmq
 
 networks:
   rabbitmq-network:
