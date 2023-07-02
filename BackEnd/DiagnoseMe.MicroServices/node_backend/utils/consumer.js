@@ -11,7 +11,7 @@ const { v4: uuidv4 } = require('uuid');
 // Function to consume messages from the queue
 async function consumeMessages(queueName, handlerFunc) {
   try {
-    const hostname = 'rabbitmq.diagnose.me'; // Replace with your RabbitMQ server hostname
+    const hostname = 'rabbitmq'; // Replace with your RabbitMQ server hostname
     const port = 5672; // Replace with your RabbitMQ server port
     const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
     const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
