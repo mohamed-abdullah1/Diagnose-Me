@@ -22,7 +22,7 @@ services:
       - gateway
       - rabbitmq-network
     entrypoint:
-      - yarn start
+      - node server.js
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
       interval: 1m
