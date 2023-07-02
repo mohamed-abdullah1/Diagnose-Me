@@ -9,7 +9,6 @@ ENV JWT_SECRET=xeiQuai0ohc2Tha@
 ENV Issuer=DiagnoseMeApi
 ENV Audience=DiagnoseMeApiUsers
 
-USER node_user
 
 COPY ["DiagnoseMe.MicroServices/node_backend/package.json", "DiagnoseMe.MicroServices/node_backend/package-lock.json*", "DiagnoseMe.MicroServices/node_backend/npm-shrinkwrap.json*","./"] 
 
@@ -17,6 +16,9 @@ COPY ["DiagnoseMe.MicroServices/node_backend/package.json", "DiagnoseMe.MicroSer
 RUN npm install
 
 COPY DiagnoseMe.MicroServices/node_backend .
+
+RUN chown -R node /app
+USER node
 
 CMD [ "npm", "start" ]
 
