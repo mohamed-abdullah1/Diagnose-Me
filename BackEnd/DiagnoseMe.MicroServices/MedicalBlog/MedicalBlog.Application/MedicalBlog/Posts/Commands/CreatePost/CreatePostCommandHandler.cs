@@ -6,8 +6,7 @@ using MedicalBlog.Application.Common.Interfaces.RabbitMQ;
 using MedicalBlog.Application.MedicalBlog.Common;
 using MedicalBlog.Domain.Common;
 using MedicalBlog.Domain.Common.Errors;
-using Microsoft.AspNetCore.Http;
-using MedicalBlog.Application.MedicalBlog.Helpers;
+using MedicalBlog.Application.Common.Helpers;
 
 namespace MedicalBlog.Application.MedicalBlog.Posts.Commands.CreatePost;
 
@@ -43,7 +42,7 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
         var newTags = nonExistingTags.Select(x => new Tag{TagName = x});
         var allTags = tags.Concat(newTags).ToList();
 
-        var result = new ErrorOr<IFormFile>();
+        var result = new ErrorOr<RMQFileResponse>();
         var rMQFilesResponse = new List<RMQFileResponse>();
         var postImages = new List<PostImage>();
         var postId = Guid.NewGuid().ToString();
@@ -52,19 +51,19 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
             return Errors.Post.TooManyImages;
         
         foreach(var base64Image in command.Base64Images){
-            result = FileConverter.ConvertToPng(base64Image);
+            result = FileHelper.CheckImage(
+                Base64File: base64Image,
+                FilePath: StaticPaths.BlogImagesPath);
 
             if(result.IsError)
                 return result.Errors;
             
             postImages.Add(new PostImage{
                 PostId = postId,
-                ImageUrl = Path.Combine(StaticPaths.BlogImagesPath, result.Value.Name)
+                ImageUrl = result.Value.FilePath
             });
 
-            rMQFilesResponse.Add(new RMQFileResponse(
-                FilePath: StaticPaths.BlogImagesPath,
-                File: result.Value));
+            rMQFilesResponse.Add(result.Value);
         };
 
         Post post = new Post{

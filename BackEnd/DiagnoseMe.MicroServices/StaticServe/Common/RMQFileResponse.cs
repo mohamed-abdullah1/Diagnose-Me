@@ -2,5 +2,5 @@ namespace StaticServe.Common;
 
 public record RMQFileResponse(
     string FilePath,
-    IFormFile File
+    string Base64File
 );

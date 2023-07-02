@@ -11,9 +11,7 @@ public class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComman
             .NotEmpty()
             .WithMessage("Id is required");
             
-        RuleFor(x => x.Specialization)
-            .NotEmpty()
-            .WithMessage("Speciality is required");
+
 
         RuleFor(x => x.Rating)
             .NotEmpty()

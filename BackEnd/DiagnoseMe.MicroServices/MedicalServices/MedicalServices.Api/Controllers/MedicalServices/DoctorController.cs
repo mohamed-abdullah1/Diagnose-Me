@@ -33,10 +33,12 @@ public class DoctorController : ApiController
 
     [Authorize]
     [HttpGet("doctors/page-number/{pageNumber}")]
-    public async Task<IActionResult> GetDoctors(int pageNumber)
+    public async Task<IActionResult> GetDoctors(int pageNumber, string? name)
     {
 
-        var query = new GetDoctorsQuery(pageNumber);
+        var query = new GetDoctorsQuery(
+            name,
+            pageNumber);
         var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),

@@ -17,7 +17,7 @@ public class MessageQueueHelper
     public static Task SubscribeToSaveQueue(IModel channel, IServiceProvider serviceProvider)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeSaveExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -32,7 +32,7 @@ public class MessageQueueHelper
 
         channel.QueueBind(
             queue: RabbitMQConstants.StaticServeSaveQueue,
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeSaveExchange,
             routingKey: RabbitMQConstants.StaticServeSaveQueue
         );
 
@@ -42,23 +42,30 @@ public class MessageQueueHelper
         {
             var filesEncoded = eventArgs.Body.ToArray();
             var fileDecoded = Encoding.UTF8.GetString(filesEncoded);
-            var filesResponse = JsonConvert.DeserializeObject<List<RMQFileResponse>>(fileDecoded);
+            var filesResponse  = new List<RMQFileResponse>();
+            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+            try
+            {
+                filesResponse = JsonConvert.DeserializeObject<List<RMQFileResponse>>(fileDecoded);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Logging(logger, new List<Error>(){FileErrors.FileNotFound});
+            }
             
             
             foreach(var fileResponse in filesResponse! )
             {
-                string filePath =  Path.Combine(AppContext.BaseDirectory, "Files",fileResponse!.FilePath);
-                IFormFile file = fileResponse!.File;
-                if (!Directory.Exists(filePath))
+                var dirPath = Path.Combine(AppContext.BaseDirectory,"../../../", "Files", Path.GetDirectoryName(fileResponse.FilePath)!);
+                var filePath = Path.Combine(AppContext.BaseDirectory,"../../../", "Files", fileResponse.FilePath);
+                if (!Directory.Exists(dirPath))
                 {
-                    var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-                    Logging(logger, new List<Error>(){FileErrors.DirectoryNotFound});
+                    Logging(logger, new List<Error>(){FileErrors.DirectoryNotFound(dirPath)});
                 }
                 else{
-                    using (var stream = new FileStream(Path.Combine(filePath,fileResponse.File.Name), FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
+                    var fileBytes = Convert.FromBase64String(fileResponse.Base64File);
+                    await File.WriteAllBytesAsync(filePath, fileBytes);
                 }
             }
         };
@@ -73,7 +80,7 @@ public class MessageQueueHelper
     public static void SubscribeToDeleteQueue(IModel channel, IServiceProvider serviceProvider)
     {
         channel.ExchangeDeclare(
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
             autoDelete: false
@@ -88,7 +95,7 @@ public class MessageQueueHelper
 
         channel.QueueBind(
             queue: RabbitMQConstants.StaticServeDeleteQueue,
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeDeleteExchange,
             routingKey: RabbitMQConstants.StaticServeDeleteQueue
         );
 
@@ -98,8 +105,19 @@ public class MessageQueueHelper
         {
             var filesNameEncoded = eventArgs.Body.ToArray();
             var filesNameDecoded = Encoding.UTF8.GetString(filesNameEncoded);
-            var filesNameResponse = JsonConvert.DeserializeObject<List<string>>(filesNameDecoded);
+            var filesNameResponse = new List<string>();
+            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+            try
+            {
+                filesNameResponse = JsonConvert.DeserializeObject<List<string>>(filesNameDecoded);
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Logging(logger, new List<Error>(){FileErrors.FileNotFound});
+            }
+            
             foreach(var fileNameDecoded in filesNameResponse!)
             {    
                 if(File.Exists(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded)))
@@ -108,7 +126,6 @@ public class MessageQueueHelper
                 }
                 else
                 {
-                    var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
                     Logging(logger, new List<Error>(){FileErrors.FileNotFound});
                 }
             }

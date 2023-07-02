@@ -28,20 +28,21 @@ public class UpdateClinicPictureCommandHandler : IRequestHandler<UpdateClinicPic
         var clinic =  (await _clinicRepository.GetByIdAsync(command.ClinicId));
         if (clinic == null)
             return Errors.Clinic.NotFound;
-        var result = FileConverter.ConvertToPng(command.Base64Picture);
-        var rMQFileResponse = new RMQFileResponse(
-            FilePath: StaticPaths.ClinicsImages,
-            File: result.Value);
+        var result = FileHelper.CheckImage(
+            command.Base64Picture,
+            StaticPaths.ClinicsImages
+        );
         
         if (result.IsError)
             return result.Errors;
-        clinic.PictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName);
+        clinic.PictureUrl = result.Value.FilePath;
 
         await _clinicRepository.Edit(clinic);
 
         if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.UpdateFailed;
 
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{result.Value});
         return new CommandResponse(
             true,
             "Clinic picture updated successfully.",

@@ -12,7 +12,8 @@ public static class RabbitMQConstants
     public const string MedicalBlogUpdatingDoctorQueue = "MedicalServicies.MedicalBlog.Doctor.Update";
     public const string NotificationExchange = "Notification";
     public const string NotificationQueue = "Global.Notification";
-    public const string StaticServeExchange = "StaticServe.Exchange";
+    public const string StaticServeSaveExchange = "StaticServe.Save.Exchange";
+    public const string StaticServeDeleteExchange = "StaticServe.Delete.Exchange";
     public const string StaticServeSaveQueue = "StaticServe.Save";
     public const string StaticServeDeleteQueue = "StaticServe.Delete";
 }

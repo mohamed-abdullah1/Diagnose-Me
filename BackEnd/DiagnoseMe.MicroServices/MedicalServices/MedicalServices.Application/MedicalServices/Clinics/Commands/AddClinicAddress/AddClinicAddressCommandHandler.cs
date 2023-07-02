@@ -52,19 +52,19 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
             OwnerId = command.OwnerId};
         address.Clinic = clinic;
         address.Owner = owner;
-        var result = FileConverter.ConvertToPng(command.Base64Picture);
-        var rMQFileResponse = new RMQFileResponse(
-            FilePath: StaticPaths.ClinicsImages,
-            File: result.Value);
+        var result = FileHelper.CheckImage(
+            command.Base64Picture,
+            StaticPaths.ClinicsImages
+        );
         
         if (result.IsError)
             return result.Errors;
-        address.ProfilPictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName);
+        address.ProfilPictureUrl = result.Value.FilePath;
         await _clinicAddressRepository.AddAsync(address);
         if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.Clinic.AddFailed;
         
-        _messageQueueManager.PublishFile(new List<RMQFileResponse>{rMQFileResponse});
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{result.Value});
         return new CommandResponse(
             true,
             "Clinic address added successfully.",

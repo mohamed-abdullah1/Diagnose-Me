@@ -60,7 +60,7 @@ public class MessageQueueManager : IMessageQueueManager
     public void PublishFile(List<RMQFileResponse> filesResponse)
     {
         Publish(
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeSaveExchange,
             queues: new List<string>() { RabbitMQConstants.StaticServeSaveQueue },
             obj: filesResponse,
             contentType: "application/json"
@@ -70,7 +70,7 @@ public class MessageQueueManager : IMessageQueueManager
     public void DeleteFile(List<string> filesPath)
     {
         Publish(
-            exchange: RabbitMQConstants.StaticServeExchange,
+            exchange: RabbitMQConstants.StaticServeDeleteExchange,
             queues: new List<string>() { RabbitMQConstants.StaticServeDeleteQueue },
             obj: filesPath,
             contentType: "application/json"

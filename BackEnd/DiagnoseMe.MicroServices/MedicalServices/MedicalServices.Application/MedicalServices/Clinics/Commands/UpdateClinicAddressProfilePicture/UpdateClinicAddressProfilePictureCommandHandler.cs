@@ -31,22 +31,22 @@ public class UpdateClinicAddressProfilePictureCommandHandler : IRequestHandler<U
         if (clinicAddress.OwnerId != command.DoctorId)
             return Errors.User.YouCanNotDoThis;
             
-        var result = FileConverter.ConvertToPng(command.Base64Picture);
-        var rMQFileResponse = new RMQFileResponse(
-            FilePath: StaticPaths.ClinicsImages,
-            File: result.Value);
+        var result = FileHelper.CheckImage(
+            command.Base64Picture,
+            StaticPaths.ClinicsImages
+        );
         
         if (result.IsError)
             return result.Errors;
         
-        clinicAddress.ProfilPictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName);
+        clinicAddress.ProfilPictureUrl = result.Value.FilePath;
 
         await _clinicAddressRepository.Edit(clinicAddress);
 
         if (await _clinicAddressRepository.SaveAsync() == 0)
             return Errors.ClinicAddress.UpdateFailed;
 
-        _messageQueueManager.PublishFile(new List<RMQFileResponse>{rMQFileResponse});
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{result.Value});
         return new CommandResponse(
             true,
             "ClinicAddress profile picture updated successfully.",

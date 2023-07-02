@@ -33,10 +33,10 @@ public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr
         if (clinic != null)
             return Errors.Clinic.Exists;
         
-        var result = FileConverter.ConvertToPng(command.Base64Picture);
-        var rMQFileResponse = new RMQFileResponse(
-            FilePath: StaticPaths.ClinicsImages,
-            File: result.Value);
+        var result = FileHelper.CheckImage(
+            command.Base64Picture,
+            StaticPaths.ClinicsImages
+        );
         
         if (result.IsError)
             return result.Errors;
@@ -46,14 +46,14 @@ public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr
             Id = Guid.NewGuid().ToString(),
             Specialization = command.Specialization,
             Description = command.Description,
-            PictureUrl = Path.Combine(rMQFileResponse.FilePath, rMQFileResponse.File.FileName),
+            PictureUrl = result.Value.FilePath,
             CreatedOn = DateTime.Now
         };
         await _clinicRepository.AddAsync(clinic);
         if (await _clinicRepository.SaveAsync() == 0)
             return Errors.Clinic.AddFailed;
 
-        _messageQueueManager.PublishFile(new List<RMQFileResponse>{rMQFileResponse});
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>{result.Value});
         return new CommandResponse(
             true,
             "Clinic added successfully.",

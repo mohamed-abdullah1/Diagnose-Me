@@ -9,7 +9,6 @@ using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 using MedicalServices.Domain.Common.FIles;
 using MedicalServices.Domain.Common.Roles;
-using Microsoft.AspNetCore.Http;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.UpdateCheck;
 
@@ -63,27 +62,24 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         
         List<CheckFile> checkFiles = new();
         var rMQFilesResponse = new List<RMQFileResponse>();
-        var result = new ErrorOr<IFormFile>();
-        var rMQFileResponse = new RMQFileResponse("", null!);
+        var result = new ErrorOr<RMQFileResponse>();
         foreach (var file in command.Base64Files)
         {
             if (file.Type == AllowedFileTypes.Image)
             {
-                result = FileConverter.ConvertToPng(file.Data);
-                rMQFileResponse = new RMQFileResponse(
-                    FilePath: StaticPaths.ChecksDocuments,
-                    File: result.Value
-                );
-                rMQFilesResponse.Add(rMQFileResponse);
+                result = FileHelper.CheckImage(
+                    file.Data,
+                    StaticPaths.ChecksDocuments );
+                
+                rMQFilesResponse.Add(result.Value);
             }
             else if (file.Type == AllowedFileTypes.Doc)
             {
-                result = FileConverter.ConvertToDoc(file.Data);
-                rMQFileResponse = new RMQFileResponse(
-                    FilePath: StaticPaths.ChecksDocuments,
-                    File: result.Value
-                );
-                rMQFilesResponse.Add(rMQFileResponse);
+                result = FileHelper.CheckDOC(
+                    file.Data,
+                    StaticPaths.ChecksDocuments );
+                
+                rMQFilesResponse.Add(result.Value);
             }
             else
             {
@@ -92,14 +88,14 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
             
             if (result.IsError)
                     return result.Errors;
-                var checkFile = new CheckFile()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Check = check,
-                    FileUrl = rMQFileResponse.FilePath,
-                    Type = file.Type
-                };
-                checkFiles.Add(checkFile);
+            var checkFile = new CheckFile()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Check = check,
+                FileUrl = result.Value.FilePath,
+                Type = file.Type
+            };
+            checkFiles.Add(checkFile);
                 await _fileRepository.AddAsync(checkFile);
         }
         check.CheckFiles.Concat(checkFiles);

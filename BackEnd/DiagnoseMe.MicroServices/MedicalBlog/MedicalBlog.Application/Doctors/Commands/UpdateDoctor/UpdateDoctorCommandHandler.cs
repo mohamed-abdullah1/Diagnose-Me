@@ -23,7 +23,6 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
         if (doctor is null)
             return Errors.User.NotFound;
         
-        doctor.Specialization = command.Specialization;
         doctor.Rating = command.Rating;
 
         await _userRepository.Edit(doctor);

@@ -23,10 +23,14 @@ public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<P
 
     public async Task<ErrorOr<PageResponse>> Handle(GetDoctorsQuery query, CancellationToken cancellationToken)
     {
+        
         var doctors = (await _doctorRepository.Get(
             orderBy: d => d.OrderBy(d => d.User!.Name),
             include: "User,Patients,ClinicAddresses,Clinic")).
             ToList();
+        
+        if (!String.IsNullOrEmpty(query.Name))
+            doctors = doctors.Where(d => d.User!.Name.Contains(query.Name)).ToList();
         var IsNextPage = doctors.Count > query.PageNumber * 10;
         var resDoctors = doctors.
             Skip((query.PageNumber - 1) * 10).

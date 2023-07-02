@@ -1,4 +1,4 @@
-using Auth.Application.Authentication.Helpers;
+using Auth.Application.Common.Helpers;
 using Auth.Application.Common.Interfaces.RabbitMQ;
 using MapsterMapper;
 
@@ -25,19 +25,20 @@ public class ResetPasswordCommandHandle :
         var user = await _userManager.FindByNameAsync(command.UserName);
         if (user == null)
             return (Errors.User.Name.NotExists);
-        var result = FileConverter.ConvertToPng(
-            command.Base64Picture);  
+        var result = FileHelper.CheckImage(
+            Base64File: command.Base64Picture,
+            FilePath: StaticPaths.ProfilePicturesPath);
         if (result.IsError)
             return (result.Errors);
                 
-        user!.ProfilePictureUrl = Path.Combine(StaticPaths.ProfilePicturesPath, result.Value.Name);
+        user!.ProfilePictureUrl = result.Value.FilePath;
         var updateResult = await _userManager.UpdateAsync(user);
 
         _messageQueueManager.UpdateUser(_mapper.Map<ApplicationUserResponse>(user)); 
         _messageQueueManager.PublishFile(new List<RMQFileResponse>(){
              new RMQFileResponse(
                 FilePath: StaticPaths.ProfilePicturesPath,
-                File: result.Value)
+                Base64File: result.Value.Base64File)
         });
         return (
             new AuthenticationResult{
