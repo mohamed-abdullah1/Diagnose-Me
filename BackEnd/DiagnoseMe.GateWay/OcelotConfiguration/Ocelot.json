@@ -177,7 +177,7 @@
             }
         },
         {
-            "UpstreamPathTemplate": "/chat/v1/{everything}",
+            "UpstreamPathTemplate": "/node-service/{everything}",
             "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
