@@ -1,6 +1,6 @@
+using FileTypeChecker;
 using FileTypeChecker.Extensions;
 using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
 
 namespace Auth.Application.Authentication.Helpers;
 
@@ -11,21 +11,34 @@ public class FileConverter
     {
         if (!string.IsNullOrEmpty(Base64Picture)){
             var picture = Convert.FromBase64String(Base64Picture);
-            Stream pictureStream = new MemoryStream(picture);
+            var tempFilePath = Path.GetTempFileName();
+            FileStream pictureStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.ReadWrite);
+            pictureStream.Write(picture, 0, picture.Length);
+
             if (!pictureStream.IsImage())
                 return (Errors.File.NotAPicture);
-           
-            Image image = Image.Load(pictureStream);
-            MemoryStream pngStream = new MemoryStream();
-            image.Save(pngStream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
-            pngStream.Position = 0;
+
+            var fileType = FileTypeValidator.GetFileType(pictureStream);
             
-            return new FormFile(
-                    pngStream,
-                    0,
-                    pngStream.Length,
-                    null!,
-                    new Guid().ToString() + ".png");
+            var fileName = Guid.NewGuid().ToString() + $".{fileType.Extension}";
+
+            var formFile = new FormFile(
+                pictureStream,
+                0,
+                pictureStream.Length,
+                null!,
+                fileName
+            )
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = $"application/{fileType.Extension}"
+            };
+
+            pictureStream.Close();
+            if (!string.IsNullOrEmpty(tempFilePath) && File.Exists(tempFilePath))
+                File.Delete(tempFilePath);
+            
+            return formFile;
         }
         return Errors.File.NullOrEmpty;
         

@@ -25,7 +25,7 @@ public class GetDoctorsByPatientIdQueryHandler : IRequestHandler<GetDoctorsByPat
         
         var doctors = (await _doctorRepository.Get(
             predicate: d => d.Patients.Any(p => p.Id == query.PatientId),
-            include: "User,Patients,DoctorRates,ClinicAddresses,Clinic")).
+            include: "User,Patients,ClinicAddresses,Clinic")).
             AsParallel().
             Skip((query.PageNumber - 1) * 10).
             Take(10).

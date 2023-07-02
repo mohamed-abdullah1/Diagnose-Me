@@ -1,10 +1,9 @@
 using ErrorOr;
 using MediatR;
+using MedicalServices.Application.Common.Helpers;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.Common.Interfaces.RabbitMq;
-using MedicalServices.Application.Common.Interfaces.Services;
 using MedicalServices.Application.MedicalServices.Common;
-using MedicalServices.Application.MedicalServices.Helpers;
 using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 

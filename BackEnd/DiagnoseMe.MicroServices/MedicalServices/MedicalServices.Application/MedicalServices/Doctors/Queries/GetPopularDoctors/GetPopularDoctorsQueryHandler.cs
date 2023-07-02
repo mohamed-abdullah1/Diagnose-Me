@@ -22,7 +22,7 @@ public class GetPopularDoctorsQueryHandler : IRequestHandler<GetPopularDoctorsQu
     public async Task<ErrorOr<PageResponse>> Handle(GetPopularDoctorsQuery query, CancellationToken cancellationToken)
     {
         var doctors = (await _doctorRepository.Get(
-            include: "User,Patients,DoctorRates,ClinicAddresses,Clinic"
+            include: "User,Patients,ClinicAddresses,Clinic"
         ));
 
         if (query.Specialization != null)

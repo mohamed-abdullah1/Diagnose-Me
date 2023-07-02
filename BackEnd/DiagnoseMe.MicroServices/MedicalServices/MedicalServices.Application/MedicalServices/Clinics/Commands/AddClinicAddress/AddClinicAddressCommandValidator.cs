@@ -35,11 +35,13 @@ public class AddClinicAddressCommandValidator : AbstractValidator<AddClinicAddre
         RuleFor(x => x.OpenTime).
             NotNull().
             WithMessage("OpenTime is required").
-            Must(x => Regex.IsMatch(x, Regexes.Time));
+            Must(x => Regex.IsMatch(x, Regexes.Time))
+            .WithMessage("OpenTime should be in the format hh:mm");
         RuleFor(x => x.CloseTime).
             NotNull().
             WithMessage("CloseTime is required").
-            Must(x => Regex.IsMatch(x, Regexes.Time));
+            Must(x => Regex.IsMatch(x, Regexes.Time))
+            .WithMessage("CloseTime should be in the format hh:mm");
         RuleFor(x => x.Base64Picture).
             NotNull().
             WithMessage("Base64Picture is required").

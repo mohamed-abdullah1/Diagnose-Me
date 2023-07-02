@@ -25,7 +25,7 @@ public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<P
     {
         var doctors = (await _doctorRepository.Get(
             orderBy: d => d.OrderBy(d => d.User!.Name),
-            include: "User,Patients,DoctorRates,ClinicAddresses,Clinic")).
+            include: "User,Patients,ClinicAddresses,Clinic")).
             ToList();
         var IsNextPage = doctors.Count > query.PageNumber * 10;
         var resDoctors = doctors.

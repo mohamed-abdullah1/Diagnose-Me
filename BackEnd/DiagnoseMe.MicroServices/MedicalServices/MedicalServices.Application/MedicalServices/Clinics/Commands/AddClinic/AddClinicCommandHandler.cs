@@ -1,9 +1,10 @@
 using ErrorOr;
 using MediatR;
+using MedicalServices.Application.Common.Helpers;
 using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.Common.Interfaces.RabbitMq;
 using MedicalServices.Application.MedicalServices.Common;
-using MedicalServices.Application.MedicalServices.Helpers;
+
 using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 
@@ -31,6 +32,7 @@ public class AddClinicCommandHandler : IRequestHandler<AddClinicCommand, ErrorOr
             FirstOrDefault();
         if (clinic != null)
             return Errors.Clinic.Exists;
+        
         var result = FileConverter.ConvertToPng(command.Base64Picture);
         var rMQFileResponse = new RMQFileResponse(
             FilePath: StaticPaths.ClinicsImages,

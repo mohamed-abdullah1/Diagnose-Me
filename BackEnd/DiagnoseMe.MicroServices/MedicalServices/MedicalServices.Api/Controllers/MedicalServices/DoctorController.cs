@@ -7,6 +7,7 @@ using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctorRate;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctor;
+using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctorRatesByDoctorId;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctors;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctorsByPatientId;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetPopularDoctors;
@@ -182,5 +183,19 @@ public class DoctorController : ApiController
         result => Ok(result),
         errors => Problem(errors));
     }
+
+    [Authorize]
+    [HttpGet("doctors/{doctorId}/doctor-rates/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetDoctorRates(string doctorId, int pageNumber)
+    {
+        var query = new GetDoctorRatesByDoctorIdQuery(
+            doctorId,
+            pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+    
     
 }
