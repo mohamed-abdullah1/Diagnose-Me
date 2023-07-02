@@ -7,5 +7,5 @@ namespace MedicalBlog.Application.Doctors.Commands.UpdateDoctor;
 
 public record UpdateDoctorCommand(
     string Id,
-    string ddd,
+    string Specialization,
     float Rating) :IRequest<ErrorOr<CommandResponse>>;

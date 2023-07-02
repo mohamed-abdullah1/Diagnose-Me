@@ -1,3 +1,4 @@
+using System.Data;
 using ErrorOr;
 using MediatR;
 using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;
@@ -24,6 +25,7 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
             return Errors.User.NotFound;
         
         doctor.Rating = command.Rating;
+        doctor.Specialization = command.Specialization;
 
         await _userRepository.Edit(doctor);
 
