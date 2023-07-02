@@ -50,9 +50,9 @@ export const CloseIcon = styled(TouchableOpacity)`
   align-items: center;
 `;
 export const Icon = styled(Ionicons).attrs((props) => ({
-  name: "close",
+  name: "call",
   size: 24,
-  color: props.theme.colors.primary,
+  color: props.theme.colors.secondary,
 }))``;
 
 export const MessagesSection = styled.View`

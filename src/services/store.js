@@ -20,6 +20,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { blogsApi } from "./apis/blogs.api";
 import { appointmentApi } from "./apis/appointment.api";
+import { medicalServicesApi } from "./apis/medicalService";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [questionApi.reducerPath]: questionApi.reducer, // other reducers...
   [blogsApi.reducerPath]: blogsApi.reducer, // other reducers...
   [appointmentApi.reducerPath]: appointmentApi.reducer, // other reducers...
+  [medicalServicesApi.reducerPath]: medicalServicesApi.reducer, // other reducers...
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -53,7 +55,8 @@ const store = configureStore({
       chatApi.middleware,
       questionApi.middleware,
       blogsApi.middleware,
-      appointmentApi.middleware
+      appointmentApi.middleware,
+      medicalServicesApi.middleware
     ),
 });
 setupListeners(store.dispatch);

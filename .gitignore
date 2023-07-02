@@ -12,3 +12,4 @@ web-build/
 backEnd/diagnose-me
 # macOS
 .DS_Store
+secret.js

@@ -5,23 +5,29 @@ import AgoraUIKit from "agora-rn-uikit";
 import { useState } from "react";
 import { selectToken } from "../../../services/slices/auth.slice";
 import { useSelector } from "react-redux";
+import { APPID_AGORA } from "../../../../secret";
 
-const VideoCall = () => {
-  const [videoCall, setVideoCall] = useState(false);
+const VideoCall = ({ navigation, route }) => {
+  const [videoCall, setVideoCall] = useState(true);
   const token = useSelector(selectToken);
   const connectionData = {
-    appId: "6e93ffe7c1e94df5b7982605172a18c5",
-    channel: "test",
+    appId: APPID_AGORA,
+    channel: `${route.chatId}`,
     // token: null, // enter your channel token as a string
   };
   console.log(videoCall);
   const rtcCallbacks = {
-    EndCall: () => setVideoCall(false),
+    EndCall: () => {
+      navigation.goBack();
+    },
+    onJoinChannelSuccess: () => {
+      console.log(`User ${"uid"} joined the channel🍭🍭🍭`);
+    },
   };
+
   return (
     <BgContainer>
-      <View style={{ height: "100%", borderColor: "red", borderWidth: 1 }}>
-        <Text>Video Call</Text>
+      <View style={{ height: "100%" }}>
         {videoCall ? (
           <AgoraUIKit
             connectionData={connectionData}
