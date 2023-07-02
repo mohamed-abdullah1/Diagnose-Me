@@ -10,6 +10,9 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=DiagnoseMe
+      - RABBITMQ_DEFAULT_PASS=DiagnoseMe
     networks:
       - rabbitmq-network
     restart: always
