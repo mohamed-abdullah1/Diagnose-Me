@@ -1,0 +1,243 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  diagnosemegateway:
+    container_name: diagnoseme-gateway
+    image: diagnosemegateway
+    hostname: gateway.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.GateWay/Dockerfile
+    ports:
+      - 443:7199
+    environment:
+      - Debug:ShowHost=true
+    networks:
+      - gateway
+    entrypoint: dotnet run 
+  authapi:
+    container_name: auth-api
+    image: auth-api
+    hostname: auth.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/Auth/Auth.Api/Dockerfile
+    ports:
+      - 7095:7095
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=authdb;Database=AuthDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
+      - Debug:ShowHost=true
+    depends_on:
+      - authdb
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://authdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+    networks:
+      - authapi-authdb
+      - gateway
+      - rabbitmq-network
+
+    entrypoint: dotnet run
+  authdb:
+    container_name: auth-db
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=DiagnoseMe
+      - MYSQL_DATABASE=AuthDb
+      - MYSQL_USER=DiagnoseMe
+      - MYSQL_PASSWORD=DiagnoseMe
+    volumes:
+      - authdbvolume:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - authapi-authdb
+    ports:
+      - 3307:3306
+    restart: always
+  medicalblogapi:
+    container_name: medical-blog-api
+    image: medical-blog-api
+    hostname: medical-blog.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/MedicalBlog/MedicalBlog.Api/Dockerfile
+    ports:
+      - 7131:7131
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=medicalblogdb;Database=MedicalBlogDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
+      - Debug:ShowHost=true
+    depends_on:
+      - medicalblogdb
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://medicalblogdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
+      - medicalblogapi-medicalblogdb
+      - rabbitmq-network
+    entrypoint: dotnet run
+  medicalblogdb:
+    container_name: medical-blog-db
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=DiagnoseMe
+      - MYSQL_DATABASE=MedicalBlogDb
+      - MYSQL_USER=DiagnoseMe
+      - MYSQL_PASSWORD=DiagnoseMe
+    volumes:
+      - medicalblogdbvolume:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - medicalblogapi-medicalblogdb
+    ports:
+      - 3308:3306
+    restart: always
+  blooddonationapi:
+    container_name: blood-donation-api
+    image: blood-donation-api
+    hostname: blood-donation.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/BloodDonation/BloodDonation.Api/Dockerfile
+    ports:
+      - 7234:7234
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=blooddonationdb;Database=BloodDonationDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
+      - Debug:ShowHost=true
+    depends_on:
+      - blooddonationdb
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://blooddonationdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
+      - blooddonationapi-blooddonationdb
+      - rabbitmq-network
+    entrypoint: dotnet run
+  blooddonationdb:
+    container_name: blood-donation-db
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=DiagnoseMe
+      - MYSQL_DATABASE=BloodDonationDb
+      - MYSQL_USER=DiagnoseMe
+      - MYSQL_PASSWORD=DiagnoseMe
+    volumes:
+      - blooddonationdbvolume:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - blooddonationapi-blooddonationdb
+    ports:
+      - 3309:3306
+    restart: always
+  medicalservicesapi:
+    container_name: medical-services-api
+    image: medical-services-api
+    hostname: medical-services.diagnose.me
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/MedicalServices/MedicalServices.Api/Dockerfile
+    ports:
+      - 7018:7018
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=medicalservicesdb;Database=MedicalServicesDb;Uid=DiagnoseMe;Pwd=DiagnoseMe
+      - Debug:ShowHost=true
+    depends_on:
+      - medicalservicesdb
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://medicalservicesdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
+      - medicalservicesapi-medicalservicesdb
+      - rabbitmq-network
+    entrypoint: dotnet run
+  medicalservicesdb:
+    container_name: medical-services-db
+    image: mysql/mysql-server:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=DiagnoseMe
+      - MYSQL_DATABASE=MedicalServicesDb
+      - MYSQL_USER=DiagnoseMe
+      - MYSQL_PASSWORD=DiagnoseMe
+    volumes:
+      - medicalservicesdbvolume:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - medicalservicesapi-medicalservicesdb
+    ports:
+      - 3310:3306
+    restart: always
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    hostname: rabbitmq.diagnose.me
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=DiagnoseMe
+      - RABBITMQ_DEFAULT_PASS=DiagnoseMe
+    networks:
+      - rabbitmq-network
+    restart: always
+  staticserve:
+    container_name: static-serve
+    hostname: static.diagnose.me
+    build: 
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/StaticServe/Dockerfile
+    ports:
+      - 5127:5127
+    environment:
+      - Debug:ShowHost=true
+    depends_on:
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gateway
+      - rabbitmq-network
+    restart: always
+
+volumes:
+  authdbvolume:
+  medicalblogdbvolume:
+  blooddonationdbvolume:
+  medicalservicesdbvolume:
+networks:
+  gateway:
+    driver: bridge
+  authapi-authdb:
+    driver: bridge
+  medicalblogapi-medicalblogdb:
+    driver: bridge
+  blooddonationapi-blooddonationdb:
+    driver: bridge
+  medicalservicesapi-medicalservicesdb:
+    driver: bridge
+  rabbitmq-network:
+    driver: bridge

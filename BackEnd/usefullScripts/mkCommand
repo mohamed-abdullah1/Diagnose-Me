@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+command=$1
+
+mkdir $command
+touch $command/${command}Command.cs
+touch $command/${command}CommandHandler.cs
+touch $command/${command}CommandValidator.cs

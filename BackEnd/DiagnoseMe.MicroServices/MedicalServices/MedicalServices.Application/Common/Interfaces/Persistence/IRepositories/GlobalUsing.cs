@@ -1,0 +1,1 @@
+global using MedicalServices.Domain.Entities;
