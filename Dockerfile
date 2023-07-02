@@ -14,6 +14,6 @@ RUN npm install
 COPY . .
 
 # Specify the command to run your application
-CMD [ "yarn", "start2" ]
+CMD [ "node", "server.js" ]
 
 EXPOSE 6060

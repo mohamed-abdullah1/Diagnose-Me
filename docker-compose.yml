@@ -34,5 +34,7 @@ services:
 networks:
   rabbitmq-network:
     driver: bridge
+    external: true
   gateway:
     driver: bridge
+    external: true
