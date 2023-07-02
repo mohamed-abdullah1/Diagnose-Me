@@ -176,7 +176,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpGet("doctors/popuplar/{specialization?}")]
+    [HttpGet("doctors/popuplar")]
     public async Task<IActionResult> GetPopularDoctors(string? specialization)
     {
         var query = new GetPopularDoctorsQuery(specialization!);
