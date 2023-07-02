@@ -25,7 +25,8 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
             return Errors.User.NotFound;
         
         doctor.Rating = command.Rating;
-        doctor.Specialization = command.Specialization;
+        if(!string.IsNullOrEmpty(command.Specialization))
+            doctor.Specialization = command.Specialization;
 
         await _userRepository.Edit(doctor);
 

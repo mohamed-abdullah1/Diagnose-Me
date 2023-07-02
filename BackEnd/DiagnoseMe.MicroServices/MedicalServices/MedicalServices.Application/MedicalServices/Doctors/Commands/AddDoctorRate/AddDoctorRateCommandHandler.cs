@@ -12,26 +12,27 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
 {
     private readonly IUserRepository _userRepository;
     private readonly IDoctorRateRepository _doctorRateRepository;
-    private readonly IMessageQueueManager _messageQueueManager;
+    // private readonly IMessageQueueManager _messageQueueManager;
     private readonly IDoctorRepository _doctorRepository;
 
     public AddDoctorRateCommandHandler(
         IUserRepository userRepository,
         IDoctorRateRepository doctorRateRepository,
-        IMessageQueueManager messageQueueManager,
+        // IMessageQueueManager messageQueueManager,
         IDoctorRepository doctorRepository)
     {
         _userRepository = userRepository;
         _doctorRateRepository = doctorRateRepository;
-        _messageQueueManager = messageQueueManager;
+        // _messageQueueManager = messageQueueManager;
         _doctorRepository = doctorRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(AddDoctorRateCommand command, CancellationToken cancellationToken)
     {
         var doctor = ( await _doctorRepository.Get(
-            predicate: x => x.Id == command.DoctorId,
-            include: "Clinic")).
+            predicate: x => x.Id == command.DoctorId
+            // , include: "Clinic"
+            )).
         FirstOrDefault();
     
         if (doctor == null)
@@ -70,12 +71,12 @@ public class AddDoctorRateCommandHandler : IRequestHandler<AddDoctorRateCommand,
         }
         if (await _doctorRateRepository.SaveAsync() == 0)
             return Errors.Doctor.Rate.AddFailed;
-        _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse
-        (
-            Id: doctor.Id!,
-            Specialization: doctor.Clinic!.Specialization,
-            Rating: doctor!.AverageRate
-        ));
+        // _messageQueueManager.PublishUpdatedDoctor(new RMQUpdateDoctorResponse
+        // (
+        //     Id: doctor.Id!,
+        //     Specialization: null!,
+        //     Rating: doctor!.AverageRate
+        // ));
         
         return new CommandResponse(
             Success: true,

@@ -182,12 +182,12 @@
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "chat.diagnose.me",
-                    "Port": 6969
+                    "Host": "node-service.diagnose.me",
+                    "Port": 6060
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/static/{everything}",
+            "DownstreamPathTemplate": "/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
@@ -199,7 +199,7 @@
             }
         },
         {
-            "UpstreamPathTemplate": "/files/{everything}",
+            "UpstreamPathTemplate": "/static/{everything}",
             "UpstreamHttpMethod": [ "Get"],
             "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -209,7 +209,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/{everything}",
+            "DownstreamPathTemplate": "/files/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
