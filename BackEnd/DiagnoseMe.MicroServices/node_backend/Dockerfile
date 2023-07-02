@@ -20,7 +20,7 @@
 # CMD [ "node", "server.js" ]
 
 
-FROM node:17
+FROM node:lts-alpine
 
 # Set up a non-root user
 RUN groupadd -r node_user && useradd -r -g node_user node_user
@@ -38,12 +38,15 @@ ENV Audience=DiagnoseMeApiUsers
 USER node_user
 
 # Copy the package.json and package-lock.json files to the working directory
-COPY DiagnoseMe.MicroServices/node_backend/ nodeapis/
+# COPY DiagnoseMe.MicroServices/node_backend/ nodeapis/
+COPY ["DiagnoseMe.MicroServices/node_backend/package.json", "DiagnoseMe.MicroServices/node_backend/package-lock.json*", "DiagnoseMe.MicroServices/node_backend/npm-shrinkwrap.json*","./"] 
 
-WORKDIR /app/nodeapis
-
+# COPY package*.json ./
 # Install the application dependencies
 RUN npm install
 
+COPY DiagnoseMe.MicroServices/node_backend .
+
 # Specify the command to run your application
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
+
