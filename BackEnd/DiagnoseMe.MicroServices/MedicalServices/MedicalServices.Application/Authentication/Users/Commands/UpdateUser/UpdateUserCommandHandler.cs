@@ -4,15 +4,24 @@ using MedicalServices.Application.Common.Interfaces.Persistence.IRepositories;
 using MedicalServices.Application.MedicalServices.Common;
 using MedicalServices.Domain.Common.Errors;
 
+
 namespace MedicalServices.Application.Authentication.Users.Commands.UpdateUser;
 
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ErrorOr<CommandResponse>>
 {
     private readonly IUserRepository _userRepository;
-    public UpdateUserCommandHandler(IUserRepository userRepository)
+    private readonly IPatientRepository _patientRepository;
+    private readonly IDoctorRepository _doctorRepository;
+    
+    public UpdateUserCommandHandler(
+        IUserRepository userRepository,
+        IPatientRepository patientRepository,
+        IDoctorRepository doctorRepository)
     {
         _userRepository = userRepository;
+        _doctorRepository = doctorRepository;
+        _patientRepository = patientRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
@@ -28,23 +37,42 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         user.ProfilePictureUrl = command.ProfilePictureUrl;
         user.IsDoctor = command.IsDoctor;
 
-        if(user.IsDoctor)
+        if(user.IsDoctor && user.Doctor == null)
         {
             user.Patient = null;
-            user.Doctor ??= new Doctor{
-                Id = user.Id
-            };
         }
-        else{
+        else if(!user.IsDoctor && user.Patient == null){
             user.Doctor = null;
-            user.Patient ??= new Patient{
-                Id = user.Id
-            };
         }
+        
+        await _userRepository.Edit(user);
 
+        await _userRepository.SaveAsync(cancellationToken);
+        
+        if(user.IsDoctor && user.Doctor == null)
+        {
+            
+            var doctor = new Doctor{
+                Id = user.Id,
+                Title = "Dr",
+                Bio = "I am a doctor",
+                License = "123456789",
+                IsLicenseVerified = true,
+                User = user
+            };
+            await  _doctorRepository.AddAsync(doctor);
+        }
+        else if(!user.IsDoctor && user.Patient == null){
+            var patient = new Patient{
+                Id = user.Id,
+                User = user
+            };
+            await _patientRepository.AddAsync(patient);
+        }
+        
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.UpdateFailed;
-        
+            
         return new CommandResponse(
             Success: true,
             Message: "User updated successfully.",

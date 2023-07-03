@@ -2,11 +2,11 @@ namespace MedicalServices.Domain.Entities;
 
 
 public class Doctor : BaseEntity{
-    public string Title { get; set; } = string.Empty;
-    public string Bio { get; set; } = string.Empty;
-    public string License { get; set; } = string.Empty;
+    public string? Title { get; set; } = string.Empty;
+    public string? Bio { get; set; } = string.Empty;
+    public string? License { get; set; } = string.Empty;
     public bool IsLicenseVerified {get; set;}
-    public string ClinicId { get; set; } = string.Empty;
+    public string? ClinicId { get; set; }
     public float AverageRate {get; set;}
     public int YearsOfExperience {get; set;}
     public virtual Clinic? Clinic { get; set; }

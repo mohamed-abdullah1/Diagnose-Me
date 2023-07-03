@@ -26,6 +26,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         user.ProfilePictureUrl = command.ProfilePictureUrl;
         user.BloodType = command.BloodType;
 
+        await _userRepository.Edit(user);
         if (await _userRepository.SaveAsync(cancellationToken) == 0)
             return Errors.User.UpdateFailed;
         
