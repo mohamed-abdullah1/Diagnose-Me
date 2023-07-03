@@ -16,7 +16,7 @@ async function consumeMessages(queueName, handlerFunc) {
     const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
     const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
 
-    const connectionUrl = `amqp://DiagnoseMe:DiagnoseMe@rabbitmq_container:5672`;
+    const connectionUrl = `amqp://DiagnoseMe:DiagnoseMe@rabbitmq.diagnose.me:5672`;
 
     // Connect to RabbitMQ server
     const connection = await amqp.connect(connectionUrl);

@@ -16,6 +16,11 @@ services:
     networks:
       - rabbitmq-network
     restart: always
+    healthcheck:
+      test: ['CMD', 'rabbitmqctl', 'status']
+      interval: 10s
+      timeout: 5s
+      retries: 3
   diagnosemegateway:
     container_name: diagnoseme-gateway
     image: diagnosemegateway
@@ -269,16 +274,37 @@ services:
       - Audience=DiagnoseMeApiUsers
       - STRIPE_PRIVATE_KEY=sk_test_51MnAETALes9VHSOp0MISt1T5tGPqoOIToe1glMDFWy3wF0XTB7muXk6HXbM5VBzFvTivpVzEN3PfYYR5Zi9Izs0100385Wk3zG
     depends_on:
-      - rabbitmq
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
+      rabbitmq:
+        condition: service_healthy
     networks:
-      - gateway
       - rabbitmq-network
+  # nodeapis:
+  #   container_name: node-container
+  #   hostname: node-service.diagnose.me
+  #   image: node-img
+  #   build:
+  #     context: .
+  #     dockerfile: DiagnoseMe.MicroServices/node_backend/Dockerfile
+  #   ports:
+  #     - 6060:6060
+  #   environment:
+  #     - MONGO_URI=mongodb+srv://Hamza:<PASSWORD>@cluster0.fwaagpt.mongodb.net/?retryWrites=true&w=majority
+  #     - DATABASE_PASSWORD=Mahmoud333
+  #     - JWT_SECRET=xeiQuai0ohc2Tha@
+  #     - Issuer=DiagnoseMeApi
+  #     - Audience=DiagnoseMeApiUsers
+  #     - STRIPE_PRIVATE_KEY=sk_test_51MnAETALes9VHSOp0MISt1T5tGPqoOIToe1glMDFWy3wF0XTB7muXk6HXbM5VBzFvTivpVzEN3PfYYR5Zi9Izs0100385Wk3zG
+  #   depends_on:
+  #     - rabbitmq
+  #   healthcheck:
+  #     test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
+  #     interval: 1m30s
+  #     timeout: 30s
+  #     retries: 5
+  #     start_period: 30s
+  #   networks:
+  #     - gateway
+  #     - rabbitmq-network
 volumes:
   authdbvolume:
   medicalblogdbvolume:
