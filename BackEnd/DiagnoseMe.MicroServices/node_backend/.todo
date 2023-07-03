@@ -69,6 +69,10 @@ hello:
   COPY DiagnoseMe.MicroServices/node_backend/ .
 
   ☐ docker network inspect my-network
+  ☐  stop all containers --> docker stop $(docker ps -aq)
+  ☐  remove all containers --> docker rm $(docker ps -aq)
+  ☐  remove all images --> docker rmi $(docker images -aq)
+
 
   
 
