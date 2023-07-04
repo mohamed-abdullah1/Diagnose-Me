@@ -8,6 +8,7 @@ public class Doctor : BaseEntity{
     public bool IsLicenseVerified {get; set;}
     public string? ClinicId { get; set; }
     public float AverageRate {get; set;}
+    public int PricePerSession {get; set;}
     public int YearsOfExperience {get; set;}
     public virtual Clinic? Clinic { get; set; }
     public virtual User? User { get; set; }

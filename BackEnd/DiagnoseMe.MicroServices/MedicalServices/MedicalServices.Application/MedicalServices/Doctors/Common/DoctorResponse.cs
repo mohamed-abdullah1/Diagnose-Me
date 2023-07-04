@@ -10,6 +10,7 @@ public record DoctorResponse(
     string License,
     bool IsLicenseVerified,
     string ClinicId,
+    int PricePerSession,
     string ClinicSpecialization,
     float AverageRate,
     int YearsOfExperience,
