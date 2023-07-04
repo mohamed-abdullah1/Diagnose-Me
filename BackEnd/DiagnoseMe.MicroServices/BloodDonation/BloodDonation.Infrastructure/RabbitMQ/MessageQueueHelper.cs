@@ -25,14 +25,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthAddExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.BloodDonationAddingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueBind(
@@ -76,14 +76,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.BloodDonationDeletingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueBind(
@@ -125,14 +125,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthUpdateExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.BloodDonationUpdatingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: true
+            autoDelete:  false
         );
 
         channel.QueueBind(
