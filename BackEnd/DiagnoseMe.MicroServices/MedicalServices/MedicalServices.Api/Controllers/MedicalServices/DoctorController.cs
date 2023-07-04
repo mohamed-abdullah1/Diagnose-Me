@@ -201,12 +201,12 @@ public class DoctorController : ApiController
     }
     
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("doctors/update-price-per-session")]
-    public async Task<IActionResult> UpdatePricePerSession([FromBody] int price)
+    [HttpPost("doctor/update-price-per-session")]
+    public async Task<IActionResult> UpdatePricePerSession(UpdatePricePerSessionRequest request)
     {
         var command = new UpdatePricePerSessionCommand(
             GetUserIdFromToken(), 
-            price);
+            request.price);
         var result = await _mediator.Send(command);
         return result.Match(
         result => Ok(result),

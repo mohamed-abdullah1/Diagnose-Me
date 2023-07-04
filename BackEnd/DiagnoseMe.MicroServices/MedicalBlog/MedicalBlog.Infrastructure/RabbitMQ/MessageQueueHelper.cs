@@ -27,14 +27,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthAddExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalBlogAddingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueBind(
@@ -78,14 +78,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalBlogDeletingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueBind(
@@ -127,14 +127,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthUpdateExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalBlogUpdatingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueBind(
@@ -178,14 +178,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.MedicalServiciesUpdateExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalBlogUpdatingDoctorQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete: true
         );
 
         channel.QueueBind(
