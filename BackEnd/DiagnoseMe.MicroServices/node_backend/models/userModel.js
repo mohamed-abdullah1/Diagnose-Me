@@ -35,11 +35,7 @@ const userSchema = mongoose.Schema(
 
 //   const salt = await bcrypt.genSalt(10);
 //   this.password = await bcrypt.hash(this.password, salt);
-//   // console.log('the password encrypted by bcrypt: ', this.password);
-//   // console.log(
-//   //   'the password encrypted by crypto SHA256: ',
-//   //   crypto.createHmac('sha256', process.env.JWT_SECRET).update(this.password).digest('hex')
-//   // );
+//   next();
 // });
 
 const User = mongoose.model('User', userSchema);
