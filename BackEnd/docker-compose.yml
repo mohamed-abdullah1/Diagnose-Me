@@ -3,6 +3,24 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    hostname: rabbitmq.diagnose.me
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=DiagnoseMe
+      - RABBITMQ_DEFAULT_PASS=DiagnoseMe
+    networks:
+      - rabbitmq-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'rabbitmqctl', 'status']
+      interval: 10s
+      timeout: 5s
+      retries: 3
   diagnosemegateway:
     container_name: diagnoseme-gateway
     image: diagnosemegateway
@@ -16,7 +34,7 @@ services:
       - Debug:ShowHost=true
     networks:
       - gateway
-    entrypoint: dotnet run 
+    entrypoint: dotnet run
   authapi:
     container_name: auth-api
     image: auth-api
@@ -33,7 +51,7 @@ services:
       - authdb
       - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://authdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test: ['CMD', 'curl', '-f', 'http://authdb:3306', ';', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -77,7 +95,17 @@ services:
       - medicalblogdb
       - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://medicalblogdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          'http://medicalblogdb:3306',
+          ';',
+          'curl',
+          '-f',
+          'http://rabbitmq.diagnose.me:5672',
+        ]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -119,7 +147,17 @@ services:
       - blooddonationdb
       - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://blooddonationdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          'http://blooddonationdb:3306',
+          ';',
+          'curl',
+          '-f',
+          'http://rabbitmq.diagnose.me:5672',
+        ]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -161,7 +199,17 @@ services:
       - medicalservicesdb
       - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://medicalservicesdb:3306",";", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          'http://medicalservicesdb:3306',
+          ';',
+          'curl',
+          '-f',
+          'http://rabbitmq.diagnose.me:5672',
+        ]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -187,23 +235,10 @@ services:
     ports:
       - 3310:3306
     restart: always
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management
-    hostname: rabbitmq.diagnose.me
-    ports:
-      - 5672:5672
-      - 15672:15672
-    environment:
-      - RABBITMQ_DEFAULT_USER=DiagnoseMe
-      - RABBITMQ_DEFAULT_PASS=DiagnoseMe
-    networks:
-      - rabbitmq-network
-    restart: always
   staticserve:
     container_name: static-serve
     hostname: static.diagnose.me
-    build: 
+    build:
       context: .
       dockerfile: DiagnoseMe.MicroServices/StaticServe/Dockerfile
     ports:
@@ -213,7 +248,7 @@ services:
     depends_on:
       - rabbitmq
     healthcheck:
-      test: ["CMD", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -239,9 +274,10 @@ services:
       - Audience=DiagnoseMeApiUsers
       - STRIPE_PRIVATE_KEY=sk_test_51MnAETALes9VHSOp0MISt1T5tGPqoOIToe1glMDFWy3wF0XTB7muXk6HXbM5VBzFvTivpVzEN3PfYYR5Zi9Izs0100385Wk3zG
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl","-f","http://rabbitmq.diagnose.me:5672"]
+      test: ['CMD', 'curl', '-f', 'http://rabbitmq.diagnose.me:5672']
       interval: 1m30s
       timeout: 30s
       retries: 5
