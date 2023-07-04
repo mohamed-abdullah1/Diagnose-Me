@@ -20,14 +20,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.StaticServeSaveExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.StaticServeSaveQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueBind(
@@ -83,14 +83,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.StaticServeDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.StaticServeDeleteQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueBind(

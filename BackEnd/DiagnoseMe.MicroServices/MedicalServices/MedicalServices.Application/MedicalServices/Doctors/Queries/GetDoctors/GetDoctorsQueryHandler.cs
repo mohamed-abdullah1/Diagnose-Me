@@ -30,7 +30,8 @@ public class GetDoctorsQueryHandler : IRequestHandler<GetDoctorsQuery, ErrorOr<P
             ToList();
         
         if (!String.IsNullOrEmpty(query.Name))
-            doctors = doctors.Where(d => d.User!.Name.Contains(query.Name)).ToList();
+            doctors = doctors.Where(d => d.User!.Name.ToLower().Contains(query.Name.ToLower())).ToList();
+
         var IsNextPage = doctors.Count > query.PageNumber * 10;
         var resDoctors = doctors.
             Skip((query.PageNumber - 1) * 10).

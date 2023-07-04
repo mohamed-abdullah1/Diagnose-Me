@@ -25,14 +25,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthAddExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalServicesAddingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueBind(
@@ -76,14 +76,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthDeleteExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalServicesDeletingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueBind(
@@ -125,14 +125,14 @@ public class MessageQueueHelper
             exchange: RabbitMQConstants.AuthUpdateExchange,
             type: ExchangeType.Fanout,
             durable: true,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueDeclare(
             queue: RabbitMQConstants.MedicalServicesUpdatingUserQueue,
             durable: true,
             exclusive: false,
-            autoDelete: false
+            autoDelete:  false
         );
 
         channel.QueueBind(

@@ -6,6 +6,7 @@ using MedicalServices.Application.MedicalServices.Doctors.Commands.AddDoctorRate
 using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.DeleteDoctorRate;
 using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoctor;
+using MedicalServices.Application.MedicalServices.Doctors.Commands.UpdatePricePerSession;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctor;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctorRatesByDoctorId;
 using MedicalServices.Application.MedicalServices.Doctors.Queries.GetDoctors;
@@ -176,7 +177,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize]
-    [HttpGet("doctors/popuplar/{specialization?}")]
+    [HttpGet("doctors/popuplar")]
     public async Task<IActionResult> GetPopularDoctors(string? specialization)
     {
         var query = new GetPopularDoctorsQuery(specialization!);
@@ -199,5 +200,17 @@ public class DoctorController : ApiController
         errors => Problem(errors));
     }
     
-    
+    [Authorize(Roles = Roles.Doctor)]
+    [HttpPost("doctor/update-price-per-session")]
+    public async Task<IActionResult> UpdatePricePerSession(UpdatePricePerSessionRequest request)
+    {
+        var command = new UpdatePricePerSessionCommand(
+            GetUserIdFromToken(), 
+            request.price);
+        var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
 }

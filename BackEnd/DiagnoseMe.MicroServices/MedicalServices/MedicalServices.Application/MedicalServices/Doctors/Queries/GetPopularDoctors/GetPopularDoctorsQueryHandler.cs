@@ -26,7 +26,7 @@ public class GetPopularDoctorsQueryHandler : IRequestHandler<GetPopularDoctorsQu
         ));
 
         if (query.Specialization != null)
-            doctors = doctors.Where(d => d.Clinic!.Specialization == query.Specialization);
+            doctors = doctors.Where(d => d.Clinic!.Specialization.ToLower() == query.Specialization.ToLower()).ToList();
 
         var resDoctors = doctors.
             OrderByDescending(d => d.AverageRate).

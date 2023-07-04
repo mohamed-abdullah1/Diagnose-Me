@@ -14,6 +14,7 @@ public class DoctorConfiguration : BaseConfiguration<Doctor>
         builder.Property(d => d.Bio);
         builder.Property(d => d.License);
         builder.Property(d => d.IsLicenseVerified);
+        builder.Property(d => d.PricePerSession);
         builder.Property(d => d.ClinicId);
         builder.Property(d => d.AverageRate);
         builder.Property(d => d.YearsOfExperience);
