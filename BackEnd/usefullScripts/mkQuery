@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+query=$1
+
+mkdir $query
+touch $query/${query}Query.cs
+touch $query/${query}QueryHandler.cs
+touch $query/${query}QueryValidator.cs
