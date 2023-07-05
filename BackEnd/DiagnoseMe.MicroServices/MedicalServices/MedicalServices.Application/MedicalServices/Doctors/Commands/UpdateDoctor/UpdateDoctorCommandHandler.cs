@@ -12,13 +12,16 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
 {
     private readonly IDoctorRepository _doctorRepository;
     private readonly IMessageQueueManager _messageQueueManager;
+    private readonly IClinicRepository _clinicRepository;
 
     public UpdateDoctorCommandHandler(
         IDoctorRepository doctorRepository,
-        IMessageQueueManager messageQueueManager)
+        IMessageQueueManager messageQueueManager,
+        IClinicRepository clinicRepository)
     {
         _doctorRepository = doctorRepository;
         _messageQueueManager = messageQueueManager;
+        _clinicRepository = clinicRepository;
     }
 
     public async Task<ErrorOr<CommandResponse>> Handle(UpdateDoctorCommand command, CancellationToken cancellationToken)
@@ -28,9 +31,20 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
         )).FirstOrDefault();
         if (doctor == null)
             return Errors.Doctor.NotFound;
-
+        
         doctor.Bio = command.Bio;
         doctor.Title = command.Title;
+        if (command.ClinicId != null)
+        {
+            var clinic = (await _clinicRepository.Get(
+                predicate: x => x.Id == command.ClinicId
+            )).FirstOrDefault();
+            if (clinic == null)
+                return Errors.Clinic.NotFound;
+            doctor.Clinic = clinic;
+            doctor.ClinicId = clinic.Id;
+        }
+
         await _doctorRepository.Edit(doctor);
         if (await _doctorRepository.SaveAsync(cancellationToken) == 0)
             return Errors.Doctor.UpdateFailed;

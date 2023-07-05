@@ -7,4 +7,5 @@ namespace MedicalServices.Application.MedicalServices.Doctors.Commands.UpdateDoc
 public record UpdateDoctorCommand(
     string DoctorId,
     string Title,
-    string Bio): IRequest<ErrorOr<CommandResponse>>;
+    string Bio,
+    string? ClinicId): IRequest<ErrorOr<CommandResponse>>;

@@ -17,5 +17,6 @@ public class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComman
         RuleFor(x => x.Bio)
             .NotEmpty()
             .WithMessage("Bio is required.");
+        
     }
 }
