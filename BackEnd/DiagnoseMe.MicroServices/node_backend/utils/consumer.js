@@ -11,12 +11,12 @@ const { v4: uuidv4 } = require('uuid');
 // Function to consume messages from the queue
 async function consumeMessages(queueName, handlerFunc) {
   try {
-    const hostname = 'rabbitmq.diagnose.me'; // Replace with your RabbitMQ server hostname
+    const hostname = 'localhost'; // Replace with your RabbitMQ server hostname
     const port = 5672; // Replace with your RabbitMQ server port
     const username = 'DiagnoseMe'; // Replace with your RabbitMQ server username
     const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
 
-    const connectionUrl = `amqp://${username}:${password}@${hostname}:${port}`;
+    const connectionUrl = `amqp://DiagnoseMe:DiagnoseMe@rabbitmq.diagnose.me:5672`;
 
     // Connect to RabbitMQ server
     const connection = await amqp.connect(connectionUrl);
@@ -58,55 +58,72 @@ const MyControllers = {
           name: msg.Name,
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
-          Role: msg.Role,
         });
 
         if (msg.IsDoctor) {
-          await Calendar.create({ _id: uuidv4(), doctorId: user._id });
+          const newCalendar = await Calendar.create({ _id: uuidv4(), doctorId: user._id });
+          console.log('A new calender created:✅', newCalendar);
         }
 
         if (user) {
           console.log('A new user created:✅', user);
         }
       } catch (err) {
-        console.log(err);
+        console.log('Error During Creating User:❌', err);
       }
     };
 
     const handlerUpdateUser = async (msg) => {
-      const { Id, Name, ProfilePictureUrl, IsDoctor, Role } = msg;
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: Id },
-        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
-        { runValidators: true, new: true }
-      );
-      console.log('The user is updated:✅', updatedUser);
+      const { Id, Name, ProfilePictureUrl, IsDoctor } = msg;
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: Id },
+          { name: Name, pic: ProfilePictureUrl, IsDoctor },
+          { runValidators: true, new: true }
+        );
+        console.log('The user is updated:✅', updatedUser);
+      } catch (error) {
+        console.log('Error During Updating User:❌', error);
+      }
     };
 
     const handlerDeleteUser = async (msg) => {
-      const deletedUser = await User.findByIdAndDelete(msg.userId);
-      console.log('The user is Deleted:✅');
+      try {
+        console.log('message sent to delete👉', msg);
+        const deletedUser = await User.findByIdAndDelete(msg);
+        console.log('The user is Deleted successfuly:✅', deletedUser);
+      } catch (error) {
+        console.log('Error During Deleting User:❌', error);
+      }
     };
 
     const handleAddNotificatioin = async (msg) => {
       // const { Message, RecipientId, SenderId, Title } = msg;
-      const notificationAdded = await Notification.create({ _id: uuidv4(), ...msg });
-      console.log('Notification Created: 👉', notificationAdded);
+      try {
+        const notificationAdded = await Notification.create({ _id: uuidv4(), ...msg });
+        console.log('Notification Created: 👉', notificationAdded);
+      } catch (error) {
+        console.log('Error During Creating Notification:❌', error);
+      }
     };
 
     const hadnleUpdateDoctor = async (msg) => {
-      const { Id, Specialization, Rating } = msg;
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: Id },
-        { Specialization, Rating },
-        { runValidators: true, new: true }
-      );
-      console.log('The user is updated:✅', updatedUser);
+      try {
+        const { Id, Specialization, Rating } = msg;
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: Id },
+          { Specialization, Rating },
+          { runValidators: true, new: true }
+        );
+        console.log('The user is updated successfuly:✅', updatedUser);
+      } catch (error) {
+        console.log('Error During Updating Doctor:❌', error);
+      }
     };
 
-    consumeMessages('Auth.Add', handlerCreateUser);
-    consumeMessages('Auth.Update', handlerUpdateUser);
-    consumeMessages('Auth.Delete', handlerDeleteUser);
+    consumeMessages('Auth.Chat.User.Add', handlerCreateUser);
+    consumeMessages('Auth.Chat.User.Update', handlerUpdateUser);
+    consumeMessages('Auth.Chat.User.Delete', handlerDeleteUser);
     consumeMessages('Global.Notification', handleAddNotificatioin);
     consumeMessages('MedicalServicies.Chat.Doctor.Update', hadnleUpdateDoctor);
   },

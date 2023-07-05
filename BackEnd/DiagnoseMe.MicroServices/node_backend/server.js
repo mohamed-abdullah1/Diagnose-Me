@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
-const colors = require('colors');
 const userRoutes = require('./routes/userRoutes');
+const colors = require('colors');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');

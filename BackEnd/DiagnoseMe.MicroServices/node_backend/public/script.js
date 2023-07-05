@@ -3,7 +3,7 @@ const button = document.querySelector('.submit');
 const user = JSON.parse(localStorage.getItem('userLogged'));
 
 button.addEventListener('click', () => {
-  fetch('http://localhost:6969/api/booking/payment', {
+  fetch('http://20.106.143.152:6060/api/booking/payment', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

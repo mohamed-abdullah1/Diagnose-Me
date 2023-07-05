@@ -7,17 +7,9 @@ const userSchema = mongoose.Schema(
     name: { type: 'String', required: [true, 'Enter the Name feild 🔑'] },
     pic: {
       type: 'String',
-      required: true,
       default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
     },
     IsDoctor: { type: Boolean, default: false },
-    Role: {
-      type: String,
-      enum: {
-        values: ['Doctor', 'Patient', 'Admin'],
-        message: 'Please select a valid Role.',
-      },
-    },
     specialization: String,
     Rating: Number,
   },
@@ -35,11 +27,7 @@ const userSchema = mongoose.Schema(
 
 //   const salt = await bcrypt.genSalt(10);
 //   this.password = await bcrypt.hash(this.password, salt);
-//   // console.log('the password encrypted by bcrypt: ', this.password);
-//   // console.log(
-//   //   'the password encrypted by crypto SHA256: ',
-//   //   crypto.createHmac('sha256', process.env.JWT_SECRET).update(this.password).digest('hex')
-//   // );
+//   next();
 // });
 
 const User = mongoose.model('User', userSchema);

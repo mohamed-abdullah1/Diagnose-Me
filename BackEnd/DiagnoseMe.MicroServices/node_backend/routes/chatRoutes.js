@@ -10,8 +10,3 @@ router.route('/delete-chat').delete(protect, deleteChat); // Delete my id from u
 router.route('/admin-delete-chat').delete(protect, adminDeleteChat); // Delete the complete chat document (admin ability)
 
 module.exports = router;
-
-// router.route('/group').post(protect, createGroupChat);
-// router.route('/rename').put(protect, renameGroup);
-// router.route('/groupremove').put(protect, removeFromGroup);
-// router.route('/groupadd').put(protect, addToGroup);
