@@ -69,6 +69,7 @@ public class DoctorController : ApiController
         result => Ok(result),
         errors => Problem(errors));
     }
+    
     [Authorize(Roles =Roles.Admin)]
     [HttpPost("doctors/add/{doctorId}")]
     public async Task<IActionResult> AddDoctor(AddDoctorRequest request, string doctorId)
