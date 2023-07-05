@@ -18,9 +18,9 @@ services:
     restart: always
     healthcheck:
       test: ['CMD', 'rabbitmqctl', 'status']
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 1m
+      timeout: 30s
+      retries: 5
   diagnosemegateway:
     container_name: diagnoseme-gateway
     image: diagnosemegateway
