@@ -58,7 +58,6 @@ const MyControllers = {
           name: msg.Name,
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
-          Role: msg.Role,
         });
 
         if (msg.IsDoctor) {
@@ -75,11 +74,11 @@ const MyControllers = {
     };
 
     const handlerUpdateUser = async (msg) => {
-      const { Id, Name, ProfilePictureUrl, IsDoctor, Role } = msg;
+      const { Id, Name, ProfilePictureUrl, IsDoctor } = msg;
       try {
         const updatedUser = await User.findOneAndUpdate(
           { _id: Id },
-          { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
+          { name: Name, pic: ProfilePictureUrl, IsDoctor },
           { runValidators: true, new: true }
         );
         console.log('The user is updated:✅', updatedUser);
@@ -90,7 +89,8 @@ const MyControllers = {
 
     const handlerDeleteUser = async (msg) => {
       try {
-        const deletedUser = await User.findByIdAndDelete(msg.userId);
+        console.log('message sent to delete👉', msg);
+        const deletedUser = await User.findByIdAndDelete(msg);
         console.log('The user is Deleted successfuly:✅', deletedUser);
       } catch (error) {
         console.log('Error During Deleting User:❌', error);
@@ -121,9 +121,9 @@ const MyControllers = {
       }
     };
 
-    consumeMessages('Auth.Add', handlerCreateUser);
-    consumeMessages('Auth.Update', handlerUpdateUser);
-    consumeMessages('Auth.Delete', handlerDeleteUser);
+    consumeMessages('Auth.Chat.User.Add', handlerCreateUser);
+    consumeMessages('Auth.Chat.User.Update', handlerUpdateUser);
+    consumeMessages('Auth.Chat.User.Delete', handlerDeleteUser);
     consumeMessages('Global.Notification', handleAddNotificatioin);
     consumeMessages('MedicalServicies.Chat.Doctor.Update', hadnleUpdateDoctor);
   },
