@@ -200,12 +200,12 @@
         },
         {
             "UpstreamPathTemplate": "/static/{everything}",
-            "UpstreamHttpMethod": [ "Get"],
-            "DownStreamScheme": "http",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "static.diagnose.me",
-                    "Port": 5127
+                    "Port": 7707
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,

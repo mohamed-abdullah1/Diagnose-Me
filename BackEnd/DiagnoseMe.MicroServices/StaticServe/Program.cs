@@ -23,14 +23,10 @@ if (app.Environment.IsDevelopment())
             Path.Combine(builder.Environment.ContentRootPath, "Files")),
         RequestPath = "/files"
     });
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 MessageQueueSubscriber.start(builder);
-app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllers();
+app.UseHttpsRedirection();
 
 app.Run();
