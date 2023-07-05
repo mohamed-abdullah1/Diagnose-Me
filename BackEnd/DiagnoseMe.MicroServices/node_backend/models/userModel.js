@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema(
     name: { type: 'String', required: [true, 'Enter the Name feild 🔑'] },
     pic: {
       type: 'String',
-      required: true,
       default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
     },
     IsDoctor: { type: Boolean, default: false },
