@@ -20,7 +20,7 @@ public static class RabbitMQConstants
     public const string ChatAddingUserQueue = "Auth.Chat.User.Add";
     public const string ChatDeletingUserQueue = "Auth.Chat.User.Delete";
     public const string ChatUpdatingUserQueue = "Auth.Chat.User.Update";
-    public const string NotificationExchange = "Global.Notification";
+    public const string NotificationExchange = "Notification";
     public const string NotificationQueue = "Global.Notification";
     public const string StaticServeSaveExchange = "StaticServe.Save.Exchange";
     public const string StaticServeDeleteExchange = "StaticServe.Delete.Exchange";

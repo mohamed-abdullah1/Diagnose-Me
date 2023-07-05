@@ -1,0 +1,59 @@
+Done:
+  ✘ add on(messageRead) event in the socket server side and @cancelled (4/28/2023, 10:49:52 PM)
+  ☐ date-fns library imported
+  ☐ endpoint for creating message with option to create it as ReadedMessage directly or leave it by default un-read
+  ☐ endpoint set singe message as read & endpoint for set all un-read messages in a chat as read
+  ☐ endpoints for editing message content and delete single message and delete all messages in a chat
+  ☐ endpoint for fetching all messages sorted by creating date
+  ☐ add unReadMsgCount property in chatModle Schema
+  ☐ endpoints for add or clear available dates for the doctor (TODO needs using req.user._id )
+  ☐ endpoints for create an appointment and change appointment status:'waiting','approved','canceled'
+  ☐ endpoint for get all booked appointment for both patient or doctor with the same end point(TODO needs using req.user._id instead of params id)
+  ☐ delete all users or delete list of users (admin ability)
+  ☐ using populate and ref to expand the appointment document related to the parent user document
+  ☐ you can now send times in any of the two formats HH:MM:SS or in ISO date format
+  ☐ delete single chat completely by (admin) or delete it from me as a user
+  ☐ removed populated users and other not needed data (can be returned if needed)
+  ☐ change the configuration for JWT in configuration file with ALY 's one @today
+  ☐ added 3 roles to the user schema @today 
+  ☐ create script to add seeding emails if not found @today 
+  ☐ delete register user endpoing - delete login endpoint that signing authintication user - replace it with adding user handler in Rabit MQ - delete Delete user end point & replace it with delete user Handler in Rabit MQ - adding update user Handler in Rabit MQ 
+  ☐ Remove pre-Hashing and match password methods from & remove password and email from schema @today
+  ☐ install docker and run a Docker Container with RabbitMQ using the following command docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=DiagnoseMe -e RABBITMQ_DEFAULT_PASS=DiagnoseMe --hostname rabbitmq.diagnose.me rabbitmq:3-management (https://chat.openai.com/share/09a0aa74-3838-48a7-b8ad-f3cd6f03a2ac)
+  ☐ create a node.js script to sendToQueue and add the connection details (hostname, port, username, password) in the connectionUrl at Rabit MQ in both sender code and receiver code
+  ☐ TODO you have to provide doctor id in the url when getting all available dates
+  ☐ DONE error handling
+  ☐ DONE create notification schema
+  ☐ DONE change speciality with Specializaion
+  ☐ DONE add Rating to user schema
+to do:
+  ☐ check for all routes that update or delete or read from documet that the document exists and handle if the user provided unexisted values
+  ☐ edit for all appointments (available or booked) -- clear booked
+  ☐ when fetching all chats --> send number of unreaded messages in each chat -- but after fetching and viewing all chats what if a new message sent you need update number of un-read messages without fetching chat again
+  ☐ check for coach academy problem solving training
+  ☐ expand doctorId if the logged person is doctor or expand patientId if logged is patient in get-all-booked-appointments-endpoint
+
+question:
+  ☐ is it post or patch request
+  ☐ we can make edit and readed state for msg in one endpoint
+
+changes:
+
+
+good notes:
+  ✔ if we added 's' letter for the model name when we are creating it, it will work @done (4/25/2023, 11:29:52 PM)
+  ✔ find method returns array of documents and may cause errors if you deal with it as it return one document @done (4/25/2023, 10:55:07 PM)
+  ✔ user object destructuring when taking values from req.body @done (4/28/2023, 2:38:27 AM)
+  ✔ select or any other methods except populate can't be chanined with create method but we can chain with find mehtods @done (4/28/2023, 2:55:52 AM)
+  ✔ if you are createing a modle which will be edited many times frequently --> use parent referencing instead of embeded or child referencing and population even if the parent will have only one document of this model (one-to-one relationship) @done (4/29/2023, 5:42:37 PM)
+  ✔ to populate someting inside embeded document or populated document --> use populate() method inside the original model @done (4/29/2023, 7:07:53 PM)
+
+problems solved:
+  ☐ i needed to delete chat for specific user but without deleting the chat document itself in the database to not lose the data needed by other users in the chat --> so i realized that i only need to delete only the user id from the users list in the caht document
+  but also needed to remove the chat document when there is no users in the list --> so i started to retrive the users list each time i update the it and check if it becomes empty, if it is empty then remove the chat document.
+  ☐ "Converting circular structure to JSON" this error in PostMan means that you didn't execute the query to DB using .exec() method or await --> note that await do 2 things 1- execute the query returned and wait to the promise so you can't even if you used .exec() not use await for the promise
+  ☐ findOneAndUpdate() returns document by default and updateOne returns acknowledgement object
+  ☐ i already removed a field from my schema but it's validator still works so to drop that index (i think) you need to re-run the schema file by making any update in it or drop the index manually (https://chat.openai.com/share/5c5b3961-d610-4397-96cb-5e83afb7e2db)
+
+  
+
