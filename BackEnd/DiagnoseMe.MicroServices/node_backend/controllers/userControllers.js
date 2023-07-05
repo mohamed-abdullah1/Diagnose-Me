@@ -10,6 +10,7 @@ const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search ? { name: { $regex: req.query.search, $options: 'i' } } : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user?._id } }); // the optional chaningin here if there is no users exists
+  console.log('Users fetched✅');
   res.send(users);
 });
 

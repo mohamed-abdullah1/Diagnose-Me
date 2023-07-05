@@ -62,46 +62,63 @@ const MyControllers = {
         });
 
         if (msg.IsDoctor) {
-          await Calendar.create({ _id: uuidv4(), doctorId: user._id });
+          const newCalendar = await Calendar.create({ _id: uuidv4(), doctorId: user._id });
+          console.log('A new calender created:✅', newCalendar);
         }
 
         if (user) {
           console.log('A new user created:✅', user);
         }
       } catch (err) {
-        console.log(err);
+        console.log('Error During Creating User:❌', err);
       }
     };
 
     const handlerUpdateUser = async (msg) => {
       const { Id, Name, ProfilePictureUrl, IsDoctor, Role } = msg;
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: Id },
-        { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
-        { runValidators: true, new: true }
-      );
-      console.log('The user is updated:✅', updatedUser);
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: Id },
+          { name: Name, pic: ProfilePictureUrl, IsDoctor, Role },
+          { runValidators: true, new: true }
+        );
+        console.log('The user is updated:✅', updatedUser);
+      } catch (error) {
+        console.log('Error During Updating User:❌', error);
+      }
     };
 
     const handlerDeleteUser = async (msg) => {
-      const deletedUser = await User.findByIdAndDelete(msg.userId);
-      console.log('The user is Deleted:✅');
+      try {
+        const deletedUser = await User.findByIdAndDelete(msg.userId);
+        console.log('The user is Deleted successfuly:✅', deletedUser);
+      } catch (error) {
+        console.log('Error During Deleting User:❌', error);
+      }
     };
 
     const handleAddNotificatioin = async (msg) => {
       // const { Message, RecipientId, SenderId, Title } = msg;
-      const notificationAdded = await Notification.create({ _id: uuidv4(), ...msg });
-      console.log('Notification Created: 👉', notificationAdded);
+      try {
+        const notificationAdded = await Notification.create({ _id: uuidv4(), ...msg });
+        console.log('Notification Created: 👉', notificationAdded);
+      } catch (error) {
+        console.log('Error During Creating Notification:❌', error);
+      }
     };
 
     const hadnleUpdateDoctor = async (msg) => {
-      const { Id, Specialization, Rating } = msg;
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: Id },
-        { Specialization, Rating },
-        { runValidators: true, new: true }
-      );
-      console.log('The user is updated:✅', updatedUser);
+      try {
+        const { Id, Specialization, Rating } = msg;
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: Id },
+          { Specialization, Rating },
+          { runValidators: true, new: true }
+        );
+        console.log('The user is updated successfuly:✅', updatedUser);
+      } catch (error) {
+        console.log('Error During Updating Doctor:❌', error);
+      }
     };
 
     consumeMessages('Auth.Add', handlerCreateUser);
