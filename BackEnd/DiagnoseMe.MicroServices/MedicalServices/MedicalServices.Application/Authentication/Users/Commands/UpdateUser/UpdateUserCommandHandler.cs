@@ -54,10 +54,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
             
             var doctor = new Doctor{
                 Id = user.Id,
-                Title = "Dr",
-                Bio = "I am a doctor",
-                License = "123456789",
-                IsLicenseVerified = true,
                 User = user
             };
             await  _doctorRepository.AddAsync(doctor);
