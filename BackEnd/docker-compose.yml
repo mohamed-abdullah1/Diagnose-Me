@@ -257,7 +257,7 @@ services:
       - gateway
       - rabbitmq-network
     volumes:
-      - ~/diagnoseme/StaticServe/Files:/src/StaticServe/Files
+      - ~/StaticServe/Files:/src/StaticServe/Files
     restart: always
   nodeapis:
     container_name: node-container
