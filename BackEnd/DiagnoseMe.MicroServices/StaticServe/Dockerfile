@@ -20,6 +20,5 @@ FROM build AS final
 WORKDIR /src/StaticServe
 RUN dotnet dev-certs https --trust
 COPY --from=build /src/StaticServe .
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app &&chown -R appuser /src && chmod -R 777 /src && chmod -R 777 /app
-USER appuser
+
 ENTRYPOINT ["dotnet", "run"]
