@@ -24,7 +24,7 @@ if (app.Environment.IsDevelopment())
         RequestPath = "/files"
     });
 }
-MessageQueueSubscriber.start(builder);
+// MessageQueueSubscriber.start(builder);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
