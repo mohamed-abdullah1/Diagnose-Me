@@ -1,0 +1,7 @@
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.csproj.AssemblyReference.cache
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.GeneratedMSBuildEditorConfig.editorconfig
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.AssemblyInfoInputs.cache
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.AssemblyInfo.cs
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.csproj.CoreCompileInputs.cache
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.MvcApplicationPartsAssemblyInfo.cs
+/media/x41ly/FIles/Projects/dotnet/diagnose-me/BackEnd/DiagnoseMe.MicroServices/PaymentGateWay/obj/Debug/net7.0/PaymentGateWay.MvcApplicationPartsAssemblyInfo.cache
