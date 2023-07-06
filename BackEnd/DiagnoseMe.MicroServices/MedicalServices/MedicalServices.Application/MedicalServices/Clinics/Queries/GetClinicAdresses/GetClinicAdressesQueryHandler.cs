@@ -10,6 +10,7 @@ namespace MedicalServices.Application.MedicalServices.Clinics.Queries.GetClinicA
 public class GetClinicAddressesQueryHandler : IRequestHandler<GetClinicAddressesQuery, ErrorOr<PageResponse>>
 {
     private readonly IClinicAddressRepository _clinicAddressRepository;
+    
     private readonly IMapper _mapper;
 
     public GetClinicAddressesQueryHandler(
@@ -24,15 +25,17 @@ public class GetClinicAddressesQueryHandler : IRequestHandler<GetClinicAddresses
     {
         var clinicAddresses = (await _clinicAddressRepository.Get(
             predicate: x => x.ClinicId == query.ClinicId,
-            include: "Doctor",
             orderBy: x => x.OrderBy(c => c.Id)))
             .ToList();
 
-            var IsNextPage = clinicAddresses.Count > query.PageNumber * 10;
-            var resClinicAddresses = clinicAddresses.
-                Skip((query.PageNumber - 1) * 10).
-                Take(10).
-                ToList();
+        var IsNextPage = clinicAddresses.Count > query.PageNumber * 10;
+        var resClinicAddresses = clinicAddresses.
+            Skip((query.PageNumber - 1) * 10).
+            Take(10).
+            ToList();
+        
+
+        
         var clinicAddressesResponse = _mapper.Map<List<ClinicAddressResponse>>(resClinicAddresses);
         return new PageResponse(
             clinicAddressesResponse.Select(p => (object)p).ToList(),

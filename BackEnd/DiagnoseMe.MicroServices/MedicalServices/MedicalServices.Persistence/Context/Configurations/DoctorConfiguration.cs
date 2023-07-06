@@ -31,18 +31,6 @@ public class DoctorConfiguration : BaseConfiguration<Doctor>
                     HasForeignKey(d => d.DoctorId)
                     .OnDelete(DeleteBehavior.Cascade)
             );
-        builder.HasMany(d => d.ClinicAddresses).
-            WithMany(ca => ca.Doctors).
-            UsingEntity<DoctorClinicAddress>(
-                dca => dca.HasOne(ca => ca.ClinicAddress).
-                    WithMany().
-                    HasForeignKey(ca => ca.ClinicAddressId)
-                    .OnDelete(DeleteBehavior.Cascade),
-                dca => dca.HasOne(d => d.Doctor).
-                    WithMany().
-                    HasForeignKey(d => d.DoctorId)
-                    .OnDelete(DeleteBehavior.Cascade)
-            );
         builder.HasMany(d => d.Surgeries).
             WithMany(s => s.Doctors).
             UsingEntity<DoctorSurgery>(

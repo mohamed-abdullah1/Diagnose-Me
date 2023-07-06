@@ -48,8 +48,11 @@ public class AddClinicAddressCommandHandler : IRequestHandler<AddClinicAddressCo
             OpenTime = TimeOnly.ParseExact(command.OpenTime, "HH:mm"),
             CloseTime = TimeOnly.ParseExact(command.CloseTime, "HH:mm"),
             ClinicId = clinic.Id,
+            Latitude = command.Latitude,
+            Longitude = command.Longitude,
             CreatedOn = DateTime.Now,
             OwnerId = command.OwnerId};
+            
         address.Clinic = clinic;
         address.Owner = owner;
         var result = FileHelper.CheckImage(
