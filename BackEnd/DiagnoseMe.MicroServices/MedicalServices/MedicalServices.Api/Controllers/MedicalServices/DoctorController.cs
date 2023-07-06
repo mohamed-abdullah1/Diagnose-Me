@@ -71,7 +71,7 @@ public class DoctorController : ApiController
     }
     
     [Authorize(Roles =Roles.Admin)]
-    [HttpPost("doctors/add/{doctorId}")]
+    [HttpPost("doctors/add")]
     public async Task<IActionResult> AddDoctor(AddDoctorRequest request, string doctorId)
     {
         
@@ -83,7 +83,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
-    [HttpPost("doctors/update/{doctorId?}")]
+    [HttpPost("doctors/update")]
     public async Task<IActionResult> UpdateDoctor(UpdateDoctorRequest request, string doctorId = null!)
     {
         if (User.IsInRole(Roles.Admin))
@@ -111,7 +111,7 @@ public class DoctorController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor+","+Roles.Admin)]
-    [HttpDelete("doctors/delete/{doctorId?}")]
+    [HttpDelete("doctors/delete")]
     public async Task<IActionResult> DeleteDoctor(string doctorId = null!)
     {
         if (User.IsInRole(Roles.Admin))

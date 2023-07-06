@@ -56,7 +56,7 @@ public class ClinicController : ApiController
     }
 
     [Authorize]
-    [HttpGet("clinics/{clinicId}/doctors/page-number/{pageNumber}")]
+    [HttpGet("clinics/doctors/page-number/{pageNumber}")]
     public async Task<IActionResult> GetClinicsDoctors(int pageNumber,string clinicId)
     {
 
@@ -119,8 +119,8 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinicId}/addresses/add")]
-    public async Task<IActionResult> AddClinicAddress(string clinicId,AddClinicAddressRequest request)
+    [HttpPost("clinics/addresses/add")]
+    public async Task<IActionResult> AddClinicAddress(AddClinicAddressRequest request)
     {
         var command = _mapper.Map<AddClinicAddressCommand>((request,GetUserIdFromToken()));
         
@@ -131,8 +131,8 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpDelete("clinics/{clinicId}/addresses/{address-id}/delete")]
-    public async Task<IActionResult> DeleteClinicAddress(string clinicId,string addressId)
+    [HttpDelete("clinics/addresses/{address-id}/delete")]
+    public async Task<IActionResult> DeleteClinicAddress(string addressId)
     {
         var command = new DeleteClinicAddressCommand(addressId, GetUserIdFromToken());
         
@@ -143,8 +143,8 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinicId}/addresses/{address-id}/update")]
-    public async Task<IActionResult> UpdateClinicAddress(string clinicId,string addressId,UpdateClinicAddressRequest request)
+    [HttpPost("clinics/addresses/{address-id}/update")]
+    public async Task<IActionResult> UpdateClinicAddress(string addressId,UpdateClinicAddressRequest request)
     {
         var command = _mapper.Map<UpdateClinicAddressCommand>((request,GetUserIdFromToken()));
         
@@ -155,8 +155,8 @@ public class ClinicController : ApiController
     }
 
     [Authorize(Roles = Roles.Doctor)]
-    [HttpPost("clinics/{clinicId}/addresses/address-id/{addressId}/update-picture")]
-    public async Task<IActionResult> UpdateClinicAddressProfilePicture(string clinicId,string addressId,UpdateClinicAddressProfilePictureRequest request)
+    [HttpPost("clinics/addresses/address-id/{addressId}/update-picture")]
+    public async Task<IActionResult> UpdateClinicAddressProfilePicture(string addressId,UpdateClinicAddressProfilePictureRequest request)
     {
         var command = new UpdateClinicAddressProfilePictureCommand(
             addressId,

@@ -8,6 +8,8 @@ public record AddClinicAddressRequest(
     string State,
     string Country,
     string ZipCode,
+    string Latitude,
+    string Longitude,
     string OpenTime,
     string CloseTime,
     string Base64Picture
