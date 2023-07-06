@@ -72,8 +72,9 @@ hello:
   ☐  stop all containers --> docker stop $(docker ps -aq)
   ☐  remove all containers --> docker rm $(docker ps -aq)
   ☐  remove all images --> docker rmi $(docker images -aq)
-
-  ☐ Check for roles in the token
+  ☐  git fetch origin
+    git reset --hard origin/<remote_branch>
+  
 
 
   
