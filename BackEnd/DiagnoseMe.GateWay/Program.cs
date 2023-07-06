@@ -26,7 +26,8 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 }
 var app = builder.Build();
 {
-    app.Use(async (context, next) =>
+    app.UseCors("AllowAll");
+    pp.Use(async (context, next) =>
         {
             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
             await next();
