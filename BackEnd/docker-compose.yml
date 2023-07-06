@@ -242,7 +242,7 @@ services:
       context: .
       dockerfile: DiagnoseMe.MicroServices/StaticServe/Dockerfile
     ports:
-      - 5127:5127
+      - 7707:7707
     environment:
       - Debug:ShowHost=true
     depends_on:
@@ -256,6 +256,8 @@ services:
     networks:
       - gateway
       - rabbitmq-network
+    volumes:
+      - ~/StaticServe/Files:/src/StaticServe/Files
     restart: always
   nodeapis:
     container_name: node-container

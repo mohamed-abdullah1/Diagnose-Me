@@ -15,4 +15,4 @@ public record DoctorResponse(
     float AverageRate,
     int YearsOfExperience,
     int NumberOfPatients,
-    List<ClinicAddressResponse> ClinicAddresses);
+    List<ClinicAddressResponse> OwnedClinicAddresses);

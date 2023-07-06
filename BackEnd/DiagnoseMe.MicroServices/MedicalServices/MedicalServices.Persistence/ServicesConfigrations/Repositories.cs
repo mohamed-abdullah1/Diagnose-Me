@@ -18,7 +18,6 @@ public static class Repositories
             services.AddScoped<IDiseaseMedicationRepository,DiseaseMedicationRepository>();
             services.AddScoped<IDiseaseRepository,DiseaseRepository>();
             services.AddScoped<IDiseaseSurgeryRepository,DiseaseSurgeryRepository>();
-            services.AddScoped<IDoctorClinicAddressRepository,DoctorClinicAddressRepository>();
             services.AddScoped<IDoctorMedicationRepository,DoctorMedicationRepository>();
             services.AddScoped<IDoctorRateRepository,DoctorRateRepository>();
             services.AddScoped<IDoctorRepository,DoctorRepository>();

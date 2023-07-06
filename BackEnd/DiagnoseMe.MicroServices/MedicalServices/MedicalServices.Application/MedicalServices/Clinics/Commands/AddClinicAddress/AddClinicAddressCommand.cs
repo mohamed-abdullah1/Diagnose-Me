@@ -16,4 +16,6 @@ public record AddClinicAddressCommand(
     string ZipCode,
     string OpenTime,
     string CloseTime,
+    string Latitude,
+    string Longitude,
     string Base64Picture) : IRequest<ErrorOr<CommandResponse>>;

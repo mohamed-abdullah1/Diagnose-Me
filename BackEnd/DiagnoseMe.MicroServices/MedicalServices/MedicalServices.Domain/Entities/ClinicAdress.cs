@@ -19,5 +19,4 @@ public class ClinicAddress : BaseEntity
     public string ProfilPictureUrl { get; set; } = string.Empty;
     public virtual Clinic? Clinic { get; set; }
     public virtual Doctor Owner { get; set; } = new Doctor();
-    public virtual ICollection<Doctor> Doctors {get; set;} = new HashSet<Doctor>();    
 }
