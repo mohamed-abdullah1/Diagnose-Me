@@ -57,8 +57,9 @@ public class MessageQueueHelper
             
             foreach(var fileResponse in filesResponse! )
             {
-                var dirPath = Path.Combine(AppContext.BaseDirectory,"../../../", "Files", Path.GetDirectoryName(fileResponse.FilePath)!);
-                var filePath = Path.Combine(AppContext.BaseDirectory,"../../../", "Files", fileResponse.FilePath);
+                var _env = (IWebHostEnvironment) serviceProvider.GetRequiredService(typeof(IWebHostEnvironment))!;
+                var dirPath = Path.Combine(_env.ContentRootPath, "Files", Path.GetDirectoryName(fileResponse.FilePath)!);
+                var filePath = Path.Combine(_env.ContentRootPath, "Files", fileResponse.FilePath);
                 if (!Directory.Exists(dirPath))
                 {
                     Logging(logger, new List<Error>(){FileErrors.DirectoryNotFound(dirPath)});
@@ -120,9 +121,10 @@ public class MessageQueueHelper
             
             foreach(var fileNameDecoded in filesNameResponse!)
             {    
-                if(File.Exists(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded)))
+                var _env = (IWebHostEnvironment) serviceProvider.GetRequiredService(typeof(IWebHostEnvironment))!;
+                if(File.Exists(Path.Combine(_env.ContentRootPath, "Files", fileNameDecoded)))
                 {
-                    File.Delete(Path.Combine(AppContext.BaseDirectory, "Files", fileNameDecoded));
+                    File.Delete(Path.Combine(_env.ContentRootPath, "Files", fileNameDecoded));
                 }
                 else
                 {
