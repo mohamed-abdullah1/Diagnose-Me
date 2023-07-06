@@ -32,10 +32,11 @@ async function sendToQueue(queueName, message) {
 }
 
 const queueName = {
-  add: 'Auth.Add',
-  update: 'Auth.Update',
-  delete: 'Auth.Delete',
+  add: 'Auth.Chat.User.Add',
+  update: 'Auth.Chat.User.Update',
+  delete: 'Auth.Chat.User.Delete',
   notification: 'Global.Notification',
+  doctor: 'MedicalServicies.Chat.Doctor.Update',
 };
 
 const message = JSON.stringify({

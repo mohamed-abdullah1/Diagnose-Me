@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
-const generateToken = require('../config/generateToken');
-const { v4: uuidv4 } = require('uuid');
 
 //@description     Get or Search all users
 //@route           GET /api/user?search=
@@ -10,6 +8,7 @@ const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search ? { name: { $regex: req.query.search, $options: 'i' } } : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user?._id } }); // the optional chaningin here if there is no users exists
+  console.log('Users fetched✅');
   res.send(users);
 });
 

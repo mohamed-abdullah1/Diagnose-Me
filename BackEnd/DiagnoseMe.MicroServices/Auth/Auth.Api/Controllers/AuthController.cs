@@ -1,0 +1,314 @@
+using Auth.Application.Authentication.Commands.AddUserToRole;
+using Auth.Application.Authentication.Commands.ChangeEmail;
+using Auth.Application.Authentication.Commands.ChangeName;
+using Auth.Application.Authentication.Commands.ChangePassword;
+using Auth.Application.Authentication.Commands.ConfirmEmail;
+using Auth.Application.Authentication.Commands.ConfirmEmailChange;
+using Auth.Application.Authentication.Commands.DeleteAccount;
+using Auth.Application.Authentication.Commands.ForgotPassword;
+using Auth.Application.Authentication.Commands.Register;
+using Auth.Application.Authentication.Commands.RemoveUserFromRole;
+using Auth.Application.Authentication.Commands.ResendEmailConfirmation;
+using Auth.Application.Authentication.Commands.ResetPassword;
+using Auth.Application.Authentication.Commands.SignOut;
+using Auth.Application.Authentication.Commands.UploadProfilePicture;
+using Auth.Application.Authentication.Commands.VerifyDoctorIdentity;
+using Auth.Application.Authentication.Commands.VerifyPin;
+using Auth.Application.Authentication.Queries.GetAllUsers;
+using Auth.Application.Authentication.Queries.GetIfEmailExist;
+using Auth.Application.Authentication.Queries.GetIfUsernameExist;
+using Auth.Application.Authentication.Queries.GetToken;
+using Auth.Application.Authentication.Queries.GetUser;
+using Auth.Application.Authentication.Queries.GetUsersInRole;
+using Auth.Contracts.Authentication;
+using Auth.Domain.Common.BloodTypes;
+using Auth.Domain.Common.Roles;
+using ErrorOr;
+using MapsterMapper;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Auth.Api.Controllers;
+
+public class AuthController : ApiController
+{
+    private readonly ISender _mediator;
+    private readonly IMapper _mapper;
+    public AuthController(
+        ISender mediator, 
+        IMapper mapper,
+        Serilog.ILogger logger) : base(logger)
+    {
+
+        _mediator = mediator;
+        _mapper = mapper;
+    }
+
+    
+    
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterRequest request)
+    { 
+        var command = _mapper.Map<RegisterCommand>(request);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("email/confirmation/resend")]
+    public async Task<IActionResult> ResendEmailConfirmation(ResendEmailConfirmationRequest request)
+    {
+        var command = _mapper.Map<ResendEmailConfirmationCommand>(request);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<IActionResult> GetToken(LoginRequest request)
+    {
+        var query = _mapper.Map<GetTokenQuery>(request);
+        var authResult = await _mediator.Send(query);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("password/forget")]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request)
+    {
+        var command = _mapper.Map<ForgotPasswordCommand>(request);        
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("password/reset")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+    {
+        var command = _mapper.Map<ResetPasswordCommand>(request);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpPost("password/change")]
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+    {
+        var command = _mapper.Map<ChangePasswordCommand>((request, GetUserNameFromToken()));
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("email/confirm")]
+
+    public async Task<IActionResult> ConfirmEmail(ConfirmEmailRequest request)
+    {
+        var command = _mapper.Map<ConfirmEmailCommand>(request);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpPost("email/change/confirm")]
+
+    public async Task<IActionResult> ConfirmEmailChange(ConfirmEmailChangeRequest request)
+    {
+        var command = _mapper.Map<ConfirmEmailChangeCommand>(request);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("signout")]
+    public new async Task<IActionResult> SignOut()
+    {
+        var command = new SignOutCommand();
+        var authResult = await _mediator.Send(command);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("email/change")]
+    public async Task<IActionResult> ChangeEmail(ChangeEmailRequest request)
+    {
+        var command = _mapper.Map<ChangeEmailCommand>((request,GetUserNameFromToken()));
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpDelete("user/account/delete/{userId?}")]
+    public async Task<IActionResult> DeleteAccount(string userId = null!)
+    {
+        if (User.IsInRole(Roles.Admin))
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                var errors = new List<Error>
+                {
+                    Error.Validation(
+                        code: "DoctorController.AddDoctor.DoctorId",
+                        description: "User Id is required for admin")
+                };
+                return Problem(errors);
+            }
+        }
+        else
+        {
+            userId = GetUserIdFromToken();
+        }
+        var command = new DeleteAccountCommand(userId);
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    
+
+    [Authorize]
+    [HttpPost("name/change")]
+    public async Task<IActionResult> ChangeName(ChangeNameRequest request)
+    {
+        var command = _mapper.Map<ChangeNameCommand>((request, GetUserNameFromToken()));
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    [Authorize(Roles = Roles.Admin)]
+    [HttpPost("user/role/{role}/add")]
+    public async Task<IActionResult> AddUserToRole(AddUserToRoleRequest request, string role)
+    {
+        var command = _mapper.Map<AddUserToRoleCommand>((request, role));
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpDelete("user/role/{role}/remove")]
+    public async Task<IActionResult> RemoveUserFromRole(RemoveUserToRoleRequest request, string role)
+    {
+        var command = _mapper.Map<RemoveUserFromRoleCommand>((request, role));
+        var authResult = await _mediator.Send(command);
+        return authResult.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet("users/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetUsers(int pageNumber)
+    {
+        var query = new GetAllUsersQuery(pageNumber);
+        var result = (await _mediator.Send(query));
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMe()
+    {
+        var query = new GetUserQuery(GetUserIdFromToken());
+        var result = await _mediator.Send(query);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+    
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet("users/role/{role}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetUsersInRoles(string role, int pageNumber)
+    {
+        var query = new GetUsersInRoleQuery(role, pageNumber);
+        var result = await _mediator.Send(query);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+    }
+
+   [HttpPost("pin/verify")]
+   [AllowAnonymous]
+
+   public async  Task<IActionResult> VerifyPin(VerifyPinRequest request)
+   {
+    var command = _mapper.Map<VerifyPinCommand>(request);
+    var result = await _mediator.Send(command);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+   }
+
+   [HttpPost("profile/picture/upload")]
+   [Authorize]
+   public async  Task<IActionResult> UploadProfilePicture(UploadProfilePictureRequest request)
+   {
+    var command = _mapper.Map<UploadProfilePictureCommand>((request, GetUserNameFromToken())); 
+    var result = await _mediator.Send(command);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+   }
+
+   [HttpPost("doctor/identity/verify")]
+   [Authorize]
+   public async  Task<IActionResult> VerifyDoctorIdentity(VerifyDoctorIdentityRequest request)
+   {
+
+    var command = new VerifyDoctorIdentityCommand(
+        GetUserNameFromToken(),
+        request.Base64License); 
+    var result = await _mediator.Send(command);
+        return result.Match(
+        authResult => Ok(authResult),
+        errors => Problem(errors));
+   }  
+
+    [HttpGet("BloodTypes")]
+    [AllowAnonymous]
+    public IActionResult GetBloodTypes()
+    {
+        var result = BloodTypes.All;
+        return Ok(result);
+    }
+
+    [HttpGet("check/username/{username}")]
+    [AllowAnonymous]
+    public IActionResult CheckUserName(string username)
+    {
+        var query = new GetIfUsernameExistQuery(username);
+        var result = _mediator.Send(query);
+        return Ok(result);
+    }
+    
+    [HttpGet("check/email/{email}")]
+    [AllowAnonymous]
+    public IActionResult CheckEmail(string email)
+    {
+        var query = new GetIfEmailExistQuery(email);
+        var result = _mediator.Send(query);
+        return Ok(result);
+    }
+}
