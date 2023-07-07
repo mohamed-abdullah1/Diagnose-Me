@@ -10,11 +10,5 @@ public class UpdateDoctorCommandValidator : AbstractValidator<UpdateDoctorComman
         RuleFor(x => x.Id)
             .NotEmpty()
             .WithMessage("Id is required");
-            
-
-
-        RuleFor(x => x.Rating)
-            .NotEmpty()
-            .WithMessage("Rating is required");
     }
 }
