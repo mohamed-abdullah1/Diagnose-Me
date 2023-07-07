@@ -66,7 +66,12 @@ public class MessageQueueHelper
                 }
                 else{
                     var fileBytes = Convert.FromBase64String(fileResponse.Base64File);
-                    await File.WriteAllBytesAsync(filePath, fileBytes);
+                    try
+                    {await File.WriteAllBytesAsync(filePath, fileBytes);}
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
             }
         };
