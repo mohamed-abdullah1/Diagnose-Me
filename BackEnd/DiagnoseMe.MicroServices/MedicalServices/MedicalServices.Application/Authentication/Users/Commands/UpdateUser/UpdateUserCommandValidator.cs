@@ -16,5 +16,6 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(x => x.FullName).
             NotEmpty().
             WithMessage("FullName is required.");
+        
     }
 }
