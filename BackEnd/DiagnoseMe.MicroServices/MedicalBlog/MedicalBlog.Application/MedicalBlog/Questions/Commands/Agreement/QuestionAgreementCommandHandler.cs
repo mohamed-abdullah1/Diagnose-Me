@@ -37,11 +37,11 @@ namespace MedicalBlog.Application.MedicalBlog.Questions.Commands.Agreement;
         
         if (questionAgreement != null)
         {
-            if (questionAgreement.IsAgreed == command.IsAgreed)
-                return Errors.Question.AlreadyAgreed;
-            
-            questionAgreement.IsAgreed = command.IsAgreed;
-            question.AgreementCount += command.IsAgreed ? 1 : -1;
+            if (questionAgreement.IsAgreed != command.IsAgreed)
+            {
+                questionAgreement.IsAgreed = command.IsAgreed;
+                question.AgreementCount += command.IsAgreed ? 1 : -1;
+            }
         }
         else
         {
