@@ -38,6 +38,7 @@ public class ResetPasswordCommandHandle :
         _messageQueueManager.PublishFile(new List<RMQFileResponse>(){result.Value});
         return (
             new AuthenticationResult{
-                Message = "Profile picture have been successfully changed"});
+                Message = "Profile picture have been successfully changed",
+                User = _mapper.Map<ApplicationUserResponse>(user)});
    }
 }

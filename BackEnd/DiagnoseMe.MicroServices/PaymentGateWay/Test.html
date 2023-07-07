@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase</title>
+    <script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+    
+</head>
+<body>
+    <div class="wrapper">
+        <div class="checkout container">
+            <form id="payment-form">
+                <input type="hidden" id="nonce" name="nonce">
+                <input type="hidden" id="book-id" name="id" value="YOUR_BOOK_ID">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" id="book-title"></h5>
+                        <p class="card-text" id="book-description"></p>
+                        <p class="card-text"><small class="text-muted" id="book-author"></small></p>
+                        <p class="card-text"><small class="text-muted" id="book-price"></small></p>
+                    </div>
+                    <img style="width: 90%" class="card-img-bottom" id="book-thumbnail" alt="Card image cap">
+                </div>
+
+                <section>
+                    <div class="bt-drop-in-wrapper">
+                        <div id="bt-dropin"></div>
+                    </div>
+                </section>
+
+                <hr />
+
+                <button class="btn btn-success" id="submit-button" >Confirm Payment - $<span id="book-price-value"></span></button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve the client token from the API endpoint
+        fetch('http://localhost:5057/api/v1/client-token')
+            .then(response => response.text())
+            .then(clientToken => {
+                console.log(clientToken);
+
+                // Initialize Braintree Drop-in with the retrieved client token
+                braintree.dropin.create({
+                    authorization: clientToken,
+                    container: '#bt-dropin',
+                }).then(function (dropinInstance) {
+                    var submitButton = document.getElementById('submit-button');
+                    var form = document.getElementById('payment-form');
+
+                    submitButton.removeAttribute('disabled');
+                    console.log("Submit button enabled");
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        console.log(dropinInstance);
+
+                        dropinInstance.requestPaymentMethod(function (err, payload) {
+                            if (err) {
+                                console.error(err);
+                                return;
+                            }
+                        
+                            console.log(payload);
+                            var nonce = payload.nonce;
+                            var id = document.getElementById('book-id').value;
+                            var requestBody = JSON.stringify({ nonce: nonce, id: id });
+                            console.log(requestBody);
+                            // Send the payment request to the API endpoint
+                            fetch('http://localhost:5057/api/v1/payment', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: requestBody
+                            }).then(function (response) {
+                                return response.json();
+                            }).then(function (data) {
+                                console.log(data);
+                                // Process the API response as needed
+                            }).catch(function (error) {
+                                console.error(error);
+                                // Handle any error that occurred during the API request
+                            });
+
+                        });
+
+                        
+                        });
+                    });
+                });
+    </script>
+</body>
+</html>
