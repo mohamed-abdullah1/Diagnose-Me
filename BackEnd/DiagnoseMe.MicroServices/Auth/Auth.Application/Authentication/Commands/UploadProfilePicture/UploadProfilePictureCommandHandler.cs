@@ -35,11 +35,7 @@ public class ResetPasswordCommandHandle :
         var updateResult = await _userManager.UpdateAsync(user);
 
         _messageQueueManager.UpdateUser(_mapper.Map<ApplicationUserResponse>(user)); 
-        _messageQueueManager.PublishFile(new List<RMQFileResponse>(){
-             new RMQFileResponse(
-                FilePath: StaticPaths.ProfilePicturesPath,
-                Base64File: result.Value.Base64File)
-        });
+        _messageQueueManager.PublishFile(new List<RMQFileResponse>(){result.Value});
         return (
             new AuthenticationResult{
                 Message = "Profile picture have been successfully changed"});
