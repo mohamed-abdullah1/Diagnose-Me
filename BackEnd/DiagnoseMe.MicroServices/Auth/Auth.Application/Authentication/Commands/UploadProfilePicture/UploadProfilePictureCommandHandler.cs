@@ -39,6 +39,7 @@ public class ResetPasswordCommandHandle :
         return (
             new AuthenticationResult{
                 Message = "Profile picture have been successfully changed",
-                User = _mapper.Map<ApplicationUserResponse>(user)});
+                User = _mapper.Map<ApplicationUserResponse>(user)
+                });
    }
 }
