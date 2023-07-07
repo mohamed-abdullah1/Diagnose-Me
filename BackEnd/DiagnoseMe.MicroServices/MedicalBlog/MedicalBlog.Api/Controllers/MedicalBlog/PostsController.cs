@@ -135,7 +135,7 @@ public class PostsController : ApiController
         errors => Problem(errors));
     }
 
-    [Authorize(Roles = Roles.Doctor)]
+    [Authorize]
     [HttpPost("posts/post-id/{postId}/rating")]
     public async Task<IActionResult> RatePost(RatePostRequest request, string postId)
     {
