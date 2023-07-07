@@ -26,8 +26,12 @@ public class FileHelper
             var fileType = FileTypeValidator.GetFileType(pictureStream);
             
             pictureStream.Close();
-            if (!string.IsNullOrEmpty(tempFilePath) && File.Exists(tempFilePath))
+            try{
                 File.Delete(tempFilePath);
+            }
+            catch (Exception e){
+                Console.WriteLine(e);
+            }
             
             return new RMQFileResponse(
                 FilePath: Path.Combine(FilePath, $"{Guid.NewGuid().ToString()}.{fileType.Extension}"),
