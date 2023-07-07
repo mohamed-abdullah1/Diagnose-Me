@@ -11,12 +11,12 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
-let admin = require('firebase-admin');
-let serviceAccount = require('./firebase.json');
+// let admin = require('firebase-admin');
+// let serviceAccount = require('./firebase.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount), // initialize Credential to send Notifications
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount), // initialize Credential to send Notifications
+// });
 
 connectDB();
 addSeedings();
