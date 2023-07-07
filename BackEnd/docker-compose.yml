@@ -236,7 +236,6 @@ services:
       - 3310:3306
     restart: always
   staticserve:
-    user: root
     container_name: static-serve
     hostname: static.diagnose.me
     build:
