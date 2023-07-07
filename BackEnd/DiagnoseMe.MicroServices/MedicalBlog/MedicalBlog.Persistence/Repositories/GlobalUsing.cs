@@ -1,1 +1,0 @@
-global using MedicalBlog.Application.Common.Interfaces.Persistence.IRepositories;

@@ -1,1 +1,0 @@
-# Medical Blog service
