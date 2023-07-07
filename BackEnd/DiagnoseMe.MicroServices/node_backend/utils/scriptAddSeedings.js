@@ -1,4 +1,3 @@
-const Calendar = require('../models/calendarModel');
 const User = require('../models/userModel');
 const { v4: uuidv4 } = require('uuid');
 
@@ -15,10 +14,6 @@ const checkAndAdd = () => {
       const foundUser = await User.findById(user._id);
       if (!foundUser) {
         const createdUser = await User.create(user);
-
-        if (user.IsDoctor) {
-          await Calendar.create({ _id: uuidv4(), doctorId: user._id });
-        }
         console.log(createdUser, '\n👈👉\n');
       }
     } catch (error) {

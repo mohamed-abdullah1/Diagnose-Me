@@ -1,6 +1,5 @@
 const amqp = require('amqplib');
 const User = require('../models/userModel');
-const Calendar = require('../models/calendarModel');
 const colors = require('colors');
 const Notification = require('../models/notificationModel');
 const { v4: uuidv4 } = require('uuid');
@@ -59,11 +58,6 @@ const MyControllers = {
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
         });
-
-        if (msg.IsDoctor) {
-          const newCalendar = await Calendar.create({ _id: uuidv4(), doctorId: user._id });
-          console.log('A new calender created:✅', newCalendar);
-        }
 
         if (user) {
           console.log('A new user created:✅', user);

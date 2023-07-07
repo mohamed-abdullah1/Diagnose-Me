@@ -3,8 +3,13 @@ const mongoose = require('mongoose');
 const AppointmentSchema = mongoose.Schema(
   {
     _id: String,
-    start_date: { type: Date, required: [true, 'you have to provide start date to the appointment🙃'] },
-    end_date: { type: Date, required: [true, 'you have to provide end date to the appointment🙃'] },
+    day: { type: Date, required: [true, 'you have to provide day of the appointment🙃'] },
+    startTime: { type: Date, required: [true, 'you have to provide start Time to the appointment🙃'] },
+    graceTime: { type: Date, required: [true, 'the developler have to provide grace Time'] },
+
+    patientId: { type: String, required: [true, '🙃 where is the patient ID 😑'], ref: 'User' },
+    doctorId: { type: String, required: [true, '🙃 where is the doctor ID 😑'], ref: 'User' },
+
     status: {
       type: String,
       default: 'waiting',
@@ -13,8 +18,6 @@ const AppointmentSchema = mongoose.Schema(
         message: '🙃🙃{VALUE} is not a vaild status 😫😕',
       },
     },
-    patient_id: { type: String, required: [true, '🙃 where is the patient ID 😑'], ref: 'User' },
-    doctor_id: { type: String, required: [true, '🙃 wh-ere is the doctor ID 😑'], ref: 'User' },
   },
   { timestamps: true }
 );
