@@ -12,7 +12,7 @@ namespace PaymentGateWay.Controllers;
 
 [ApiController]
 [Route("api/v1")]
-[Authorize(AuthenticationSchemes = "Bearer")]
+// [Authorize(AuthenticationSchemes = "Bearer")]
 public class ApiController : ControllerBase
 {
     protected readonly Serilog.ILogger _logger;
