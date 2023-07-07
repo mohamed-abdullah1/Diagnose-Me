@@ -74,6 +74,7 @@ hello:
   ☐  remove all images --> docker rmi $(docker images -aq)
   ☐  git fetch origin
     git reset --hard origin/<remote_branch>
+  ☐ git reset --hard "34gd34"
   
 
 
