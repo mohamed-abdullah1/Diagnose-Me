@@ -20,7 +20,7 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 connectDB();
 addSeedings();
-// MyControllers.startConsumingMessages();
+MyControllers.startConsumingMessages();
 
 const app = express();
 
