@@ -236,6 +236,7 @@ services:
       - 3310:3306
     restart: always
   staticserve:
+    user: root
     container_name: static-serve
     hostname: static.diagnose.me
     build:
@@ -256,6 +257,8 @@ services:
     networks:
       - gateway
       - rabbitmq-network
+    volumes:
+      - staticservevolume:/src/StaticServe/Files/*
     restart: always
   nodeapis:
     container_name: node-container
@@ -290,6 +293,7 @@ volumes:
   medicalblogdbvolume:
   blooddonationdbvolume:
   medicalservicesdbvolume:
+  staticservevolume:
 
 networks:
   gateway:
