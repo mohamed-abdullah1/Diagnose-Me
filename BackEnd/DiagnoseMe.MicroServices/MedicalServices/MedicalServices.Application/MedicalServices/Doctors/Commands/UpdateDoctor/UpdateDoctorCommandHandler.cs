@@ -31,7 +31,7 @@ public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, E
         )).FirstOrDefault();
         if (doctor == null)
             return Errors.Doctor.NotFound;
-
+        
         doctor.Bio = command.Bio;
         doctor.Title = command.Title;
         if (command.ClinicId != null)

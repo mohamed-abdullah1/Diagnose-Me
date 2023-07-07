@@ -130,8 +130,29 @@ const getAvailableDates = asyncHandler(async (req, res, next) => {
   if (!doctor) {
     next(new AppError('you have to provide Doctor Id 👌 in the url', 500));
   }
-  const calendarFetched = await Calendar.findOne({ doctorId });
-  res.status(200).json({ calendarFetched });
+  const calendarFetched = await Calendar.findOne({ doctorId }).select('repeated_dates -_id');
+
+  const individual_dates = await Calendar.aggregate([
+    { $match: { doctorId } },
+    {
+      $project: {
+        _id: 0,
+        individual_dates: 1,
+        // repeated_dates: 1,
+      },
+    },
+    { $unwind: '$individual_dates' },
+    { $match: { 'individual_dates.date': { $gte: new Date() } } },
+
+    { $sort: { 'individual_dates.date': 1 } },
+    {
+      $replaceRoot: {
+        newRoot: '$individual_dates',
+      },
+    },
+  ]);
+
+  res.status(200).json({ repeated_dates: calendarFetched.repeated_dates, individual_dates });
 });
 //
 // Book an appointment

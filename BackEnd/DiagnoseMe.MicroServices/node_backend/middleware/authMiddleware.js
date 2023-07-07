@@ -17,7 +17,9 @@ const protect = asyncHandler(async (req, res, next) => {
       audience: process.env.Audience,
     });
     req.user = await User.findById(decoded[nameIdentifier][0]).select('-password');
-
+    req.user.Role = decoded.roles;
+    console.log('Auth middleware is calling');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     next();
   }
 
