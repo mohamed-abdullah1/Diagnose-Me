@@ -27,13 +27,17 @@ const extractDate = (dateIsoString) => {
 // Adding available Date for the doctor
 const addAvailableTime = asyncHandler(async (req, res, next) => {
   if (!(req.user.Role == 'Doctor')) {
-    next(new AppError('Only Doctors Can Add Available Time', 500));
+    return next(new AppError('Only Doctors Can Add Available Time', 403));
   }
 
   const doctorId = req.user._id;
   const dateISO = extractDate(req.body.date);
   const startTime = extractTime(req.body.time);
   const graceTime = addHours(parseISO(startTime), 1);
+
+  if (parseISO(dateISO) < new Date()) {
+    return next(new AppError('This date is old, You have to provide a new Date stupid😕', 400));
+  }
 
   const result1 = await AvailableTimes.findOne({ day: dateISO, doctorId });
 
@@ -56,7 +60,8 @@ const addAvailableTime = asyncHandler(async (req, res, next) => {
   });
 
   if (result2) {
-    return res.status(200).json('this time is already exists');
+    return next(new AppError('this time is already exists', 500));
+    // return res.status(200).json('this time is already exists');
   }
 
   const createdDate = await AvailableTimes.findOneAndUpdate(
@@ -72,7 +77,7 @@ const addAvailableTime = asyncHandler(async (req, res, next) => {
 // Delete available time
 const deleteAvailableTime = asyncHandler(async (req, res, next) => {
   if (!(req.user.Role == 'Doctor')) {
-    next(new AppError('Only Doctors Can Delete an Available Time', 500));
+    return next(new AppError('Only Doctors Can Delete an Available Time', 403));
   }
 
   const day = extractDate(req.body.day);
@@ -91,14 +96,14 @@ const deleteAvailableTime = asyncHandler(async (req, res, next) => {
     await AvailableTimes.findByIdAndDelete(updatedTimes._id);
   }
 
-  res.status(200).json('The Time Deleted Succesfully');
+  res.status(200).json({ message: 'The Time Deleted Succesfully' });
 });
 
 //
 //Clear all available times
 const clearAvailableTimes = asyncHandler(async (req, res, next) => {
   if (!(req.user.Role == 'Doctor')) {
-    next(new AppError('Only Doctors Can Clear Available Times', 500));
+    next(new AppError('Only Doctors Can Clear Available Times', 403));
   }
   const doctorId = req.user._id;
 
@@ -113,7 +118,7 @@ const getAvailableTimes = asyncHandler(async (req, res, next) => {
   const doctorId = req.params.doctorId;
 
   if (!doctorId) {
-    next(new AppError('you have to provide Doctor Id 👌 in the url', 500));
+    return next(new AppError('you have to provide Doctor Id 👌 in the url', 400));
   }
   const timesFound = await AvailableTimes.find({ doctorId }).select('-__v -_id -doctorId');
 
@@ -276,7 +281,7 @@ module.exports = {
 // Update individual dates
 // const updateIndiviualDate = asyncHandler(async (req, res) => {
 //   if (!(req.user.Role == 'Doctor' || req.user.Role == 'Admin')) {
-//     next(new AppError('Only Doctors Can Add Available Dates', 500));
+//     next(new AppError('Only Doctors Can Add Available Dates', 403));
 //   }
 
 //   const { dateId } = req.params;
