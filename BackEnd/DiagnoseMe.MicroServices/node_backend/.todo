@@ -34,7 +34,6 @@ to do:
   ☐ expand doctorId if the logged person is doctor or expand patientId if logged is patient in get-all-booked-appointments-endpoint
 
 question:
-  ☐ is it post or patch request
   ☐ we can make edit and readed state for msg in one endpoint
 
 changes:
