@@ -15,8 +15,8 @@ const router = express.Router();
 router.route('/').post(protect, sendMessage);
 router.route('/:chatId').get(protect, allMessages).delete(protect, deleteAllMessages);
 router.route('/delete-message/:msgId').delete(protect, deleteMessage);
-router.route('/set-read/:msgId').patch(protect, setMessageRead);
-router.route('/edit-message/:msgId').patch(protect, editMessage);
-router.route('/set-all-read/').patch(protect, setAllMessagesRead);
+router.route('/set-read/:msgId').post(protect, setMessageRead);
+router.route('/edit-message/:msgId').post(protect, editMessage);
+router.route('/set-all-read/').post(protect, setAllMessagesRead);
 
 module.exports = router;
