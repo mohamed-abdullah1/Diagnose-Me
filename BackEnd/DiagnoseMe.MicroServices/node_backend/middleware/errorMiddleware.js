@@ -10,11 +10,11 @@ class AppError extends Error {
 }
 
 const notFound = (req, res, next) => {
-  next(new AppError(`can't find the route 👉 ${req.originalUrl} on this server!`), 404);
+  next(new AppError(`can't find the route 👉 ${req.originalUrl} on this server!`, 404));
 };
 
 const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode || 500;
+  const statusCode = err.statusCode || 500;
   res.status(statusCode);
   res.json({
     message: err.message,

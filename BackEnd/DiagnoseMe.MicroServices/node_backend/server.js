@@ -11,15 +11,36 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
-// let admin = require('firebase-admin');
-// let serviceAccount = require('./firebase.json');
+// const admin = require('firebase-admin');
+// const serviceAccount = require('./fire.json');
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount), // initialize Credential to send Notifications
+//   databaseURL: 'https://diagnose-me-b282c.firebaseio.com',
+//   messagingSenderId: '787953688887',
 // });
+
+// let message = {
+//   notification: {
+//     title: 'hello title',
+//     body: 'hello body',
+//   },
+//   token:
+//     'cZ0ykzL5pH_tHohjfiNzIA:APA91bGEchwvjGJoyBMVenFtiVNFoKc6E0-tdk0Xvu65P6KJOusAtcDJuUYZoH58iUdRcnotGUAWWZht8nTsdMg7BDRHN1LccB5IbEBYclCw-k0tT4_JZOR7mR8jxOdpbQbei520BGZm',
+// };
+// admin
+//   .messaging()
+//   .send(message)
+//   .then(function (response) {
+//     console.log('Successfully sent notification:', response);
+//   })
+//   .catch(function (error) {
+//     console.log('Error sending notification:❌', error);
+//   });
 
 connectDB();
 addSeedings();
+
 MyControllers.startConsumingMessages();
 
 const app = express();
@@ -48,7 +69,7 @@ const io = require('socket.io')(server, {
   cors: {
     // origin: 'http://localhost:3000',
     origin: '*',
-    // credentials: true,
+    credentials: true,
   },
 });
 
