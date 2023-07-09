@@ -13,11 +13,6 @@ const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
-app.use(
-  cors({
-    origin: '*', // Replace with your desired origin
-  })
-);
 // const admin = require('firebase-admin');
 // const serviceAccount = require('./fire.json');
 
@@ -51,6 +46,12 @@ addSeedings();
 MyControllers.startConsumingMessages();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: '*', // Replace with your desired origin
+  })
+);
 
 app.use(express.static('public'));
 app.use(express.json()); // to accept JSON data from frontend
