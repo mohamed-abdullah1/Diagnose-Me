@@ -11,7 +11,7 @@ namespace Auth.Api.Controllers;
 
 
 [ApiController]
-[Route("api/v1")]
+[Route("auth/v1")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 public class ApiController : ControllerBase
 {
