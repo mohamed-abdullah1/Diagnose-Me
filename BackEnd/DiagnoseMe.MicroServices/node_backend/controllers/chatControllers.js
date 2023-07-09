@@ -7,12 +7,13 @@ const { AppError } = require('../middleware/errorMiddleware');
 
 //@description     Create or fetch single Chat
 //@route           POST /api/chat/
-const accessChat = asyncHandler(async (req, res) => {
-  // if (!secondUserId) {
-  //   console.log('UserId param not sent with request');
-  //   return res.sendStatus(400);
-  // }
+const accessChat = asyncHandler(async (req, res, next) => {
   const { id: secondUserId } = req.params;
+
+  const second = await User.findById(secondUserId);
+  if (!second) {
+    return next(new AppError('You have to provide a valid User Id', 400));
+  }
 
   var isChat = await Chat.find({
     $and: [
@@ -104,7 +105,7 @@ const adminDeleteChat = asyncHandler(async (req, res) => {
     res.status(200).json(deletedChat);
   } else {
     console.log('😑', deletedChat);
-    res.status(200).json('chat is aleady not exist🙄');
+    res.status(200).json({ messge: 'chat is aleady not exist🙄' });
   }
 });
 
