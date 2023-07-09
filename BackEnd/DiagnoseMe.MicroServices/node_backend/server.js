@@ -3,6 +3,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const colors = require('colors');
+const cors = require('cors');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
@@ -11,6 +12,12 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+app.use(
+  cors({
+    origin: '*', // Replace with your desired origin
+  })
+);
 // const admin = require('firebase-admin');
 // const serviceAccount = require('./fire.json');
 
@@ -69,7 +76,7 @@ const io = require('socket.io')(server, {
   cors: {
     // origin: 'http://localhost:3000',
     origin: '*',
-    credentials: true,
+    // credentials: true,
   },
 });
 
