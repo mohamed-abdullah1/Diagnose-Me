@@ -11,7 +11,7 @@ namespace BloodDonation.Api.Controllers;
 
 
 [ApiController]
-[Route("api/v1")]
+[Route("blood-donation/v1")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 public class ApiController : ControllerBase
 {

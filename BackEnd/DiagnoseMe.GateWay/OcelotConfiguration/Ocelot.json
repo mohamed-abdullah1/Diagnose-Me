@@ -33,7 +33,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/v1/{everything}",
+            "DownstreamPathTemplate": "/auth/v1/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
@@ -77,7 +77,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/v1/{everything}",
+            "DownstreamPathTemplate": "/blood-donation/v1/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
@@ -121,7 +121,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/v1/{everything}",
+            "DownstreamPathTemplate": "/medical-blog/v1/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
@@ -165,7 +165,7 @@
                 }
             ],
             "DangerousAcceptAnyServerCertificateValidator": true,
-            "DownstreamPathTemplate": "/api/v1/{everything}",
+            "DownstreamPathTemplate": "/medical-services/v1/{everything}",
             "RATE_LIMITING_ENABLED": "true",
             "RateLimitOptions": {
                 "EnableRateLimiting": true,
