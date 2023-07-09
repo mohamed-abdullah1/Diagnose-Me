@@ -38,5 +38,10 @@ public static partial class Errors
             code: "DonationRequest.SaveFailed",
             description: "Donation request save failed."
         );
+
+        public static Error CreationFailed => Error.Failure(
+            code: "DonationRequest.CreationFailed",
+            description: "Donation request creation failed."
+        );
     }
 }

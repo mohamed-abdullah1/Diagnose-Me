@@ -1,4 +1,5 @@
 using MedicalBlog.Application.MedicalBlog.Common;
+using MedicalBlog.Application.MedicalBlog.Questions.Common;
 
 namespace MedicalBlog.Application.MedicalBlog.Answers.Common;
 
@@ -10,5 +11,6 @@ public record AnswerResponse(
     string CreatedOn,
     string? ModifiedOn,
     int AgreementCount,
-    int DisagreementCount
+    int DisagreementCount,
+    QuestionResponse? Question
 );

@@ -34,7 +34,7 @@ public class BloodDonationController : ApiController
     }
         
     [Authorize]
-    [HttpGet("requests/blood-type/{bloodType}/page-number/{pageNumber}")]
+    [HttpGet("requests/page-number/{pageNumber}")]
     public async Task<IActionResult> GetByBloodType(string bloodType, int pageNumber)
     {
         var query = new GetByBloodTypeQuery(
