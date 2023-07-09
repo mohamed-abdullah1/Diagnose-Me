@@ -14,7 +14,7 @@ const getUserNotifications = asyncHandler(async (req, res, next) => {
 //
 
 const getUserNotificationsAdmin = asyncHandler(async (req, res, next) => {
-  if (req.user.Role != 'Admin') {
+  if (req.user.Role.includes('Admin')) {
     next(new AppError('Your are not Authorized, only Admin can access😉'));
   }
 
@@ -31,7 +31,7 @@ const getUserNotificationsAdmin = asyncHandler(async (req, res, next) => {
 
 // get all notifications grouped by user id
 const getAllNotificationsAdmin = asyncHandler(async (req, res, next) => {
-  if (req.user.Role != 'Admin') {
+  if (req.user.Role.includes('Admin')) {
     next(new AppError('Your are not Authorized, only Admin can access😉', 403));
   }
 

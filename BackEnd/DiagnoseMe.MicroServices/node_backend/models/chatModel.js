@@ -9,9 +9,6 @@ const chatModel = mongoose.Schema(
     },
     unReadMsgCount: { type: Number, default: 0 },
     users: [{ type: String, ref: 'User' }],
-    // chatName: { type: String, trim: true },
-    // isGroupChat: { type: Boolean, default: false },
-    // groupAdmin: { type: String, ref: 'User' },
   },
   { timestamps: true }
 );
