@@ -11,7 +11,9 @@ public class RequestDonationCommandValidator : AbstractValidator<RequestDonation
     {
         RuleFor(x => x.BloodType).NotEmpty()
             .WithMessage("Blood type is required")
-            .Must(x => BloodTypes.All.Contains(x));
+            .Must(x => BloodTypes.All.Contains(x))
+            .WithMessage($"Blood type must be one of {string.Join(", ", BloodTypes.All)} ");
+            
         RuleFor(x => x.Location).NotEmpty()
             .WithMessage("Location is required");
         RuleFor(x => x.Reason).NotEmpty()
@@ -20,6 +22,7 @@ public class RequestDonationCommandValidator : AbstractValidator<RequestDonation
             .WithMessage("RequesterId is required");
         RuleFor(x => x.Type).NotEmpty()
             .WithMessage("Type is required")
-            .Must(x => DonationTypes.All.Contains(x));
+            .Must(x => DonationTypes.All.Contains(x))
+            .WithMessage($"Type must be one of {string.Join(", ", DonationTypes.All)} ");
     }
 }

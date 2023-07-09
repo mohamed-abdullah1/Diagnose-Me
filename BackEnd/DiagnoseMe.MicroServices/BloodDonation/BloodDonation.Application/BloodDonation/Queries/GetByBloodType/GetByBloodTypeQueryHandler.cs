@@ -31,7 +31,7 @@ public class GetByBloodTypeQueryHandler : IRequestHandler<GetByBloodTypeQuery, E
             .Take(10)
             .ToList();
         
-
+        
         var donationResponses = _mapper.Map<List<DonationResponse>>(resDonationRequests);
         return new PageResponse(
             Objects: donationResponses.Select(x => (object)x).ToList(),

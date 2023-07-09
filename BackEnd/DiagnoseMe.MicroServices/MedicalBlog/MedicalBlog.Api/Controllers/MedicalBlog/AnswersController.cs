@@ -4,6 +4,7 @@ using MedicalBlog.Application.MedicalBlog.Answers.Commands.AddAnswer;
 using MedicalBlog.Application.MedicalBlog.Answers.Commands.Agreement;
 using MedicalBlog.Application.MedicalBlog.Answers.Commands.DeleteAnswer;
 using MedicalBlog.Application.MedicalBlog.Answers.Commands.EditAnswer;
+using MedicalBlog.Application.MedicalBlog.Answers.Queries.GetAnswersByDoctorId;
 using MedicalBlog.Application.MedicalBlog.Answers.Queries.GetAnswersByQuestionId;
 using MedicalBlog.Contracts.MedicalBlog.Answers;
 using MedicalBlog.Domain.Common.Roles;
@@ -88,6 +89,17 @@ public class AnswersController : ApiController
             GetUserIdFromToken(),
             isAgree);
         var result = await _mediator.Send(command);
+        return result.Match(
+        result => Ok(result),
+        errors => Problem(errors));
+    }
+
+    [Authorize]
+    [HttpGet("questions/answers/doctor-id/{doctorId}/page-number/{pageNumber}")]
+    public async Task<IActionResult> GetAnswersByDoctorId(string doctorId, int pageNumber)
+    {
+        var query = new GetAnswersByDoctorIdQuery(doctorId, pageNumber);
+        var result = await _mediator.Send(query);
         return result.Match(
         result => Ok(result),
         errors => Problem(errors));

@@ -53,6 +53,8 @@ public class RequestDonationCommandHandler : IRequestHandler<RequestDonationComm
             ));
         }
         await _donationRequestRepository.AddAsync(donationRequest);
+        if(await _donationRequestRepository.SaveAsync() == 0)
+            return Errors.DonationRequest.CreationFailed;
         return new CommandResponse(
             true,
             "Donation request created",

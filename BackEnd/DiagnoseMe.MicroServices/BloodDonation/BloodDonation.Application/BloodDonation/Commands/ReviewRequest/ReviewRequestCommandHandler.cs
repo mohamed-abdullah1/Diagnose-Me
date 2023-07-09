@@ -56,6 +56,8 @@ public class ReviewRequestCommandHandler : IRequestHandler<ReviewRequestCommand,
         }
 
         await _donationRequestRepository.Edit(donationRequest);
+        if(await _donationRequestRepository.SaveAsync() == 0)
+            return Errors.DonationRequest.SaveFailed;
         return new CommandResponse(
             Message: "Donation request reviewed.",
             Success: true,

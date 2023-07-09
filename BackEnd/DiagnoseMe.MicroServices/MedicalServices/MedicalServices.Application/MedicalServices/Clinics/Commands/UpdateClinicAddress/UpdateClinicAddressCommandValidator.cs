@@ -30,11 +30,15 @@ public class UpdateClinicAddressCommandValidator : AbstractValidator<UpdateClini
         RuleFor(x => x.OpenTime).
             NotNull().
             WithMessage("OpenTime is required").
-            Must(x => Regex.IsMatch(x, Regexes.Time));
+            Must(x => Regex.IsMatch(x, Regexes.Time))
+            .WithMessage("OpenTime must be in the format HH:MM");
+
         RuleFor(x => x.CloseTime).
             NotNull().
             WithMessage("CloseTime is required").
-            Must(x => Regex.IsMatch(x, Regexes.Time));
+            Must(x => Regex.IsMatch(x, Regexes.Time)).
+            WithMessage("CloseTime must be in the format HH:MM");
+
         RuleFor(x => x.DoctorId).
             NotNull().
             WithMessage("DoctorId is required");

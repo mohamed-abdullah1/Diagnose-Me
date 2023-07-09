@@ -4,7 +4,7 @@ public record DonationResponse(
     UserResponse Requester,
     string Id,
     string BloodType,
-    string Locatoin,
+    string Location,
     string Type,
     string Reason,
     string Status);
