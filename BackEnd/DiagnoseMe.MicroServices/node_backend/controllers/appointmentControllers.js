@@ -26,7 +26,7 @@ const extractDate = (dateIsoString) => {
 
 // Adding available Date for the doctor
 const addAvailableTime = asyncHandler(async (req, res, next) => {
-  if (!(req.user.Role == 'Doctor')) {
+  if (!req.user.Role.includes('Doctor')) {
     return next(new AppError('Only Doctors Can Add Available Time', 403));
   }
 
@@ -76,7 +76,7 @@ const addAvailableTime = asyncHandler(async (req, res, next) => {
 //
 // Delete available time
 const deleteAvailableTime = asyncHandler(async (req, res, next) => {
-  if (!(req.user.Role == 'Doctor')) {
+  if (!req.user.Role.includes('Doctor')) {
     return next(new AppError('Only Doctors Can Delete an Available Time', 403));
   }
 
@@ -102,7 +102,7 @@ const deleteAvailableTime = asyncHandler(async (req, res, next) => {
 //
 //Clear all available times
 const clearAvailableTimes = asyncHandler(async (req, res, next) => {
-  if (!(req.user.Role == 'Doctor')) {
+  if (!req.user.Role.includes('Doctor')) {
     next(new AppError('Only Doctors Can Clear Available Times', 403));
   }
   const doctorId = req.user._id;
@@ -280,7 +280,7 @@ module.exports = {
 //
 // Update individual dates
 // const updateIndiviualDate = asyncHandler(async (req, res) => {
-//   if (!(req.user.Role == 'Doctor' || req.user.Role == 'Admin')) {
+//   if (!req.user.Role.includes('Doctor') || req.user.Role.includes('Admin'))) {
 //     next(new AppError('Only Doctors Can Add Available Dates', 403));
 //   }
 
