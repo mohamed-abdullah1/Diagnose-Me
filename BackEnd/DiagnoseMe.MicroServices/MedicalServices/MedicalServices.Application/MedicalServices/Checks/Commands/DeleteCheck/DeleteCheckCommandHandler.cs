@@ -31,9 +31,9 @@ public class DeleteCheckCommandHandeler : IRequestHandler<DeleteCheckCommand, Er
             return Errors.Check.NotFound;
         
 
-        if (check.PatientId != command.UserId ||
-            check.DoctorId != command.UserId || 
-            !command.Roles.Contains(Roles.Admin))
+        if (!(check.PatientId == command.UserId ||
+            check.DoctorId == command.UserId || 
+            command.Roles.Contains(Roles.Admin)))
             return Errors.User.YouCanNotDoThis;
         
 

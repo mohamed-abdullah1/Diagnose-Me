@@ -31,7 +31,7 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
             // TODO: Check user in auth service
             return Errors.User.NotFound;
         }
-        if (question.AskingUser.Id != user.Id || !command.Roles.Contains(Roles.Admin))
+        if (!(question.AskingUser.Id == user.Id || !command.Roles.Contains(Roles.Admin)))
             return Errors.User.YouCanNotDoThis;
 
 

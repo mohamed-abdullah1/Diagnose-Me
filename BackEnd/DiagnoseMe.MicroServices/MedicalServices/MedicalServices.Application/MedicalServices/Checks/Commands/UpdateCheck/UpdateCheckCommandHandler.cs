@@ -49,7 +49,7 @@ public class UpdateCheckCommandHandler : IRequestHandler<UpdateCheckCommand, Err
         
         if ((command.UserId == check.PatientId && !command.Roles.Contains(Roles.User)) ||
             (command.UserId == check.DoctorId && !command.Roles.Contains(Roles.Doctor)) ||
-            command.UserId != check.PatientId && command.UserId != check.DoctorId )
+            command.UserId != check.PatientId || command.UserId != check.DoctorId )
             return Errors.User.YouCanNotDoThis;
 
         check.Name = command.Name;

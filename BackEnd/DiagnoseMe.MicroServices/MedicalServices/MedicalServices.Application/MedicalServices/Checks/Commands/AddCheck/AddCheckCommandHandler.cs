@@ -44,7 +44,7 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
 
         if((command.UserId == command.PatientId && !command.Roles.Contains(Roles.User)) ||
             (command.UserId == command.DoctorId && !command.Roles.Contains(Roles.Doctor)) ||
-            command.UserId != command.PatientId && command.UserId != command.DoctorId)
+            command.UserId != command.PatientId || command.UserId != command.DoctorId)
             return Errors.User.YouCanNotDoThis;
 
         var patient = await _patientRepository.GetByIdAsync(command.PatientId);

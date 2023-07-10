@@ -30,7 +30,7 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Error
         if (user is null)
             return Errors.User.NotFound;
 
-        if (post.Author.Id != user.Id || !command.Roles.Contains(Roles.Admin))
+        if (!((post.Author.Id == user.Id) || (command.Roles.Contains(Roles.Admin))))
             return Errors.User.YouCanNotDoThis;
 
 
