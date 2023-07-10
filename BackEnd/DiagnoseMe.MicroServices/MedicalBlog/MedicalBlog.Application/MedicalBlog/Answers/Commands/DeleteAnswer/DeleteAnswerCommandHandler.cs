@@ -30,7 +30,7 @@ public class DeleteAnswerCommandHandler : IRequestHandler<DeleteAnswerCommand, E
             // TODO: Check user in auth service
             return Errors.User.NotFound;
         }
-        if (answer.AnsweringDoctorId != command.UserId || !command.Roles.Contains(Roles.Admin))
+        if ((answer.AnsweringDoctorId == command.UserId || command.Roles.Contains(Roles.Admin)))
             return Errors.User.YouCanNotDoThis;
 
         _answerRepository.Remove(answer);

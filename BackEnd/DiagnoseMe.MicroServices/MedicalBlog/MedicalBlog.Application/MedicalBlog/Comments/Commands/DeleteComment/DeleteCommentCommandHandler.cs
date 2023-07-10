@@ -36,9 +36,9 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
         var post = await _postRepository.GetByIdAsync(comment.Post.Id);
         if (post is null)
             return Errors.Post.NotFound;
-        if (comment.Author.Id != user.Id ||
-            post.Author.Id != user.Id ||
-            !command.Roles.Contains(Roles.Admin))
+        if (!(comment.Author.Id == user.Id ||
+            post.Author.Id == user.Id ||
+            command.Roles.Contains(Roles.Admin)))
             return Errors.User.YouCanNotDoThis;
 
 
