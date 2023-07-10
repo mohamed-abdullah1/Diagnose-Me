@@ -15,6 +15,7 @@ public class MedicalBlogMappingConfig : IRegister
             Map(dest => dest.ViewsCount, src => src.ViewingUsers.Count).
             Map(dest => dest.CommentsCount, src => src.Comments.Count).
             Map(dest => dest.RatingCount, src => src.RatingUsers.Count).
+            Map(dest => dest.PostImages, src => src.PostImages.Select(x => x.ImageUrl).ToList()).
             Map(dest => dest.Tags, src => src.Tags.Select(x => x.TagName).ToList()).
             Map(dest => dest, src => src);
 
