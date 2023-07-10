@@ -257,7 +257,7 @@ services:
       - gateway
       - rabbitmq-network
     volumes:
-      - staticservevolume:/src/StaticServe/Files/*
+      - ~/StaticServe:/src/StaticServe/Files
     restart: always
   nodeapis:
     container_name: node-container
@@ -292,7 +292,6 @@ volumes:
   medicalblogdbvolume:
   blooddonationdbvolume:
   medicalservicesdbvolume:
-  staticservevolume:
 
 networks:
   gateway:
