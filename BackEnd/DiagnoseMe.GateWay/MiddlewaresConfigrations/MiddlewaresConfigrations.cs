@@ -7,6 +7,7 @@ public static class MiddlewaresConfigrations
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        services.AddCorsConfigurations(configuration);
         return services;
     }
 }
