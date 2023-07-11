@@ -128,7 +128,7 @@ const getAvailableTimes = asyncHandler(async (req, res, next) => {
 //
 // Book an appointment
 const bookAppointment = asyncHandler(async (req, res, next) => {
-  const { doctorId, patientId, timeId } = req.body;
+  const { doctorId, patientId, timeId, price } = req.body;
   const day = extractDate(req.body.day);
 
   const timeSelected = await AvailableTimes.findOne({ day, doctorId, 'times._id': timeId }, { 'times.$': 1 });
@@ -158,6 +158,7 @@ const bookAppointment = asyncHandler(async (req, res, next) => {
     graceTime,
     patientId,
     doctorId,
+    price,
   });
 
   res.status(200).json(createdAppointment);
@@ -203,6 +204,35 @@ const getAllBookedAppointments = asyncHandler(async (req, res) => {
   res.status(201).json(appointments);
 });
 
+const getAllBookingsAdmin = asyncHandler(async (req, res, next) => {
+  console.log({ filter: req.body });
+  const bookings = await Appointment.find(req.body);
+  res.status(201).json({ bookings });
+});
+
+const getBookingStatistics = asyncHandler(async (req, res, next) => {
+  const totalBooked = await Appointment.countDocuments();
+  const canceled = await Appointment.countDocuments({ status: 'canceled' });
+  const approvedResults = await Appointment.aggregate([
+    {
+      $match: { status: 'approved' },
+    },
+    {
+      $group: {
+        _id: '$status',
+        total_price: {
+          $sum: '$price',
+        },
+        approved: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+
+  res.status(201).json({ totalBooked, canceled, approved: approvedResults[0] });
+});
+
 module.exports = {
   addAvailableTime,
   deleteAvailableTime,
@@ -212,6 +242,8 @@ module.exports = {
   deleteBookedAppointment,
   changeBookedStatus,
   getAllBookedAppointments,
+  getAllBookingsAdmin,
+  getBookingStatistics,
 };
 
 //

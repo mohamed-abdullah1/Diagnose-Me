@@ -1,5 +1,6 @@
 - [Sending Firebase Cloud Messaging from Node.js to send notifications](#sending-firebase-cloud-messaging-from-nodejs-to-send-notifications)
 - [Adding \& Booking Appointments service](#adding--booking-appointments-service)
+- [Done](#done)
 - [To Do](#to-do)
 - [Questions](#questions)
 - [Notes](#notes)
@@ -23,8 +24,11 @@
 
 # Adding & Booking Appointments service
 
-1. only doctors can add appointments
-2. the date is unique identifier for each Available date record
+# Done
+
+1. rerfactoring the whole booking appointment service
+2. adding price to booking appointment
+3. create end point to get statics of bookings included total price
 
 # To Do
 
