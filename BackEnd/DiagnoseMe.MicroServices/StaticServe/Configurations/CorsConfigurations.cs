@@ -13,7 +13,7 @@ public static class CorsConfigurations
             options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
-                    .WithOrigins(allowedorigins.ToArray())
+                    .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             });
