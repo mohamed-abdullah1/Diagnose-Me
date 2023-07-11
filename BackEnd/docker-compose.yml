@@ -30,6 +30,7 @@ services:
       dockerfile: DiagnoseMe.GateWay/Dockerfile
     ports:
       - 443:7199
+      - 80:5285
     environment:
       - Debug:ShowHost=true
     networks:
