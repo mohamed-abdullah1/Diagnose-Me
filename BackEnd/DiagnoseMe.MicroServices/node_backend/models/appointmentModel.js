@@ -18,6 +18,8 @@ const AppointmentSchema = mongoose.Schema(
         message: '🙃🙃{VALUE} is not a vaild status 😫😕',
       },
     },
+
+    price: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -10,6 +10,8 @@ const {
   changeBookedStatus,
   getAllBookedAppointments,
   getAvailableTimes,
+  getAllBookingsAdmin,
+  getBookingStatistics,
 } = require('../controllers/appointmentControllers');
 
 router.route('/add-available-time/').post(protect, addAvailableTime);
@@ -21,6 +23,8 @@ router.route('/book-appointment').post(protect, bookAppointment);
 router.route('/delete-booked-appointment/:appointmentId').delete(protect, deleteBookedAppointment);
 router.route('/change-booked-status/:appointmentId').post(protect, changeBookedStatus);
 router.route('/get-all-booked-appointments/').get(protect, getAllBookedAppointments);
+router.get('/get-all-bookings-admin/', protect, getAllBookingsAdmin);
+router.get('/booking-statistics', protect, getBookingStatistics);
 
 module.exports = router;
 
