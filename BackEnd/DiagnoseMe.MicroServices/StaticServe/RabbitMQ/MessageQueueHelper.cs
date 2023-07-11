@@ -67,7 +67,10 @@ public class MessageQueueHelper
                 else{
                     var fileBytes = Convert.FromBase64String(fileResponse.Base64File);
                     try
-                    {await File.WriteAllBytesAsync(filePath, fileBytes);}
+                    {
+                        await File.WriteAllBytesAsync(filePath, fileBytes);
+                        logger.Debug($"=====================File {filePath} Successfully created ====================");
+                    }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
@@ -130,6 +133,7 @@ public class MessageQueueHelper
                 if(File.Exists(Path.Combine(_env.ContentRootPath, "Files", fileNameDecoded)))
                 {
                     File.Delete(Path.Combine(_env.ContentRootPath, "Files", fileNameDecoded));
+                    logger.Debug($"================= File {fileNameDecoded} Successfully deleted ================= ");
                 }
                 else
                 {
