@@ -5,13 +5,13 @@ FROM python:3.9-slim
 WORKDIR /spoofing
 
 # Copy the requirements file to the container
-COPY /requirements.txt ./
+# COPY /requirements.txt ./
+# Copy the application code to the container
+COPY . .
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code to the container
-COPY . .
 
 # Set the environment variable for Flask
 ENV FLASK_APP=run.py
