@@ -55,7 +55,8 @@ def get_ready(frame):
 
 image_name='alooo.jpg'
 # image_path='C:\\Users\\mahmo\\Desktop\\fask app\\'
-image_path = base_dir = os.getcwd()
+image_path = os.getcwd() +'\\'
+print('this is the image path:👉',image_path,'✅')
 @app.route('/upload', methods=['POST'])
 def upload():
     # Check if an image file is present in the request
