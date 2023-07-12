@@ -20,9 +20,9 @@ export default () => {
     <SafeArea>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persister}>
-            <MainNavigator />
-          </PersistGate>
+          {/* <PersistGate loading={null} persistor={persister}> */}
+          <MainNavigator />
+          {/* </PersistGate> */}
           {/* <AuthProvider>
                     </AuthProvider> */}
         </Provider>

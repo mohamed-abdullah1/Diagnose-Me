@@ -35,6 +35,7 @@ import { selectChat } from "../../../services/slices/chat.slice";
 import colors from "../../../infrastructure/theme/colors";
 import { selectToken, selectUser } from "../../../services/slices/auth.slice";
 import theme from "../../../infrastructure/theme";
+import { imgUrl } from "../../../services/apiEndPoint";
 
 const Chat = ({ route, navigation }) => {
   const ref = useRef();
@@ -92,21 +93,21 @@ const Chat = ({ route, navigation }) => {
   const navigateCallHandler = () => {
     navigation.navigate("VideoCall", { chatId, otherPerson, socket });
   };
-  useFocusEffect(
-    useCallback(() => {
-      navigation.getParent().setOptions({
-        tabBarStyle: { display: "none" },
-      });
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     navigation.getParent().setOptions({
+  //       tabBarStyle: { display: "none" },
+  //     });
+  //   }, [])
+  // );
   useEffect(() => {
     socket.on("message received", () => {
       console.log("🖋️🚓", "called");
       (async () => {
         try {
-          if (!msgs) {
-            await msgsRefetch();
-          }
+          // if (!msgs) {
+          await msgsRefetch();
+          // }
         } catch (err) {
           console.error(err);
         }
@@ -148,6 +149,7 @@ const Chat = ({ route, navigation }) => {
       });
     }
   }, [msgs]);
+  console.log("otherPerson", otherPerson);
   return (
     <BgContainer>
       {msgsLoading ? (
@@ -172,10 +174,16 @@ const Chat = ({ route, navigation }) => {
             }}
           >
             <ImgContainer>
-              <Img source={{ uri: otherPerson.pic }} />
+              <Img
+                source={
+                  otherPerson?.pic
+                    ? { uri: imgUrl + otherPerson?.pic }
+                    : require("../../../../assets/characters/male.png")
+                }
+              />
             </ImgContainer>
             <InfoData>
-              <Name>{otherPerson.name}</Name>
+              <Name>{otherPerson?.name}</Name>
               <State>
                 {/* // todo: change the state to the real state */}
                 {true ? "Active" : "Active  1 min ago"}
@@ -231,7 +239,7 @@ const Chat = ({ route, navigation }) => {
                     <SendIcon />
                   )
                 ) : (
-                  <AttachIcon />
+                  <SendIcon />
                 )}
               </TouchableOpacity>
             </InputContainer>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "651874189995",
+    "project_id": "expo-notification-a27bf",
+    "storage_bucket": "expo-notification-a27bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651874189995:android:848b04ae7db5ebca476dee",
+        "android_client_info": {
+          "package_name": "com.mohamedabdullah1.DiagnoseMe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651874189995-bumvk29k3uq3p5cefkup8b8335ak6dqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCADdGgv-cFLaTscjO2V9INxdAzhX7De4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651874189995-bumvk29k3uq3p5cefkup8b8335ak6dqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

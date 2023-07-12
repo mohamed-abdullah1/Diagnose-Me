@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { BgContainer } from "../../home/styles/Global.styles";
-import AgoraUIKit from "agora-rn-uikit";
+// import AgoraUIKit from "agora-rn-uikit";
 import { useState } from "react";
 import { selectToken } from "../../../services/slices/auth.slice";
 import { useSelector } from "react-redux";
@@ -20,14 +20,11 @@ const VideoCall = ({ navigation, route }) => {
     EndCall: () => {
       navigation.goBack();
     },
-    onJoinChannelSuccess: () => {
-      console.log(`User ${"uid"} joined the channel🍭🍭🍭`);
-    },
   };
 
   return (
     <BgContainer>
-      <View style={{ height: "100%" }}>
+      {/* <View style={{ height: "100%" }}>
         {videoCall ? (
           <AgoraUIKit
             connectionData={connectionData}
@@ -36,7 +33,7 @@ const VideoCall = ({ navigation, route }) => {
         ) : (
           <Text onPress={() => setVideoCall(true)}>Start Call</Text>
         )}
-      </View>
+      </View> */}
     </BgContainer>
   );
 };

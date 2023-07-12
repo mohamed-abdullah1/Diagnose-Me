@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native-paper";
 import Modal from "react-native-modal";
-import { trendQuestions } from "../../../helpers/consts";
+import { specialties, trendQuestions } from "../../../helpers/consts";
 import colors from "../../../infrastructure/theme/colors";
 import QuestionCard from "../../components/QuestionCard.component";
 import { BgContainer } from "../../home/styles/Global.styles";
@@ -22,7 +22,7 @@ import {
   Container,
   Wrapper,
 } from "../styles/MainQuestions.styles";
-import { specialties as items } from "../../../helpers/consts";
+// import { specialties as items } from "../../../helpers/consts";
 import SelectDropdown from "react-native-select-dropdown";
 import {
   ItemContent,
@@ -37,7 +37,7 @@ import {
   InputContainer,
   InputField,
 } from "../../doctor/styles/MakeAppointmentNote.styles";
-import { selectToken } from "../../../services/slices/auth.slice";
+import { selectToken, selectUser } from "../../../services/slices/auth.slice";
 import { useSelector } from "react-redux";
 import {
   useAskMutation,
@@ -50,6 +50,8 @@ import {
   CategoryItem,
 } from "../../medicine/styles/MedicineMain.styles";
 import { TouchableOpacity } from "react-native";
+import { useGetSpecialtiesQuery } from "../../../services/apis/medicalService";
+import { specialties as xSpecialties } from "../../../helpers/consts";
 
 const Icon = () => (
   <View
@@ -64,7 +66,7 @@ const Icon = () => (
 const ItemRow = (item, index) => {
   return (
     <ItemRowEle>
-      <ItemIcon source={items[index].src} />
+      <ItemIcon source={xSpecialties.find((e) => e.value === item)?.src} />
       <ItemContent>{item}</ItemContent>
     </ItemRowEle>
   );
@@ -74,7 +76,7 @@ const BoxButton = ({ specialty }) => {
     <ItemRowEle>
       {specialty ? (
         <ItemIcon
-          source={items?.filter((item) => item.value === specialty)[0].src}
+          source={xSpecialties.find((e) => e.value === specialty)?.src}
         />
       ) : null}
       <MainContentSpecialty>
@@ -91,7 +93,9 @@ const MainQuestions = ({ navigation }) => {
   const [specialty, setSpecialty] = useState("");
   const [qSpecialty, setQSpecialty] = useState("");
   const [page, setPage] = useState(1);
+  const user = useSelector(selectUser);
   const token = useSelector(selectToken);
+  const { data: specialties } = useGetSpecialtiesQuery({ token, page: 1 });
   const scrollViewRef = useRef(null);
   const {
     data: questions,
@@ -116,7 +120,7 @@ const MainQuestions = ({ navigation }) => {
     },
   ] = useAskMutation();
   const [input, setInput] = useState("");
-
+  console.log(specialties);
   useEffect(() => {
     if (questionsIsError) {
       Alert.alert(
@@ -149,6 +153,7 @@ const MainQuestions = ({ navigation }) => {
         ],
         { cancelable: false }
       );
+      console.error(askError);
     }
   }, [askIsError]);
   useEffect(() => {
@@ -206,8 +211,8 @@ const MainQuestions = ({ navigation }) => {
         }}
       />
       <CategoriesContainer style={{ maxHeight: 58, marginBottom: 6 }}>
-        {items
-          .concat([
+        {specialties
+          ?.concat([
             {
               key: 112,
               value: "all",
@@ -292,7 +297,7 @@ const MainQuestions = ({ navigation }) => {
                   loading={questionsIsFetching}
                   disabled={!questions?.isNextPage}
                 >
-                  more
+                  Next
                 </Button>
               </View>
             }
@@ -326,13 +331,19 @@ const MainQuestions = ({ navigation }) => {
         style={{
           borderTopLeftRadius: 32,
           borderTopRightRadius: 32,
+          flex: 1,
+          height: "100%",
         }}
         animationIn="slideInUp"
         isVisible={visible}
         onBackdropPress={() => setVisible(false)}
       >
         {
-          <Wrapper>
+          <Wrapper
+            style={{
+              justifyContent: "flex-start",
+            }}
+          >
             <Appbar.Header style={{ width: "100%" }}>
               <Appbar.BackAction
                 onPress={() => {
@@ -341,9 +352,9 @@ const MainQuestions = ({ navigation }) => {
               />
               <Content title="Add Question" />
             </Appbar.Header>
-            <SelectWrapper>
+            <SelectWrapper style={{ marginBottom: 0, maxHeight: 100 }}>
               <SelectDropdown
-                data={items.map((item) => item.value)}
+                data={specialties?.map((item) => item.value)}
                 onSelect={(selectedItem, index) => setSpecialty(selectedItem)}
                 renderDropdownIcon={Icon}
                 renderCustomizedRowChild={ItemRow}
@@ -404,19 +415,21 @@ const MainQuestions = ({ navigation }) => {
               contentStyle={{ width: "100%" }}
               loading={askIsLoading}
               disabled={askIsLoading}
+              style={{ marginBottom: 16 }}
             >
-              ASK
+              Ask
             </Button>
           </Wrapper>
         }
       </AddQuestionModal>
-      {visible ? null : (
-        <Btn onPress={() => setVisible((prev) => !prev)}>
-          <BtnContent>
-            <Ionicons name="add-outline" size={24} color="white" />
-          </BtnContent>
-        </Btn>
-      )}
+      {!user.isDoctor &&
+        (visible ? null : (
+          <Btn onPress={() => setVisible((prev) => !prev)}>
+            <BtnContent>
+              <Ionicons name="add-outline" size={24} color="white" />
+            </BtnContent>
+          </Btn>
+        ))}
     </BgContainer>
   );
 };

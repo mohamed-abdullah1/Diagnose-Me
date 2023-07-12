@@ -9,6 +9,13 @@ import { selectChat } from "../services/slices/chat.slice";
 import { useEffect, useState } from "react";
 import { setNumOfChats } from "../services/slices/chat.slice";
 import { decode, encode } from "base-64";
+import AnotherNav from "./another.navigation";
+import UpperDoc from "./doctor/upperDoc.navigation";
+import {
+  selectIsReg,
+  selectWantToBeDoctor,
+} from "../services/slices/registration.slice";
+import ToastManager from "toastify-react-native";
 
 function isTokenExpired(token) {
   const payload = JSON.parse(decode(token.split(".")[1]));
@@ -24,12 +31,14 @@ const MainNavigator = () => {
   const token = useSelector(selectToken);
   const chatInfo = useSelector(selectChat);
   const [isExpired, setIsExpired] = useState(false);
+  const isReg = useSelector(selectIsReg);
+  const wantToBeDoctor = useSelector(selectWantToBeDoctor);
   const dispatch = useDispatch();
   const {
     data: chats,
     error: chatsError,
     isSuccess: chatsIsSuccess,
-  } = useGetChatsQuery(chatInfo.token);
+  } = useGetChatsQuery(token);
   useEffect(() => {
     if (chatsIsSuccess) {
       console.log("👉🗣️", chats);
@@ -43,8 +52,12 @@ const MainNavigator = () => {
       dispatch(logout());
     }
   }, [token]);
+  console.log(isReg, wantToBeDoctor);
   return (
     <NavigationContainer>
+      <ToastManager
+        style={{ width: "80%", fontFamily: "Poppins", fontSize: 10 }}
+      />
       {/* {user ? (
                 user.isDoctor ? (
                     <AppDocNavigator />
@@ -55,13 +68,19 @@ const MainNavigator = () => {
                 <AccountNavigator />
             )} */}
       {user && !isExpired ? (
-        user.fullName === "Doctor " ? (
-          <AppDocNavigator />
+        isReg ? (
+          wantToBeDoctor ? (
+            <UpperDoc />
+          ) : (
+            <AnotherNav />
+          )
+        ) : user.isDoctor ? (
+          <UpperDoc />
         ) : (
-          <AppNavigator />
+          <AnotherNav />
         )
       ) : (
-        <AccountNavigator />
+        <AnotherNav />
       )}
     </NavigationContainer>
   );

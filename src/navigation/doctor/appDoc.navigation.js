@@ -13,6 +13,9 @@ import DocMainQuestions from "../../features/questions/screens/DocMainQuestions.
 import colors from "../../infrastructure/theme/colors";
 import MainChat from "../../features/chat/screens/MainChat.screen";
 import ChatNavigation from "../chat.navigation";
+import HomeNavigation from "../homeDoc.navigation";
+import MainQuestions from "../../features/questions/screens/MainQuestions.screen";
+import QuestionNavigator from "../question.navigation";
 
 const Wrapper = ({ badgeNumber, children }) => {
   return (
@@ -106,10 +109,10 @@ const AppDocNavigator = () => {
       })}
       initialRouteName="Home"
     >
-      <Screen name="Home" component={HomeDoc} />
+      <Screen name="Home" component={HomeNavigation} />
       <Screen name="Messages" component={ChatNavigation} />
       <Screen name="Schedule" component={ScheduleMainDoc} />
-      <Screen name="Questions" component={DocMainQuestions} />
+      <Screen name="Questions" component={QuestionNavigator} />
     </Navigator>
   );
 };

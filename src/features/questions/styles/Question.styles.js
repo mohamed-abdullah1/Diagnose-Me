@@ -23,7 +23,7 @@ export const CommentsContainer = styled(ScrollView)`
 `;
 export const CommentCard = styled.View`
   margin-bottom: 16px;
-  padding: 8px;
+  padding: 16px;
   background-color: ${(props) => props.theme.colors.light};
   border-radius: 16px;
   margin: 4px;
@@ -41,6 +41,7 @@ export const Img = styled.Image`
   width: 47px;
   height: 47px;
   border-radius: ${47 / 2}px;
+  border: solid 2px ${(p) => p.theme.colors.secondary};
 `;
 export const Info = styled.View`
   margin-left: 16px;

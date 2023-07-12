@@ -1,3 +1,4 @@
+import { imgUrl } from "../../services/apiEndPoint";
 import {
   Bottom,
   Content,
@@ -27,6 +28,7 @@ const Card = ({
   onPress,
   viewAllQuestion,
 }) => {
+  console.log("Card", img);
   return (
     <Wrapper
       onPress={onPress}
@@ -39,7 +41,11 @@ const Card = ({
     >
       <Upper>
         <Img
-          source={img ? img : require("../../../assets/characters/male.png")}
+          source={
+            img
+              ? { uri: imgUrl + "/" + img }
+              : require("../../../assets/characters/male.png")
+          }
           imgSize={imgSize}
         />
         <Name nameTextSize={nameTextSize}>{name}</Name>

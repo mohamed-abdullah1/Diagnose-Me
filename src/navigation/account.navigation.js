@@ -1,7 +1,7 @@
 import LoginScreen from "../features/account/screens/Login.screen";
 import {
-    createNativeStackNavigator,
-    // TransitionPresets,
+  createNativeStackNavigator,
+  // TransitionPresets,
 } from "@react-navigation/native-stack";
 import RegistrationMain from "../features/account/screens/RegistrationMain.screen";
 import LoginMainScreen from "../features/account/screens/LoginMain.screen";
@@ -22,67 +22,42 @@ import NewPassword from "../features/account/screens/ForgetPassword.screen";
 
 const Stack = createNativeStackNavigator();
 const AccountNavigator = () => {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                presentation: "modal",
-                headerShown: false,
-                // ...TransitionPresets.SlideFromRightIOS,
-            }}
-        >
-            <Stack.Screen name="LoginMain" component={LoginMainScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-                name="RegistrationMain"
-                component={RegistrationMain}
-            />
-            <Stack.Screen
-                name="RegistrationName"
-                component={RegistrationName}
-            />
-            <Stack.Screen
-                name="RegistrationUserName"
-                component={RegistrationUserName}
-            />
-            <Stack.Screen
-                name="RegistrationPassword"
-                component={RegistrationPassword}
-            />
-            <Stack.Screen
-                name="RegistrationGender"
-                component={RegistrationGender}
-            />
-            <Stack.Screen
-                name="RegistrationTypeOfAccount"
-                component={RegistrationTypeOfAccount}
-            />
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        presentation: "modal",
+        headerShown: false,
+        // ...TransitionPresets.SlideFromRightIOS,
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="RegistrationMain" component={RegistrationMain} />
+      <Stack.Screen name="RegistrationName" component={RegistrationName} />
+      <Stack.Screen
+        name="RegistrationUserName"
+        component={RegistrationUserName}
+      />
+      <Stack.Screen
+        name="RegistrationPassword"
+        component={RegistrationPassword}
+      />
+      <Stack.Screen name="RegistrationGender" component={RegistrationGender} />
 
-            <Stack.Screen
-                name="RegistrationBloodType"
-                component={RegistrationBloodType}
-            />
-            <Stack.Screen
-                name="RegistrationPinCode"
-                component={RegistrationPinCode}
-            />
-            <Stack.Screen
-                name="RegistrationSpecialty"
-                component={RegistrationSpecialty}
-            />
-            <Stack.Screen
-                name="RegistrationHourPrice"
-                component={RegistrationHourPrice}
-            />
-            <Stack.Screen
-                name="RegistrationClinicLocation"
-                component={RegistrationClinicLocation}
-            />
-            <Stack.Screen
-                name="RegistrationYearsOfExperience"
-                component={RegistrationYearsOfExperience}
-            />
-            <Stack.Screen name="NewPassword" component={NewPassword} />
-        </Stack.Navigator>
-    );
+      <Stack.Screen
+        name="RegistrationBloodType"
+        component={RegistrationBloodType}
+      />
+      <Stack.Screen
+        name="RegistrationPinCode"
+        component={RegistrationPinCode}
+      />
+
+      <Stack.Screen
+        name="RegistrationYearsOfExperience"
+        component={RegistrationYearsOfExperience}
+      />
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+    </Stack.Navigator>
+  );
 };
 export default AccountNavigator;

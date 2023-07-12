@@ -410,13 +410,6 @@ const DocMainQuestions = ({ navigation }) => {
           </Wrapper>
         }
       </AddQuestionModal>
-      {visible ? null : (
-        <Btn onPress={() => setVisible((prev) => !prev)}>
-          <BtnContent>
-            <Ionicons name="add-outline" size={24} color="white" />
-          </BtnContent>
-        </Btn>
-      )}
     </BgContainer>
   );
 };

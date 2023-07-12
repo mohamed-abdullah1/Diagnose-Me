@@ -5,7 +5,7 @@ import {
   CategoryItem,
   CategoryList,
   Container,
-  Date,
+  Date as DateComponent,
   DocData,
   DocImg,
   DocInfo,
@@ -23,16 +23,21 @@ import { selectToken } from "../../services/slices/auth.slice";
 import { Alert, View } from "react-native";
 import colors from "../../infrastructure/theme/colors";
 import theme from "../../infrastructure/theme";
+import { formatDistanceToNow } from "date-fns";
+import { imgUrl } from "../../services/apiEndPoint";
+import { Text } from "react-native";
 const BlogSection = () => {
   const navigation = useNavigation();
   const [searchQuery, setQuery] = useState("");
   const token = useSelector(selectToken);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const {
     data: blogs,
     isError: blogsIsError,
     error: blogsError,
     isLoading: blogsIsLoading,
+    isSuccess,
   } = useGetBlogsQuery({ token, page });
   useEffect(() => {
     if (blogsIsError) {
@@ -46,11 +51,12 @@ const BlogSection = () => {
       ]);
     }
   }, [blogsIsError]);
-
+  useEffect(() => {
+    console.log("🤯🤯", blogs.objects[0]);
+  }, [isSuccess]);
   const handlePagination = (type) => {
     setPage((prev) => (type === "add" ? prev + 1 : prev - 1));
   };
-
   return (
     <View>
       <Searchbar
@@ -75,16 +81,19 @@ const BlogSection = () => {
             {blogs?.objects.map((b) => (
               <BlogCard
                 style={{
-                  elevation: 4,
+                  elevation: 2,
                 }}
                 key={b.id}
               >
+                {loading && <Text>loading....</Text>}
                 <Img
+                  style={{ borderColor: colors.secondary, borderWidth: 2 }}
                   source={
                     b?.postImages[0]
-                      ? b.postImages[0]
+                      ? { uri: imgUrl + b.postImages[0] }
                       : require("../../../assets/helpers/blog_1.png")
                   }
+                  onLoad={() => setLoading(false)}
                 />
                 <Info>
                   <CategoryList>
@@ -92,20 +101,39 @@ const BlogSection = () => {
                       <CategoryItem key={i}>{cat}</CategoryItem>
                     ))}
                   </CategoryList>
-                  <Date>{b.modifiedOn ? b.modifiedOn : b.createdOn}</Date>
+                  <DateComponent>
+                    {
+                      b.modifiedOn
+                        ? formatDistanceToNow(new Date(b.modifiedOn), {
+                            addSuffix: true,
+                          })
+                        : // ?.split("about")[1]
+                          // ?.trim()
+                          b?.createdOn &&
+                          formatDistanceToNow(new Date(b.createdOn), {
+                            addSuffix: true,
+                          })
+                      // ?.split("about")[1]
+                      // ?.trim()
+                    }
+                  </DateComponent>
                 </Info>
                 <BlogTitle>{b?.title}</BlogTitle>
                 <DocInfo>
                   <DocImg
                     source={
-                      b?.author.profilePictureUrl
-                        ? b?.author.profilePictureUrl
+                      b?.author?.profilePictureUrl
+                        ? { uri: imgUrl + b?.author?.profilePictureUrl }
                         : require("../../../assets/characters/doctor_4.png")
                     }
                   />
                   <DocData>
                     <Name>{"Dr. " + b?.author.fullName}</Name>
-                    <Specialty>{b?.author.specialization}</Specialty>
+                    <Specialty>
+                      {b?.author.specialization
+                        ? b?.author.specialization
+                        : "specialty"}
+                    </Specialty>
                   </DocData>
                   <ReadMoreBtn
                     onPress={() =>

@@ -1,8 +1,9 @@
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import Card from "./Card.component";
+import { formatDistanceToNow } from "date-fns";
 
 const Content = styled.Text`
   font-size: 13px;
@@ -13,8 +14,8 @@ const LeftWrapper = styled.View`
   flex-direction: row;
   margin-left: 5px;
 `;
-const Icon = styled(AntDesign).attrs((props) => ({
-  name: props.liked ? "heart" : "hearto",
+const Icon = styled(FontAwesome).attrs((props) => ({
+  name: props.liked ? "star" : "star",
   size: 24,
   color: props.liked ? "red" : props.theme.colors.primary,
 }))``;
@@ -35,6 +36,7 @@ const BottomLeft = ({ value, liked, setLiked }) => (
 );
 const BlogCard = ({ blog, index, total, onPress }) => {
   const [liked, setLiked] = useState(false);
+  console.log("blog.author.profilePictureUrl", blog.author.profilePictureUrl);
   return (
     <Card
       onPress={onPress}
@@ -42,7 +44,18 @@ const BlogCard = ({ blog, index, total, onPress }) => {
       index={index}
       img={blog.author.profilePictureUrl}
       name={blog.author.fullName}
-      date={blog.modifiedOn ? blog.modifiedOn : blog.createdOn}
+      // date={blog.modifiedOn ? blog.modifiedOn : blog.createdOn}
+      date={
+        blog.modifiedOn
+          ? formatDistanceToNow(new Date(blog.modifiedOn), {
+              addSuffix: true,
+            })
+          : // ?.split("about")[1]
+            // ?.trim()
+            formatDistanceToNow(new Date(blog.createdOn), {
+              addSuffix: true,
+            })
+      }
       content={blog.content}
       height={200}
       BottomLeft={() => (

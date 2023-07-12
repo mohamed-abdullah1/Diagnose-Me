@@ -75,11 +75,11 @@ const MainChat = ({ navigation }) => {
       )[0];
       return (
         <ChatCard
-          senderId={otherPerson._id}
+          senderId={otherPerson?._id}
           navigation={navigation}
           key={msgId}
-          senderImg={otherPerson.pic}
-          senderName={otherPerson.name}
+          senderImg={otherPerson?.pic}
+          senderName={otherPerson?.name}
           message={msgContent}
           createdAt={createdAt}
           otherPerson={otherPerson}

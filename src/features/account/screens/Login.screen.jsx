@@ -13,6 +13,8 @@ import {
 import Input from "../../components/Input.component";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { selectIsReg } from "../../../services/slices/registration.slice";
+import ToastManager, { Toast } from "toastify-react-native";
 
 const loginSchema = yup.object({
   email: yup
@@ -25,16 +27,10 @@ const loginSchema = yup.object({
 const LoginScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailState, setEmailState] = useState("");
-
+  const isReg = useSelector(selectIsReg);
   const [
     loginUser,
-    {
-      data: userInfo,
-      isSuccess,
-      isError,
-      error: loginError,
-      isLoading = false,
-    },
+    { data: userInfo, isSuccess, isError, error: loginError, isLoading },
   ] = useLoginMutation();
   const dispatch = useDispatch();
   // const {
@@ -64,23 +60,30 @@ const LoginScreen = ({ navigation }) => {
     console.log("EMAIL STATE:- ", emailState);
     forgetPassword({ email: emailState });
   };
+
   useEffect(() => {
     if (!isSuccess) return console.log("👉", "not successful 🥲", userInfo);
-    if (userInfo) {
+    if (isSuccess) {
       const { token } = userInfo;
       dispatch(login({ token }));
+      console.log("💨💨💨💨", userInfo.user);
+      dispatch(setUserInfo(userInfo.user));
+
+      navigation.navigate(isReg ? "RegistrationTypeOfAccount" : "main");
       // console.log("👉data", data);
     }
-  }, [userInfo]);
+  }, [isSuccess]);
   //
-  useEffect(() => {
-    if (userInfo) {
-      dispatch(setUserInfo(userInfo.user));
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     console.log("👉", userInfo);
+  //     dispatch(setUserInfo(userInfo.user));
+  //   }
+  // }, [userInfo]);
   useEffect(() => {
     if (!isError) return;
     console.log("👉🚩", loginError?.data?.title);
+    console.error("👉🚩", loginError);
     Alert.alert(
       "Error 📛",
       loginError?.data?.title,
@@ -205,6 +208,7 @@ const LoginScreen = ({ navigation }) => {
               disabled={!isValid}
               // loading={isLoading || infoLoading || forgetPasswordIsLoading}
               loading={isLoading}
+              labelStyle={{ fontFamily: "Poppins" }}
             >
               LOGIN
             </Btn>

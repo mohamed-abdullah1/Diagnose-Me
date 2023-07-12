@@ -21,6 +21,27 @@ export const questionApi = createApi({
       }),
       invalidatesTags: ["Question"],
     }),
+    agreement: builder.mutation({
+      query: ({ token, questionId, value }) => ({
+        url: `/questions/question-id/${questionId}/agreement/${value}`,
+        method: "POST",
+        headers: {
+          Authorization: token,
+        },
+      }),
+      invalidatesTags: ["Question"],
+    }),
+    answer: builder.mutation({
+      query: ({ token, questionId, ...body }) => ({
+        url: `questions/question-id/${questionId}/answer`,
+        method: "POST",
+        body,
+        headers: {
+          Authorization: token,
+        },
+      }),
+      invalidatesTags: ["Question"],
+    }),
     getQuestions: builder.query({
       query: ({ token, pageNumber, searchQuery, specialty }) => ({
         url: `/questions/page-number/${pageNumber}?q=${searchQuery}&tag=${specialty}`,
@@ -71,4 +92,6 @@ export const {
   useGetSingleQuestionQuery,
   useGetAnswersQuery,
   useGetTrendQuestionsQuery,
+  useAgreementMutation,
+  useAnswerMutation,
 } = questionApi;

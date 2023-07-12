@@ -11,6 +11,7 @@ import {
 import * as dateFns from "date-fns";
 import useSocketSetup from "../../../helpers/useSocketSetup";
 import { useEffect } from "react";
+import { imgUrl } from "../../../services/apiEndPoint";
 const ChatCard = ({
   senderImg,
   senderName,
@@ -58,7 +59,13 @@ const ChatCard = ({
       }}
       onPress={pressHandler}
     >
-      <Img source={{ uri: senderImg }} />
+      <Img
+        source={
+          senderImg
+            ? { uri: imgUrl + senderImg }
+            : require("../../../../assets/characters/male.png")
+        }
+      />
       <DataContainer>
         <Name>{senderName}</Name>
         <Message>

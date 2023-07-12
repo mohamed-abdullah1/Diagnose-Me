@@ -7,7 +7,10 @@ const ChatStack = createStackNavigator();
 
 const ChatNavigation = () => {
   return (
-    <ChatStack.Navigator screenOptions={{ headerShown: false }}>
+    <ChatStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="MainChat"
+    >
       <ChatStack.Screen name="MainChat" component={MainChat} />
       <ChatStack.Screen name="Chat" component={Chat} />
       <ChatStack.Screen name="VideoCall" component={VideoCall} />

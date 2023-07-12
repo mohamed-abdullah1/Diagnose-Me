@@ -44,11 +44,13 @@ import { View } from "react-native";
 import useSocketSetup from "../../../helpers/useSocketSetup";
 import { useCreateAccessChatMutation } from "../../../services/apis/chat.api";
 import { Image } from "react-native";
+import { imgUrl } from "../../../services/apiEndPoint";
 
 const ScheduleMain = ({ navigation }) => {
   const token = useSelector(selectToken);
   const currentUser = useSelector(selectUser);
   const socket = useSocketSetup();
+  const [current, setCurrent] = useState();
   const {
     data: appointments,
     isError,
@@ -94,13 +96,16 @@ const ScheduleMain = ({ navigation }) => {
     }
   }, [chatIsSuccess]);
 
-  const talkNowHandler = (doctorId, patientId) => {
+  const talkNowHandler = (doctorId, patientId, id) => {
     // create or access a chat between patient and doctor and start talking
     makeChat({ token, userId: doctorId });
+    setCurrent(id);
   };
   const cancelHandler = (id) => {
     cancelAppointment({ token, appointmentId: id, status: "canceled" });
+    setCurrent(id);
   };
+  console.log("🫥", appointments);
   return (
     <BgContainer>
       <Appbar.Header>
@@ -141,7 +146,7 @@ const ScheduleMain = ({ navigation }) => {
                 <Img
                   source={
                     meeting?.doctor?.pic
-                      ? { uri: meeting.doctor.pic }
+                      ? { uri: imgUrl + meeting.doctor.pic }
                       : require("../../../../assets/characters/doctor_male_1.png")
                   }
                 />
@@ -150,7 +155,7 @@ const ScheduleMain = ({ navigation }) => {
                 <DateItem>
                   <DateIcon />
                   <DateContent>
-                    {format(parseISO(meeting.start_date), "dd/MMM/yyyy", {
+                    {format(parseISO(meeting.day), "dd/MMM/yyyy", {
                       locale: enUS,
                     })}
                   </DateContent>
@@ -158,7 +163,7 @@ const ScheduleMain = ({ navigation }) => {
                 <TimeItem>
                   <TimeIcon />
                   <TimeContent>
-                    {format(parseISO(meeting.start_date), "hh:mm a", {
+                    {format(parseISO(meeting.startTime), "hh:mm a", {
                       locale: enUS,
                     })}
                   </TimeContent>
@@ -174,7 +179,7 @@ const ScheduleMain = ({ navigation }) => {
                 <Button
                   mode="outlined"
                   textColor={colors.secondary}
-                  loading={cancelIsLoading}
+                  loading={cancelIsLoading && current === meeting._id}
                   onPress={() => cancelHandler(meeting._id)}
                 >
                   Cancel
@@ -183,9 +188,13 @@ const ScheduleMain = ({ navigation }) => {
                   mode="contained"
                   buttonColor={colors.secondary}
                   onPress={() =>
-                    talkNowHandler(meeting.doctor._id, meeting.patient._id)
+                    talkNowHandler(
+                      meeting.doctor._id,
+                      meeting.patient._id,
+                      meeting._id
+                    )
                   }
-                  loading={makeChatIsLoading}
+                  loading={makeChatIsLoading && current === meeting._id}
                   disabled={meeting.status !== "approved"}
                 >
                   Talk Now

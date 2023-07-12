@@ -34,6 +34,8 @@ import {
   Section,
   Title,
 } from "../styles/ScheduleMainDoc.styles";
+import { Toast } from "toastify-react-native";
+
 import Modal from "react-native-modal";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { meetingsForDoctor } from "../../../helpers/consts";
@@ -44,9 +46,10 @@ import {
   useClearAvailableAppointmentMutation,
   useGetAppointmentsQuery,
   useGetAvailableAppointmentsQuery,
+  useGetAvailableDatesForDoctorQuery,
 } from "../../../services/apis/appointment.api";
 import { useSelector } from "react-redux";
-import { selectToken } from "../../../services/slices/auth.slice";
+import { selectToken, selectUser } from "../../../services/slices/auth.slice";
 import {
   DateContent,
   DateItem,
@@ -63,9 +66,12 @@ import {
   TimeItem,
   UpperContainer,
 } from "../styles/ScheduleMain.styles";
+import { imgUrl } from "../../../services/apiEndPoint";
+import { Alert } from "react-native";
 
 const ScheduleMainDoc = ({}) => {
   const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
   const {
     data: bookedAppointments,
     isLoading: bookedAppointmentsIsLoading,
@@ -77,10 +83,15 @@ const ScheduleMainDoc = ({}) => {
     isFetching: availableAppointmentsIsFetching,
     isSuccess: availableAppointmentsIsSuccess,
     refetch,
-  } = useGetAvailableAppointmentsQuery(token);
+  } = useGetAvailableDatesForDoctorQuery({ token, doctorId: user.id });
   const [
     addAvailableAppointment,
-    { data: addResponse, isSuccess: addIsSuccess },
+    {
+      data: addResponse,
+      isSuccess: addIsSuccess,
+      error: addError,
+      isLoading: addIsLoading,
+    },
   ] = useAddAvailableAppointmentMutation();
   const [clear, {}] = useClearAvailableAppointmentMutation();
   const [marked, setMarked] = useState({
@@ -135,6 +146,11 @@ const ScheduleMainDoc = ({}) => {
 
     return dateFns.formatISO(combinedDateTime, { representation: "complete" });
   };
+  useEffect(() => {
+    if (addError) {
+      Alert.alert("Problem", addError?.data?.message);
+    }
+  }, [addError]);
   const onChange = (event, selectedDate) => {
     const currentDate = generateNewAvailableMeet(
       selectedDate,
@@ -146,13 +162,23 @@ const ScheduleMainDoc = ({}) => {
     //   {
     //     "date":"2023-06-30T04:00:00.000Z",
     //     "times":[{"start_time":"2023-06-04T18:00:00.000Z", "end_time":"2023-06-04T19:00:00.000Z"}]
-    // }
+    // // }
+    // console.log("👉🤢🏡", dateFns.format(currentDate, "hh:mm a"));
+    console.log("👉🤢🏡", {
+      date: dateFns.format(
+        dateFns.startOfDay(dateFns.parseISO(currentDate)),
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+      ),
+      time: dateFns.format(dateFns.parseISO(currentDate), "HH:mm:ss"),
+    });
     addAvailableAppointment({
       token,
-      date: currentDate,
-      times: [{ start_time: currentDate, end_time: currentDate }],
+      date: dateFns.format(
+        dateFns.startOfDay(dateFns.parseISO(currentDate)),
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+      ),
+      time: dateFns.format(dateFns.parseISO(currentDate), "HH:mm:ss"),
     });
-    console.log("👉🤢🏡", dateFns.format(currentDate, "hh:mm a"));
     // console.log("👉marked", marked);
     // const meeting = bookedMeetings?.find((b) => b.date === dayCalendar);
     // console.log("👉👉👉", meeting.available, dayCalendar);
@@ -226,7 +252,7 @@ const ScheduleMainDoc = ({}) => {
         bookedAppointments
           ?.filter((b) => b.patient)
           ?.forEach((meet) => {
-            temp[dateFns.format(new Date(meet.start_date), "yyyy-MM-dd")] = {
+            temp[dateFns.format(new Date(meet.day), "yyyy-MM-dd")] = {
               marked: true,
               selectedDotColor: "orange",
             };
@@ -242,7 +268,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentBooking(
         bookedAppointments.filter(
           (m) =>
-            dateFns.format(new Date(m.start_date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -254,7 +280,7 @@ const ScheduleMainDoc = ({}) => {
       setMarked((prev) => {
         let temp = {};
         availableAppointments?.forEach((meet) => {
-          temp[dateFns.format(new Date(meet.date), "yyyy-MM-dd")] = {
+          temp[dateFns.format(new Date(meet.day), "yyyy-MM-dd")] = {
             marked: true,
             selectedDotColor: "orange",
           };
@@ -264,7 +290,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentAvailable(
         availableAppointments?.filter(
           (m) =>
-            dateFns.format(new Date(m.date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -275,7 +301,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentBooking(
         bookedAppointments?.filter(
           (m) =>
-            dateFns.format(new Date(m.start_date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -284,7 +310,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentAvailable(
         availableAppointments?.filter(
           (m) =>
-            dateFns.format(new Date(m.date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -297,7 +323,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentAvailable(
         availableAppointments?.filter(
           (m) =>
-            dateFns.format(new Date(m.date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -308,7 +334,7 @@ const ScheduleMainDoc = ({}) => {
       setCurrentBooking(
         bookedAppointments?.filter(
           (m) =>
-            dateFns.format(new Date(m.start_date), "yyyy-MM-dd") ===
+            dateFns.format(new Date(m.day), "yyyy-MM-dd") ===
             Object.keys(currentSelect)[0]
         )
       );
@@ -404,11 +430,13 @@ const ScheduleMainDoc = ({}) => {
               >
                 <Title>Available Meetings</Title>
                 <Button
-                  buttonColor={colors.secondary}
+                  buttonColor={addIsLoading ? colors.muted : colors.secondary}
                   textColor={colors.light}
                   labelStyle={{ fontFamily: "Poppins", fontSize: 12 }}
                   style={{ alignSelf: "center" }}
                   onPress={() => showTimepicker()}
+                  loading={addIsLoading}
+                  disabled={addIsLoading}
                 >
                   Add
                 </Button>
@@ -433,7 +461,7 @@ const ScheduleMainDoc = ({}) => {
                       >
                         <MeetItem>
                           {dateFns.format(
-                            dateFns.parseISO(t.start_time),
+                            dateFns.parseISO(t.startTime),
                             "hh:mm a"
                           )}
                         </MeetItem>
@@ -473,7 +501,7 @@ const ScheduleMainDoc = ({}) => {
                           <Img
                             source={
                               meeting?.patient?.pic
-                                ? { uri: meeting.patient.pic }
+                                ? { uri: imgUrl + meeting.patient.pic }
                                 : require("../../../../assets/characters/doctor_male_1.png")
                             }
                           />
@@ -483,7 +511,7 @@ const ScheduleMainDoc = ({}) => {
                             <DateIcon />
                             <DateContent>
                               {dateFns.format(
-                                dateFns.parseISO(meeting.start_date),
+                                dateFns.parseISO(meeting.startTime),
                                 "dd/MMM/yyyy"
                               )}
                             </DateContent>
@@ -492,7 +520,7 @@ const ScheduleMainDoc = ({}) => {
                             <TimeIcon />
                             <TimeContent>
                               {dateFns.format(
-                                dateFns.parseISO(meeting.start_date),
+                                dateFns.parseISO(meeting.startTime),
                                 "hh:mm a"
                               )}
                             </TimeContent>

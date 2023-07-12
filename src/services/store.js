@@ -21,6 +21,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { blogsApi } from "./apis/blogs.api";
 import { appointmentApi } from "./apis/appointment.api";
 import { medicalServicesApi } from "./apis/medicalService";
+import { bloodApi } from "./apis/blood.api";
+import { aiApi } from "./apis/ai.api";
 
 const persistConfig = {
   key: "root",
@@ -38,11 +40,15 @@ const rootReducer = combineReducers({
   [blogsApi.reducerPath]: blogsApi.reducer, // other reducers...
   [appointmentApi.reducerPath]: appointmentApi.reducer, // other reducers...
   [medicalServicesApi.reducerPath]: medicalServicesApi.reducer, // other reducers...
+  [bloodApi.reducerPath]: bloodApi.reducer, // other reducers...
+  [aiApi.reducerPath]: aiApi.reducer, // other reducers...
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
+  // reducer: persistedReducer, //FIXME: return it back and uncomment
+  reducer: rootReducer,
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -56,10 +62,12 @@ const store = configureStore({
       questionApi.middleware,
       blogsApi.middleware,
       appointmentApi.middleware,
-      medicalServicesApi.middleware
+      medicalServicesApi.middleware,
+      bloodApi.middleware,
+      aiApi.middleware
     ),
 });
 setupListeners(store.dispatch);
 
-export const persister = persistStore(store);
+// export const persister = persistStore(store);
 export default store;

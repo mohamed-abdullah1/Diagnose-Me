@@ -14,7 +14,7 @@ export const BlogCard = styled.View`
   width: 95%;
   align-self: center;
   border-radius: 16px;
-  padding: 16px;
+  padding: 20px;
   justify-content: center;
   align-items: center;
 `;
@@ -41,8 +41,8 @@ export const CategoryList = styled.View`
 export const CategoryItem = styled.Text`
   background-color: ${(props) => props.theme.colors.moreMuted};
   margin-right: 4px;
-  border-radius: 16px;
-  padding: 2px 4px;
+  border-radius: 8px;
+  padding: 8px;
   font-size: 11px;
 
   color: ${(props) => props.theme.colors.primary};
@@ -71,6 +71,7 @@ export const DocImg = styled.Image`
   width: 55px;
   height: 55px;
   border-radius: ${55 / 2}px;
+  border: solid ${(props) => props.theme.colors.secondary} 2px;
 `;
 export const DocData = styled.View`
   margin-left: 12px;
@@ -86,16 +87,18 @@ export const Specialty = styled.Text`
   color: ${(props) => props.theme.colors.primary};
 `;
 export const ReadMoreBtn = styled(Button).attrs((props) => ({
-  buttonColor: props.theme.colors.secondary,
-  textColor: props.theme.colors.light,
+  textColor: props.theme.colors.secondary,
   contentStyle: {
     height: 38,
+    // borderColor: props.theme.colors.secondary,
+    // borderWidth: 1,
   },
   labelStyle: {
     fontFamily: "Poppins",
     fontSize: 12,
   },
 }))`
+  border: solid ${(p) => p.theme.colors.secondary} 1px;
   position: absolute;
   right: 0;
 `;

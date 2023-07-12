@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { chat_url } from "../apiEndPoint";
+import apiEndPoint, { chat_url } from "../apiEndPoint";
 
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://chat-appointment-service-api.onrender.com/api",
+    baseUrl: `${apiEndPoint}/node-service/api`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -42,7 +42,7 @@ export const chatApi = createApi({
       },
       transformResponse: (response) =>
         response
-          .filter((c) => c.latestMessage)
+          ?.filter((c) => c.latestMessage)
           .map((chat) => {
             const {
               _id: msgId,

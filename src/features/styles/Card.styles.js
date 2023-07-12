@@ -21,6 +21,8 @@ export const Upper = styled.View`
 export const Img = styled.Image`
   width: ${(props) => (props.imgSize ? props.imgSize : 48)}px;
   height: ${(props) => (props.imgSize ? props.imgSize : 48)}px;
+  border: solid 2px ${(p) => p.theme.colors.secondary};
+  border-radius: 100px;
 `;
 export const Name = styled.Text`
   font-size: ${(props) => (props.nameTextSize ? props.nameTextSize : 14)}px;

@@ -29,6 +29,7 @@ import DoctorCard from "../../components/DoctorCard.component";
 import {
   Alert,
   Dimensions,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -43,11 +44,15 @@ import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import { todayMeetings as loadedTodayMeetings } from "../../../helpers/consts";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectToken } from "../../../services/slices/auth.slice";
+import {
+  logout,
+  selectToken,
+  selectUser,
+} from "../../../services/slices/auth.slice";
 import { useGetTrendQuestionsQuery } from "../../../services/apis/questions.api";
-import { ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 import theme from "../../../infrastructure/theme";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { useGetAppointmentsQuery } from "../../../services/apis/appointment.api";
 import { useGetBlogsQuery } from "../../../services/apis/blogs.api";
 import {
@@ -55,17 +60,55 @@ import {
   NoMeetingImg,
   NoMeetingTitle,
 } from "../../schedule/styles/ScheduleMainDoc.styles";
+import {
+  Entypo,
+  Feather,
+  FontAwesome5,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import { imgUrl } from "../../../services/apiEndPoint";
+import { StyleSheet } from "react-native";
+import { CharImg } from "../../styles/TopHeader.styles";
+
+const ItemRow = ({ icon, title, onPress }) => {
+  const [press, setPress] = useState(false);
+  return (
+    <Pressable
+      style={styles.itemContainer}
+      onPress={() => {
+        setPress(true);
+        onPress();
+      }}
+      onPressOut={() => setPress(false)}
+    >
+      <View style={styles.icon}>{icon}</View>
+      <View style={styles.titleItem}>
+        <Text
+          style={
+            !press
+              ? styles.titleItemText
+              : [styles.titleItemText, { color: colors.secondary }]
+          }
+        >
+          {title}
+        </Text>
+      </View>
+    </Pressable>
+  );
+};
 
 const HomeDoc = ({ navigation }) => {
-  const [userFirstName, setUserFirstName] = useState("Mohamed");
+  const [userFirstName, setUserFirstName] = useState("");
+  const user = useSelector(selectUser);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const dispatch = useDispatch();
-
+  console.log(`🤯🤯 ${imgUrl}${user.profilePictureUrl}`);
   const imgPressHandler = () => {
-    // navigation.navigate("Profile");
+    navigation.navigate("Profile");
     // console.log("👉", "pressed");
     //TODO make a profile screen for doctor
-    dispatch(logout());
+    // dispatch(logout());
   };
   const token = useSelector(selectToken);
   const {
@@ -99,7 +142,7 @@ const HomeDoc = ({ navigation }) => {
       });
     }, [])
   );
-
+  console.log("👉", user);
   useEffect(() => {
     if (trendQuestionsError) {
       Alert.alert(
@@ -118,6 +161,7 @@ const HomeDoc = ({ navigation }) => {
       );
     }
   }, [bookedAppointmentsIsSuccess]);
+  console.log(trendQuestions);
   return (
     <BgContainer>
       <TopHeader
@@ -125,7 +169,7 @@ const HomeDoc = ({ navigation }) => {
           setDrawerVisible(true);
         }}
         onPressImg={imgPressHandler}
-        userImg={require("../../../../assets/characters/doctor_male_1.png")}
+        userImg={`${imgUrl}${user.profilePictureUrl}`}
       />
       <Modal
         coverScreen={false}
@@ -135,6 +179,9 @@ const HomeDoc = ({ navigation }) => {
           backgroundColor: colors.light,
           margin: 0,
           padding: 0,
+
+          flex: 1,
+          justifyContent: "flex-start",
         }}
         animationIn="slideInLeft"
         animationOut="slideOutLeft"
@@ -142,18 +189,86 @@ const HomeDoc = ({ navigation }) => {
         onBackdropPress={() => setDrawerVisible(false)}
         isVisible={drawerVisible}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Blogs");
-            setDrawerVisible(false);
-          }}
+        <View style={styles.topContainer}>
+          <CharImg
+            source={{ uri: `${imgUrl}${user.profilePictureUrl}` }}
+            style={styles.img}
+          />
+          <Text style={styles.header}>{user.fullName}</Text>
+        </View>
+
+        <View
+          style={[
+            {
+              flex: 0.3,
+              // borderColor: "red",
+              // borderWidth: 1,
+              justifyContent: "space-between",
+            },
+            styles.bottomContainer,
+          ]}
         >
-          <Text>⭐ Blog</Text>
-        </TouchableOpacity>
+          <ItemRow
+            onPress={() => {
+              navigation.navigate("Blogs");
+              setDrawerVisible(false);
+            }}
+            icon={<Entypo name="pencil" size={24} color={colors.secondary} />}
+            title="Write Blog"
+          />
+          <ItemRow
+            icon={
+              <Ionicons name="settings" size={24} color={colors.secondary} />
+            }
+            title="Settings"
+          />
+          <ItemRow
+            icon={
+              <MaterialIcons name="info" size={24} color={colors.secondary} />
+            }
+            title="DiagnoseMe"
+          />
+          <Button
+            labelStyle={{
+              color: colors.light,
+              fontFamily: "Poppins",
+            }}
+            icon="door"
+            buttonColor={colors.secondary}
+            style={{ width: "50%", alignSelf: "center", marginTop: 40 }}
+            // icon={"pen"}
+          >
+            Logout
+          </Button>
+          {/* <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Blogs");
+              setDrawerVisible(false);
+            }}
+          >
+            <Text>⭐ Blog</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Blogs");
+              setDrawerVisible(false);
+            }}
+          >
+            <Text>⭐ Blog</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Blogs");
+              setDrawerVisible(false);
+            }}
+          >
+            <Text>⭐ Blog</Text>
+          </TouchableOpacity> */}
+        </View>
       </Modal>
       <ScrollView>
         <HeaderContainer>
-          <Hello>Hi, Dr. {userFirstName}</Hello>
+          <Hello>Hi, Dr. {user.name}</Hello>
           <Emoji source={require("../../../../assets/helpers/emoji.png")} />
         </HeaderContainer>
         {/* <CategoriesSection>
@@ -280,7 +395,11 @@ const HomeDoc = ({ navigation }) => {
           <CategoriesSection>
             <TitleSeeAll
               title="Trend Questions❓"
-              pressFunction={() => navigation.navigate("Questions")}
+              pressFunction={() =>
+                navigation.navigate("Questions", {
+                  screen: "MainQuestion",
+                })
+              }
             />
             <CardsSection>
               {trendQuestionsLoading ? (
@@ -355,3 +474,48 @@ const HomeDoc = ({ navigation }) => {
   );
 };
 export default HomeDoc;
+const styles = StyleSheet.create({
+  img: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+    alignSelf: "center",
+    borderColor: colors.light,
+    borderWidth: 2,
+  },
+  topContainer: {
+    backgroundColor: colors.secondary,
+    flex: 1,
+    justifyContent: "center",
+  },
+  bottomContainer: {
+    flex: 2,
+    justifyContent: "flex-start",
+  },
+  header: {
+    fontFamily: "Poppins",
+    fontSize: 20,
+    color: colors.light,
+    textAlign: "center",
+    marginTop: 10,
+  },
+  subHeader: {
+    fontFamily: "Poppins",
+    fontSize: 15,
+  },
+  itemContainer: {
+    // borderColor: "red",
+    // borderWidth: 1,
+    flexDirection: "row",
+    paddingLeft: 24,
+    paddingTop: 16,
+    alignItems: "center",
+    marginTop: 8,
+  },
+  titleItem: {
+    paddingLeft: 16,
+  },
+  titleItemText: {
+    fontFamily: "Poppins",
+  },
+});

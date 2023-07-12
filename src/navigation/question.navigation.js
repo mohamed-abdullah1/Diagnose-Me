@@ -5,14 +5,14 @@ import Question from "../features/questions/screens/Question.screen";
 const QuestionStack = createStackNavigator();
 
 const QuestionNavigator = () => {
-    return (
-        <QuestionStack.Navigator screenOptions={{ headerShown: false }}>
-            <QuestionStack.Screen
-                name="MainQuestion"
-                component={MainQuestions}
-            />
-            <QuestionStack.Screen name="QuestionPage" component={Question} />
-        </QuestionStack.Navigator>
-    );
+  return (
+    <QuestionStack.Navigator
+      initialRouteName="MainQuestion"
+      screenOptions={{ headerShown: false }}
+    >
+      <QuestionStack.Screen name="MainQuestion" component={MainQuestions} />
+      <QuestionStack.Screen name="QuestionPage" component={Question} />
+    </QuestionStack.Navigator>
+  );
 };
 export default QuestionNavigator;

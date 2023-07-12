@@ -32,7 +32,34 @@ export const blogsApi = createApi({
       }),
       providesTags: ["Blogs"],
     }),
+    createBlog: builder.mutation({
+      query: ({ token, ...body }) => ({
+        url: `/posts/create`,
+        method: "POST",
+        body,
+        headers: {
+          Authorization: token,
+        },
+      }),
+      invalidatesTags: ["Blogs"],
+    }),
+    makeRateBlog: builder.mutation({
+      query: ({ token, postId, ...body }) => ({
+        url: `posts/post-id/${postId}/rating`,
+        method: "POST",
+        body,
+        headers: {
+          Authorization: token,
+        },
+      }),
+      invalidatesTags: ["Blogs"],
+    }),
   }),
 });
 
-export const { useGetBlogsQuery, useGetBlogQuery } = blogsApi;
+export const {
+  useGetBlogsQuery,
+  useGetBlogQuery,
+  useCreateBlogMutation,
+  useMakeRateBlogMutation,
+} = blogsApi;
