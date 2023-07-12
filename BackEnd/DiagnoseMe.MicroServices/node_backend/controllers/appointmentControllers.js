@@ -192,7 +192,8 @@ const changeBookedStatus = asyncHandler(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user._id, { $inc: { numOfPatients: 1 } });
     console.log('number of patients increased by 1');
     const message = JSON.stringify({
-      Id: editedAppointment.doctorId,
+      DoctorId: editedAppointment.doctorId,
+      PatientId: editedAppointment.patientId,
     });
     console.log('message sent:✅', message);
     sendToQueue('PatientsNum.Update', message);
