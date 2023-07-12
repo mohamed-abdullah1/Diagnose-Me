@@ -23,6 +23,10 @@ public class GetUsersInRoleQueryHandler :
                     GetUsersInRoleAsync(role)).
                     OrderBy(u => u.UserName).
                     ToList();
+                    
+        if (role == Roles.User)
+            users =  users.Where(x => !x.IsDoctor).ToList();
+            
         var IsNextPage = users.Count() > query.pageNumber * 10;
         var resUsers = users.
                     Skip((query.pageNumber -1)* 10).
