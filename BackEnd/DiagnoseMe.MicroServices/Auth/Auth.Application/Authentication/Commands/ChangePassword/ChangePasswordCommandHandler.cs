@@ -28,7 +28,7 @@ public class ChangePasswordCommandHandler :
             user, 
             command.OldPassword, 
             command.NewPassword);
-        if(result.Succeeded)
+        if(!result.Succeeded)
             return Errors.User.MapIdentityError(result.Errors.ToList());
         
         try{

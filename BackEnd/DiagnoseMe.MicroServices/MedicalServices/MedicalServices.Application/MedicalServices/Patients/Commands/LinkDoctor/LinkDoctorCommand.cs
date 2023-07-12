@@ -6,5 +6,5 @@ namespace MedicalServices.Application.MedicalServices.Patients.Commands.LinkDoct
 
 
 public record LinkDoctorCommand(
-    string Id,
+    string PatientId,
     string DoctorId) : IRequest<ErrorOr<CommandResponse>>;

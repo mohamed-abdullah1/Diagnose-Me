@@ -25,7 +25,7 @@ public class LinkDoctorCommandHandler : IRequestHandler<LinkDoctorCommand, Error
 
     public async Task<ErrorOr<CommandResponse>> Handle(LinkDoctorCommand command, CancellationToken cancellationToken)
     {
-        var patient = await _patientRepository.GetByIdAsync(command.Id);
+        var patient = await _patientRepository.GetByIdAsync(command.PatientId);
         if (patient == null)
             return Errors.Patient.NotFound;
 
@@ -33,12 +33,12 @@ public class LinkDoctorCommandHandler : IRequestHandler<LinkDoctorCommand, Error
         if (doctor == null)
             return Errors.Doctor.NotFound;
 
-        var patientDoctor = await _patientDoctorRepository.GetByIdAsync(new {command.Id, command.DoctorId});
+        var patientDoctor = await _patientDoctorRepository.GetByIdAsync(new {command.PatientId, command.DoctorId});
         if (patientDoctor != null)
             return Errors.PatientDoctor.AlreadyLinked;
 
         patientDoctor = new PatientDoctor{
-            PatientId = command.Id,
+            PatientId = command.PatientId,
             DoctorId = command.DoctorId
         };
         patientDoctor.Patient = patient;
@@ -52,7 +52,7 @@ public class LinkDoctorCommandHandler : IRequestHandler<LinkDoctorCommand, Error
         return new CommandResponse(
             Success: true,
             Message: "Doctor linked successfully.",
-            Path: $"Patients/{command.Id}"
+            Path: $"Patients/{command.PatientId}"
         );
     }
 }

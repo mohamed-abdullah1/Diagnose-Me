@@ -18,6 +18,7 @@ public static class MessageQueueSubscriber
         MessageQueueHelper.SubscribeToRegisterUserQueue(rabbitMQConnector, serviceProvider);
         MessageQueueHelper.SubscribeToDeleteUserQueue(rabbitMQConnector, serviceProvider);
         MessageQueueHelper.SubscribeToUpdateUserQueue(rabbitMQConnector, serviceProvider);
+        MessageQueueHelper.SubscribeToUpdatePatientNumQueue(rabbitMQConnector, serviceProvider);
     }
 
 }

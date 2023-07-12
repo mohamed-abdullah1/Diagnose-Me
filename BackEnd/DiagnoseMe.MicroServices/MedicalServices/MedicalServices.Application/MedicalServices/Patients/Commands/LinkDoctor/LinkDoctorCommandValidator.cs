@@ -6,7 +6,7 @@ public class LinkDoctorCommandValidator : AbstractValidator<LinkDoctorCommand>
 {
     public LinkDoctorCommandValidator()
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.PatientId)
             .NotEmpty()
             .WithMessage("Patient Id is required.");
 
