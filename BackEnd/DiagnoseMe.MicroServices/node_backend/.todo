@@ -55,28 +55,3 @@ problems solved:
   ☐ i already removed a field from my schema but it's validator still works so to drop that index (i think) you need to re-run the schema file by making any update in it or drop the index manually (https://chat.openai.com/share/5c5b3961-d610-4397-96cb-5e83afb7e2db)
 
   
-
-hello:
-  ☐ rebuild the docker image if changes happens to code --> docker build -t my_image .  --> . is the path to the docker file
-  ☐ remove the old container --> docker rm container_name
-  ☐ create new container based on the image updated --> docker run -d --name my_container --network my_network -p 8080:3000 my_image
-  ☐ WORKDIR /app
-
-  COPY DiagnoseMe.MicroServices/node_backend/package*.json ./
-  RUN npm install
-  
-  COPY DiagnoseMe.MicroServices/node_backend/ .
-
-  ☐ docker network inspect my-network
-  ☐  stop all containers --> docker stop $(docker ps -aq)
-  ☐  remove all containers --> docker rm $(docker ps -aq)
-  ☐  remove all images --> docker rmi $(docker images -aq)
-  ☐  git fetch origin
-    git reset --hard origin/<remote_branch>
-  ☐ git reset --hard "34gd34"
-  
-
-
-  
-
-
