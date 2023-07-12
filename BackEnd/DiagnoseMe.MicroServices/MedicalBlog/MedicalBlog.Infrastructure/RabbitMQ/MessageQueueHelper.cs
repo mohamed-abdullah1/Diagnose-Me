@@ -3,7 +3,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Text;
 using ErrorOr;
-using Internal;
 using MapsterMapper;
 using MediatR;
 using MedicalBlog.Application.Authentication.Users.Commands.AddUser;
