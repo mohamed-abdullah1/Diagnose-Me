@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
     IsDoctor: { type: Boolean, default: false },
     specialization: String,
     Rating: Number,
+    numOfPatients: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

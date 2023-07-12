@@ -8,7 +8,7 @@ async function sendToQueue(queueName, message) {
   const password = 'DiagnoseMe'; // Replace with your RabbitMQ server password
 
   // Create connection URL
-  const connectionUrl = `amqp://${username}:${password}@${hostname}:${port}`;
+  const connectionUrl = `amqp://DiagnoseMe:DiagnoseMe@rabbitmq.diagnose.me:5672`;
 
   // Connect to RabbitMQ server
   try {
@@ -21,15 +21,17 @@ async function sendToQueue(queueName, message) {
     // Send message to the queue
     channel.sendToQueue(queueName, Buffer.from(message));
 
-    console.log(`Message sent to ${queueName}:\n ${message}`.blue);
+    console.log(`Message sent by RabbitMQ to ${queueName}:\n ${message}`.blue);
 
     // Close the connection
     await channel.close();
     await connection.close();
   } catch (error) {
-    console.log(error);
+    console.log('Error occurred while sending a message:', error);
   }
 }
+
+module.exports = sendToQueue;
 
 const queueName = {
   add: 'Auth.Chat.User.Add',
@@ -37,6 +39,7 @@ const queueName = {
   delete: 'Auth.Chat.User.Delete',
   notification: 'Global.Notification',
   doctor: 'MedicalServicies.Chat.Doctor.Update',
+  patientNum: 'PatientsNum.Update',
 };
 
 const message = JSON.stringify({
@@ -46,7 +49,7 @@ const message = JSON.stringify({
   SenderId: '972a1201-a9dc-2127-0827-560cb7d76af8',
 });
 
-sendToQueue(queueName.notification, message);
+// sendToQueue(queueName.notification, message);
 
 //
 

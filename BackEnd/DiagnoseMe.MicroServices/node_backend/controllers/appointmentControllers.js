@@ -4,6 +4,8 @@ const { parseISO, format, parse, addHours } = require('date-fns');
 const { v4: uuidv4 } = require('uuid');
 const { AppError } = require('../middleware/errorMiddleware');
 const AvailableTimes = require('../models/availableTimes');
+const sendToQueue = require('../utils/sender');
+const User = require('../models/userModel');
 
 const extractTime = (dateString) => {
   const date = dateString.length == 8 ? parseISO(`1970-01-01T${dateString}Z`) : parseISO(dateString);
@@ -128,7 +130,7 @@ const getAvailableTimes = asyncHandler(async (req, res, next) => {
 //
 // Book an appointment
 const bookAppointment = asyncHandler(async (req, res, next) => {
-  const { doctorId, patientId, timeId, price } = req.body;
+  const { doctorId, patientId, timeId, price, note } = req.body;
   const day = extractDate(req.body.day);
 
   const timeSelected = await AvailableTimes.findOne({ day, doctorId, 'times._id': timeId }, { 'times.$': 1 });
@@ -159,6 +161,7 @@ const bookAppointment = asyncHandler(async (req, res, next) => {
     patientId,
     doctorId,
     price,
+    note,
   });
 
   res.status(200).json(createdAppointment);
@@ -184,6 +187,16 @@ const changeBookedStatus = asyncHandler(async (req, res, next) => {
     { $set: { status } },
     { new: true, runValidators: true }
   ).select('-__v');
+
+  if (status == 'approved') {
+    await User.findByIdAndUpdate(req.user._id, { $inc: { numOfPatients: 1 } });
+    console.log('number of patients increased by 1');
+    const message = JSON.stringify({
+      Id: editedAppointment.doctorId,
+    });
+    console.log('message sent:✅', message);
+    sendToQueue('PatientsNum.Update', message);
+  }
 
   res.status(201).json(editedAppointment);
 });
