@@ -288,6 +288,32 @@ services:
     networks:
       - gateway
       - rabbitmq-network
+  spoofing:
+    container_name: spoofing-container
+    hostname: spoofing.diagnose.me
+    image: spoofing-img
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/spoofing/Dockerfile
+    environment:
+      - FLASK_APP=run.py
+    networks:
+      - gateway
+    ports:
+      - 7070:7070
+  nlp:
+    container_name: nlp-container
+    hostname: nlp.diagnose.me
+    image: nlp-img
+    build:
+      context: .
+      dockerfile: DiagnoseMe.MicroServices/NLP/Dockerfile
+    environment:
+      - FLASK_APP=app.py
+    networks:
+      - gateway
+    ports:
+      - 5000:5000
 volumes:
   authdbvolume:
   medicalblogdbvolume:

@@ -219,6 +219,50 @@
                 "PeriodTimespan": 60,
                 "Limit": 20
             }
+        },
+        {
+            "UpstreamPathTemplate": "/nlp/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "nlp.diagnose.me",
+                    "Port": 5000
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
+        },
+        {
+            "UpstreamPathTemplate": "/spoofing/{everything}",
+            "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
+            "DownStreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "spoofing.diagnose.me",
+                    "Port": 6060
+                }
+            ],
+            "DangerousAcceptAnyServerCertificateValidator": true,
+            "DownstreamPathTemplate": "/{everything}",
+            "RATE_LIMITING_ENABLED": "true",
+            "RateLimitOptions": {
+                "EnableRateLimiting": true,
+                "EnableEndpointRateLimiting": true,
+                "EnableClientRateLimiting": true,
+                "Period": "60s",
+                "PeriodTimespan": 60,
+                "Limit": 20
+            }
         }
 
     ],

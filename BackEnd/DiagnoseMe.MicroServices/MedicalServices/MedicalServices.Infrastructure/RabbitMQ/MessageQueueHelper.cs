@@ -8,6 +8,7 @@ using MedicalServices.Application.Authentication.Users.Commands.AddUser;
 using MedicalServices.Application.Authentication.Users.Commands.DeleteUser;
 using MedicalServices.Application.Authentication.Users.Commands.UpdateUser;
 using MedicalServices.Application.Authentication.Users.Common;
+using MedicalServices.Application.MedicalServices.Patients.Commands.LinkDoctor;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -168,6 +169,58 @@ public class MessageQueueHelper
             consumer: consumer
         );
         return Task.CompletedTask;
+    }
+
+    public static Task SubscribeToUpdatePatientNumQueue(IModel channel, IServiceProvider serviceProvider)
+    {
+        channel.ExchangeDeclare(
+            exchange: RabbitMQConstants.PatientNumberExchange,
+            type: ExchangeType.Fanout,
+            durable: true,
+            autoDelete:  false
+        );
+
+        channel.QueueDeclare(
+            queue: RabbitMQConstants.PatientNumberQueue,
+            durable: true,
+            exclusive: false,
+            autoDelete:  false
+        );
+
+        channel.QueueBind(
+            queue: RabbitMQConstants.PatientNumberQueue,
+            exchange: RabbitMQConstants.PatientNumberExchange,
+            routingKey: RabbitMQConstants.PatientNumberQueue
+        );
+
+        var consumer = new EventingBasicConsumer(channel);
+
+        consumer.Received += async (sender, eventArgs) =>
+        {
+            var linkDoctorEncoded = eventArgs.Body.ToArray();
+            var linkDoctorDecoded = Encoding.UTF8.GetString(linkDoctorEncoded);
+            var command = JsonConvert.DeserializeObject<LinkDoctorCommand>(linkDoctorDecoded);
+            // var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
+            // var command = mapper.Map<LinkDoctorCommand>(jsonResult!);
+            var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
+            var result = await mediator.Send(command!);
+            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
+            if (result.IsError)
+            {
+                Logging(logger, result.Errors);
+            }
+            else
+            {
+                logger.Information(result.Value.Message);
+            }
+        };
+        channel.BasicConsume(
+            queue: RabbitMQConstants.PatientNumberQueue,
+            autoAck: false,
+            consumer: consumer
+        );
+        return Task.CompletedTask;
+
     }
 
     private static void Logging (ILogger _logger, List<Error> errors,[CallerMemberName] string callingMethod = "")
