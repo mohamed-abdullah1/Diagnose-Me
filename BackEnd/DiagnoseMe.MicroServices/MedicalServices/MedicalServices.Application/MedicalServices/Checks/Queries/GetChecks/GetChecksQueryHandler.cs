@@ -23,12 +23,12 @@ public class GetChecksQueryHandler : IRequestHandler<GetChecksQuery, ErrorOr<Pag
 
     public async Task<ErrorOr<PageResponse>> Handle(GetChecksQuery query, CancellationToken cancellationToken)
     {
-        var checks = await _checkRepository.Get(
-            include: "Patient,Doctor,Allergies,Medicines,Diseases,Surgeries,CheckFiles"
-        );
+        var checks = (await _checkRepository.Get(
+            include: "Patient,Doctor,Allergies,Medications,Diseases,Surgeries,CheckFiles"
+        )).ToList();
 
         var IsNextPage = checks.Count() > query.PageNumber * 10;
-
+    
         var result = checks
             .Skip((query.PageNumber - 1) * 10)
             .Take(10)
