@@ -13,8 +13,7 @@ using ErrorOr;
 using MapsterMapper;
 using BloodDonation.Application.Authentication.Users.Common;
 using System.Runtime.CompilerServices;
-using System;
-using Internal;
+
 
 namespace BloodDonation.Infrastructure.RabbitMQ;
 
