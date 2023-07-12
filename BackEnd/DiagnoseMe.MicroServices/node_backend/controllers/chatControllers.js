@@ -98,7 +98,10 @@ const deleteChat = asyncHandler(async (req, res, next) => {
 
 //@description      Delete Single Chat completely
 //@route            DELETE  /admin-delete-chat/
-const adminDeleteChat = asyncHandler(async (req, res) => {
+const adminDeleteChat = asyncHandler(async (req, res, next) => {
+  if (!req.user.Role.inclues('Admin')) {
+    return next(new AppError('You are not authorized you need admin privileges ', 403));
+  }
   const { chatId } = req.body;
   const deletedChat = await Chat.findByIdAndDelete(chatId);
   if (deletedChat) {
