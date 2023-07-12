@@ -5,13 +5,13 @@ FROM python:3.9-slim
 WORKDIR /nlp
 
 # Copy the requirements file to the container
-COPY requirements.txt .
+COPY DiagnoseMe.MicroServices/NLP/requirements.txt .
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code to the container
-COPY . .
+COPY DiagnoseMe.MicroServices/NLP/ .
 
 # Set the environment variable for Flask
 ENV FLASK_APP=app.py
