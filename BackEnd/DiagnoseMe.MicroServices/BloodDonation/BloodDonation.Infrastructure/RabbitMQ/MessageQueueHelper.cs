@@ -13,6 +13,8 @@ using ErrorOr;
 using MapsterMapper;
 using BloodDonation.Application.Authentication.Users.Common;
 using System.Runtime.CompilerServices;
+using System;
+using Internal;
 
 namespace BloodDonation.Infrastructure.RabbitMQ;
 
@@ -51,15 +53,23 @@ public class MessageQueueHelper
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
             var command = mapper.Map<AddUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (ILogger) serviceProvider.GetRequiredService(typeof(ILogger))!;
-            if (result.IsError)
-            {
-                Logging(logger, result.Errors);
+            try{
+
+                var result = await mediator.Send(command!);
+                
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch(Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
@@ -100,15 +110,22 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var command = new DeleteUserCommand(UserDecoded);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-            if (result.IsError)
-            {
-                Logging(logger, result.Errors);
+
+            try{
+                var result = await mediator.Send(command!);
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch(Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
@@ -151,15 +168,23 @@ public class MessageQueueHelper
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
             var command = mapper.Map<UpdateUserCommand>(userResponse!);
             var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-            if (result.IsError)
+            try
             {
-                Logging(logger, result.Errors);
+                var result = await mediator.Send(command!);
+                
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch(Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
