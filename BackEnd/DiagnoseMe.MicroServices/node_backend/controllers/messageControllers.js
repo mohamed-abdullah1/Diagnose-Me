@@ -2,13 +2,17 @@ const asyncHandler = require('express-async-handler');
 const Message = require('../models/messageModel');
 const Chat = require('../models/chatModel');
 const { v4: uuidv4 } = require('uuid');
+const { AppError } = require('../middleware/errorMiddleware');
 
 //@description     Get all Messages
 //@route           GET /api/Message/:chatId
-const allMessages = asyncHandler(async (req, res) => {
+const allMessages = asyncHandler(async (req, res, next) => {
   const messages = await Message.find({ chat: req.params.chatId }).sort('createdAt');
   // .populate('sender', 'name pic ')
   // .populate('chat');
+  if (!messages) {
+    return next(new AppError('the provided chat id is not valid', 400));
+  }
   res.json(messages);
 });
 
@@ -67,9 +71,12 @@ const sendMessage = asyncHandler(async (req, res) => {
 //@description     Edit isRead field in Message
 //@route           POST /api/Message/set-read/:msgId
 
-const setMessageRead = asyncHandler(async (req, res) => {
+const setMessageRead = asyncHandler(async (req, res, next) => {
   const msgId = req.params.msgId;
   const editedMsg = await Message.findByIdAndUpdate(msgId, { $set: { isRead: true } }, { new: true });
+  if (!editMessage) {
+    return next(new AppError('There is no message matches provided id', 400));
+  }
   res.json(editedMsg);
 });
 
