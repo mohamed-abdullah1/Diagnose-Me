@@ -223,7 +223,7 @@
         {
             "UpstreamPathTemplate": "/nlp/{everything}",
             "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
-            "DownStreamScheme": "https",
+            "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "nlp.diagnose.me",
@@ -245,7 +245,7 @@
         {
             "UpstreamPathTemplate": "/spoofing/{everything}",
             "UpstreamHttpMethod": [ "Get" ,"Post","Delete"],
-            "DownStreamScheme": "https",
+            "DownStreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "spoofing.diagnose.me",
