@@ -62,7 +62,7 @@ const addAvailableTime = asyncHandler(async (req, res, next) => {
   });
 
   if (result2) {
-    return next(new AppError('this time is already exists', 500));
+    return next(new AppError('this time is already exists', 400));
     // return res.status(200).json('this time is already exists');
   }
 
@@ -189,7 +189,7 @@ const changeBookedStatus = asyncHandler(async (req, res, next) => {
   ).select('-__v');
 
   if (status == 'approved') {
-    await User.findByIdAndUpdate(req.user._id, { $inc: { numOfPatients: 1 } });
+    await User.findByIdAndUpdate(editedAppointment.doctorId, { $inc: { numOfPatients: 1 } });
     console.log('number of patients increased by 1');
     const message = JSON.stringify({
       DoctorId: editedAppointment.doctorId,
