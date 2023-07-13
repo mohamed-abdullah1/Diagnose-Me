@@ -1,6 +1,15 @@
 # Use the official Python base image
 FROM python:3.9-slim
 
+# Update and upgrade package lists
+RUN apt-get update && apt-get upgrade -y
+
+# Install system dependencies
+RUN apt-get install -y libgl1-mesa-glx libglib2.0-0
+
+# Clear apt-get cache
+RUN apt-get clean
+
 # Set the working directory in the container
 WORKDIR /spoofing
 
