@@ -37,12 +37,12 @@ public class UpdateCheckCommandValidator : AbstractValidator<UpdateCheckCommand>
         
 
 
-        RuleForEach(x => x.Base64Files).
-            Must(x => x.Type is not null && x.Data is not null && Regex.IsMatch(x.Data,Regexes.Base64Regex)).
-                WithMessage("Type and Data are required and Data must be base64").
-            Must(x => AllowedFileTypes.AllowedTypes.Contains(x.Type) ).
-                When(x => x.Type is not null).
-                WithMessage("Type is not allowed.");
+        RuleForEach(x => x.Base64Files)
+            .Where(x => x != null)
+            .Must(x => x.Type != null && x.Data != null && Regex.IsMatch(x.Data, Regexes.Base64Regex))
+            .WithMessage("Type and Data are required, and Data must be base64.")
+            .Must(x => x.Type == null || AllowedFileTypes.AllowedTypes.Contains(x.Type))
+            .WithMessage("Type is not allowed.");
         
     }
 }
