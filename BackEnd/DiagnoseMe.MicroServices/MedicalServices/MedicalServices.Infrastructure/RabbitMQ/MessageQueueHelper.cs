@@ -50,17 +50,25 @@ public class MessageQueueHelper
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
             var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
             var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var command = mapper.Map<AddUserCommand>(userResponse!);
-            var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (ILogger) serviceProvider.GetRequiredService(typeof(ILogger))!;
-            if (result.IsError)
+            try
             {
-                Logging(logger, result.Errors);
+                var command = mapper.Map<AddUserCommand>(userResponse!);
+                var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
+                var result = await mediator.Send(command!);
+                
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
@@ -99,17 +107,25 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var command = new DeleteUserCommand(UserDecoded);
-            var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-            if (result.IsError)
+            try
             {
-                Logging(logger, result.Errors);
+                var command = new DeleteUserCommand(UserDecoded);
+                var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
+                var result = await mediator.Send(command!);
+                
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
@@ -148,19 +164,27 @@ public class MessageQueueHelper
         {
             var userEncoded = eventArgs.Body.ToArray();
             var UserDecoded = Encoding.UTF8.GetString(userEncoded);
-            var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
-            var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
-            var command = mapper.Map<UpdateUserCommand>(userResponse!);
-            var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
             var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-            if (result.IsError)
+            var userResponse = JsonConvert.DeserializeObject<ApplicationUserResponse>(UserDecoded);
+            try
             {
-                Logging(logger, result.Errors);
+                var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
+                var command = mapper.Map<UpdateUserCommand>(userResponse!);
+                var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
+                var result = await mediator.Send(command!);
+                
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(
@@ -200,18 +224,25 @@ public class MessageQueueHelper
             var linkDoctorEncoded = eventArgs.Body.ToArray();
             var linkDoctorDecoded = Encoding.UTF8.GetString(linkDoctorEncoded);
             var command = JsonConvert.DeserializeObject<LinkDoctorCommand>(linkDoctorDecoded);
+            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
             // var mapper = (IMapper) serviceProvider.GetRequiredService(typeof(IMapper))!;
             // var command = mapper.Map<LinkDoctorCommand>(jsonResult!);
-            var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
-            var result = await mediator.Send(command!);
-            var logger = (Serilog.ILogger) serviceProvider.GetRequiredService(typeof(Serilog.ILogger))!;
-            if (result.IsError)
+            try
             {
-                Logging(logger, result.Errors);
+                var mediator = (ISender) serviceProvider.GetRequiredService(typeof(ISender))!;
+                var result = await mediator.Send(command!);
+                if (result.IsError)
+                {
+                    Logging(logger, result.Errors);
+                }
+                else
+                {
+                    logger.Information(result.Value.Message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.Information(result.Value.Message);
+                logger.Error(e.Message);
             }
         };
         channel.BasicConsume(

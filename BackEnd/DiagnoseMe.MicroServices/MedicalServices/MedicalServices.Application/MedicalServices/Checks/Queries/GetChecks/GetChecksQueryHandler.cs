@@ -24,7 +24,7 @@ public class GetChecksQueryHandler : IRequestHandler<GetChecksQuery, ErrorOr<Pag
     public async Task<ErrorOr<PageResponse>> Handle(GetChecksQuery query, CancellationToken cancellationToken)
     {
         var checks = (await _checkRepository.Get(
-            include: "Patient,Doctor,Allergies,Medications,Diseases,Surgeries,CheckFiles"
+            include: "Patient,Doctor,Allergies,Medications,Diseases,Surgeries,CheckFiles,Patient.User,Doctor.User"
         )).ToList();
 
         var IsNextPage = checks.Count() > query.PageNumber * 10;

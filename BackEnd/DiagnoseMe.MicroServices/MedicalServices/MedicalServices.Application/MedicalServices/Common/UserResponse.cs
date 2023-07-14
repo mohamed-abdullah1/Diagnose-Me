@@ -4,6 +4,5 @@ public record UserResponse(
     string Id,
     string Name,
     string FullName,
-    string ProfilePictureUrl,
-    bool IsDoctor
-);
+    string ProfilePictureUrl
+    );

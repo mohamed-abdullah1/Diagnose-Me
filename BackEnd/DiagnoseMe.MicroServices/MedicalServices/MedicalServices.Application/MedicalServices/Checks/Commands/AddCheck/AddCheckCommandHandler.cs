@@ -9,7 +9,6 @@ using MedicalServices.Domain.Common;
 using MedicalServices.Domain.Common.Errors;
 using MedicalServices.Domain.Common.FIles;
 using MedicalServices.Domain.Common.Roles;
-using Microsoft.AspNetCore.Http;
 
 namespace MedicalServices.Application.MedicalServices.Checks.Commands.AddCheck;
 
@@ -42,9 +41,9 @@ public class AddCheckCommandHandler : IRequestHandler<AddCheckCommand, ErrorOr<C
     public async Task<ErrorOr<CommandResponse>> Handle(AddCheckCommand command, CancellationToken cancellationToken)
     {   
 
-        if((command.UserId == command.PatientId && !command.Roles.Contains(Roles.User)) ||
+        if(!((command.UserId == command.PatientId && !command.Roles.Contains(Roles.User)) ||
             (command.UserId == command.DoctorId && !command.Roles.Contains(Roles.Doctor)) ||
-            command.UserId != command.PatientId || command.UserId != command.DoctorId)
+            command.UserId != command.PatientId || command.UserId != command.DoctorId))
             return Errors.User.YouCanNotDoThis;
 
         var patient = await _patientRepository.GetByIdAsync(command.PatientId);

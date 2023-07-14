@@ -35,12 +35,12 @@ public class MedicalServicesMappingConfig : IRegister
         config.NewConfig<(AddCheckRequest request, string userId, List<string> roles), AddCheckCommand>().
                     Map(dest => dest.UserId, src => src.userId).
                     Map(dest => dest.Roles, src => src.roles).
-                    Map(dest => dest, src => src);
+                    Map(dest => dest, src => src.request);
                     
         config.NewConfig<(UpdateCheckRequest request, string userId, List<string> roles), UpdateCheckCommand>().
                     Map(dest => dest.UserId, src => src.userId).
                     Map(dest => dest.Roles, src => src.roles).
-                    Map(dest => dest, src => src);
+                    Map(dest => dest, src => src.request);
 
     }
 }

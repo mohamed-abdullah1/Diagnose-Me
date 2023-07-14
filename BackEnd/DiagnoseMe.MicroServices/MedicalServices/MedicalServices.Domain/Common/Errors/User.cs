@@ -17,8 +17,8 @@ public static partial class Errors
         );
 
         public static Error YouCanNotDoThis => Error.Validation(
-            code: "Post.YouCanNotDoThis",
-            description: "You are not MedicalServicesorized to do this."
+            code: "User.YouCanNotDoThis",
+            description: "You are not Authorized to do this."
         );
 
         public static Error AlreadyExists => Error.Validation(
