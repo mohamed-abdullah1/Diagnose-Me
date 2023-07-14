@@ -218,6 +218,19 @@ const getAllBookedAppointments = asyncHandler(async (req, res) => {
   res.status(201).json(appointments);
 });
 
+const getAllBookedAppointmentsAdmin = asyncHandler(async (req, res, next) => {
+  if (!req.user.Role.includes('Admin')) {
+    return next(new AppError('Only Admin Can access these appointments', 403));
+  }
+
+  const appointments = await Appointment.find(req.body)
+    .select('-__v')
+    .populate('doctorId', '-password -__v')
+    .populate('patientId', '-passwords -__v')
+    .sort('startTime');
+  res.status(201).json(appointments);
+});
+
 const getAllBookingsAdmin = asyncHandler(async (req, res, next) => {
   console.log({ filter: req.body });
   const bookings = await Appointment.find(req.body);
@@ -256,6 +269,7 @@ module.exports = {
   deleteBookedAppointment,
   changeBookedStatus,
   getAllBookedAppointments,
+  getAllBookedAppointmentsAdmin,
   getAllBookingsAdmin,
   getBookingStatistics,
 };

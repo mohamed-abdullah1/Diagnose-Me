@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const { AppError } = require('../middleware/errorMiddleware');
 const Notification = require('../models/notificationModel');
 const { v4: uuidv4 } = require('uuid');
-const FCM = require('fcm-node');
+const notify = require('../utils/notify');
 
 const getUserNotifications = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
@@ -68,25 +68,20 @@ const addUserNotification = asyncHandler(async (req, res, next) => {
 //
 
 const sendNotification = asyncHandler(async (req, res, next) => {
-  const { token, serverKey, title, body } = req.body;
+  const { title, body } = req.body;
 
-  let fcm = new FCM(serverKey);
+  const tokensList = [
+    'ExponentPushToken[ScAanXJN91RWbTTl7g9rh2]',
+    'ExponentPushToken[UBN3nsJz0_QBoFjoxqCoyR]',
+  ];
 
-  let message = {
-    to: token,
-    notification: {
-      title,
-      body,
-    },
+  let payload = {
+    title,
+    body,
+    data: { time: new Date() },
   };
-
-  fcm.send(message, function (err, response) {
-    if (err) {
-      return next(new AppError(`Error during sending Notification:👉${err}`, 400));
-    } else {
-      res.status(200).json({ message: `Notification sent successfully`, response });
-    }
-  });
+  notify(tokensList, payload, next);
+  res.status(200).json({ message: 'notifications are sent succesfully' });
 });
 
 //

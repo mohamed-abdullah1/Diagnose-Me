@@ -22,7 +22,7 @@ Done:
   ☐ install docker and run a Docker Container with RabbitMQ using the following command docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=DiagnoseMe -e RABBITMQ_DEFAULT_PASS=DiagnoseMe --hostname rabbitmq.diagnose.me rabbitmq:3-management (https://chat.openai.com/share/09a0aa74-3838-48a7-b8ad-f3cd6f03a2ac)
   ☐ create a node.js script to sendToQueue and add the connection details (hostname, port, username, password) in the connectionUrl at Rabit MQ in both sender code and receiver code
   ☐ TODO you have to provide doctor id in the url when getting all available dates
-  ☐ DONE error handling
+  ☐ DONE error handling middleware
   ☐ DONE create notification schema
   ☐ DONE change speciality with Specializaion
   ☐ DONE add Rating to user schema

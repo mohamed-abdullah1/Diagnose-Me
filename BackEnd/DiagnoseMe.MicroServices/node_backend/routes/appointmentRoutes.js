@@ -9,6 +9,7 @@ const {
   deleteBookedAppointment,
   changeBookedStatus,
   getAllBookedAppointments,
+  getAllBookedAppointmentsAdmin,
   getAvailableTimes,
   getAllBookingsAdmin,
   getBookingStatistics,
@@ -23,6 +24,7 @@ router.route('/book-appointment').post(protect, bookAppointment);
 router.route('/delete-booked-appointment/:appointmentId').delete(protect, deleteBookedAppointment);
 router.route('/change-booked-status/:appointmentId').post(protect, changeBookedStatus);
 router.route('/get-all-booked-appointments/').get(protect, getAllBookedAppointments);
+router.route('/get-all-bookings-admin/').get(protect, getAllBookedAppointmentsAdmin);
 router.get('/get-all-bookings-admin/', protect, getAllBookingsAdmin);
 router.get('/booking-statistics', protect, getBookingStatistics);
 

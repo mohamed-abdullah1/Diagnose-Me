@@ -57,6 +57,7 @@ const MyControllers = {
           name: msg.Name,
           pic: msg.ProfilePictureUrl,
           IsDoctor: msg.IsDoctor,
+          deviceToken: msg.DeviceToken,
         });
 
         if (user) {
