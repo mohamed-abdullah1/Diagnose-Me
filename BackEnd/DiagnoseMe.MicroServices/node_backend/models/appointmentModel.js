@@ -14,7 +14,7 @@ const AppointmentSchema = mongoose.Schema(
       type: String,
       default: 'waiting',
       enum: {
-        values: ['waiting', 'approved', 'canceled'],
+        values: ['waiting', 'approved', 'canceled'], // pending - confirmed - canceled
         message: '🙃🙃{VALUE} is not a vaild status 😫😕',
       },
     },

@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema(
     specialization: String,
     Rating: Number,
     numOfPatients: { type: Number, default: 0 },
+    deviceToken: { type: String, default: '' },
   },
   { timestamps: true }
 );
