@@ -25,7 +25,7 @@ public class GetChecksByDoctorIdQueryHandler : IRequestHandler<GetChecksByDoctor
     {
         var checks = await _checkRepository.Get(
             predicate: x => x.DoctorId == query.DoctorId,
-            include: "Patient,Doctor,Allergies,Medications,Diseases,Surgeries,CheckFiles"
+            include: "Patient,Doctor,Allergies,Medications,Diseases,Surgeries,CheckFiles,Doctor.User,Patient.User"
         );
 
         var IsNextPage = checks.Count() > query.PageNumber * 10;
