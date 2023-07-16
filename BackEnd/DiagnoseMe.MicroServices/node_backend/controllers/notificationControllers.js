@@ -3,6 +3,7 @@ const { AppError } = require('../middleware/errorMiddleware');
 const Notification = require('../models/notificationModel');
 const { v4: uuidv4 } = require('uuid');
 const notify = require('../utils/notify');
+const User = require('../models/userModel');
 
 const getUserNotifications = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
@@ -66,14 +67,35 @@ const addUserNotification = asyncHandler(async (req, res, next) => {
 });
 
 //
+const updateToken = asyncHandler(async (req, res, next) => {
+  const { id, token } = req.body;
+
+  if (!id) {
+    next(new AppError('you have to provide user id', 400));
+  }
+  if (!token) {
+    next(new AppError('you have to provide user token', 400));
+  }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { deviceToken: token } },
+    { new: true }
+  );
+
+  res.status(200).json(updatedUser);
+});
 
 const sendNotification = asyncHandler(async (req, res, next) => {
-  const { title, body } = req.body;
+  const { title, body, id } = req.body;
 
-  const tokensList = [
-    'ExponentPushToken[ScAanXJN91RWbTTl7g9rh2]',
-    'ExponentPushToken[UBN3nsJz0_QBoFjoxqCoyR]',
-  ];
+  // const tokensList = [
+  //   'ExponentPushToken[ScAanXJN91RWbTTl7g9rh2]',
+  //   'ExponentPushToken[UBN3nsJz0_QBoFjoxqCoyR]',
+  // ];
+
+  const fetchedUser = await User.findOne({ _id: id });
+  const tokensList = [fetchedUser.deviceToken];
 
   let payload = {
     title,
@@ -92,4 +114,5 @@ module.exports = {
   getUserNotifications,
   getUserNotificationsAdmin,
   sendNotification,
+  updateToken,
 };

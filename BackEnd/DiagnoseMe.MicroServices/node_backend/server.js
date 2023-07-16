@@ -6,12 +6,13 @@ const colors = require('colors');
 const cors = require('cors');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
-const bookingRoutes = require('./routes/bookingRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
+const createPayment = require('./controllers/bookingControllers');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const { protect } = require('./middleware/authMiddleware');
 
 connectDB();
 addSeedings();
@@ -32,9 +33,9 @@ app.use(express.json()); // to accept JSON data from frontend
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
-app.use('/api/booking', bookingRoutes);
 app.use('/api/appointment', appointmentRoutes);
 app.use('/api/notification', notificationRoutes);
+app.post('/api/create-payment-intent', createPayment);
 
 const PORT = process.env.PORT || 6060;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));

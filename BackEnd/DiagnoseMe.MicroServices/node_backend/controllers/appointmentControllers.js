@@ -6,6 +6,7 @@ const { AppError } = require('../middleware/errorMiddleware');
 const AvailableTimes = require('../models/availableTimes');
 const sendToQueue = require('../utils/sender');
 const User = require('../models/userModel');
+const notify = require('../utils/notify');
 
 const extractTime = (dateString) => {
   const date = dateString.length == 8 ? parseISO(`1970-01-01T${dateString}Z`) : parseISO(dateString);
@@ -18,6 +19,8 @@ const extractDate = (dateIsoString) => {
   const day = format(date, 'd');
   const month = format(date, 'M');
   const year = format(date, 'yyyy');
+  // const formattedDate = format(date, 'yyyy-MM-dd');
+
   const dateString = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   date = parse(dateString, 'yyyy-MM-dd', new Date());
   const isoDateString = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
@@ -130,8 +133,8 @@ const getAvailableTimes = asyncHandler(async (req, res, next) => {
 //
 // Book an appointment
 const bookAppointment = asyncHandler(async (req, res, next) => {
-  const { doctorId, patientId, timeId, price, note } = req.body;
-  const day = extractDate(req.body.day);
+  const { day, doctorId, patientId, timeId, price, note } = req.body;
+  console.log('time id 👉', timeId, 'doctor id 👉', doctorId, 'day👉', day);
 
   const timeSelected = await AvailableTimes.findOne({ day, doctorId, 'times._id': timeId }, { 'times.$': 1 });
 
@@ -153,6 +156,15 @@ const bookAppointment = asyncHandler(async (req, res, next) => {
     await AvailableTimes.findByIdAndDelete(result._id);
   }
 
+  const deviceToken = await User.findOne({ _id: doctorId }, { deviceToken: 1 });
+
+  notify(
+    [deviceToken],
+    { title: 'DiagnoseMe🩺😷', body: 'A new booking has been added to your schedule' },
+    next
+  );
+
+  console.log(deviceToken, '✅');
   const createdAppointment = await Appointment.create({
     _id: uuidv4(),
     day,
@@ -197,6 +209,24 @@ const changeBookedStatus = asyncHandler(async (req, res, next) => {
     });
     console.log('message sent:✅', message);
     sendToQueue('PatientsNum.Update', message);
+  }
+
+  if (req.user.Role.includes('Doctor')) {
+    const patient = await User.findOne({ _id: editedAppointment.patientId });
+    notify(
+      [patient.deviceToken],
+      { title: 'DiagnoseMe🩺😷', body: `The booking Status has been updated to ${status}` },
+      next
+    );
+  }
+
+  if (req.user.Role.includes('Patient')) {
+    const doctor = await User.findOne({ _id: editedAppointment.doctorId });
+    notify(
+      [doctor.deviceToken],
+      { title: 'DiagnoseMe🩺😷', body: `The booking Status has been updated to ${status}` },
+      next
+    );
   }
 
   res.status(201).json(editedAppointment);
