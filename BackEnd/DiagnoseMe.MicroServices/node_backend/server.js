@@ -9,6 +9,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const MyControllers = require('./utils/consumer');
+const { addTransactions, getTransactions } = require('./controllers/transactionsControllsers');
 const createPayment = require('./controllers/bookingControllers');
 const addSeedings = require('./utils/scriptAddSeedings');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
@@ -36,6 +37,8 @@ app.use('/api/message', messageRoutes);
 app.use('/api/appointment', appointmentRoutes);
 app.use('/api/notification', notificationRoutes);
 app.post('/api/create-payment-intent', createPayment);
+app.post('/api/transactions', addTransactions);
+app.get('/api/transactions', getTransactions);
 
 const PORT = process.env.PORT || 6060;
 const server = app.listen(PORT, console.log(`server is listening on port ${PORT}...`.yellow.bold));
