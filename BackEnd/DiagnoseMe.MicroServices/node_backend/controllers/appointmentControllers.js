@@ -257,11 +257,11 @@ const getAllBookedAppointmentsAdmin = asyncHandler(async (req, res, next) => {
     .select('-__v')
     .populate('doctorId', '-password -__v')
     .populate('patientId', '-passwords -__v')
-    .sort('startTime');
+    .sort('day startTime');
   res.status(201).json(appointments);
 });
 
-const getAllBookingsAdmin = asyncHandler(async (req, res, next) => {
+const getAllBookingsquery = asyncHandler(async (req, res, next) => {
   console.log({ filter: req.body });
   const bookings = await Appointment.find(req.body);
   res.status(201).json({ bookings });
@@ -300,7 +300,7 @@ module.exports = {
   changeBookedStatus,
   getAllBookedAppointments,
   getAllBookedAppointmentsAdmin,
-  getAllBookingsAdmin,
+  getAllBookingsquery,
   getBookingStatistics,
 };
 
