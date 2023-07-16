@@ -11,7 +11,7 @@ const {
   getAllBookedAppointments,
   getAllBookedAppointmentsAdmin,
   getAvailableTimes,
-  getAllBookingsAdmin,
+  getAllBookingsquery,
   getBookingStatistics,
 } = require('../controllers/appointmentControllers');
 
@@ -25,7 +25,7 @@ router.route('/delete-booked-appointment/:appointmentId').delete(protect, delete
 router.route('/change-booked-status/:appointmentId').post(protect, changeBookedStatus);
 router.route('/get-all-booked-appointments/').get(protect, getAllBookedAppointments);
 router.route('/get-all-bookings-admin/').get(protect, getAllBookedAppointmentsAdmin);
-router.get('/get-all-bookings-admin/', protect, getAllBookingsAdmin);
+router.get('/get-all-bookings-query/', protect, getAllBookingsquery);
 router.get('/booking-statistics', protect, getBookingStatistics);
 
 module.exports = router;
