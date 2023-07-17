@@ -16,6 +16,7 @@ Done:
   ☐ removed populated users and other not needed data (can be returned if needed)
   ☐ change the configuration for JWT in configuration file with ALY 's one @today
   ☐ added 3 roles to the user schema @today 
+  
   ☐ create script to add seeding emails if not found @today 
   ☐ delete register user endpoing - delete login endpoint that signing authintication user - replace it with adding user handler in Rabit MQ - delete Delete user end point & replace it with delete user Handler in Rabit MQ - adding update user Handler in Rabit MQ 
   ☐ Remove pre-Hashing and match password methods from & remove password and email from schema @today
@@ -26,7 +27,7 @@ Done:
   ☐ DONE create notification schema
   ☐ DONE change speciality with Specializaion
   ☐ DONE add Rating to user schema
-to do:
+to do: 
   ☐ check for all routes that update or delete or read from documet that the document exists and handle if the user provided unexisted values
   ☐ edit for all appointments (available or booked) -- clear booked
   ☐ when fetching all chats --> send number of unreaded messages in each chat -- but after fetching and viewing all chats what if a new message sent you need update number of un-read messages without fetching chat again
