@@ -22,7 +22,7 @@ const notify = (tokensList, payloadObject, next) => {
     // Check that all your push tokens appear to be valid Expo push tokens
     if (!Expo.isExpoPushToken(pushToken)) {
       console.error(`Push token ${pushToken} is not a valid Expo push token`);
-      next(new AppError(`Push token ${pushToken} is not a valid Expo push token`, 500));
+      // next(new AppError(`Push token ${pushToken} is not a valid Expo push token`, 500));
       continue;
     }
 
@@ -65,7 +65,7 @@ const notify = (tokensList, payloadObject, next) => {
         // documentation:
         // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
       } catch (error) {
-        next(new AppError('error during pushing chunks to Expo push notification service🔨', 500));
+        // next(new AppError('error during pushing chunks to Expo push notification service🔨', 500));
         console.error(error);
       }
     }
@@ -117,13 +117,13 @@ const notify = (tokensList, payloadObject, next) => {
               // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
               // You must handle the errors appropriately.
               console.error(`The error code is👉 ${details.error}`);
-              next(new AppError('error during pushing notifications to expo service🔨', 500));
+              // next(new AppError('error during pushing notifications to expo service🔨', 500));
             }
           }
         }
       } catch (error) {
         console.error(error);
-        next(new AppError('error during pushing notifications to expo service🔨', 500));
+        // next(new AppError('error during pushing notifications to expo service🔨', 500));
       }
     }
   })();
