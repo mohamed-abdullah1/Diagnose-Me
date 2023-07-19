@@ -61,6 +61,7 @@ print('this is the image path:👉',image_path,'✅')
 def upload():
     # Check if an image file is present in the request
     if 'image' not in request.files:
+        print('😷',request.files)
         return "No image found in the request", 400
 
     image = request.files['image']
